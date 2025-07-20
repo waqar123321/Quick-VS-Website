@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+
+  <title>Quick Solution Vehicles LTD | Vehicle Repair &amp; Servicing</title>
+  <meta name="description" content="Expert vehicle servicing, MOT repairs, diagnostics &amp; general repairs from Quick Solution Vehicles LTD. Trusted local mechanics, fair prices.">
+
+  <link rel="canonical" href="https://quickvs.co.uk/">
+
+  <!-- Preconnect & Preload -->
+  <link rel="preconnect" href="https://freeimghost.net" crossorigin>
+  <link rel="preload" href="/style.css" as="style">
+  <link rel="stylesheet" href="/style.css" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="/style.css"></noscript>
+
+  <!-- Inline Critical CSS for header/nav -->
+  <style>
+    .site-header{background:#f8f9fa;padding:20px;text-align:center;}
+    .main-nav{background:#1e88e5;}
+    .main-nav a{color:#fff;padding:.75em;text-decoration:none;font-weight:bold;}
+  </style>
+</head>
+<body>
+
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- HEADER -->
+  <header class="site-header" role="banner">
+    <div class="container header-content">
+      <div class="logo-container">
+        <img src="https://freeimghost.net/images/2025/07/02/quick-vs-logo.jpg"
+             alt="Quick Solution Vehicles LTD Logo"
+             class="logo">
+      </div>
+      <div class="header-info">
+        <h1>Quick Solution Vehicles LTD</h1>
+        <p class="tagline">Your Trusted Experts for Vehicle Repairs &amp; Servicing</p>
+        <a href="#services" class="cta-button">Our Services</a>
+      </div>
+    </div>
+    <nav class="main-nav" role="navigation">
+      <ul class="container">
+        <li><a href="#" class="active">Home</a></li>
+        <li><a href="/about/">About Us</a></li>
+        <li><a href="/services/">Services</a></li>
+        <li><a href="/testimonials/">Testimonials</a></li>
+        <li><a href="/contact/">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main id="main-content">
+    <!-- About -->
+    <section id="about" class="content-section bg-light">
+      <div class="container">
+        <h2>About Quick Solution Vehicles LTD</h2>
+        <p>Welcome to Quick Solution Vehicles LTD, your friendly and reliable local garage in Birmingham. We pride ourselves on delivering honest, high‑quality vehicle repairs and servicing. Our certified mechanics are passionate about cars and committed to keeping yours running smoothly and safely.</p>
+        <div class="media">
+          <img src="https://cdn.tagbox.io/assets/679926e59dc9490011086236/da18ca47-44e6-423e-9474-9ec075bdcb47---ak-1.jpg" alt="Garage exterior">
+          <img src="https://cdn.tagbox.io/assets/679926e59dc9490011086236/d0e23379-97e2-4982-a2de-b61b831ba496---ak-2.jpg" alt="Workshop interior">
+        </div>
+      </div>
+    </section>
+
+    <!-- Services -->
+    <section id="services" class="content-section">
+      <div class="container">
+        <h2>Our Services</h2>
+        <p class="section-intro">Comprehensive car care from routine maintenance to complex repairs.</p>
+        <ul class="services-list">
+          <li><h3>🔧 General Repairs</h3><p>Engine, transmission, suspension—our skilled team handles it all.</p></li>
+          <li><h3>🛠️ Vehicle Servicing</h3><p>Tailored servicing packages to keep your car running efficiently.</p></li>
+          <li><h3>⚡ Electrical &amp; Diagnostics</h3><p>Advanced diagnostics for warning lights, battery &amp; engine management.</p></li>
+          <li><h3>✅ MOT Rectification</h3><p>Fast, compliant repairs to get you past your MOT re‑test.</p></li>
+          <li><h3>💨 Brakes &amp; Exhausts</h3><p>Expert inspections, pad/disc replacements, and exhaust repairs.</p></li>
+          <li><h3>🔘 Tyre Services</h3><p>New tyres, puncture repairs, and wheel balancing.</p></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Why Choose Us -->
+    <section id="why-choose-us" class="content-section bg-light">
+      <div class="container">
+        <h2>Why Choose Us?</h2>
+        <ul>
+          <li>✔️ Qualified Mechanics</li>
+          <li>✔️ Transparent Pricing</li>
+          <li>✔️ Premium Parts</li>
+          <li>✔️ Friendly Service</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section id="testimonials" class="content-section">
+      <div class="container">
+        <h2>What Our Customers Say</h2>
+        <div class="testimonial-container">
+          <div class="testimonial-card">
+            <p class="quote">"Highly skilled mechanics... Would definitely recommend."</p>
+            <p class="author">– Satisfied Customer</p>
+          </div>
+          <div class="testimonial-card">
+            <p class="quote">"Superb service and regular updates... Highly recommend."</p>
+            <p class="author">– Regular Client</p>
+          </div>
+          <div class="testimonial-card">
+            <p class="quote">"Great guys, great service. Very reasonable prices."</p>
+            <p class="author">– Happy Customer, Birmingham</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer bg-darker text-light" role="contentinfo">
+    <div class="container">
+      <p>© <span id="current-year"></span> Quick Solution Vehicles LTD</p>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('current-year').textContent = new Date().getFullYear();
+    // Active nav highlight
+    document.querySelectorAll('.main-nav a').forEach(a => {
+      if (a.getAttribute('href') === window.location.pathname || (a.getAttribute('href') === '#' && window.location.pathname === '/')) {
+        a.classList.add('active');
+      }
+    });
+  </script>
+</body>
+</html>
