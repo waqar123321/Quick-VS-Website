@@ -1,0 +1,13 @@
+{
+  "googleRatingClaim": "5-star rated on Google",
+  "reviews": [
+    {
+      "status": "todo",
+      "source": "Google",
+      "rating": null,
+      "author": "{# TODO: Add genuine Google reviewer first name #}",
+      "vehicleOrRepair": "{# TODO: Add real repair type #}",
+      "text": "{# TODO: Add genuine Google review text from customer #}"
+    }
+  ]
+}

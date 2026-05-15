@@ -803,6 +803,112 @@ textarea:focus {
   font-weight: 800;
 }
 
+.cta-band {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 420px);
+  gap: 28px;
+  align-items: center;
+  border-top: 1px solid var(--line);
+}
+
+.cta-band p,
+.wide-copy {
+  max-width: 880px;
+  color: var(--muted);
+  font-size: 18px;
+}
+
+.cta-actions {
+  display: grid;
+  gap: 12px;
+}
+
+.button-light.on-white {
+  color: var(--night);
+  border-color: var(--line);
+  background: #fff;
+}
+
+.highlight-card {
+  min-height: 315px;
+}
+
+.service-card a {
+  display: block;
+  height: 100%;
+}
+
+.service-card a:focus-visible,
+.link-card:focus-visible,
+.blog-card a:focus-visible {
+  outline: 3px solid rgba(215, 25, 32, 0.28);
+  outline-offset: 4px;
+}
+
+.value-grid,
+.link-grid,
+.blog-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.link-card,
+.blog-card {
+  display: block;
+  padding: 24px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 14px 34px rgba(15, 23, 42, 0.06);
+  font-weight: 900;
+}
+
+.blog-card p {
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.blog-card time {
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.number-list {
+  display: grid;
+  gap: 12px;
+  padding-left: 24px;
+  margin: 28px 0;
+}
+
+.number-list li {
+  padding-left: 6px;
+  font-weight: 750;
+}
+
+.article-body {
+  max-width: 820px;
+}
+
+.article-body p,
+.article-body li {
+  color: var(--muted);
+  font-size: 18px;
+}
+
+.map-frame {
+  width: 100%;
+  min-height: 420px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+}
+
+.mobile-call-bar {
+  display: none;
+}
+
 @media (max-width: 1020px) {
   .header-inner {
     grid-template-columns: 1fr auto;
@@ -875,6 +981,13 @@ textarea:focus {
   .process-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+
+  .value-grid,
+  .link-grid,
+  .blog-grid,
+  .cta-band {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 680px) {
@@ -940,5 +1053,27 @@ textarea:focus {
 
   .footer-bottom {
     display: flex;
+  }
+
+  .mobile-call-bar {
+    position: sticky;
+    bottom: 0;
+    z-index: 60;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    box-shadow: 0 -10px 24px rgba(0, 0, 0, 0.18);
+  }
+
+  .mobile-call-bar a {
+    display: grid;
+    min-height: 54px;
+    place-items: center;
+    color: #fff;
+    background: var(--accent);
+    font-weight: 900;
+  }
+
+  .mobile-call-bar a + a {
+    background: var(--night);
   }
 }
