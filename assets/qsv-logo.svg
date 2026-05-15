@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 430" role="img" aria-labelledby="title desc">
+  <title id="title">QSV Quick Solution Vehicles logo</title>
+  <desc id="desc">Red sports car silhouette over a white spanner and QSV Quick Solution Vehicles text.</desc>
+  <rect width="920" height="430" rx="0" fill="#050505"/>
+  <path fill="#e7292c" d="M96 147c58-14 97-35 143-60 63-35 140-53 233-51 90 2 167 20 231 55 54 29 91 51 133 61 14 4 25 15 30 31l7 23c-43-5-78-18-110-39-33-20-70-28-112-25-78 4-145 16-213 20-85 5-156-4-228-18-45-9-86-6-126 11-10 4-18 4-26 0 10-4 23-6 38-8Z"/>
+  <path fill="#e7292c" d="M88 151c-35 14-54 39-58 75-4 31 9 55 39 71-31-5-54-19-67-42-14-24-14-53-1-83 17-39 47-62 87-71 8-2 13 7 8 14-6 8-9 20-8 36Z"/>
+  <path fill="#050505" d="M203 88c92-34 219-46 344-24 62 11 117 29 166 55-133-24-277-35-436-32-28 1-53 1-74 1Z"/>
+  <path fill="#050505" d="M214 118c100-7 211-6 331 2 26 2 49 8 70 19-88 11-185 18-290 14-52-2-90-14-111-35Z"/>
+  <path fill="#fff" d="M159 202h418c21-40 62-66 108-66 37 0 70 16 92 42h-83c-21 0-38 17-38 38s17 38 38 38h83c-22 26-55 42-92 42-46 0-87-26-108-66H159c-21 40-62 66-108 66-37 0-70-16-92-42h83c21 0 38-17 38-38s-17-38-38-38h-83c22-26 55-42 92-42 46 0 87 26 108 66Z"/>
+  <text x="72" y="367" fill="#e7292c" font-family="Arial Black, Arial, sans-serif" font-size="150" font-weight="900" letter-spacing="-7">QSV</text>
+  <text x="412" y="311" fill="#fff" font-family="Arial Black, Arial, sans-serif" font-size="58" font-weight="900">QUICK</text>
+  <text x="412" y="366" fill="#fff" font-family="Arial Black, Arial, sans-serif" font-size="58" font-weight="900">SOLUTION</text>
+  <text x="412" y="408" fill="#fff" font-family="Arial, sans-serif" font-size="34" font-weight="700" letter-spacing="12">VEHICLES</text>
+</svg>

@@ -1,0 +1,145 @@
+QUICK SOLUTION VEHICLES WEBSITE - UPLOAD INSTRUCTIONS
+
+This folder contains the finished website.
+
+IMPORTANT:
+Upload the CONTENTS of this folder to your website repository, not the folder itself.
+The file named index.html must sit at the very top level of the GitHub repository.
+
+FILES/FOLDERS THAT SHOULD BE AT THE TOP LEVEL:
+- index.html
+- styles.css
+- script.js
+- robots.txt
+- sitemap.xml
+- .gitattributes
+- assets
+- about
+- contact
+- services
+- testimonials
+
+BEGINNER GITHUB UPLOAD STEPS
+
+1. Open your browser.
+
+2. Go to:
+   https://github.com
+
+3. Sign in to the GitHub account that owns the website.
+
+4. Open your website repository.
+   It should be something like:
+   waqar123321 / Quick-VS-Website
+
+5. Make sure you are on the main file page of the repository.
+   You should see files/folders listed.
+
+6. Delete old files that are being replaced.
+   On GitHub:
+   - Click a file, for example old Index.hmtl if it exists.
+   - Click the three dots button near the top right of the file view.
+   - Click Delete file.
+   - Scroll down.
+   - In the commit message box, type:
+     Remove old website file
+   - Click Commit changes.
+   Repeat this for old files/folders if needed.
+
+   Old things to remove if you see them:
+   - Index.hmtl
+   - old styles.css or style.css if it is not the new one
+   - old about, services, testimonials, contact folders
+
+7. Go back to the main repository file page.
+
+8. Click Add file.
+
+9. Click Upload files.
+
+10. Open this folder on your PC:
+    QSV_WEBSITE_UPLOAD_READY
+
+11. Select everything INSIDE the folder.
+    Do not select the folder itself.
+
+12. Drag the selected files and folders onto the GitHub upload page.
+
+13. Wait until GitHub finishes uploading all files.
+    You should see the files listed on the upload page.
+
+14. Scroll down to the Commit changes section.
+
+15. In the first box, type:
+    Upload modern QSV website
+
+16. Click Commit changes.
+
+17. Wait for GitHub to save the files.
+
+TURN ON GITHUB PAGES
+
+18. In the repository, click Settings.
+    It is near the top row of the repository page.
+
+19. In the left menu, click Pages.
+
+20. Under Build and deployment, look for Source.
+
+21. Choose:
+    Deploy from a branch
+
+22. Under Branch, choose:
+    main
+
+23. In the folder dropdown, choose:
+    / (root)
+
+24. Click Save.
+
+25. Wait 2-5 minutes.
+
+26. Refresh the Pages screen.
+    GitHub should show a live website link.
+
+IF YOUR DOMAIN quickvs.co.uk IS ALREADY CONNECTED
+
+27. Visit:
+    https://quickvs.co.uk
+
+28. If the old website still shows, wait 5-10 minutes and refresh.
+    Browser and GitHub caching can take a little time.
+
+29. If it still does not update, open the site in a private/incognito window.
+
+IMPORTANT CHECKS AFTER IT IS LIVE
+
+30. Click every menu item:
+    Home, Services, About, Reviews, Contact.
+
+31. Click the phone buttons on mobile.
+    They should open your phone dialler.
+
+32. Click the email buttons.
+    They should open an email to quickvs@outlook.com.
+
+33. Open the Contact page.
+    Check the booking form appears.
+
+34. Click the Google directions link.
+    It should open directions for:
+    56a Stratford Street North, Birmingham B11 1BP
+
+WHAT TO DO IF THE CONTACT FORM IS WRONG
+
+The current form uses this JotForm:
+https://form.jotform.com/250505154565050
+
+If this is not your live form, replace it with your correct JotForm link.
+
+WHAT TO DO IF GITHUB WILL NOT LET YOU UPLOAD FOLDERS
+
+Use the ZIP file instead:
+QSV_WEBSITE_UPLOAD_READY.zip
+
+Extract the ZIP first, then upload the extracted contents.
