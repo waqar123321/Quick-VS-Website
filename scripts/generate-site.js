@@ -405,13 +405,11 @@ function faqSchema(faqs) {
 }
 
 function analyticsSnippet() {
-  return `<!-- TODO: Replace G-XXXXXXXXXX with the real GA4 Measurement ID when available. Analytics stays disabled while this placeholder remains. -->
+  return `<!-- GA4 is configured with the live Quick Solution Vehicles Measurement ID. -->
 <script>
   (function () {
-    var ga4MeasurementId = "G-XXXXXXXXXX";
-    var gtmContainerId = "GTM-XXXXXXX";
-    window.qsvAnalyticsPlaceholders = { ga4MeasurementId: ga4MeasurementId, gtmContainerId: gtmContainerId };
-    if (!ga4MeasurementId || ga4MeasurementId === "G-XXXXXXXXXX") return;
+    var ga4MeasurementId = "G-GEJR9VMEYV";
+    if (!ga4MeasurementId) return;
     var script = document.createElement("script");
     script.async = true;
     script.src = "https://www.googletagmanager.com/gtag/js?id=" + encodeURIComponent(ga4MeasurementId);
@@ -423,9 +421,8 @@ function analyticsSnippet() {
     gtag("config", ga4MeasurementId);
   })();
 </script>
-<!-- TODO: Replace TODO_SEARCH_CONSOLE_VERIFICATION_CODE with the real Google Search Console verification code. -->
-<meta name="google-site-verification" content="TODO_SEARCH_CONSOLE_VERIFICATION_CODE">
-<!-- TODO: If Google Tag Manager is preferred, replace GTM-XXXXXXX in the snippet above and add the matching noscript tag after opening body. -->`;
+<!-- Search Console is verified by Domain name provider / DNS, so no HTML verification meta tag is required. -->
+<!-- Google Tag Manager is disabled until a real container ID is provided. -->`;
 }
 
 function head({ title, description, pathname, type = "website", image = heroImage, extra = "" }) {

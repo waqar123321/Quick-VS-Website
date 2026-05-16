@@ -88,8 +88,11 @@ if (!combinedPublic.includes("Areas we cover")) fail('Missing required heading "
 if (!combinedPublic.includes("We support drivers across Birmingham, Solihull, Dudley, Walsall, Sandwell, Coventry, Wolverhampton and West Bromwich. For non-running cars and engine work we can arrange recovery from anywhere in the UK.")) {
   fail("Missing exact required area copy");
 }
-if (!combinedPublic.includes("G-XXXXXXXXXX")) fail("Missing GA4 placeholder");
-if (!combinedPublic.includes("TODO_SEARCH_CONSOLE_VERIFICATION_CODE")) fail("Missing Search Console placeholder");
+if (!combinedPublic.includes("G-GEJR9VMEYV")) fail("Missing live GA4 Measurement ID");
+if (combinedPublic.includes("G-XXXXXXXXXX")) fail("GA4 placeholder still appears in public files");
+if (combinedPublic.includes("TODO_SEARCH_CONSOLE_VERIFICATION_CODE")) fail("Search Console placeholder still appears in public files");
+if (combinedPublic.includes('name="google-site-verification"')) fail("Search Console HTML verification meta tag should not be output");
+if (combinedPublic.includes("GTM-")) fail("GTM should remain disabled and unconfigured");
 
 if (!process.exitCode) {
   console.log(`Validated ${htmlFiles.length} HTML files, JSON-LD blocks, internal links and public copy checks.`);

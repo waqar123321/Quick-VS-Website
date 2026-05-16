@@ -55,11 +55,11 @@
 - Article schema support for published blog posts.
 - Review schema was not added because no genuine individual review text exists in the repo.
 
-## Analytics and verification placeholders
-- GA4 placeholder: `G-XXXXXXXXXX` in `scripts/generate-site.js`, injected into every generated page head.
-- GTM placeholder: `GTM-XXXXXXX` in `scripts/generate-site.js`.
-- Search Console placeholder: `TODO_SEARCH_CONSOLE_VERIFICATION_CODE` in every generated page head.
-- Tracking is disabled while the GA4 placeholder remains unchanged.
+## Analytics and verification
+- GA4 is configured with Measurement ID `G-GEJR9VMEYV` in `scripts/generate-site.js`, injected into every generated page head.
+- Search Console is already verified via Domain name provider / DNS.
+- No Search Console HTML verification meta tag is required.
+- Google Tag Manager remains disabled/not configured until a real GTM container ID is provided.
 
 ## Blog system details
 - Blog source files live in `content/blog/`.
@@ -74,9 +74,6 @@
 - BMW N47, BMW N57, JLR Ingenium and Range Rover pages: confirm any workshop-specific technical details marked TODO.
 
 ## Manual next steps for Waqar
-- Replace `G-XXXXXXXXXX` with the real GA4 Measurement ID.
-- Replace `GTM-XXXXXXX` only if Google Tag Manager will be used.
-- Replace `TODO_SEARCH_CONSOLE_VERIFICATION_CODE` with the real Google Search Console verification code.
 - Submit `https://quickvs.co.uk/sitemap.xml` in Google Search Console.
 - Add genuine Google review text to `content/reviews.json`.
 - Add real case studies and workshop photos when approved.
