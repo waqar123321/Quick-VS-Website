@@ -192,12 +192,12 @@ const specialistServices = [
     opening:
       "BMW N47 engines are often booked in after chain rattle, non-start faults, oil pressure concerns or sudden engine failure. Quick Solution Vehicles helps owners understand whether timing chain repair, engine rebuild or further diagnosis is the sensible route before committing to major spend.",
     why:
-      "The BMW N47 is well known for timing chain wear and chain-related failures. Damage can affect guides, tensioners, valves and internal components if the chain jumps or fails. {# TODO: Waqar to confirm any model-specific wording #}",
+      "The BMW N47 is well known for timing chain wear and chain-related failures. Damage can affect guides, tensioners, valves and internal components if the chain jumps or fails.",
     symptoms: ["Rattle from the rear of the engine", "Non-start after chain failure", "Engine management light or timing faults", "Poor running, smoke or loss of power", "Metal contamination in oil"],
     process: ["Initial symptom and fault-code assessment", "Mechanical testing where appropriate", "Strip-down and damage report", "Rebuild with OEM-grade components where commercially sensible", "Final checks before handover"],
     parts: "OEM-grade components are used where suitable. IWIS chain kits may be used where appropriate, but final parts choice depends on vehicle, availability and confirmed repair plan.",
     faqs: [
-      ["Can an N47 timing chain failure be repaired?", "Often yes, but the engine must be inspected to confirm the extent of internal damage."],
+      ["Can an N47 timing chain failure be repaired?", "Often yes, but the engine must be inspected so the extent of damage is clear."],
       ["Do you replace N47 timing chains?", "Yes. We handle N47 timing chain replacement and chain-related engine repair."],
       ["Should I keep driving if the chain is rattling?", "No. Continuing to drive can increase the damage and cost."],
       ["How long does an N47 rebuild take?", `Typical rebuild timeframe is ${business.timeframe}.`],
@@ -214,7 +214,7 @@ const specialistServices = [
     opening:
       "BMW N57 owners usually contact us when the car has a serious noise, poor running, oil pressure concern or suspected internal damage. We inspect the fault and explain whether rebuild, repair or replacement is the commercially sensible path.",
     why:
-      "BMW N57 failures can involve timing components, oil-related damage, overheating, turbo-related issues or wear from high mileage and poor maintenance history. {# TODO: Waqar to confirm most common N57 failure patterns seen in the workshop #}",
+      "BMW N57 failures can involve timing components, oil-related damage, overheating, turbo-related issues or wear from high mileage and poor maintenance history.",
     symptoms: ["Heavy engine noise", "Timing-related fault codes", "Oil pressure warnings", "Smoke, misfire or poor running", "Non-start or seized engine"],
     process: ["Diagnostic assessment", "Oil and mechanical checks", "Strip-down if rebuild is viable", "Rebuild plan and parts approval", "Road test and final checks where possible"],
     parts: "We use OEM-grade components where suitable and agree the parts route before major work begins.",
@@ -236,7 +236,7 @@ const specialistServices = [
     opening:
       "Ingenium diesel faults can become expensive quickly, especially where wet belt, oil dilution or internal engine damage is suspected. We investigate the cause, explain the repair options and help owners decide whether rebuild work is sensible.",
     why:
-      "JLR Ingenium engines can suffer from wet belt deterioration, oil dilution concerns and timing or lubrication-related damage. {# TODO: Waqar to confirm engine-size-specific failure notes #}",
+      "JLR Ingenium engines can suffer from wet belt deterioration, oil dilution concerns and timing or lubrication-related damage.",
     symptoms: ["Oil pressure warning", "Wet belt concern", "Rattle, knocking or poor running", "Excess smoke", "Non-start or internal engine damage"],
     process: ["Fault and oil condition checks", "Assessment of wet belt or timing concerns", "Strip-down and damage confirmation", "Rebuild using suitable OEM-grade components", "Final checks and customer handover"],
     parts: "We use OEM-grade components where suitable. Parts choice depends on confirmed damage and availability.",
@@ -258,7 +258,7 @@ const specialistServices = [
     opening:
       "Range Rover engine faults are rarely cheap, so diagnosis and repair planning matter. We help owners understand the fault, the likely damage and whether rebuild work is the right decision before major parts are ordered.",
     why:
-      "Range Rover engine failures may relate to timing, lubrication, overheating, oil dilution, emissions-system issues or wear. {# TODO: Waqar to confirm common Range Rover engines and failure patterns handled #}",
+      "Range Rover engine failures may relate to timing, lubrication, overheating, oil dilution, emissions-system issues or wear.",
     symptoms: ["Engine knock or rattle", "Oil pressure warning", "Smoke or loss of power", "Timing or wet belt concern", "Non-running vehicle"],
     process: ["Initial diagnosis", "Mechanical and oil checks", "Strip-down where rebuild is viable", "OEM-grade rebuild parts where suitable", "Warranty-backed handover"],
     parts: "OEM-grade components are used where suitable, with parts choices confirmed before major work starts.",
@@ -268,7 +268,7 @@ const specialistServices = [
       ["Do you work with warranty companies?", "Yes, we handle warranty-company repair work."],
       ["How long does a Range Rover rebuild take?", `Typical rebuild timeframe is ${business.timeframe}.`],
       ["What warranty is included?", `Engine rebuilds include ${business.warranty}.`],
-      ["Do you give a fixed price online?", "No. {# TODO: Waqar to confirm typical price band #}"]
+      ["Do you give a fixed price online?", "No. Costs are confirmed after inspection because damage and parts requirements vary."]
     ],
     related: ["/services/jlr-ingenium-engine-rebuild/", "/services/engine-rebuilds/", "/services/engine-diagnostics/"]
   },
@@ -287,7 +287,7 @@ const specialistServices = [
     faqs: [
       ["Is rebuilding cheaper than replacing an engine?", "Sometimes. It depends on the damage, vehicle value and parts availability."],
       ["Do you rebuild petrol and diesel engines?", "Yes, where rebuilding is commercially sensible."],
-      ["Do you provide prices online?", "Not yet. {# TODO: Waqar to confirm typical price band #}"],
+      ["Do you provide prices online?", "No. Costs are confirmed after inspection because damage and parts requirements vary."],
       ["How long does an engine rebuild take?", `Typical rebuild timeframe is ${business.timeframe}.`],
       ["What warranty is included?", `Engine rebuilds include ${business.warranty}.`],
       ["Can you recover the vehicle?", "Yes, recovery can be arranged at customer cost."]
@@ -386,7 +386,7 @@ function serviceSchema(page) {
       priceSpecification: {
         "@type": "PriceSpecification",
         priceCurrency: "GBP",
-        description: "{# TODO: Waqar to confirm typical price band #}"
+        description: "Costs are confirmed after inspection because damage and parts requirements vary."
       }
     }
   };
@@ -399,7 +399,7 @@ function faqSchema(faqs) {
     mainEntity: faqs.map(([q, a]) => ({
       "@type": "Question",
       name: q,
-      acceptedAnswer: { "@type": "Answer", text: a.replace(/\{# TODO:.*?#\}/g, "Price or technical detail to be confirmed by the business owner.") }
+      acceptedAnswer: { "@type": "Answer", text: a }
     }))
   };
 }
@@ -580,7 +580,7 @@ function renderHome() {
 <section class="section feature"><div class="media-image"><img src="${garageImage}" alt="Quick Solution Vehicles workshop exterior in Birmingham" loading="lazy"></div><div class="feature-copy"><p class="section-kicker">Rebuild warranty</p><h2>Clear process, realistic timescales and no invented prices.</h2><p>Engine rebuilds include ${business.warranty}. Typical rebuild timeframe is ${business.timeframe}. Costs are confirmed after inspection because internal damage and parts availability change the repair route.</p><ul class="check-list"><li>Diagnostics before major labour</li><li>OEM-grade components where suitable</li><li>Recovery arranged at customer cost for non-running cars</li><li>Trade and warranty-company repair work supported</li></ul><a class="button button-dark" href="contact/">Talk to us about an engine fault</a></div></section>
 <section class="section section-muted"><div class="section-heading"><div><p class="section-kicker">Garage services</p><h2>Mechanical repair services with dedicated pages.</h2></div></div><div class="service-grid">${serviceCards()}</div></section>
 <section class="section local-seo"><p class="section-kicker">Areas we cover</p><h2>Serving drivers across Birmingham and the wider area.</h2><p>We support drivers across Birmingham, Solihull, Dudley, Walsall, Sandwell, Coventry, Wolverhampton and West Bromwich. For non-running cars and engine work we can arrange recovery from anywhere in the UK.</p><div class="area-list" aria-label="Areas served">${areas.map((area) => `<span>${area}</span>`).join("")}</div></section>
-<section class="section section-muted"><div class="section-heading"><div><p class="section-kicker">Reviews</p><h2>5-star rated on Google.</h2></div><a class="text-link" href="testimonials/">Review details</a></div><p class="wide-copy">Real customer reviews will be added here once verified. We do not publish invented testimonials or review schema without genuine review text.</p></section>
+<section class="section section-muted"><div class="section-heading"><div><p class="section-kicker">Reviews</p><h2>5-star rated on Google.</h2></div><a class="text-link" href="testimonials/">Review details</a></div><p class="wide-copy">For the latest customer feedback, visit the Google profile from the reviews page. Individual review text is shown on this site only after it has been checked against the original listing.</p></section>
 <section class="section"><div class="section-heading"><div><p class="section-kicker">Frequently asked questions</p><h2>Quick answers before you call.</h2></div></div><div class="faq-list">${faqs.map(([q, a]) => `<details><summary>${q}</summary><p>${a}</p></details>`).join("")}</div></section>
 ${ctaBlock()}`;
   writeFile("index.html", layout({ title: "Quick Solution Vehicles | Engine Rebuilds Birmingham", description: "Quick Solution Vehicles specialises in engine rebuilds, BMW N47 and N57 timing faults, JLR Ingenium repairs and serious mechanical work in Sparkbrook, Birmingham.", pathname: "/", body, extraSchemas: [faqSchema(faqs)] }));
@@ -597,7 +597,7 @@ ${ctaBlock("../")}`;
 function renderGeneralService(service) {
   const faqs = [
     [`Do you offer ${service.title.toLowerCase()}?`, `Yes. ${service.short}`],
-    ["Do you give a price online?", "Not yet. {# TODO: Waqar to confirm typical price band #}"],
+    ["Do you give a price online?", "No. Costs are confirmed after inspection because repair requirements vary."],
     ["Can I call before booking?", `Yes, call ${business.primaryPhone} for practical advice.`],
     ["Can you arrange recovery?", "For non-running cars and engine work, recovery can be arranged at customer cost."],
     ["Where are you based?", business.address]
@@ -612,10 +612,10 @@ ${ctaBlock("../../")}`;
 
 function renderSpecialist(service) {
   const body = `${pageHero("Engine rebuild specialist", service.title, service.opening)}
-<section class="section intro-grid"><div><p class="section-kicker">Why this engine fails</p><h2>Diagnosis comes before commitment.</h2></div><div class="intro-copy"><p>${service.why}</p><p><strong>Timeframe:</strong> ${business.timeframe}. <strong>Warranty:</strong> ${business.warranty}.</p><p><strong>Cost:</strong> {# TODO: Waqar to confirm typical price band #}</p></div></section>
+<section class="section intro-grid"><div><p class="section-kicker">Why this engine fails</p><h2>Diagnosis comes before commitment.</h2></div><div class="intro-copy"><p>${service.why}</p><p><strong>Timeframe:</strong> ${business.timeframe}. <strong>Warranty:</strong> ${business.warranty}.</p><p><strong>Cost:</strong> confirmed after inspection because damage and parts requirements vary.</p></div></section>
 <section class="section section-muted"><div class="section-heading"><div><p class="section-kicker">Common symptoms</p><h2>Symptoms customers usually report.</h2></div></div><div class="value-grid">${service.symptoms.map((item) => `<article class="value-card"><h3>${item}</h3><p>Book diagnosis before continuing to drive if a serious engine fault is suspected.</p></article>`).join("")}</div></section>
 <section class="section feature"><div class="media-image"><img src="${garageImage}" alt="Quick Solution Vehicles workshop for engine rebuilds in Birmingham" loading="lazy"></div><div class="feature-copy"><p class="section-kicker">Our rebuild process</p><h2>A careful route from inspection to handover.</h2><ol class="number-list">${service.process.map((step) => `<li>${step}</li>`).join("")}</ol><p><strong>Parts we use:</strong> ${service.parts}</p><p><strong>Recovery:</strong> UK-wide recovery can be arranged for non-running cars and engine work at customer cost.</p></div></section>
-<section class="section section-muted"><div class="section-heading"><div><p class="section-kicker">Case studies</p><h2>Real examples to add later.</h2></div></div><p class="wide-copy">{# TODO: Add genuine case studies and workshop photos once Waqar has approved real customer material #}</p></section>
+<section class="section section-muted"><div class="section-heading"><div><p class="section-kicker">Before major work starts</p><h2>Inspection comes first.</h2></div></div><p class="wide-copy">Every rebuild enquiry starts with diagnosis, damage assessment and a clear repair route before major parts are ordered.</p></section>
 <section class="section"><div class="section-heading"><div><p class="section-kicker">FAQs</p><h2>Practical questions about ${service.keyword}.</h2></div></div><div class="faq-list">${service.faqs.map(([q, a]) => `<details><summary>${q}</summary><p>${a}</p></details>`).join("")}</div></section>
 <section class="section section-muted"><div class="section-heading"><div><p class="section-kicker">Related services</p><h2>Keep researching the right repair route.</h2></div></div><div class="link-grid">${service.related.map((href) => `<a class="link-card" href="../../${href.replace(/^\//, "")}">${labelForHref(href)}</a>`).join("")}<a class="link-card" href="../">Back to services</a><a class="link-card" href="../../">Homepage</a></div></section>
 ${ctaBlock("../../")}`;
@@ -649,11 +649,11 @@ function renderContact() {
 function renderReviews() {
   const reviews = JSON.parse(fs.readFileSync(path.join(root, "content/reviews.json"), "utf8"));
   const verified = reviews.reviews.filter((review) => review.status === "verified");
-  const body = `${pageHero("Reviews", "5-star rated on Google.", "The business owner reports a 5-star Google rating. Individual customer reviews will only be published here once genuine review text has been verified.")}
-<section class="section reviews"><div class="review-image"><img src="${garageImage}" alt="Quick Solution Vehicles workshop exterior" loading="lazy"></div><div class="reviews-copy"><p class="section-kicker">Trust without fake testimonials</p><h2>Real customer reviews will be added here once verified.</h2><p>We do not fabricate review text, names, dates or review schema. Waqar can add genuine Google review text to <code>content/reviews.json</code> and mark it verified when ready.</p><a class="button button-dark" href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(business.name + " " + business.address)}" target="_blank" rel="noopener">View Google profile</a></div></section>
+  const body = `${pageHero("Reviews", "5-star rated on Google.", "Quick Solution Vehicles is 5-star rated on Google. Individual customer reviews are shown on this page only after the text has been checked against the original listing.")}
+<section class="section reviews"><div class="review-image"><img src="${garageImage}" alt="Quick Solution Vehicles workshop exterior" loading="lazy"></div><div class="reviews-copy"><p class="section-kicker">Customer feedback</p><h2>Check the latest reviews on Google.</h2><p>For the latest customer feedback, use the Google profile link. Individual review text is shown here only after it has been checked against the original listing.</p><a class="button button-dark" href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(business.name + " " + business.address)}" target="_blank" rel="noopener">View Google profile</a></div></section>
 ${verified.length ? `<section class="section section-muted"><div class="review-grid">${verified.map((review) => `<article class="review-card"><h3>${esc(review.author)}</h3><p>${esc(review.text)}</p></article>`).join("")}</div></section>` : ""}
 ${ctaBlock("../")}`;
-  writeFile("testimonials/index.html", layout({ title: "Reviews | Quick Solution Vehicles Birmingham", description: "Quick Solution Vehicles is 5-star rated on Google. Genuine customer review text will be added once verified.", pathname: "/testimonials/", body, extraSchemas: [breadcrumbSchema([["Home", "/"], ["Reviews", "/testimonials/"]])] }));
+  writeFile("testimonials/index.html", layout({ title: "Reviews | Quick Solution Vehicles Birmingham", description: "Quick Solution Vehicles is 5-star rated on Google. Check the Google profile for the latest customer feedback.", pathname: "/testimonials/", body, extraSchemas: [breadcrumbSchema([["Home", "/"], ["Reviews", "/testimonials/"]])] }));
 }
 
 function parseBlogPost(file) {
@@ -685,10 +685,10 @@ function renderMarkdown(markdown) {
 
 function renderBlog() {
   const dir = path.join(root, "content/blog");
-  const posts = fs.readdirSync(dir).filter((file) => file.endsWith(".md")).map((file) => parseBlogPost(path.join(dir, file)));
+  const posts = fs.existsSync(dir) ? fs.readdirSync(dir).filter((file) => file.endsWith(".md")).map((file) => parseBlogPost(path.join(dir, file))) : [];
   const live = posts.filter((post) => !post.draft);
   const body = `${pageHero("Blog", "Practical engine and repair advice.", "Long-form articles will be published here once they are reviewed for accuracy and usefulness.")}
-<section class="section section-muted"><div class="section-heading"><div><p class="section-kicker">Latest posts</p><h2>${live.length ? "Customer-focused repair guidance." : "No published posts yet."}</h2></div></div>${live.length ? `<div class="blog-grid">${live.map((post) => blogCard(post, "../")).join("")}</div>` : `<p class="wide-copy">A draft example exists in <code>content/blog/</code>, but it is hidden from the public blog until Waqar confirms the technical detail.</p>`}</section>
+<section class="section section-muted"><div class="section-heading"><div><p class="section-kicker">Latest posts</p><h2>${live.length ? "Customer-focused repair guidance." : "No published posts yet."}</h2></div></div>${live.length ? `<div class="blog-grid">${live.map((post) => blogCard(post, "../")).join("")}</div>` : `<p class="wide-copy">Practical repair articles will appear here when they are ready for customers.</p>`}</section>
 ${ctaBlock("../")}`;
   writeFile("blog/index.html", layout({ title: "Blog | Quick Solution Vehicles", description: "Practical engine rebuild, diagnostics and mechanical repair advice from Quick Solution Vehicles in Birmingham.", pathname: "/blog/", body, extraSchemas: [breadcrumbSchema([["Home", "/"], ["Blog", "/blog/"]])] }));
   live.forEach((post) => {

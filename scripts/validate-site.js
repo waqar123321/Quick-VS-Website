@@ -35,9 +35,13 @@ function fail(message) {
   process.exitCode = 1;
 }
 
-const htmlFiles = walk(root).filter((file) => file.endsWith(".html"));
+const htmlFiles = walk(root).filter((file) => {
+  const rel = path.relative(root, file);
+  return file.endsWith(".html") && !rel.startsWith(`_internal${path.sep}`);
+});
 const publicTextFiles = walk(root).filter((file) => {
   const rel = path.relative(root, file);
+  if (rel.startsWith(`_internal${path.sep}`)) return false;
   if (rel.startsWith(`scripts${path.sep}`) || rel.startsWith(`content${path.sep}`)) return false;
   if (["AUDIT.md", "CHANGES.md", "AGENTS.md"].includes(rel)) return false;
   return /\.(html|css|js|xml|txt)$/i.test(file) && !file.includes(`${path.sep}node_modules${path.sep}`);
@@ -55,6 +59,11 @@ for (const file of htmlFiles) {
   if (text.includes("TODO: Add genuine Google review text") && rel.includes("testimonials")) {
     fail(`${rel}: review TODO is publicly displayed`);
   }
+  for (const phrase of ["TODO", "Waqar", "placeholder", "G-XXXXXXXXXX", "TODO_SEARCH_CONSOLE_VERIFICATION_CODE"]) {
+    if (text.includes(phrase)) fail(`${rel}: public HTML contains ${phrase}`);
+  }
+  if (/\bdraft\b/i.test(text)) fail(`${rel}: public HTML contains draft`);
+  if (/name=["']google-site-verification["']/i.test(text)) fail(`${rel}: Search Console verification meta tag should not be output`);
   const jsonBlocks = [...text.matchAll(/<script type="application\/ld\+json">\s*([\s\S]*?)\s*<\/script>/g)];
   for (const block of jsonBlocks) {
     try {
