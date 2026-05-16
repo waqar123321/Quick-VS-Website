@@ -1,0 +1,10 @@
+{
+  "name": "quick-vs-website",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "node scripts/generate-site.js && node scripts/validate-site.js",
+    "generate": "node scripts/generate-site.js",
+    "validate": "node scripts/validate-site.js"
+  }
+}
