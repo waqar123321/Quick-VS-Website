@@ -8,6 +8,7 @@ const heroImage =
   "https://cdn.tagbox.io/assets/679926e59dc9490011086236/d0e23379-97e2-4982-a2de-b61b831ba496---ak-2.jpg";
 const garageImage =
   "https://cdn.tagbox.io/assets/679926e59dc9490011086236/da18ca47-44e6-423e-9474-9ec075bdcb47---ak-1.jpg";
+const bookingWidgetSrc = "https://bookmygarage.com/widget/1af740257184a9b1702ce0a37ac4a77a/";
 
 const business = {
   legalName: "Quick Solution Vehicles Ltd",
@@ -297,6 +298,7 @@ const specialistServices = [
 ];
 
 const allServices = [...specialistServices, ...generalServices];
+const onlineBookingServiceSlugs = new Set(["servicing", "mot-failure-repairs"]);
 
 function esc(value) {
   return String(value).replace(/[&<>"']/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[char]));
@@ -540,6 +542,21 @@ function pageHero(kicker, h1, copy) {
   return `<section class="page-hero"><div class="page-hero-content"><p class="eyebrow">${kicker}</p><h1>${h1}</h1><p class="page-hero-copy">${copy}</p></div></section>`;
 }
 
+function bookingWidget({ compact = false } = {}) {
+  return `<section class="section booking-section${compact ? " booking-section-compact" : ""}" aria-labelledby="book-online-heading">
+  <div class="booking-shell">
+    <div class="booking-copy">
+      <p class="section-kicker">Online booking</p>
+      <h2 id="book-online-heading">Book a garage appointment online.</h2>
+      <p>Use the BookMyGarage widget to request a convenient slot. For major engine faults, non-running vehicles or recovery, call the workshop first so we can advise on the right route.</p>
+    </div>
+    <div class="booking-panel">
+      <iframe class="booking-frame" src="${bookingWidgetSrc}" style="overflow:hidden;border:none;margin:0;min-height:214px;width:100%" title="Book Quick Solution Vehicles through BookMyGarage" loading="lazy"></iframe>
+    </div>
+  </div>
+</section>`;
+}
+
 function ctaBlock(prefix = "") {
   return `<section class="section cta-band">
   <div><p class="section-kicker">Speak to the workshop</p><h2>Need a straight answer on a serious mechanical fault?</h2><p>Call, email or send the contact form details. For non-running cars and engine work, recovery can be arranged at customer cost.</p></div>
@@ -574,6 +591,7 @@ function renderHome() {
     ["What warranty is included on engine rebuilds?", `Engine rebuilds include ${business.warranty}.`]
   ];
   const body = `${pageHero("Birmingham engine rebuild specialists", "Engine rebuilds and serious mechanical repairs in Sparkbrook, Birmingham.", "Quick Solution Vehicles specialises in engine rebuilds, diagnostics, timing chains and major mechanical repair work. Honest advice first, clear repair options second.")}
+${bookingWidget()}
 <section class="trust-strip" aria-label="Key trust points"><span>BMW N47 and N57 rebuilds</span><span>JLR Ingenium wet belt faults</span><span>${business.warranty}</span><span>${business.timeframe}</span><span>5-star rated on Google</span></section>
 <section class="section intro-grid"><div><p class="section-kicker">Mechanic-led advice</p><h2>For drivers facing expensive engine or mechanical problems.</h2></div><div class="intro-copy"><p>We support retail customers across Birmingham and around a 50-mile radius, while trade and warranty-company repair work can be handled UK-wide where recovery is arranged or funded.</p><p>The focus is practical: diagnose the fault, explain the damage, then agree a repair route that makes sense for the vehicle.</p></div></section>
 <section class="section section-muted"><div class="section-heading"><div><p class="section-kicker">Specialist engine work</p><h2>High-value rebuild services for known engine failure patterns.</h2></div><a class="text-link" href="services/">See all services</a></div><div class="service-grid">${specialistCards()}</div></section>
@@ -602,7 +620,8 @@ function renderGeneralService(service) {
     ["Can you arrange recovery?", "For non-running cars and engine work, recovery can be arranged at customer cost."],
     ["Where are you based?", business.address]
   ];
-  const body = `${pageHero("Quick Solution Vehicles services", service.title, service.intro)}
+  const serviceBooking = onlineBookingServiceSlugs.has(service.slug) ? `\n${bookingWidget({ compact: true })}` : "";
+  const body = `${pageHero("Quick Solution Vehicles services", service.title, service.intro)}${serviceBooking}
 <section class="section intro-grid"><div><p class="section-kicker">What we do</p><h2>${service.short}</h2></div><div class="intro-copy"><p>${service.desc}</p><ul class="check-list">${service.points.map((point) => `<li>${point}</li>`).join("")}</ul></div></section>
 <section class="section section-muted"><div class="section-heading"><div><p class="section-kicker">Related services</p><h2>Useful next pages.</h2></div></div><div class="link-grid">${service.related.map((href) => `<a class="link-card" href="../../${href.replace(/^\//, "")}">${labelForHref(href)}</a>`).join("")}<a class="link-card" href="../../contact/">Contact the workshop</a></div></section>
 <section class="section"><div class="section-heading"><div><p class="section-kicker">FAQs</p><h2>Questions about this service.</h2></div></div><div class="faq-list">${faqs.map(([q, a]) => `<details><summary>${q}</summary><p>${a}</p></details>`).join("")}</div></section>
@@ -641,6 +660,7 @@ ${ctaBlock("../")}`;
 function renderContact() {
   const mapQuery = encodeURIComponent(business.address);
   const body = `${pageHero("Contact Quick Solution Vehicles", "Call, email or visit the workshop in Sparkbrook, Birmingham.", "Use the contact form for diagnostics, engine rebuilds, timing chains, MOT failure repairs, trade work or recovery enquiries.")}
+${bookingWidget({ compact: true })}
 <section class="section contact-grid"><div class="contact-card"><p class="section-kicker">Workshop details</p><h2>${business.name}</h2><address>${business.streetAddress}<br>${business.locality}<br>${business.city}<br>${business.postcode}<br>${business.country}</address><ul class="contact-list"><li>Primary phone: <a href="tel:${business.primaryTel}">${business.primaryPhone}</a></li><li>Email: <a href="mailto:${business.email}">${business.email}</a></li><li>Hours: ${business.hours}</li></ul><div class="contact-actions"><a class="button button-primary" href="tel:${business.primaryTel}">Call now</a><a class="button button-light" href="mailto:${business.email}?subject=Quick%20Solution%20Vehicles%20enquiry">Email us</a></div></div><div class="contact-panel"><h2>Enquiry form</h2><p>Include the vehicle registration, engine, symptoms, warning lights and whether the car runs.</p><iframe class="form-frame" src="https://form.jotform.com/250505154565050" loading="lazy" title="Quick Solution Vehicles booking form"></iframe></div></section>
 <section class="section section-muted"><div class="section-heading"><div><p class="section-kicker">Directions</p><h2>Find us in Sparkbrook, Birmingham B11.</h2></div><a class="button button-dark" href="https://www.google.com/maps/search/?api=1&query=${mapQuery}" target="_blank" rel="noopener">Open directions</a></div><iframe class="map-frame" title="Map for Quick Solution Vehicles" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps?q=${mapQuery}&output=embed"></iframe></section>`;
   writeFile("contact/index.html", layout({ title: "Contact Quick Solution Vehicles | Sparkbrook Birmingham B11", description: `Contact Quick Solution Vehicles at ${business.address}. Call ${business.primaryPhone} or email ${business.email} for engine rebuilds, diagnostics and serious mechanical repairs.`, pathname: "/contact/", body, extraSchemas: [breadcrumbSchema([["Home", "/"], ["Contact", "/contact/"]])] }));
