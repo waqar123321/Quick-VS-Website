@@ -74,7 +74,7 @@
 - BMW N47, BMW N57, JLR Ingenium and Range Rover pages: confirm any workshop-specific technical details marked TODO.
 
 ## Manual next steps for Waqar
-- Submit `https://quickvs.co.uk/sitemap.xml` in Google Search Console.
+- Submit `https://quickvs.com/sitemap.xml` in Google Search Console.
 - Add genuine Google review text to `content/reviews.json`.
 - Add real case studies and workshop photos when approved.
 - Confirm typical price bands if prices should appear publicly.

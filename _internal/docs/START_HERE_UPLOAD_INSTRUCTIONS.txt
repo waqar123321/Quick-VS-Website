@@ -102,10 +102,10 @@ TURN ON GITHUB PAGES
 26. Refresh the Pages screen.
     GitHub should show a live website link.
 
-IF YOUR DOMAIN quickvs.co.uk IS ALREADY CONNECTED
+IF YOUR DOMAIN quickvs.com IS ALREADY CONNECTED
 
 27. Visit:
-    https://quickvs.co.uk
+    https://quickvs.com
 
 28. If the old website still shows, wait 5-10 minutes and refresh.
     Browser and GitHub caching can take a little time.
