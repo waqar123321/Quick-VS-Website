@@ -3,7 +3,7 @@ const path = require("path");
 
 const root = path.resolve(__dirname, "..");
 const today = "2026-05-15";
-const siteUrl = "https://quickvs.co.uk";
+const siteUrl = "https://quickvs.com";
 const heroImage =
   "https://cdn.tagbox.io/assets/679926e59dc9490011086236/d0e23379-97e2-4982-a2de-b61b831ba496---ak-2.jpg";
 const garageImage =

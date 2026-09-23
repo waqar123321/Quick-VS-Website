@@ -2,7 +2,7 @@ const fs = require("fs");
 const path = require("path");
 
 const root = path.resolve(__dirname, "..");
-const siteUrl = "https://quickvs.co.uk";
+const siteUrl = "https://quickvs.com";
 const requiredNap = [
   "Quick Solution Vehicles",
   "56a Stratford Street North, Sparkbrook, Birmingham, B11 1BP, United Kingdom",
