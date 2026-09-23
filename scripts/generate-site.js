@@ -2,7 +2,7 @@ const fs = require("fs");
 const path = require("path");
 
 const root = path.resolve(__dirname, "..");
-const today = "2026-05-15";
+const today = "2026-09-23";
 const siteUrl = "https://quickvs.com";
 const heroImage =
   "https://cdn.tagbox.io/assets/679926e59dc9490011086236/d0e23379-97e2-4982-a2de-b61b831ba496---ak-2.jpg";
@@ -19,10 +19,10 @@ const business = {
   city: "Birmingham",
   postcode: "B11 1BP",
   country: "United Kingdom",
-  primaryPhone: "07514 277218",
-  primaryTel: "+447514277218",
-  secondaryPhone: "07762 145453",
-  secondaryTel: "+447762145453",
+  primaryPhone: "07522 179040",
+  primaryTel: "+447522179040",
+  secondaryPhone: "07514 277218",
+  secondaryTel: "+447514277218",
   email: "quickvs@outlook.com",
   hours: "Monday-Saturday 10:00-18:00. Closed Sundays.",
   companiesHouse: "16525397",
