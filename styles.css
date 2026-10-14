@@ -1126,3 +1126,73 @@ textarea:focus {
     background: var(--night);
   }
 }
+
+
+/* Contact-first layouts and optional analytics controls */
+[hidden] { display: none !important; }
+a:focus-visible, button:focus-visible, summary:focus-visible {
+  outline: 3px solid var(--gold); outline-offset: 4px;
+}
+.site-nav { gap: 13px; font-size: 12px; }
+.brand { min-width: 240px; }
+.button-whatsapp { background: #146c43; color: #fff; }
+.contact-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+.page-hero .contact-actions { margin: 26px 0 16px; }
+.hero-reassurance { margin: 16px 0 0; color: #e1e5eb; font-size: 14px; }
+.service-detail { padding-top: 54px; padding-bottom: 54px; }
+.service-detail h2 { max-width: 850px; font-size: clamp(26px, 3vw, 40px); line-height: 1.18; }
+.detail-copy { max-width: 900px; color: #394350; font-size: 18px; }
+.detail-copy p:last-child { margin-bottom: 0; }
+.assurance-strip { padding: 28px; border-left: 5px solid var(--accent); background: var(--soft); }
+.review-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 22px; }
+.review-card { margin: 0; padding: 24px; background: #fff; border: 1px solid var(--line); border-radius: 8px; }
+.review-card figcaption { margin-bottom: 16px; }
+.review-stars { display: block; color: #926700; letter-spacing: 2px; margin-top: 6px; }
+.review-card blockquote { margin: 0; }
+.review-card blockquote p { margin: 0; color: #394350; }
+.cookie-settings { border: 0; background: none; color: inherit; font: inherit; padding: 0; text-align: left; cursor: pointer; text-decoration: underline; }
+.consent-panel { position: fixed; left: 18px; bottom: 18px; z-index: 80; width: min(490px,calc(100% - 36px)); max-height: 48vh; overflow-y: auto; background: #fff; color: var(--ink); border: 2px solid var(--night); border-radius: 10px; padding: 22px; box-shadow: var(--shadow); }
+.consent-panel h2 { font-size: 21px; margin-bottom: 10px; line-height: 1.2; }
+.consent-panel p { font-size: 14px; margin-bottom: 16px; }
+.consent-panel a { text-decoration: underline; }
+.consent-actions { display: flex; gap: 10px; }
+.consent-actions button { flex: 1; padding: 12px; border: 1px solid var(--night); border-radius: 6px; font: inherit; font-size: 14px; font-weight: 700; cursor: pointer; background: var(--night); color: #fff; }
+.consent-actions button:last-child { background: #fff; color: var(--night); }
+.site-footer a { overflow-wrap: anywhere; }
+.footer-contact { list-style: none; padding: 0; }
+.mobile-call-bar { background: #0b111b; padding-bottom: env(safe-area-inset-bottom); }
+.mobile-call-bar a { display: flex; align-items: center; justify-content: center; gap: 4px; text-align: center; min-height: 64px; line-height: 1.35; padding: 12px 10px; color: #fff; background: #c5151c; }
+.mobile-call-bar a.mobile-whatsapp { background: #146c43; }
+@media (max-width: 1200px) {
+  .header-inner { grid-template-columns: 1fr auto auto; }
+  .site-nav { display: none; position: absolute; left: 0; right: 0; top: 100%; padding: 20px; background: var(--night); flex-direction: column; align-items: stretch; gap: 0; }
+  .site-nav.is-open { display: flex; }
+  .site-nav a { padding: 12px 18px; font-size: 15px; }
+  .nav-toggle { display: inline-flex; width: 42px; height: 42px; border: 1px solid #58606e; border-radius: 6px; background: none; flex-direction: column; justify-content: center; align-items: center; gap: 5px; }
+  .nav-toggle span { display: block; width: 20px; height: 2px; background: #fff; }
+}
+@media (max-width: 760px) {
+  .review-grid { grid-template-columns: 1fr; }
+  .contact-actions { flex-direction: row; }
+  .contact-actions .button { flex: 1 1 220px; }
+  .page-hero-copy { font-size: 17px; }
+  .page-hero-content { padding: 54px 0; }
+  .service-detail { padding-top: 36px; padding-bottom: 36px; }
+  .detail-copy { font-size: 16px; }
+  .consent-panel { bottom: calc(78px + env(safe-area-inset-bottom)); max-height: 45vh; padding: 16px; }
+  .mobile-call-bar { display: grid; grid-template-columns: 1fr 1fr; }
+  .mobile-call-bar a { font-size: 12px; }
+  body { padding-bottom: calc(64px + env(safe-area-inset-bottom)); }
+  .brand { min-width: 0; gap: 8px; }
+  .brand-logo { width: 62px; }
+  .brand strong { font-size: 12px; }
+  .brand small { font-size: 10px; }
+  .header-inner { gap: 12px; }
+  .header-actions { display: none; }
+  .header-inner { grid-template-columns: 1fr auto; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * { transition: none !important; animation: none !important; }
+}
+

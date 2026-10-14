@@ -1,4 +1,29 @@
 {
-  "googleRatingClaim": "5-star rated on Google",
-  "reviews": []
+  "reviews": [
+    {
+      "author": "Ruksana Zaman",
+      "rating": 5,
+      "text": "I dropped my SVR sport 2019 for engine rebuild. Great customer service and great work 👍. Very happy highly recommend"
+    },
+    {
+      "author": "Ahsan Zahid Bajwa",
+      "rating": 5,
+      "text": "Great service! Had my range rover rebuilt here and they were very knowledgable, quick turnaround and kept me updated throughout. Brilliant prices as well!"
+    },
+    {
+      "author": "Stephen Rawle",
+      "rating": 5,
+      "text": "Rebuilt my Cooper D engine. Good staff, car runs perfectly now. Thanks Gents!"
+    },
+    {
+      "author": "Sophie Perkins",
+      "rating": 5,
+      "text": "Honestly can’t recommend these guys enough! Super friendly, straight to the point, and didn’t try to upsell me on stuff I didn’t need. They got my car fixed quicker than I expected and it’s been running smooth ever since."
+    },
+    {
+      "author": "Halima",
+      "rating": 5,
+      "text": "I highly recommend this garage. Every time I have a problem with my car, they solve it quickly and professionally. The owner is honest, reliable, and genuinely cares about helping his customers."
+    }
+  ]
 }

@@ -2,14 +2,14 @@
 
 - Use British English: tyre, kerb, aluminium, optimise, organise, colour, labour and specialist.
 - Preserve the source-of-truth NAP details exactly:
-  - Quick Solution Vehicles Ltd for legal context.
+  - Quick Solution Vehicles LTD for legal context.
   - Quick Solution Vehicles for customer-facing copy.
   - 56a Stratford Street North, Sparkbrook, Birmingham, B11 1BP, United Kingdom.
-  - Primary phone: 07514 277218.
-  - Email: quickvs@outlook.com.
+  - Primary phone: 07522 179040.
+  - Email: info@quickvs.com.
   - Hours: Monday-Saturday 10:00-18:00. Closed Sundays.
 - Do not fabricate reviews, testimonials, case studies, prices, warranty terms, technical claims or photos.
-- Use TODO markers when information is uncertain, especially price bands, case studies and workshop-specific technical detail.
+- Verify uncertain information or ask for it. Never publish invented IDs, placeholder configuration, prices, case studies or workshop-specific claims.
 - Keep the tone honest, technical, no-nonsense and mechanic-led.
 - Avoid keyword stuffing. Write for real garage customers first, then search engines.
 - Do not add services the business does not offer. If unsure, use the source-of-truth list before writing copy.
@@ -20,7 +20,8 @@
   - Use British English.
   - Avoid keyword stuffing.
   - Include technical detail only where factually safe.
-  - Use TODO markers for uncertain facts.
+  - Verify uncertain facts before publishing.
   - Link to relevant service pages.
   - End with a clear CTA.
   - Never fabricate case studies, reviews or outcomes.
+
