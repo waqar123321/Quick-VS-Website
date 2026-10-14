@@ -1,0 +1,21 @@
+// Preserve useful intent-focused metadata from the 2026 SEO work in build source.
+// Descriptions reflect current contact methods and verified repair scope.
+module.exports = {
+  "brakes": ["Brake Repair Birmingham | Discs & Pads | QuickVS", "Brake disc, pad and safety checks in Sparkbrook, Birmingham. Discuss brake noise, vibration or warning lights with Quick Solution Vehicles. Call 07522 179040."],
+  "clutch-replacement": ["Clutch Replacement Birmingham | Flywheel Repair | QuickVS", "Clutch and flywheel assessment in Birmingham for slipping, judder and drive problems. Discuss diagnosis and repair with our Sparkbrook workshop."],
+  "customer-supplied-tyre-fitting": ["Customer-Supplied Tyre Fitting Birmingham | QuickVS", "Tyre fitting in Sparkbrook, Birmingham for tyres supplied by you. Confirm sizes, condition and appointment availability with Quick Solution Vehicles."],
+  "dpf-egr-emissions": ["DPF & EGR Fault Diagnosis Birmingham | QuickVS", "DPF, EGR and emissions fault investigation in Birmingham. We assess warning lights, boost, sensor and poor-running faults before agreeing repairs."],
+  "engine-diagnostics": ["Engine Diagnostics Birmingham | Fault Finding | QuickVS", "Engine diagnostics in Birmingham for warning lights, limp mode, smoke and non-starts. Evidence-led fault finding before major repairs. Call 07522 179040."],
+  "engine-rebuild-birmingham": ["Engine Rebuild Birmingham | Assessment & Recovery | QuickVS", "Plan an engine rebuild at our Sparkbrook, Birmingham workshop. Discuss running status, assessment and customer-funded recovery before vehicle delivery."],
+  "engine-rebuilds": ["Engine Rebuilds Birmingham | Petrol & Diesel | QuickVS", "Petrol and diesel engine rebuilds in Birmingham B11. Strip-down assessment, repair planning and a 3-month or 10,000-mile parts and labour rebuild warranty."],
+  "gearbox-repairs": ["Gearbox Repair Birmingham | Driveline Diagnosis | QuickVS", "Gearbox and driveline investigation in Birmingham for noise, slipping, shift problems and fault codes. Diagnosis and clear repair advice before major spend."],
+  "mot-failure-repairs": ["MOT Failure Repairs Birmingham | Advisory Repairs | QuickVS", "Mechanical MOT failure and advisory repairs in Sparkbrook, Birmingham. Send your failure sheet and discuss repairs before returning for a test elsewhere."],
+  "servicing": ["Car Servicing Birmingham | Oil & Filters | QuickVS", "Vehicle servicing in Sparkbrook, Birmingham. Discuss the right oil, filters and maintenance for your engine and mileage. Call or WhatsApp our workshop."],
+  "timing-belt-replacement": ["Timing Belt Replacement Birmingham | Cam Belt | QuickVS", "Timing belt, cam belt and wet-belt assessment in Birmingham. Engine-specific repair planning for Ford and PureTech variants. Call 07522 179040."],
+  "timing-chain-replacement": ["Timing Chain Replacement Birmingham | QuickVS", "Timing chain, guide and tensioner assessment in Birmingham for rattle, timing and non-start faults. BMW and JLR diagnosis before repair or rebuild decisions."],
+  "trade-warranty-repairs": ["Trade & Warranty Repairs Birmingham | QuickVS", "Trade and warranty-company mechanical repairs in Birmingham, including diagnostics and engine rebuild enquiries. Discuss authorisation and repair scope first."],
+  "bmw-n47-engine-rebuild": ["BMW N47 Engine Rebuild Birmingham | Timing Chain | QuickVS", "BMW N47 engine rebuild assessment in Birmingham for timing chain failure, non-starts and internal damage. Discuss diagnosis and repair with QuickVS."],
+  "bmw-n57-engine-rebuild": ["BMW N57 Engine Rebuild Birmingham | Diesel Repair | QuickVS", "BMW N57 diesel rebuild assessment in Birmingham for knocking, lubrication concerns and internal damage. Repair scope is agreed after engine inspection."],
+  "jlr-ingenium-engine-rebuild": ["JLR Ingenium Engine Rebuild Birmingham | QuickVS", "JLR 2.0 Ingenium engine assessment in Birmingham for timing chain, balance shaft, turbo and oil dilution faults. AJ200D and AJ200P repair planning."],
+  "range-rover-engine-rebuild": ["Range Rover Engine Rebuild Birmingham | QuickVS", "Range Rover engine rebuild assessment in Birmingham across diesel and petrol engines, including TDV6, SDV6 and supercharged V8. Call 07522 179040."]
+};

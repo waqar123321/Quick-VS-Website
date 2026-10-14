@@ -37,7 +37,7 @@ for(const page of pages) {
   assert.ok(!/(?:G|GTM|AW)-X{3,}|YOUR_[A-Z_]+|TODO|example\.com/i.test(text),pathname+": invalid public configuration");
   assert.ok(!/quickvs\.co\.uk|https?:\/\/www\.quickvs\.com|http:\/\/quickvs\.com/i.test(text),pathname+": legacy domain");
   assert.ok(!/jotform|<form\b/i.test(text),pathname+": retired enquiry form");
-  if(!["/services/servicing/","/services/mot-failure-repairs/"].includes(pathname)) assert.ok(!/bookmygarage|<iframe/i.test(text),pathname+": distracting lead embed");
+  assert.ok(!/bookmygarage|<iframe/i.test(text),pathname+": retired booking embed");
   assert.ok(!/credit\s*cards?/i.test(text),pathname+": unsupported payment claim");
   assert.ok(text.includes("info@quickvs.com"),pathname+": missing email");
   assert.ok(text.includes('href="tel:+447522179040"'),pathname+": missing telephone");

@@ -293,6 +293,11 @@ const specialistServices = [
 const landingPages = require("../content/landing-pages");
 const serviceDetails = require("../content/service-details");
 const allServices = [...landingPages, ...specialistServices, ...generalServices];
+const seoMetadata = require("../content/seo-metadata");
+for (const service of allServices) {
+  const meta = seoMetadata[service.slug];
+  if (meta) { service.metaTitle = meta[0]; service.metaDescription = meta[1]; }
+}
 const rebuildSlugs = new Set(allServices.filter(s => /rebuild/.test(s.slug)).map(s => s.slug));
 const reviews = JSON.parse(fs.readFileSync(path.join(root, "content/reviews.json"), "utf8")).reviews;
 const datesFile = path.join(root, "content/page-dates.json");
@@ -365,14 +370,14 @@ function contactButtons(location = "content") {
 function footer() {
   const engines = allServices.filter(s=>rebuildSlugs.has(s.slug));
   const other = allServices.filter(s=>!rebuildSlugs.has(s.slug));
-  const links = list => list.map(s=>'<li><a href="/services/'+s.slug+'/">'+esc(s.title.replace(/ in Birmingham| Birmingham$/,""))+'</a></li>').join("");
+  const links = list => list.map(s=>'<li><a href="/services/'+s.slug+'/">'+esc(s.title.replace(/(?: in|,) Birmingham| Birmingham$/,""))+'</a></li>').join("");
   return '<footer class="site-footer"><div class="footer-main"><div class="footer-grid">' +
     '<div class="footer-brand"><img class="footer-logo" width="150" height="70" src="/assets/qsv-logo.svg" alt="Quick Solution Vehicles logo"><h2 class="footer-title">'+business.legalName+'</h2><p>Engine rebuilds across all makes, alongside general mechanical repairs in Sparkbrook, Birmingham.</p><p>Company No. '+business.companiesHouse+'</p><ul class="footer-contact"><li><a data-contact-location="footer" href="tel:'+business.primaryTel+'">'+business.primaryPhone+'</a></li><li><a href="mailto:'+business.email+'">'+business.email+'</a></li><li>'+business.address+'</li><li>'+business.hours+'</li></ul><a class="text-link" href="'+maps+'">Google Maps &amp; directions</a></div>' +
     '<div class="footer-column"><h3>Engine Rebuilds</h3><ul>'+links(engines)+'</ul></div>' +
     '<div class="footer-column"><h3>Mechanical Services</h3><ul>'+links(other)+'</ul></div>' +
     '<div class="footer-column"><h3>Workshop</h3><ul>'+nav.map(([label,href])=>'<li><a href="'+href+'">'+label+'</a></li>').join("")+'<li><a href="/blog/">Repair advice</a></li><li><a href="/privacy/">Privacy &amp; cookies</a></li><li><button class="cookie-settings" type="button" data-cookie-settings>Cookie settings</button></li></ul><h3>Payment</h3><p>Debit cards, contactless / mobile NFC and bank transfer.</p><p>Engine rebuild warranty: 3 months or 10,000 miles, parts and labour.</p></div>' +
     '</div></div><div class="footer-bottom"><p>&copy; <span data-year>2026</span> '+business.legalName+'</p><a href="/sitemap.xml">Sitemap</a></div></footer>' +
-    '<div class="mobile-call-bar"><a data-contact-location="mobile_bar" href="tel:'+business.primaryTel+'"><span aria-hidden="true">📞 </span>Call Workshop: '+business.primaryPhone+'</a><a data-contact-location="mobile_bar" class="mobile-whatsapp" href="'+whatsapp+'"><span aria-hidden="true">💬 </span>WhatsApp Reg &amp; Fault</a></div>' +
+    '<div class="mobile-call-bar"><a data-contact-location="mobile_bar" href="tel:'+business.primaryTel+'"><span aria-hidden="true">📞 </span><span>Call Workshop: <span class="phone-number">'+business.primaryPhone+'</span></span></a><a data-contact-location="mobile_bar" class="mobile-whatsapp" href="'+whatsapp+'"><span aria-hidden="true">💬 </span>WhatsApp Reg &amp; Fault</a></div>' +
     '<section class="consent-panel" data-consent-panel hidden aria-labelledby="consent-title"><h2 id="consent-title">Optional analytics cookies</h2><p>Allow analytics to help us understand which pages and contact buttons are useful. You can reject these cookies and still use every workshop contact option. <a href="/privacy/">Privacy &amp; cookies</a></p><div class="consent-actions"><button type="button" data-consent="accept">Accept analytics</button><button type="button" data-consent="reject">Reject analytics</button></div></section>';
 }
 function layout({ title, description, pathname, body, faqs = [], service, withReviews = false, noindex = false }) {
@@ -383,7 +388,7 @@ function layout({ title, description, pathname, body, faqs = [], service, withRe
     '\n<meta name="viewport" content="width=device-width, initial-scale=1">\n<title>'+esc(title)+'</title>\n<meta name="description" content="'+esc(description)+'">\n' +
     '<meta name="robots" content="'+(noindex?'noindex, follow':'index, follow, max-image-preview:large')+'">\n<meta name="theme-color" content="#111827">\n' +
     '<link rel="canonical" href="'+urlFor(pathname)+'">\n<meta property="og:type" content="website">\n<meta property="og:title" content="'+esc(title)+'">\n<meta property="og:description" content="'+esc(description)+'">\n<meta property="og:url" content="'+urlFor(pathname)+'">\n<meta property="og:image" content="'+heroImage+'">\n' +
-    '<meta name="twitter:card" content="summary_large_image">\n<meta name="twitter:title" content="'+esc(title)+'">\n<meta name="twitter:description" content="'+esc(description)+'">\n<meta name="twitter:image" content="'+heroImage+'">\n<link rel="stylesheet" href="/styles.css">\n<script defer src="/script.js"></script>\n' +
+    '<meta name="twitter:card" content="summary_large_image">\n<meta name="twitter:title" content="'+esc(title)+'">\n<meta name="twitter:description" content="'+esc(description)+'">\n<meta name="twitter:image" content="'+heroImage+'">\n<link rel="stylesheet" href="/styles.css?v=20261014-2">\n<script defer src="/script.js"></script>\n' +
     schemas.map(jsonLd).join("\n")+'\n</head>\n<body>\n'+header(pathname)+'\n<main id="main-content">'+body+'</main>\n'+footer()+'\n</body>\n</html>\n';
 }
 function hero(kicker, title, copy) { return '<section class="page-hero"><div class="page-hero-content"><p class="eyebrow">'+esc(kicker)+'</p><h1>'+esc(title)+'</h1><p class="page-hero-copy">'+esc(copy)+'</p>'+contactButtons("hero")+'<p class="hero-reassurance">Mon–Sat 10:00–18:00 · Sparkbrook, Birmingham B11 · Tell us whether your vehicle runs</p></div></section>'; }
@@ -405,18 +410,18 @@ function renderService(service) {
   const faqs = [...(service.faqs||[]), ...extra.faqs];
   let items = [...(service.sections||[]), ...extra.sections];
   if (service.why) items.unshift(["Diagnosis before major work",service.why]);
-  let body=hero(isRebuild?"Engine rebuild workshop":"Mechanical repairs Birmingham",service.title,service.heroIntro||service.opening||service.intro);
+  let body='<nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true"> / </span><a href="/services/">Services</a><span aria-hidden="true"> / </span><span aria-current="page">'+esc(service.title)+'</span></nav>'+hero(isRebuild?"Engine rebuild workshop":"Mechanical repairs Birmingham",service.title,service.heroIntro||service.opening||service.intro);
   if(isRebuild) body+='<section class="trust-strip" aria-label="Engine rebuild terms"><span>3 months or 10,000 miles · parts and labour</span><span>Typical turnaround 1–3 weeks</span><span>Parts availability and internal damage affect timing</span></section>';
   if(service.heroIntro) body+=sections([["Discuss your engine rebuild",service.opening]]);
-  if(["servicing","mot-failure-repairs"].includes(service.slug)) body+='<section class="section booking-section"><div class="booking-shell"><div class="booking-copy"><p class="section-kicker">Routine appointment booking</p><h2>Book this service online</h2><p>For a routine servicing or mechanical MOT-repair appointment, you can use BookMyGarage. For major engine damage or a non-runner, call the workshop first.</p></div><div class="booking-panel"><iframe class="booking-frame" src="https://bookmygarage.com/widget/1af740257184a9b1702ce0a37ac4a77a/" title="Book a routine workshop appointment through BookMyGarage" loading="lazy" style="border:0;min-height:214px;width:100%"></iframe></div></div></section>';
   if(service.points) body+='<section class="section intro-grid"><div><h2>'+esc(service.short)+'</h2></div><div class="intro-copy"><p>'+esc(service.desc)+'</p><ul class="check-list">'+service.points.map(p=>'<li>'+esc(p)+'</li>').join("")+'</ul></div></section>';
   body+=sections(items);
+  if(isRebuild) body+='<section class="section service-detail"><h2>Diagnosis and timing repair options</h2><div class="detail-copy"><p>When the extent of damage is unclear, start with <a href="/services/engine-diagnostics/">engine diagnostics and mechanical fault finding</a> before agreeing strip-down work. For chain-driven engines with viable repair options, read about <a href="/services/timing-chain-replacement/">timing chain assessment and replacement</a>. A timing repair and a full rebuild require different scopes; the fitted engine and inspection findings determine the route.</p></div></section>';
   if(service.symptoms) body+='<section class="section section-muted"><p class="section-kicker">Symptoms to report</p><h2>What has changed?</h2><ul class="check-list">'+service.symptoms.map(s=>'<li>'+esc(s)+'</li>').join("")+'</ul><p>Describe when the symptom started, whether warning lights appeared and whether the engine still runs.</p></section>';
   if(service.process) body+='<section class="section"><h2>From assessment to handover</h2><ol class="number-list">'+service.process.map(s=>'<li>'+esc(s)+'</li>').join("")+'</ol><p>'+esc(service.parts)+'</p></section>';
   if(isRebuild) body+='<section class="section assurance-strip"><p><strong>Warranty:</strong> '+business.warranty+'. <strong>Typical turnaround:</strong> '+business.timeframe+'.</p><p>Costs are confirmed after inspection and agreement of the repair scope. Recovery for suitable engine work can be arranged at customer cost.</p></section>'+reviewSection();
   body+=faqsHtml(faqs)+related(service)+cta();
   const pathname="/services/"+service.slug+"/";
-  writePage(pathname,layout({title:service.metaTitle||service.title+" | Quick Solution Vehicles",description:service.desc,pathname,body,faqs,service,withReviews:isRebuild}));
+  writePage(pathname,layout({title:service.metaTitle||service.title+" | Quick Solution Vehicles",description:service.metaDescription||service.desc,pathname,body,faqs,service,withReviews:isRebuild}));
 }
 const homeFaqs = [
   ["Do you rebuild engines across all makes?","Yes. We handle petrol, diesel, performance and commercial van engine rebuild enquiries across all makes and engine ranges."],

@@ -17,7 +17,7 @@
 - JLR Ingenium wording corrected throughout templates and generated output. Diesel rear-chain access is distinguished from petrol procedures.
 - Ford variants separated rather than describing all EcoBoost engines as wet-belt units.
 - Company name, number, address, primary phone, new email, hours, Maps CID, coordinates, payment methods and rebuild terms aligned.
-- Jotform removed; major-engine enquiries use phone and WhatsApp. BookMyGarage retained only for routine servicing and mechanical MOT-repair pages.
+- Jotform and BookMyGarage removed from every public page; enquiries use phone, WhatsApp or info@quickvs.com.
 - Five owner-supplied Google review texts reproduced verbatim on home, reviews and all rebuild pages; individual review schema without an invented aggregate rating or review count.
 - Shared mobile call/WhatsApp bar, contact buttons near the top of each page and clear running-status guidance.
 - Existing GA4 G-GEJR9VMEYV retained. Google code loads only after analytics consent; withdrawal, expiry and blocked browser storage handled.
@@ -37,7 +37,7 @@
 
 ## Remaining launch work, in priority order
 1. After deployment, use Search Console URL Inspection > Test live URL for the all-makes, performance and Ingenium pages, then request indexing and submit https://quickvs.com/sitemap.xml.
-2. Verify GitHub Pages Enforce HTTPS and old-domain forwarding at the domain provider. HTTP/non-www/old-domain 301 chains and headers cannot be proven from repository files alone. GitHub Pages does not execute Apache .htaccess redirects.
+2. Verify GitHub Pages Enforce HTTPS. The owner has no access to quickvs.co.uk, so old-domain forwarding cannot be configured from this repository. HTTP/non-www redirect chains and headers cannot be proven from repository files alone. GitHub Pages does not execute Apache .htaccess redirects.
 3. Create the real Google Ads account and conversion actions. Website-call number swapping needs the actual Ads ID and call label; phone clicks, WhatsApp clicks and completed calls are separate actions. Do not install unconfigured tags.
 4. Keep contact clicks as intent indicators. For ROI, distinguish qualified calls/enquiries, booked jobs and completed profitable repairs. Avoid counting a phone click and its completed call twice as primary leads.
 5. Confirm GA4 receipt and stream settings using Realtime/DebugView after consenting. Code tests do not prove account-side ingestion.
