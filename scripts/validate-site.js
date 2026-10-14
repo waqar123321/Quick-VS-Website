@@ -93,9 +93,21 @@ for(const service of services) {
 assert.equal(services.length,19);
 const reviews=JSON.parse(fs.readFileSync(path.join(root,"content/reviews.json"),"utf8")).reviews;
 assert.equal(reviews.length,5);
-for(const page of pages.filter(p=>p.pathname==="/"||/rebuild|testimonials/.test(p.pathname))) {
+for(const page of pages.filter(p=>p.pathname==="/"||p.pathname==="/testimonials/"||(p.pathname.startsWith("/services/")&&/rebuild/.test(p.pathname)))) {
   const business=[...page.text.matchAll(/<script type="application\/ld\+json">\s*([\s\S]*?)\s*<\/script>/g)].map(m=>JSON.parse(m[1])).find(s=>s["@type"]==="AutoRepair");
   assert.deepEqual(business.review.map(r=>r.reviewBody),reviews.map(r=>r.text),"Review text changed on "+page.pathname);
+}
+const guides=require("../content/guides");
+const advice=pages.find(p=>p.pathname==="/blog/").text;
+for(const guide of guides) {
+  const pathname="/blog/"+guide.slug+"/",page=pages.find(p=>p.pathname===pathname),link='href="'+pathname+'"';
+  assert.ok(page,"Missing guide "+pathname);
+  assert.ok(home.includes(link)&&advice.includes(link),"Guide missing from discovery hubs "+pathname);
+  const article=[...page.text.matchAll(/<script type="application\/ld\+json">\s*([\s\S]*?)\s*<\/script>/g)].map(m=>JSON.parse(m[1])).find(s=>s["@type"]==="Article");
+  assert.equal(article.headline,guide.title);assert.equal(article.mainEntityOfPage,origin+pathname);
+  assert.equal(article.author.name,"Quick Solution Vehicles LTD");assert.equal(article.datePublished,guide.published);
+  assert.ok(page.text.includes('datetime="'+guide.published+'"'),"Missing visible publication date");
+  for(const p of pages)assert.ok(p.text.match(/<footer\b[\s\S]*?<\/footer>/)?.[0].includes(link),"Guide absent from footer "+pathname);
 }
 assert.equal(fs.readFileSync(path.join(root,"robots.txt"),"utf8"),"User-agent: *\nAllow: /\n\nSitemap: https://quickvs.com/sitemap.xml\n");
 assert.ok(fs.existsSync(path.join(root,".nojekyll")));

@@ -44,3 +44,25 @@ Google does not grant LocalBusiness review-star eligibility to self-serving test
 ## Checks
 
 Build validation covers all 27 HTML files, 26 canonical sitemap URLs and 19 services, including metadata, schema, contact information and internal resources. Tracking tests cover consent, withdrawal, navigation and PII redaction. Browser checks cover every page at 393px and representative 320/375/430/768/1440px widths, including footer text geometry, Payment sizing, overflow, menu open/Escape, FAQs and cookie settings. Browser screenshots are also reviewed at the actual footer sections.
+
+## Contractor proposal supplied in screenshots
+
+The proposed scope includes 12 GBP updates, four product features with photographs/pricing, internal links, schema, technical/indexing work, citations/listings/profiles/classifieds/article submissions/competitor outreach/Quora, monitoring and two blog posts.
+
+Implemented two practical customer guides with Article schema, visible authorship/date, self-referencing canonicals, social metadata and sitemap entries. The guides are linked from the homepage, advice hub, related repair pages and every footer. Current validation covers 29 HTML files and 28 sitemap URLs. Added schema/discovery regression checks and browser-rendered the new guides at 320/393/1440px.
+
+Prepared 12 GBP Update post drafts in GBP_POSTS.md, each with a distinct UTM link and no invented offer, price or job. These have not been posted or scheduled. Four service features are proposed, but actual photographs, pricing/editor eligibility and profile access must be established before publishing. Services may be more appropriate than product entries for workshop repair offerings.
+
+Google says local ranking primarily reflects relevance, distance and prominence, and recommends complete information, correct hours, photos and reviews. That supports auditing the actual profile first. It does not establish that twelve posts per month improve rankings. Sterling Sky's firsthand nine-week test across three listings found no measurable ranking effect from posting; this is small-sample practitioner evidence, not a universal causal finding. Posts should be evaluated for customer engagement and useful enquiries.
+
+- https://support.google.com/business/answer/7091
+- https://support.google.com/business/answer/7342169
+- https://support.google.com/business/answer/9455399
+- https://www.sterlingsky.ca/do-google-posts-impact-ranking/
+- https://developers.google.com/search/docs/appearance/structured-data/article
+
+Prioritise accurate existing business listings and genuinely relevant local/automotive relationships over link volume. Google identifies automated links, low-quality directories and low-value content created for link manipulation as link spam. Classifieds, profiles, Quora answers and article submissions are not inherently high-quality backlinks; evaluate audience, relevance and genuine purpose individually. No submissions, paid links, profile edits or outreach messages have been made.
+
+- https://developers.google.com/search/docs/essentials/spam-policies
+
+Account-dependent work remains: GBP settings/publication, live GSC indexing examples and performance, GA4 account-side event receipt, and later Ads conversion setup. The old domain is inaccessible to the owner, so that migration limitation cannot be removed through website files.
