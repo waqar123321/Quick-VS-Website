@@ -3,6 +3,18 @@ const path = require("node:path");
 const assert = require("node:assert/strict");
 const root = path.resolve(__dirname, "..");
 const origin = "https://quickvs.com";
+function assertNoReviewMarkup(value, pathname) {
+  if (!value || typeof value !== "object") return;
+  const types = [].concat(value["@type"] || []);
+  assert.ok(!types.some(type => /^(?:https?:\/\/schema\.org\/)?(?:Review|Rating|AggregateRating)$/.test(type)), pathname+": ineligible self-serving review schema");
+  for (const [key, child] of Object.entries(value)) {
+    assert.ok(!["review", "reviews", "reviewRating", "aggregateRating"].includes(key), pathname+": ineligible review property "+key);
+    assertNoReviewMarkup(child, pathname);
+  }
+}
+function esc(value) {
+  return String(value).replace(/[&<>"']/g, char => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[char]));
+}
 function walk(dir) {
   return fs.readdirSync(dir, {withFileTypes:true}).flatMap(entry => {
     if (entry.name.startsWith(".") || ["node_modules","_internal"].includes(entry.name)) return [];
@@ -53,6 +65,7 @@ for(const page of pages) {
   }
   for(const match of text.matchAll(/<script type="application\/ld\+json">\s*([\s\S]*?)\s*<\/script>/g)) {
     const schema=JSON.parse(match[1]);
+    assertNoReviewMarkup(schema, pathname);
     if(schema["@type"]==="AutoRepair") {
       assert.equal(schema.name,"Quick Solution Vehicles LTD");
       assert.equal(schema.telephone,"+447522179040");
@@ -94,8 +107,11 @@ assert.equal(services.length,19);
 const reviews=JSON.parse(fs.readFileSync(path.join(root,"content/reviews.json"),"utf8")).reviews;
 assert.equal(reviews.length,5);
 for(const page of pages.filter(p=>p.pathname==="/"||p.pathname==="/testimonials/"||(p.pathname.startsWith("/services/")&&/rebuild/.test(p.pathname)))) {
-  const business=[...page.text.matchAll(/<script type="application\/ld\+json">\s*([\s\S]*?)\s*<\/script>/g)].map(m=>JSON.parse(m[1])).find(s=>s["@type"]==="AutoRepair");
-  assert.deepEqual(business.review.map(r=>r.reviewBody),reviews.map(r=>r.text),"Review text changed on "+page.pathname);
+  const cards=[...page.text.matchAll(/<figure class="review-card">([\s\S]*?)<\/figure>/g)].map(m=>m[1]);
+  assert.equal(cards.length,reviews.length,"Missing visible reviews on "+page.pathname);
+  for (const review of reviews) {
+    assert.ok(cards.some(card=>card.includes('<strong>'+esc(review.author)+'</strong>')&&card.includes('<blockquote><p>'+esc(review.text)+'</p></blockquote>')),"Visible review changed on "+page.pathname+": "+review.author);
+  }
 }
 const guides=require("../content/guides");
 const advice=pages.find(p=>p.pathname==="/blog/").text;

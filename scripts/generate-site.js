@@ -321,7 +321,7 @@ function writePage(pathname, content) {
   fs.writeFileSync(file, content, "utf8");
   sitePages.push(pathname);
 }
-function businessSchema(withReviews = false) {
+function businessSchema() {
   const schema = {
     "@context": "https://schema.org", "@type": "AutoRepair", "@id": urlFor("/#business"),
     name: business.legalName, legalName: business.legalName, url: urlFor("/"),
@@ -335,8 +335,6 @@ function businessSchema(withReviews = false) {
     areaServed: [...areas, "United Kingdom"],
     identifier: { "@type": "PropertyValue", propertyID: "Companies House", value: business.companiesHouse }
   };
-  if (withReviews) schema.review = reviews.map(r => ({ "@type": "Review", author: { "@type": "Person", name: r.author },
-    reviewBody: r.text, reviewRating: { "@type": "Rating", ratingValue: 5, bestRating: 5, worstRating: 1 } }));
   return schema;
 }
 function breadcrumbSchema(pathname, title) {
@@ -382,8 +380,8 @@ function footer() {
     '<div class="mobile-call-bar"><a data-contact-location="mobile_bar" href="tel:'+business.primaryTel+'"><span aria-hidden="true">📞 </span><span>Call Workshop: <span class="phone-number">'+business.primaryPhone+'</span></span></a><a data-contact-location="mobile_bar" class="mobile-whatsapp" href="'+whatsapp+'"><span aria-hidden="true">💬 </span>WhatsApp Reg &amp; Fault</a></div>' +
     '<section class="consent-panel" data-consent-panel hidden aria-labelledby="consent-title"><h2 id="consent-title">Optional analytics cookies</h2><p>Allow analytics to help us understand which pages and contact buttons are useful. You can reject these cookies and still use every workshop contact option. <a href="/privacy/">Privacy &amp; cookies</a></p><div class="consent-actions"><button type="button" data-consent="accept">Accept analytics</button><button type="button" data-consent="reject">Reject analytics</button></div></section>';
 }
-function layout({ title, description, pathname, body, faqs = [], service, withReviews = false, noindex = false, article }) {
-  const schemas = [businessSchema(withReviews), breadcrumbSchema(pathname, title)];
+function layout({ title, description, pathname, body, faqs = [], service, noindex = false, article }) {
+  const schemas = [businessSchema(), breadcrumbSchema(pathname, title)];
   if (faqs.length) schemas.push(faqSchema(faqs));
   if (service) schemas.push(serviceSchema(service));
   if (article) schemas.push({"@context":"https://schema.org","@type":"Article","@id":urlFor(pathname+"#article"),"headline":article.title,"description":article.description,"mainEntityOfPage":urlFor(pathname),"datePublished":article.published,"dateModified":article.updated,"author":{"@type":"Organization","name":business.legalName,"url":urlFor("/about/"),"logo":urlFor("/assets/qsv-logo.svg")},"publisher":{"@id":urlFor("/#business")}});
@@ -426,7 +424,7 @@ function renderService(service) {
   if(isRebuild||service.slug==="timing-chain-replacement") body+=guideCards();
   body+=cta();
   const pathname="/services/"+service.slug+"/";
-  writePage(pathname,layout({title:service.metaTitle||service.title+" | Quick Solution Vehicles",description:service.metaDescription||service.desc,pathname,body,faqs,service,withReviews:isRebuild}));
+  writePage(pathname,layout({title:service.metaTitle||service.title+" | Quick Solution Vehicles",description:service.metaDescription||service.desc,pathname,body,faqs,service}));
 }
 const homeFaqs = [
   ["Do you rebuild engines across all makes?","Yes. We handle petrol, diesel, performance and commercial van engine rebuild enquiries across all makes and engine ranges."],
@@ -444,7 +442,7 @@ function renderHome() {
     '<section class="section"><p class="section-kicker">General mechanical repairs</p><h2>Diagnostics, timing, brakes and more</h2>'+cards(generalServices)+'</section>'+
     reviewSection()+faqsHtml(homeFaqs)+
     '<section class="section local-seo"><p class="section-kicker">Areas we cover</p><h2>Sparkbrook workshop, wider Birmingham customers</h2><p>We support drivers across Birmingham, Solihull, Dudley, Walsall, Sandwell, Coventry, Wolverhampton and West Bromwich. For suitable non-running cars and engine work, recovery from further afield can be discussed at customer cost.</p><p>'+business.address+'</p><a class="text-link" href="'+maps+'">Find the workshop on Google Maps</a></section>'+cta();
-  writePage("/",layout({title:"Engine Rebuilds Birmingham | All Makes | QuickVS",description:"All-makes petrol, diesel, performance and van engine rebuilds plus mechanical repairs in Birmingham B11. Call 07522 179040 or WhatsApp your reg and fault.",pathname:"/",body:body+guideCards(),faqs:homeFaqs,withReviews:true}));
+  writePage("/",layout({title:"Engine Rebuilds Birmingham | All Makes | QuickVS",description:"All-makes petrol, diesel, performance and van engine rebuilds plus mechanical repairs in Birmingham B11. Call 07522 179040 or WhatsApp your reg and fault.",pathname:"/",body:body+guideCards(),faqs:homeFaqs}));
 }
 function renderServices() {
   const body=hero("Workshop services","Engine rebuilds and mechanical repairs in Birmingham.","Choose the page that matches your engine or symptoms, then call or WhatsApp the workshop to discuss assessment.")+
@@ -464,7 +462,7 @@ function renderAbout() {
   writePage("/about/",layout({title:"About Quick Solution Vehicles LTD | Sparkbrook Birmingham",description:"Quick Solution Vehicles LTD, Company No. 16525397. All-makes engine rebuilds and mechanical repairs at 56a Stratford Street North, Birmingham B11 1BP.",pathname:"/about/",body}));
 }
 function renderReviews() {
-  writePage("/testimonials/",layout({title:"Google Customer Reviews | Quick Solution Vehicles Birmingham",description:"Read customer feedback on SVR, Range Rover and MINI engine rebuilds and mechanical repairs at Quick Solution Vehicles in Birmingham.",pathname:"/testimonials/",withReviews:true,
+  writePage("/testimonials/",layout({title:"Google Customer Reviews | Quick Solution Vehicles Birmingham",description:"Read customer feedback on SVR, Range Rover and MINI engine rebuilds and mechanical repairs at Quick Solution Vehicles in Birmingham.",pathname:"/testimonials/",
     body:hero("Customer feedback","Google reviews from workshop customers","Read the customer reviews below and visit our Google profile for the current feedback.")+reviewSection()+cta()}));
 }
 function guideCards() { return '<section class="section section-muted"><h2>Plan your engine assessment</h2><div class="link-grid">'+guides.map(g=>'<a class="link-card" href="/blog/'+g.slug+'/">'+esc(g.title)+'</a>').join("")+'</div></section>'; }

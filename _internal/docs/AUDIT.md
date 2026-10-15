@@ -18,7 +18,7 @@
 - Ford variants separated rather than describing all EcoBoost engines as wet-belt units.
 - Company name, number, address, primary phone, new email, hours, Maps CID, coordinates, payment methods and rebuild terms aligned.
 - Jotform and BookMyGarage removed from every public page; enquiries use phone, WhatsApp or info@quickvs.com.
-- Five owner-supplied Google review texts reproduced verbatim on home, reviews and all rebuild pages; individual review schema without an invented aggregate rating or review count.
+- Five owner-supplied Google review texts reproduced verbatim on home, reviews and all rebuild pages. Testimonials remain visible without self-serving Review or AggregateRating markup, which is ineligible for Google's local-business review snippets. Business and service structured data remain in place.
 - Shared mobile call/WhatsApp bar, contact buttons near the top of each page and clear running-status guidance.
 - Existing GA4 G-GEJR9VMEYV retained. Google code loads only after analytics consent; withdrawal, expiry and blocked browser storage handled.
 - Phone, WhatsApp, email and directions clicks measured without vehicle/message text in event parameters.
