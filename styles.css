@@ -188,7 +188,7 @@ a {
   inset: 0;
   background:
     linear-gradient(90deg, rgba(5, 9, 15, 0.86), rgba(5, 9, 15, 0.46), rgba(5, 9, 15, 0.82)),
-    url("https://cdn.tagbox.io/assets/679926e59dc9490011086236/d0e23379-97e2-4982-a2de-b61b831ba496---ak-2.jpg") center / cover;
+    url("/assets/workshop/dismantled-engine-block-assessment-16x9.jpg") center / cover;
   transform: scale(1.02);
 }
 
@@ -503,7 +503,7 @@ h3 {
   color: #fff;
   background:
     linear-gradient(120deg, rgba(11, 17, 27, 0.96), rgba(21, 29, 42, 0.82)),
-    url("https://cdn.tagbox.io/assets/679926e59dc9490011086236/da18ca47-44e6-423e-9474-9ec075bdcb47---ak-1.jpg") center / cover;
+    url("/assets/workshop/mercedes-vito-engine-access-768.webp") center / cover;
 }
 
 .premium .section-kicker {
@@ -1203,5 +1203,21 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   * { transition: none !important; animation: none !important; }
+}
+
+/* Real workshop evidence: reserve portrait space and retain the full photograph. */
+.workshop-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 270px), 1fr)); gap: 24px; align-items: start; }
+.workshop-photo { margin: 0; max-width: 560px; min-width: 0; }
+.workshop-photo picture { display: block; background: #e9edf1; border-radius: 10px; overflow: hidden; }
+.workshop-photo img { display: block; width: 100%; height: auto; aspect-ratio: 3 / 4; object-fit: contain; }
+.workshop-photo figcaption { margin-top: 12px; color: #394350; font-size: 15px; line-height: 1.6; overflow-wrap: anywhere; }
+.workshop-evidence h2 { max-width: 850px; margin-bottom: 26px; font-size: clamp(26px, 3vw, 40px); }
+.workshop-evidence, #main-content { scroll-margin-top: 90px; }
+.detail-copy a { overflow-wrap: anywhere; }
+@media (max-width: 760px) {
+  .workshop-grid { grid-template-columns: 1fr; gap: 30px; }
+  .workshop-photo { max-width: 100%; }
+  .workshop-evidence { padding-top: 36px; padding-bottom: 36px; }
+  .workshop-photo figcaption { font-size: 14px; }
 }
 

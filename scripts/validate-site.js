@@ -34,6 +34,7 @@ const indexable=pages.filter(p=>p.pathname!=="/404.html");
 assert.equal(entries.length,indexable.length,"Sitemap must include every indexable page exactly once");
 assert.equal(new Set(entries.map(e=>e.url)).size,entries.length,"Duplicate sitemap URL");
 const titles=new Set(),descriptions=new Set();
+const photos=JSON.parse(fs.readFileSync(path.join(root,'content/workshop-photos.json'),'utf8'));
 for(const page of pages) {
   const {text,pathname}=page;
   assert.equal((text.match(/<h1\b/g)||[]).length,1,pathname+": expected one H1");
@@ -86,6 +87,19 @@ for(const page of pages) {
       assert.ok(targetText.includes('id="'+decodeURIComponent(u.hash.slice(1))+'"'),pathname+": missing anchor "+match[1]);
     }
   }
+  for(const match of text.matchAll(/srcset="([^"]+)"/g)) {
+    for(const candidate of match[1].split(',')) {
+      const [resource,width]=candidate.trim().split(/\s+/);
+      assert.match(width,/^\d+w$/,'Responsive image requires a width descriptor');
+      assert.ok(fs.existsSync(path.join(root,resource)),pathname+': missing srcset image '+resource);
+    }
+  }
+  for(const match of text.matchAll(/<img\b[^>]*>/g)) {
+    assert.match(match[0],/\bwidth="\d+"/,pathname+': image width must reserve space');
+    assert.match(match[0],/\bheight="\d+"/,pathname+': image height must reserve space');
+    assert.match(match[0],/\balt="[^"]+"/,pathname+': meaningful image alt required');
+    assert.ok(!/IMG_\d+|\.zip/i.test(match[0]),'Never publish an unprocessed original');
+  }
 }
 for(const entry of entries) {
   assert.match(entry.date,/^\d{4}-\d{2}-\d{2}$/);
@@ -122,9 +136,24 @@ for(const guide of guides) {
   const article=[...page.text.matchAll(/<script type="application\/ld\+json">\s*([\s\S]*?)\s*<\/script>/g)].map(m=>JSON.parse(m[1])).find(s=>s["@type"]==="Article");
   assert.equal(article.headline,guide.title);assert.equal(article.mainEntityOfPage,origin+pathname);
   assert.equal(article.author.name,"Quick Solution Vehicles LTD");assert.equal(article.datePublished,guide.published);
+  assert.equal(article.dateModified,guide.updated);
+  assert.equal(article.image.length,3,'Provide relevant Article images in three aspect ratios');
+  assert.ok(page.text.includes(photos[guide.photo].fallback),'Article image must represent visible page content');
+  for(const image of article.image) {
+    assert.ok(image.startsWith(origin+'/assets/workshop/'),'Article image must use a local reviewed derivative');
+    assert.ok(fs.existsSync(path.join(root,image.slice(origin.length))),'Article image must exist');
+  }
+  assert.ok(page.text.includes('property="og:type" content="article"'));
   assert.ok(page.text.includes('datetime="'+guide.published+'"'),"Missing visible publication date");
   for(const p of pages)assert.ok(p.text.match(/<footer\b[\s\S]*?<\/footer>/)?.[0].includes(link),"Guide absent from footer "+pathname);
 }
 assert.equal(fs.readFileSync(path.join(root,"robots.txt"),"utf8"),"User-agent: *\nAllow: /\n\nSitemap: https://quickvs.com/sitemap.xml\n");
 assert.ok(fs.existsSync(path.join(root,".nojekyll")));
+assert.equal(Object.keys(photos).length,9,'All supplied photos classified');
+for(const photo of Object.values(photos)) {
+  assert.ok(pages.some(p=>p.text.includes(photo.fallback)),'Photo has no visible placement: '+photo.source);
+  assert.ok(photo.variants.every(v=>v.bytes<photo.sourceBytes),'Responsive image should reduce bytes');
+}
+assert.ok(photos['5842'].redactions.length>=1,'X5 privacy review must be recorded');
+assert.ok(!walk(path.join(root,'assets')).some(f=>/IMG_\d+|\.zip$/i.test(f)),'Private originals must stay outside public assets');
 console.log("Validated "+pages.length+" HTML files, "+entries.length+" sitemap URLs, 19 service pages, metadata, schema, contact details and internal resources.");

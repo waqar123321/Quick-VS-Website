@@ -4,10 +4,9 @@ const path = require("path");
 const root = path.resolve(__dirname, "..");
 const today = new Date().toISOString().slice(0, 10);
 const siteUrl = "https://quickvs.com";
-const heroImage =
-  "https://cdn.tagbox.io/assets/679926e59dc9490011086236/d0e23379-97e2-4982-a2de-b61b831ba496---ak-2.jpg";
-const garageImage =
-  "https://cdn.tagbox.io/assets/679926e59dc9490011086236/da18ca47-44e6-423e-9474-9ec075bdcb47---ak-1.jpg";
+const photos = require("../content/workshop-photos.json");
+const serviceNavigation = require("../content/service-navigation");
+const heroImage = siteUrl + photos["5842"].fallback;
 
 const business = {
   legalName: "Quick Solution Vehicles LTD",
@@ -315,7 +314,7 @@ function urlFor(pathname) { return siteUrl + pathname; }
 function jsonLd(value) { return '<script type="application/ld+json">\n' + JSON.stringify(value, null, 2).replace(/</g, "\\u003c") + "\n</script>"; }
 function writePage(pathname, content) {
   const file = path.join(root, pathname.slice(1), "index.html");
-  const previous = fs.existsSync(file) ? fs.readFileSync(file, "utf8") : null;
+  const previous = fs.existsSync(file) ? fs.readFileSync(file, "utf8").replace(/\r\n/g, "\n") : null;
   if (previous !== content || !dates[pathname]) dates[pathname] = today;
   fs.mkdirSync(path.dirname(file), { recursive: true });
   fs.writeFileSync(file, content, "utf8");
@@ -384,22 +383,48 @@ function layout({ title, description, pathname, body, faqs = [], service, noinde
   const schemas = [businessSchema(), breadcrumbSchema(pathname, title)];
   if (faqs.length) schemas.push(faqSchema(faqs));
   if (service) schemas.push(serviceSchema(service));
-  if (article) schemas.push({"@context":"https://schema.org","@type":"Article","@id":urlFor(pathname+"#article"),"headline":article.title,"description":article.description,"mainEntityOfPage":urlFor(pathname),"datePublished":article.published,"dateModified":article.updated,"author":{"@type":"Organization","name":business.legalName,"url":urlFor("/about/"),"logo":urlFor("/assets/qsv-logo.svg")},"publisher":{"@id":urlFor("/#business")}});
+  const articleImages = article ? photos[article.photo].articleImages.map(urlFor) : [];
+  const socialImage = articleImages[0] || heroImage;
+  if (article) schemas.push({"@context":"https://schema.org","@type":"Article","@id":urlFor(pathname+"#article"),"image":articleImages,"headline":article.title,"description":article.description,"mainEntityOfPage":urlFor(pathname),"datePublished":article.published,"dateModified":article.updated,"author":{"@type":"Organization","name":business.legalName,"url":urlFor("/about/"),"logo":urlFor("/assets/qsv-logo.svg")},"publisher":{"@id":urlFor("/#business")}});
   return '<!doctype html>\n<html lang="en-GB">\n<head>\n<meta charset="utf-8">\n' + analyticsSnippet() +
     '\n<meta name="viewport" content="width=device-width, initial-scale=1">\n<title>'+esc(title)+'</title>\n<meta name="description" content="'+esc(description)+'">\n' +
     '<meta name="robots" content="'+(noindex?'noindex, follow':'index, follow, max-image-preview:large')+'">\n<meta name="theme-color" content="#111827">\n' +
-    '<link rel="canonical" href="'+urlFor(pathname)+'">\n<meta property="og:type" content="website">\n<meta property="og:title" content="'+esc(title)+'">\n<meta property="og:description" content="'+esc(description)+'">\n<meta property="og:url" content="'+urlFor(pathname)+'">\n<meta property="og:image" content="'+heroImage+'">\n' +
-    '<meta name="twitter:card" content="summary_large_image">\n<meta name="twitter:title" content="'+esc(title)+'">\n<meta name="twitter:description" content="'+esc(description)+'">\n<meta name="twitter:image" content="'+heroImage+'">\n<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" sizes="any">\n<link rel="stylesheet" href="/styles.css?v=20261014-2">\n<script defer src="/script.js"></script>\n' +
+    '<link rel="canonical" href="'+urlFor(pathname)+'">\n<meta property="og:type" content="'+(article?"article":"website")+'">\n<meta property="og:title" content="'+esc(title)+'">\n<meta property="og:description" content="'+esc(description)+'">\n<meta property="og:url" content="'+urlFor(pathname)+'">\n<meta property="og:image" content="'+socialImage+'">\n<meta property="og:image:alt" content="'+esc(article?photos[article.photo].alt:photos['5842'].alt)+'">\n' +
+    '<meta name="twitter:card" content="summary_large_image">\n<meta name="twitter:title" content="'+esc(title)+'">\n<meta name="twitter:description" content="'+esc(description)+'">\n<meta name="twitter:image" content="'+socialImage+'">\n<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" sizes="any">\n<link rel="stylesheet" href="/styles.css?v=20261020-1">\n<script defer src="/script.js?v=20261020-1"></script>\n' +
     schemas.map(jsonLd).join("\n")+'\n</head>\n<body>\n'+header(pathname)+'\n<main id="main-content">'+body+'</main>\n'+footer()+'\n</body>\n</html>\n';
 }
 function hero(kicker, title, copy) { return '<section class="page-hero"><div class="page-hero-content"><p class="eyebrow">'+esc(kicker)+'</p><h1>'+esc(title)+'</h1><p class="page-hero-copy">'+esc(copy)+'</p>'+contactButtons("hero")+'<p class="hero-reassurance">Mon–Sat 10:00–18:00 · Sparkbrook, Birmingham B11 · Tell us whether your vehicle runs</p></div></section>'; }
 function cta() { return '<section class="section cta-band"><div><p class="section-kicker">Speak to the workshop</p><h2>Send your reg and tell us what happened.</h2><p>Include the make/model, mileage, fault symptoms and whether it runs. For a non-runner needing recovery, contact us before arranging delivery.</p><p>Chain rattle · Knocking · Non-start · Oil warning · Overheating</p></div><div class="cta-actions">'+contactButtons("cta")+'<a href="mailto:'+business.email+'">Email '+business.email+'</a></div></section>'; }
-function sections(items) { return items.map(([title,copy],i)=>'<section class="section service-detail '+(i%2?'section-muted':'')+'"><h2>'+esc(title)+'</h2><div class="detail-copy">'+copy.split("\n\n").map(p=>'<p>'+esc(p)+'</p>').join("")+'</div></section>').join(""); }
+function inlineCopy(copy) {
+  const pattern = /\[([^\]]+)\]\((\/[^\s)]+)\)/g;
+  let html = '', cursor = 0;
+  for (const match of copy.matchAll(pattern)) {
+    if (match[2].startsWith('//')) throw new Error('External inline link');
+    html += esc(copy.slice(cursor, match.index)) + '<a href="'+esc(match[2])+'">'+esc(match[1])+'</a>';
+    cursor = match.index + match[0].length;
+  }
+  return html + esc(copy.slice(cursor));
+}
+function photoFigure(id, eager=false) {
+  const p=photos[id];
+  return '<figure class="workshop-photo"><picture><source type="image/webp" srcset="'+p.variants.map(v=>v.path+' '+v.width+'w').join(', ')+'" sizes="(max-width: 760px) calc(100vw - 36px), (max-width: 1100px) 45vw, 520px"><img src="'+p.fallback+'" width="'+p.width+'" height="'+p.height+'" alt="'+esc(p.alt)+'" loading="'+(eager?'eager':'lazy')+'" decoding="async"'+(eager?' fetchpriority="high"':'')+'></picture><figcaption>'+esc(p.caption)+'</figcaption></figure>';
+}
+function workshopGallery(ids, heading='Inside our Birmingham workshop') {
+  return '<section class="section workshop-evidence"><p class="section-kicker">Genuine workshop photographs</p><h2>'+esc(heading)+'</h2><div class="workshop-grid">'+ids.map(id=>photoFigure(id)).join('')+'</div></section>';
+}
+const servicePhotos = {
+  'engine-rebuilds':['5843','5844','5851'],
+  'engine-rebuild-birmingham':['5842','5850'],
+  'all-makes-engine-rebuilds':['5849','5850'],
+  'performance-engine-rebuilds':['5842'],
+  'engine-diagnostics':['5846','5847','5851']
+};
+function sections(items) { return items.map(([title,copy],i)=>'<section class="section service-detail '+(i%2?'section-muted':'')+'"><h2>'+esc(title)+'</h2><div class="detail-copy">'+copy.split("\n\n").map(p=>'<p>'+inlineCopy(p)+'</p>').join("")+'</div></section>').join(""); }
 function faqsHtml(items) { return items.length?'<section class="section"><p class="section-kicker">Workshop FAQs</p><h2>Before you book</h2><div class="faq-list">'+items.map(([q,a])=>'<details><summary>'+esc(q)+'</summary><p>'+esc(a)+'</p></details>').join("")+'</div></section>':""; }
 function reviewSection() { return '<section class="section section-muted"><div class="section-heading"><div><p class="section-kicker">Customer feedback</p><h2>Five-star Google reviews</h2></div><a class="text-link" href="'+maps+'">View Google profile</a></div><div class="review-grid">'+reviews.map(r=>'<figure class="review-card"><figcaption><strong>'+esc(r.author)+'</strong><span class="review-stars" aria-label="5 out of 5 stars">★★★★★</span></figcaption><blockquote><p>'+esc(r.text)+'</p></blockquote></figure>').join("")+'</div></section>'; }
 function cards(list) { return '<div class="service-grid">'+list.map(s=>'<article class="service-card"><a href="/services/'+s.slug+'/"><span class="service-icon">Workshop service</span><h3>'+esc(s.title)+'</h3><p>'+esc(s.short||s.desc)+'</p></a></article>').join("")+'</div>'; }
 function related(service) {
-  const urls = [...new Set([...(service.related||[]), "/services/all-makes-engine-rebuilds/", "/services/performance-engine-rebuilds/"])].filter(u=>u!=="/services/"+service.slug+"/");
+  const urls = [...new Set(service.related||[])].filter(u=>u!=="/services/"+service.slug+"/");
   return '<section class="section section-muted"><p class="section-kicker">Related workshop services</p><h2>Choose the right repair route</h2><div class="link-grid">'+urls.map(u=>{
     const match=allServices.find(s=>u==="/services/"+s.slug+"/");
     return '<a class="link-card" href="'+u+'">'+esc(match?match.title:"Contact the workshop")+'</a>';
@@ -416,12 +441,14 @@ function renderService(service) {
   if(service.heroIntro) body+=sections([["Discuss your engine rebuild",service.opening]]);
   if(service.points) body+='<section class="section intro-grid"><div><h2>'+esc(service.short)+'</h2></div><div class="intro-copy"><p>'+esc(service.desc)+'</p><ul class="check-list">'+service.points.map(p=>'<li>'+esc(p)+'</li>').join("")+'</ul></div></section>';
   body+=sections(items);
+  body+=sections(serviceNavigation[service.slug]||[]);
+  if(servicePhotos[service.slug]) body+=workshopGallery(servicePhotos[service.slug]);
   if(isRebuild) body+='<section class="section service-detail"><h2>Diagnosis and timing repair options</h2><div class="detail-copy"><p>When the extent of damage is unclear, start with <a href="/services/engine-diagnostics/">engine diagnostics and mechanical fault finding</a> before agreeing strip-down work. For chain-driven engines with viable repair options, read about <a href="/services/timing-chain-replacement/">timing chain assessment and replacement</a>. A timing repair and a full rebuild require different scopes; the fitted engine and inspection findings determine the route.</p></div></section>';
   if(service.symptoms) body+='<section class="section section-muted"><p class="section-kicker">Symptoms to report</p><h2>What has changed?</h2><ul class="check-list">'+service.symptoms.map(s=>'<li>'+esc(s)+'</li>').join("")+'</ul><p>Describe when the symptom started, whether warning lights appeared and whether the engine still runs.</p></section>';
   if(service.process) body+='<section class="section"><h2>From assessment to handover</h2><ol class="number-list">'+service.process.map(s=>'<li>'+esc(s)+'</li>').join("")+'</ol><p>'+esc(service.parts)+'</p></section>';
   if(isRebuild) body+='<section class="section assurance-strip"><p><strong>Warranty:</strong> '+business.warranty+'. <strong>Typical turnaround:</strong> '+business.timeframe+'.</p><p>Costs are confirmed after inspection and agreement of the repair scope. Recovery for suitable engine work can be arranged at customer cost.</p></section>'+reviewSection();
   body+=faqsHtml(faqs)+related(service);
-  if(isRebuild||service.slug==="timing-chain-replacement") body+=guideCards();
+  if(isRebuild||service.slug==="timing-chain-replacement") body+=guideCards(service.slug);
   body+=cta();
   const pathname="/services/"+service.slug+"/";
   writePage(pathname,layout({title:service.metaTitle||service.title+" | Quick Solution Vehicles",description:service.metaDescription||service.desc,pathname,body,faqs,service}));
@@ -434,15 +461,16 @@ const homeFaqs = [
   ["What warranty is included?","Engine rebuilds include 3 months or 10,000 miles on parts and labour."]
 ];
 function renderHome() {
-  const body=hero("Engine rebuilds · General mechanical repairs","All-makes engine rebuilds in Birmingham.","Petrol, diesel, performance cars and commercial vans. Quick Solution Vehicles LTD assesses engine failures and handles general mechanical repairs at our Sparkbrook workshop. Call for advice or WhatsApp your registration, symptoms and running status.")+
+  const body=hero("Engine rebuilds · General mechanical repairs","Engine rebuilds and mechanical repairs in Birmingham.","Petrol, diesel, performance cars and commercial vans. Quick Solution Vehicles LTD assesses engine failures and handles general mechanical repairs at our Sparkbrook workshop. Call for advice or WhatsApp your registration, symptoms and running status.")+
     '<section class="trust-strip" aria-label="Workshop details"><span>3 months or 10,000 miles rebuild warranty</span><span>Typical rebuild turnaround 1–3 weeks</span><span>Monday–Saturday 10:00–18:00</span></section>'+
+    workshopGallery(['5842','5849','5847'])+
     '<section class="section"><p class="section-kicker">Engine repair enquiries</p><h2>Everyday engines, commercial vans and performance cars</h2>'+cards(landingPages)+'</section>'+
     sections([["JLR Ingenium timing chain, balance shaft, turbo & oil dilution faults","The 2.0 AJ200D diesel and AJ200P petrol use timing chains. We identify the engine and assess timing, lubrication and associated damage before agreeing a repair route. Our JLR and Range Rover pages explain the relevant engine coverage."],["Wet Belt Replacement & Engine Recovery","We assess wet-belt-equipped Ford 1.0 EcoBoost, Ford 2.0 EcoBlue Transit/Transit Custom and relevant Ranger engines, and earlier Peugeot/Citroën/Vauxhall 1.2 PureTech engines. Ford 1.5 EcoBoost enquiries are welcome too, with the actual timing design confirmed first. Oil warnings, belt debris, knocking or timing failure may require internal assessment as well as belt replacement."]])+
     '<section class="section section-muted"><p class="section-kicker">Specialist engine work</p><h2>Explore your engine repair options</h2>'+cards(specialistServices)+'</section>'+
     '<section class="section"><p class="section-kicker">General mechanical repairs</p><h2>Diagnostics, timing, brakes and more</h2>'+cards(generalServices)+'</section>'+
     reviewSection()+faqsHtml(homeFaqs)+
     '<section class="section local-seo"><p class="section-kicker">Areas we cover</p><h2>Sparkbrook workshop, wider Birmingham customers</h2><p>We support drivers across Birmingham, Solihull, Dudley, Walsall, Sandwell, Coventry, Wolverhampton and West Bromwich. For suitable non-running cars and engine work, recovery from further afield can be discussed at customer cost.</p><p>'+business.address+'</p><a class="text-link" href="'+maps+'">Find the workshop on Google Maps</a></section>'+cta();
-  writePage("/",layout({title:"Engine Rebuilds Birmingham | All Makes | QuickVS",description:"All-makes petrol, diesel, performance and van engine rebuilds plus mechanical repairs in Birmingham B11. Call 07522 179040 or WhatsApp your reg and fault.",pathname:"/",body:body+guideCards(),faqs:homeFaqs}));
+  writePage("/",layout({title:"Quick Solution Vehicles | Birmingham Engine & Mechanical Repairs",description:"All-makes petrol, diesel, performance and van engine rebuilds plus mechanical repairs in Birmingham B11. Call 07522 179040 or WhatsApp your reg and fault.",pathname:"/",body:body+guideCards(),faqs:homeFaqs}));
 }
 function renderServices() {
   const body=hero("Workshop services","Engine rebuilds and mechanical repairs in Birmingham.","Choose the page that matches your engine or symptoms, then call or WhatsApp the workshop to discuss assessment.")+
@@ -465,10 +493,14 @@ function renderReviews() {
   writePage("/testimonials/",layout({title:"Google Customer Reviews | Quick Solution Vehicles Birmingham",description:"Read customer feedback on SVR, Range Rover and MINI engine rebuilds and mechanical repairs at Quick Solution Vehicles in Birmingham.",pathname:"/testimonials/",
     body:hero("Customer feedback","Google reviews from workshop customers","Read the customer reviews below and visit our Google profile for the current feedback.")+reviewSection()+cta()}));
 }
-function guideCards() { return '<section class="section section-muted"><h2>Plan your engine assessment</h2><div class="link-grid">'+guides.map(g=>'<a class="link-card" href="/blog/'+g.slug+'/">'+esc(g.title)+'</a>').join("")+'</div></section>'; }
+function guideCards(serviceSlug) {
+  const selected=serviceSlug ? guides.filter(g=>g.services.includes(serviceSlug)) : guides;
+  if(!selected.length) return '';
+  return '<section class="section section-muted"><h2>Plan your engine assessment</h2><div class="link-grid">'+selected.map(g=>'<a class="link-card" href="/blog/'+g.slug+'/">'+esc(g.title)+'</a>').join('')+'</div></section>';
+}
 function renderGuide(article) {
   const pathname="/blog/"+article.slug+"/";
-  const body='<nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">Home</a> / <a href="/blog/">Repair advice</a> / <span aria-current="page">'+esc(article.title)+'</span></nav>'+hero("Workshop guide",article.title,article.intro)+'<section class="section"><p>By Quick Solution Vehicles LTD · Published <time datetime="'+article.published+'">14 October 2026</time></p></section>'+sections(article.sections)+'<section class="section section-muted"><h2>Related repair services</h2>'+cards(allServices.filter(s=>article.services.includes(s.slug)))+'</section>'+guideCards()+cta();
+  const body='<nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">Home</a> / <a href="/blog/">Repair advice</a> / <span aria-current="page">'+esc(article.title)+'</span></nav>'+hero("Workshop guide",article.title,article.intro)+'<section class="section"><p>By Quick Solution Vehicles LTD · Published <time datetime="'+article.published+'">'+new Intl.DateTimeFormat('en-GB',{day:'numeric',month:'long',year:'numeric',timeZone:'UTC'}).format(new Date(article.published+'T12:00:00Z'))+'</time></p></section>'+workshopGallery(article.photos||[article.photo],article.photoHeading||'Workshop inspection in pictures')+sections(article.sections)+'<section class="section section-muted"><h2>Related repair services</h2>'+cards(allServices.filter(s=>article.services.includes(s.slug)))+'</section>'+guideCards()+cta();
   writePage(pathname,layout({title:article.metaTitle,description:article.description,pathname,body,article}));
 }
 function renderAdvice() {
