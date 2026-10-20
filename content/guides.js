@@ -94,9 +94,9 @@ module.exports = [
   },
   {
     "slug": "severe-engine-block-damage",
-    "title": "Severe engine block damage: inspection and repair considerations",
-    "metaTitle": "Severe Engine Block Damage: Repair or Replace? | QuickVS",
-    "description": "Genuine workshop photographs show severe engine block damage. Learn what inspection must establish before choosing repair, rebuilding or replacement.",
+    "title": "BMW X5 M engine failure: severe block damage found on strip-down",
+    "metaTitle": "BMW X5 M Engine Failure & Block Damage | QuickVS Birmingham",
+    "description": "A BMW X5 M arrived at our Birmingham workshop with a dead engine. See the major block damage we found during strip-down and why the customer chose a replacement.",
     "published": "2026-10-20",
     "updated": "2026-10-20",
     "photo": "5844",
@@ -105,8 +105,8 @@ module.exports = [
       "5845",
       "5843"
     ],
-    "photoHeading": "Inspecting severe block damage",
-    "intro": "Visible damage to an engine block changes the rebuild conversation. These workshop photographs show why the main casting must be assessed before parts, machining or a replacement engine are agreed.",
+    "photoHeading": "BMW X5 M: damage uncovered during strip-down",
+    "intro": "This BMW X5 M arrived at our Sparkbrook workshop as a non-runner. During strip-down, we discovered serious damage to the engine block, including a large hole through the casting. After seeing the extent of the damage, the customer chose a replacement engine rather than rebuilding the damaged unit. Here is what we found, what it means and how we approach failures like this.",
     "services": [
       "engine-rebuilds",
       "engine-rebuild-birmingham",
@@ -115,28 +115,28 @@ module.exports = [
     ],
     "sections": [
       [
-        "What these photographs establish",
-        "The owner supplied these photographs as part of a BMW X5 M workshop photo set. They show a dismantled block, broken metal and damaged internal surfaces. They do not establish the engine code, the original cause of failure, the full extent of damage or a completed repair. No successful rebuild is claimed for this engine. The useful lesson is how visible casting damage affects the questions to ask before authorising work."
+        "A BMW X5 M arrived with a dead engine",
+        "The X5 M came into our Birmingham workshop with an engine that was no longer running. We began stripping it down to see what had happened inside. With a major engine failure, the first decision is whether the original unit offers a sensible starting point for a repair or whether a replacement is the better option. In this case, the strip-down gave us a clear reason to consider another engine."
       ],
       [
-        "Why a photograph cannot decide whether to rebuild",
-        "A photograph records the surfaces visible from one angle. It does not measure bore condition, deck flatness, bearing housing alignment or the condition of oil and coolant passages. Cracks can extend beyond the visible area. Inspection and appropriate measurements against the specification for the identified engine are needed. Cleaning, dismantling and suitable specialist testing may be necessary before a damaged casting can be assessed properly. A visible hole is serious, but it is not evidence of one specific original failure mechanism."
+        "The engine block damage was extensive",
+        "With the engine opened up, we found broken casting material, a large opening in the block and serious damage around the internal surfaces. You can see the broken metal in the close-up photographs taken at the workshop. This goes far beyond replacing a gasket or timing component: the block itself forms the structure the rotating assembly depends on. A rebuild only makes sense if that foundation is serviceable."
       ],
       [
-        "The block is only part of the assessment",
-        "The crankshaft, connecting rods, pistons, cylinder head and timing components may need separate examination, depending on the damage. If debris or contamination has circulated, the repair plan should consider affected lubrication passages and connected components. Ask what has actually been checked, what remains inaccessible and which components are proposed for reuse. The inspection should also investigate the original fault where possible; renewing damaged parts alone does not demonstrate that the underlying cause has been addressed."
+        "The customer decided on a replacement engine",
+        "We discussed the available routes and the customer opted to replace the engine. With damage this extensive, sourcing the correct replacement was a more practical direction than trying to rebuild the heavily damaged original block. The next consideration is getting the correct specification for the vehicle and agreeing the full fitting scope, not simply buying the first engine advertised as an X5 M unit."
       ],
       [
-        "When replacement may be more appropriate",
-        "A rebuild requires a serviceable foundation. Extensive casting damage, cracks, distorted housings, unavailable parts or a repair cost out of proportion to the vehicle can make replacement more sensible. A proposed casting repair needs engine-specific specialist assessment; welding or machining should not be promised from photographs. Compare the complete rebuild proposal with a replacement of the correct specification, including its condition, history, installation requirements and written terms. Neither a used engine nor a rebuild is automatically the better choice."
+        "What can cause damage on this scale?",
+        "Major block damage can follow a serious internal mechanical failure. Oil starvation, bearing damage, a failed connecting rod or extreme overheating are among the possibilities a workshop may investigate. We would not name one of those as the cause of this X5 M's failure without supporting inspection findings. The important point is to look beyond the visible hole: understanding what happened can prevent the same underlying problem affecting a replacement."
       ],
       [
-        "Compare the complete cost and scope",
-        "Ask whether each option includes removal and refitting, inspection, required machining, agreed components, fluids, associated damage and checks before handover. Clarify tax, recovery, any further diagnostic authorisation and how additional findings will be handled. The price of an advertised replacement engine is not the same as the total fitted cost. Our [assessment and quote guide](/blog/engine-rebuild-assessment-and-quote/) provides a checklist, while the [engine rebuild process page](/services/engine-rebuilds/) explains the broader repair stages."
+        "What matters when fitting a replacement engine?",
+        "The engine code, exact application and the condition of the replacement unit all matter. So do components connected to the original failure. Depending on what went wrong, the job may involve inspecting the lubrication and cooling systems, checking associated components and deciding what can safely be transferred from the original engine. A proper quote should explain the supplied engine, installation work, necessary fluids and checks, and the warranty terms. This is why comparing engine prices alone can be misleading."
       ],
       [
-        "What to do if your engine has stopped",
-        "Stop safely and avoid repeated attempts to start an engine with heavy knocking, a serious oil-pressure warning or suspected major internal damage. Send the registration, engine details if known, mileage, running status and the sequence of events. Existing photographs and a diagnostic report can help the first discussion, but they do not replace inspection. Contact our [Sparkbrook engine rebuild workshop](/services/engine-rebuild-birmingham/) before arranging delivery or recovery. We can discuss the assessment route without assuming that a full rebuild is required."
+        "Engine failure? Speak to the workshop before spending thousands",
+        "A non-runner, heavy knocking or severe oil-pressure warning can mean anything from a repairable fault to major internal damage. We handle performance engine failure enquiries as well as everyday petrol and diesel rebuilds in Birmingham. Read more about our [performance engine repair options](/services/performance-engine-rebuilds/), see our [engine rebuild and replacement process](/services/engine-rebuilds/), or [contact our Sparkbrook workshop](/services/engine-rebuild-birmingham/) with your registration, symptoms and running status. We can discuss the best next step before further money is committed."
       ]
     ]
   }
