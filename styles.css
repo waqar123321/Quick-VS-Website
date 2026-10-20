@@ -1087,6 +1087,7 @@ textarea:focus {
   .premium {
     padding-top: 64px;
     padding-bottom: 64px;
+    padding-inline: 18px;
   }
 
   .section-heading {
