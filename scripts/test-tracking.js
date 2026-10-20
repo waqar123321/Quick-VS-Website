@@ -1,7 +1,7 @@
 const fs=require("node:fs"),path=require("node:path"),vm=require("node:vm"),assert=require("node:assert/strict");
 const source=fs.readFileSync(path.join(__dirname,"../script.js"),"utf8");
 const head=fs.readFileSync(path.join(__dirname,"../index.html"),"utf8").match(/<script>([\s\S]*?)<\/script>/)[1];
-function fixture(stored=null,storageThrows=false) {
+function fixture(stored=null,storageThrows=false,pageUrl="https://quickvs.com/services/performance-engine-rebuilds/?reg=private") {
   const listeners={},buttons={},scripts=[],events=[],cookies=[],storage=new Map();
   if(stored)storage.set("qsv-analytics-consent-v1",JSON.stringify(stored));
   const accept={dataset:{consent:"accept"},addEventListener(name,fn){this.click=fn},focus(){}};
@@ -19,7 +19,7 @@ function fixture(stored=null,storageThrows=false) {
     addEventListener(name,fn){(listeners[name]||=[]).push(fn)}
   };
   Object.defineProperty(document,"cookie",{get(){return "_ga=old; _ga_GEJR9VMEYV=old; unrelated=keep"},set(value){cookies.push(value)}});
-  const context={document,location:{href:"https://quickvs.com/services/performance-engine-rebuilds/?reg=private",hostname:"quickvs.com",pathname:"/services/performance-engine-rebuilds/"},URL,Date,encodeURIComponent,localStorage:{getItem(k){if(storageThrows)throw Error("disabled");return storage.get(k)||null},setItem(k,v){if(storageThrows)throw Error("disabled");storage.set(k,v)}}};
+  const context={document,location:{href:pageUrl,hostname:"quickvs.com",pathname:new URL(pageUrl).pathname},URL,Date,encodeURIComponent,localStorage:{getItem(k){if(storageThrows)throw Error("disabled");return storage.get(k)||null},setItem(k,v){if(storageThrows)throw Error("disabled");storage.set(k,v)}}};
   context.window=context;vm.createContext(context);vm.runInContext(head,context);vm.runInContext(source,context);
   function click(href,where="hero",prevented=false){
     const anchor={dataset:{contactLocation:where},getAttribute(){return href}};
@@ -58,4 +58,13 @@ f=fixture({analytics:false,expiresAt:Date.now()+100000});assert.equal(f.scripts.
 f=fixture({analytics:true,expiresAt:Date.now()+100000});assert.equal(f.scripts.length,1);assert.equal(f.panel.hidden,true);
 f=fixture({analytics:true,expiresAt:0});assert.equal(f.scripts.length,0);assert.equal(f.panel.hidden,false);
 f=fixture(null,true);f.reject.click();assert.equal(f.scripts.length,0,"Blocked storage must not break rejection");
+f=fixture(null,false,"https://quickvs.com/blog/severe-engine-block-damage/?utm_source=google&utm_medium=organic&utm_campaign=gbp_workshop&utm_content=block_assessment&reg=private");
+f.accept.click();
+let campaign=f.context.dataLayer.find(x=>x[0]==="config")[2];
+assert.equal(campaign.campaign_source,"google");assert.equal(campaign.campaign_medium,"organic");
+assert.equal(campaign.campaign_name,"gbp_workshop");assert.equal(campaign.campaign_content,"block_assessment");
+assert.ok(!JSON.stringify(campaign).includes("private"),"Known campaign labels must not expose other query values");
+f=fixture(null,false,"https://quickvs.com/?utm_source=google&utm_medium=organic&utm_campaign=gbp_workshop&utm_content=private");
+f.accept.click();campaign=f.context.dataLayer.find(x=>x[0]==="config")[2];
+assert.equal(campaign.campaign_content,undefined,"Unknown campaign text must not enter Analytics");
 console.log("Tracking tests passed: consent, withdrawal, real ID, click channels, navigation, PII redaction and expired/blocked storage.");

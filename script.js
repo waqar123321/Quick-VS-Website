@@ -26,6 +26,16 @@
   function safePageUrl(value) {
     try { const url = new URL(value); return url.origin + url.pathname; } catch (_) { return ""; }
   }
+  function workshopCampaign() {
+    // Retain only the fixed, non-personal labels used by our GBP post links.
+    // Arbitrary query strings, registration numbers and messages remain excluded.
+    const query = new URL(location.href).searchParams;
+    const content = query.get("utm_content");
+    if (query.get("utm_source") !== "google" || query.get("utm_medium") !== "organic" ||
+        query.get("utm_campaign") !== "gbp_workshop" ||
+        !["block_assessment", "vito_workshop", "top_end_inspection", "rebuild_quote"].includes(content)) return {};
+    return {campaign_source: "google", campaign_medium: "organic", campaign_name: "gbp_workshop", campaign_content: content};
+  }
   function clearAnalyticsCookies() {
     const hostname = location.hostname;
     const domains = ["", hostname, "." + hostname];
@@ -58,7 +68,8 @@
       allow_google_signals: false,
       allow_ad_personalization_signals: false,
       page_location: safePageUrl(location.href),
-      page_referrer: safePageUrl(document.referrer)
+      page_referrer: safePageUrl(document.referrer),
+      ...workshopCampaign()
     });
   }
   function saveChoice(allow) {
