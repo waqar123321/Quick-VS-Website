@@ -1,0 +1,308 @@
+{
+  "5842": {
+    "source": "IMG_5842.jpeg",
+    "slug": "bmw-x5-m-workshop-lift",
+    "alt": "BMW X5 M raised on a workshop lift with dismantled components below",
+    "caption": "BMW X5 M raised for workshop access in Sparkbrook.",
+    "width": 1152,
+    "height": 1536,
+    "fallback": "/assets/workshop/bmw-x5-m-workshop-lift.jpg",
+    "variants": [
+      {
+        "path": "/assets/workshop/bmw-x5-m-workshop-lift-480.webp",
+        "width": 480,
+        "height": 640,
+        "bytes": 49870
+      },
+      {
+        "path": "/assets/workshop/bmw-x5-m-workshop-lift-768.webp",
+        "width": 768,
+        "height": 1024,
+        "bytes": 103040
+      },
+      {
+        "path": "/assets/workshop/bmw-x5-m-workshop-lift-1152.webp",
+        "width": 1152,
+        "height": 1536,
+        "bytes": 185048
+      }
+    ],
+    "redactions": [
+      "Plate: irreversible opaque polygon before resizing",
+      "Background face: irreversible opaque mask before resizing"
+    ],
+    "sourceBytes": 628224,
+    "fallbackBytes": 296324
+  },
+  "5843": {
+    "source": "IMG_5843.jpeg",
+    "slug": "dismantled-engine-block-assessment",
+    "alt": "Dismantled engine block and removed mechanical components on a workshop bench",
+    "caption": "Dismantled engine block and components in our Birmingham workshop.",
+    "width": 1152,
+    "height": 1536,
+    "fallback": "/assets/workshop/dismantled-engine-block-assessment.jpg",
+    "variants": [
+      {
+        "path": "/assets/workshop/dismantled-engine-block-assessment-480.webp",
+        "width": 480,
+        "height": 640,
+        "bytes": 57594
+      },
+      {
+        "path": "/assets/workshop/dismantled-engine-block-assessment-768.webp",
+        "width": 768,
+        "height": 1024,
+        "bytes": 115330
+      },
+      {
+        "path": "/assets/workshop/dismantled-engine-block-assessment-1152.webp",
+        "width": 1152,
+        "height": 1536,
+        "bytes": 200018
+      }
+    ],
+    "redactions": [],
+    "sourceBytes": 675750,
+    "fallbackBytes": 316465,
+    "articleImages": [
+      "/assets/workshop/dismantled-engine-block-assessment-16x9.jpg",
+      "/assets/workshop/dismantled-engine-block-assessment-4x3.jpg",
+      "/assets/workshop/dismantled-engine-block-assessment-1x1.jpg"
+    ]
+  },
+  "5844": {
+    "source": "IMG_5844.jpeg",
+    "slug": "severe-engine-block-casting-damage",
+    "alt": "Close view of broken metal and an opening in an engine block casting",
+    "caption": "Visible casting damage in a dismantled engine block.",
+    "width": 1152,
+    "height": 1536,
+    "fallback": "/assets/workshop/severe-engine-block-casting-damage.jpg",
+    "variants": [
+      {
+        "path": "/assets/workshop/severe-engine-block-casting-damage-480.webp",
+        "width": 480,
+        "height": 640,
+        "bytes": 59468
+      },
+      {
+        "path": "/assets/workshop/severe-engine-block-casting-damage-768.webp",
+        "width": 768,
+        "height": 1024,
+        "bytes": 119938
+      },
+      {
+        "path": "/assets/workshop/severe-engine-block-casting-damage-1152.webp",
+        "width": 1152,
+        "height": 1536,
+        "bytes": 211190
+      }
+    ],
+    "redactions": [],
+    "sourceBytes": 693285,
+    "fallbackBytes": 320219,
+    "articleImages": [
+      "/assets/workshop/severe-engine-block-casting-damage-16x9.jpg",
+      "/assets/workshop/severe-engine-block-casting-damage-4x3.jpg",
+      "/assets/workshop/severe-engine-block-casting-damage-1x1.jpg"
+    ]
+  },
+  "5845": {
+    "source": "IMG_5845.jpeg",
+    "slug": "damaged-engine-block-internal-surfaces",
+    "alt": "Damaged internal metal surfaces and cylinder openings in a dismantled engine block",
+    "caption": "A second view of damaged internal surfaces. Inspection and measurements determine which parts can be retained.",
+    "width": 1152,
+    "height": 1536,
+    "fallback": "/assets/workshop/damaged-engine-block-internal-surfaces.jpg",
+    "variants": [
+      {
+        "path": "/assets/workshop/damaged-engine-block-internal-surfaces-480.webp",
+        "width": 480,
+        "height": 640,
+        "bytes": 59410
+      },
+      {
+        "path": "/assets/workshop/damaged-engine-block-internal-surfaces-768.webp",
+        "width": 768,
+        "height": 1024,
+        "bytes": 122006
+      },
+      {
+        "path": "/assets/workshop/damaged-engine-block-internal-surfaces-1152.webp",
+        "width": 1152,
+        "height": 1536,
+        "bytes": 218884
+      }
+    ],
+    "redactions": [],
+    "sourceBytes": 713636,
+    "fallbackBytes": 326941
+  },
+  "5846": {
+    "source": "IMG_5846.jpeg",
+    "slug": "engine-top-end-inspection-workshop",
+    "alt": "Engine bay with upper engine components exposed during dismantling",
+    "caption": "Engine top-end components exposed during mechanical inspection at our Birmingham workshop.",
+    "width": 1152,
+    "height": 1536,
+    "fallback": "/assets/workshop/engine-top-end-inspection-workshop.jpg",
+    "variants": [
+      {
+        "path": "/assets/workshop/engine-top-end-inspection-workshop-480.webp",
+        "width": 480,
+        "height": 640,
+        "bytes": 61844
+      },
+      {
+        "path": "/assets/workshop/engine-top-end-inspection-workshop-768.webp",
+        "width": 768,
+        "height": 1024,
+        "bytes": 132910
+      },
+      {
+        "path": "/assets/workshop/engine-top-end-inspection-workshop-1152.webp",
+        "width": 1152,
+        "height": 1536,
+        "bytes": 251290
+      }
+    ],
+    "redactions": [],
+    "sourceBytes": 766625,
+    "fallbackBytes": 352491
+  },
+  "5847": {
+    "source": "IMG_5847.jpeg",
+    "slug": "exposed-cylinder-head-valve-gear",
+    "alt": "Close view of exposed cylinder-head and valve-gear components",
+    "caption": "A closer view of exposed cylinder-head components during top-end inspection.",
+    "width": 1152,
+    "height": 1536,
+    "fallback": "/assets/workshop/exposed-cylinder-head-valve-gear.jpg",
+    "variants": [
+      {
+        "path": "/assets/workshop/exposed-cylinder-head-valve-gear-480.webp",
+        "width": 480,
+        "height": 640,
+        "bytes": 62428
+      },
+      {
+        "path": "/assets/workshop/exposed-cylinder-head-valve-gear-768.webp",
+        "width": 768,
+        "height": 1024,
+        "bytes": 133878
+      },
+      {
+        "path": "/assets/workshop/exposed-cylinder-head-valve-gear-1152.webp",
+        "width": 1152,
+        "height": 1536,
+        "bytes": 257140
+      }
+    ],
+    "redactions": [],
+    "sourceBytes": 730244,
+    "fallbackBytes": 351478,
+    "articleImages": [
+      "/assets/workshop/exposed-cylinder-head-valve-gear-16x9.jpg",
+      "/assets/workshop/exposed-cylinder-head-valve-gear-4x3.jpg",
+      "/assets/workshop/exposed-cylinder-head-valve-gear-1x1.jpg"
+    ]
+  },
+  "5849": {
+    "source": "IMG_5849.jpeg",
+    "slug": "mercedes-vito-engine-access",
+    "alt": "Mercedes Vito engine bay with front components removed for access",
+    "caption": "Front-end access during a Mercedes Vito 2.2 engine rebuild project.",
+    "width": 1152,
+    "height": 1536,
+    "fallback": "/assets/workshop/mercedes-vito-engine-access.jpg",
+    "variants": [
+      {
+        "path": "/assets/workshop/mercedes-vito-engine-access-480.webp",
+        "width": 480,
+        "height": 640,
+        "bytes": 57964
+      },
+      {
+        "path": "/assets/workshop/mercedes-vito-engine-access-768.webp",
+        "width": 768,
+        "height": 1024,
+        "bytes": 127172
+      },
+      {
+        "path": "/assets/workshop/mercedes-vito-engine-access-1152.webp",
+        "width": 1152,
+        "height": 1536,
+        "bytes": 242792
+      }
+    ],
+    "redactions": [],
+    "sourceBytes": 679306,
+    "fallbackBytes": 337076
+  },
+  "5850": {
+    "source": "IMG_5850.jpeg",
+    "slug": "mercedes-vito-workshop-engine-work",
+    "alt": "Mercedes Vito raised in the workshop with bonnet open and front components removed",
+    "caption": "Mercedes Vito 2.2 engine work in progress in our Sparkbrook workshop.",
+    "width": 1152,
+    "height": 1536,
+    "fallback": "/assets/workshop/mercedes-vito-workshop-engine-work.jpg",
+    "variants": [
+      {
+        "path": "/assets/workshop/mercedes-vito-workshop-engine-work-480.webp",
+        "width": 480,
+        "height": 640,
+        "bytes": 46574
+      },
+      {
+        "path": "/assets/workshop/mercedes-vito-workshop-engine-work-768.webp",
+        "width": 768,
+        "height": 1024,
+        "bytes": 96626
+      },
+      {
+        "path": "/assets/workshop/mercedes-vito-workshop-engine-work-1152.webp",
+        "width": 1152,
+        "height": 1536,
+        "bytes": 170218
+      }
+    ],
+    "redactions": [],
+    "sourceBytes": 577226,
+    "fallbackBytes": 276662
+  },
+  "5851": {
+    "source": "IMG_5851.jpeg",
+    "slug": "cylinder-head-inspection-detail",
+    "alt": "Another view of exposed cylinder-head components in an engine bay",
+    "caption": "Further detail of the cylinder-head area during the same top-end inspection.",
+    "width": 1152,
+    "height": 1536,
+    "fallback": "/assets/workshop/cylinder-head-inspection-detail.jpg",
+    "variants": [
+      {
+        "path": "/assets/workshop/cylinder-head-inspection-detail-480.webp",
+        "width": 480,
+        "height": 640,
+        "bytes": 44954
+      },
+      {
+        "path": "/assets/workshop/cylinder-head-inspection-detail-768.webp",
+        "width": 768,
+        "height": 1024,
+        "bytes": 92316
+      },
+      {
+        "path": "/assets/workshop/cylinder-head-inspection-detail-1152.webp",
+        "width": 1152,
+        "height": 1536,
+        "bytes": 166978
+      }
+    ],
+    "redactions": [],
+    "sourceBytes": 542240,
+    "fallbackBytes": 259454
+  }
+}
