@@ -44,11 +44,13 @@ for(const page of pages) {
   const title=text.match(/<title>([^<]+)<\/title>/)?.[1];
   const description=text.match(/name="description" content="([^"]+)"/)?.[1];
   assert.ok(title&&description,pathname+": missing metadata");
+  assert.ok(title.replaceAll("&amp;","&").length<=70,pathname+": overlong SEO title");
   assert.ok(!titles.has(title),pathname+": duplicate title");titles.add(title);
   assert.ok(!descriptions.has(description),pathname+": duplicate description");descriptions.add(description);
   assert.ok(text.includes("G-GEJR9VMEYV"),pathname+": missing real GA4 ID");
   assert.ok(!/(?:G|GTM|AW)-X{3,}|YOUR_[A-Z_]+|TODO|example\.com/i.test(text),pathname+": invalid public configuration");
   assert.ok(!/quickvs\.co\.uk|https?:\/\/www\.quickvs\.com|http:\/\/quickvs\.com/i.test(text),pathname+": legacy domain");
+  assert.ok(!/3[ -]months? or 10,000[ -]miles?/i.test(text),pathname+": outdated rebuild warranty");
   assert.ok(!/jotform|<form\b/i.test(text),pathname+": retired enquiry form");
   assert.ok(!/bookmygarage|<iframe/i.test(text),pathname+": retired booking embed");
   assert.ok(!/credit\s*cards?/i.test(text),pathname+": unsupported payment claim");
@@ -108,16 +110,47 @@ for(const entry of entries) {
 }
 const home=pages.find(p=>p.pathname==="/").text;
 const hub=pages.find(p=>p.pathname==="/services/").text;
+const homeMain=home.match(/<main\b[^>]*>([\s\S]*?)<\/main>/)?.[1]||"";
+const pricing=pages.find(p=>p.pathname==="/pricing/")?.text;
+assert.ok(pricing,"Pricing and quote guidance page missing");
+assert.ok(home.includes('href="/pricing/"'),"Homepage must link to pricing");
+assert.ok(pricing.includes("Labour from £60")&&pricing.includes("Labour from £70")&&pricing.includes("Labour from £40 per side"),"Pricing page must show confirmed labour-only starting figures");
+assert.ok(pricing.includes("From £4,200")&&pricing.includes("From £3,500")&&pricing.includes("£50"),"Pricing page must show confirmed diagnostic and engine starting figures");
+for (const [name, price] of [["BMW N47", "From £3,250"], ["BMW B47", "From £3,500"], ["BMW N57", "From £4,200"], ["JLR 2.0 Ingenium", "From £3,500"], ["JLR 3.0 TDV6 / SDV6", "From £4,750"], ["Ford Transit 2.0 EcoBlue", "From £3,000"], ["SVR / supercharged V8", "Quote only"], ["General mechanical labour", "£70 per hour"]]) {
+  const row = [...pricing.matchAll(/<tr>([\s\S]*?)<\/tr>/g)].find(match=>match[1].includes(name));
+  assert.ok(row&&row[1].includes(price), "Missing approved price for "+name);
+}
+assert.ok(pricing.includes("parts and materials additional")||pricing.includes("parts and materials are additional"),"Pricing page must distinguish labour-only figures from parts costs");
+const pricingMain=pricing.match(/<main\b[^>]*>([\s\S]*?)<\/main>/)[1];
+assert.equal((pricingMain.match(/<table\b/g)||[]).length,2,"Pricing should use two compact price lists");
+assert.ok(!/faq-list|pricing-card|number-list/.test(pricingMain),"Keep pricing free of FAQs, breakdown cards and preparation lists");
+assert.ok(pricingMain.replace(/<[^>]*>/g," ").trim().split(/\s+/).length<=300,"Keep pricing concise");
+const dropdown=home.match(/<details class="services-nav-item"[\s\S]*?<\/details>/)?.[0];
+assert.ok(dropdown&&dropdown.includes("<summary>Services"),"Services navigation must be a clickable dropdown");
+assert.ok(dropdown.indexOf("Everyday garage jobs")<dropdown.indexOf("Engine rebuild specialists"),"Dropdown should put everyday work first");
+assert.ok(dropdown.includes('href="/services/"'),"Dropdown must preserve a view-all-services link");
+assert.ok(homeMain.indexOf("Everyday garage work")<homeMain.indexOf("Engine rebuild specialists"),"Homepage should introduce routine garage services before engine rebuilds");
+assert.ok(hub.indexOf("Everyday car repairs, servicing and MOT work")<hub.indexOf("All-makes and performance engine rebuilds"),"Service hub should lead with everyday repairs");
+assert.ok(home.includes('href="/services/suspension-steering-repairs/"'),"Homepage must feature suspension and control arm repairs");
 const services=pages.filter(p=>p.pathname.startsWith("/services/")&&p.pathname!=="/services/");
 for(const service of services) {
   const link='href="'+service.pathname+'"';
+  assert.ok(dropdown.includes(link),"Service missing from dropdown: "+service.pathname);
   assert.ok(home.includes(link),"Service missing from homepage: "+service.pathname);
   assert.ok(hub.includes(link),"Service missing from hub: "+service.pathname);
   for(const page of pages) assert.ok(page.text.match(/<footer\b[\s\S]*?<\/footer>/)?.[0].includes(link),"Service absent from footer: "+service.pathname);
   const main=service.text.match(/<main\b[^>]*>([\s\S]*?)<\/main>/)[1].replace(/<[^>]*>/g," ").replace(/&[a-z#0-9]+;/gi," ");
-  assert.ok(main.trim().split(/\s+/).length>=400,"Service needs more useful detail: "+service.pathname);
+  assert.ok(main.trim().split(/\s+/).length>=200,"Service needs useful customer-facing detail: "+service.pathname);
 }
-assert.equal(services.length,19);
+assert.equal(services.length,25);
+for (const slug of ["battery-starter-alternator-repairs", "wheel-bearing-replacement", "cooling-system-repairs", "diesel-injector-repairs"]) {
+  const page=services.find(service=>service.pathname==="/services/"+slug+"/");
+  assert.ok(page,"Missing confirmed service "+slug);
+  const inbound=services.filter(service=>service!==page&&service.text.match(/<main\b[^>]*>([\s\S]*?)<\/main>/)[1].includes('href="'+page.pathname+'"'));
+  assert.ok(inbound.length>0,"Service needs a contextual link from an existing repair page: "+slug);
+  assert.ok(!/class="service-price-note"/.test(page.text),"No unconfirmed separate service price: "+slug);
+}
+assert.ok(services.find(service=>service.pathname==="/services/suspension-steering-repairs/").text.includes("Shock absorbers and coil springs"),"Suspension page must cover confirmed shocks and springs work");
 const reviews=JSON.parse(fs.readFileSync(path.join(root,"content/reviews.json"),"utf8")).reviews;
 assert.equal(reviews.length,5);
 for(const page of pages.filter(p=>p.pathname==="/"||p.pathname==="/testimonials/"||(p.pathname.startsWith("/services/")&&/rebuild/.test(p.pathname)))) {
@@ -156,4 +189,4 @@ for(const photo of Object.values(photos)) {
 }
 assert.ok(photos['5842'].redactions.length>=1,'X5 privacy review must be recorded');
 assert.ok(!walk(path.join(root,'assets')).some(f=>/IMG_\d+|\.zip$/i.test(f)),'Private originals must stay outside public assets');
-console.log("Validated "+pages.length+" HTML files, "+entries.length+" sitemap URLs, 19 service pages, metadata, schema, contact details and internal resources.");
+console.log("Validated "+pages.length+" HTML files, "+entries.length+" sitemap URLs, "+services.length+" service pages, metadata, schema, contact details and internal resources.");

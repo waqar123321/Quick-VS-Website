@@ -179,6 +179,32 @@ module.exports = {
       ]
     ]
   },
+  "suspension-steering-repairs": {
+    "sections": [
+      [
+        "Shock absorbers and coil springs",
+        "A broken spring, leaking shock absorber or excessive bouncing needs inspection. We replace failed shocks and springs after checking the fitted suspension and related components. Tell us about changes in ride height, knocking or an MOT finding. A broken spring can damage a tyre or leave the vehicle unsafe, so contact us before driving if a corner sits low or something is catching. We discuss whether related wear or axle-pair replacement needs consideration for your vehicle."
+      ],
+      [
+        "Control arms, wishbones, bushes and ball joints",
+        "Worn suspension components can cause knocking over bumps, unstable steering, uneven tyre wear or an MOT failure. A control arm may have a worn bush or ball joint, but other components can make similar noises. We inspect the affected corner and connected parts before recommending replacement. The correct wishbone, bush or joint depends on the registration and fitted suspension specification. After repair, we check the secured components and steering operation; if wheel geometry needs measuring or adjusting, we explain that alignment must be arranged with a separate provider because we do not offer tracking or wheel alignment."
+      ],
+      [
+        "Steering play, vibration and uneven tyre wear",
+        "Steering looseness can involve track rod ends, ball joints, mounts, bushes or other components, so we start with the symptoms and an inspection. A vibration at speed is not automatically a control-arm fault; tyres, wheels, brakes and related parts may also need assessment. Tell us whether the car pulls under braking, knocks while turning or has recently struck a pothole or kerb. Dangerous looseness, a wheel sitting abnormally or major steering loss should be treated as a safety concern—do not keep driving simply to reproduce it."
+      ],
+      [
+        "Mechanical MOT failure and advisory repairs",
+        "If the MOT report lists worn suspension joints, bushes, steering components or related mechanical defects, send the full wording or a photograph before booking. We check the reported area and explain the repair required, including any related wear found during inspection. Quick Solution Vehicles repairs mechanical MOT failures and advisories, but is not an MOT test centre. You arrange the MOT retest with a testing station after the agreed repair. Pricing and timescales are confirmed around the actual parts and access required rather than a universal price for every control arm."
+      ]
+    ],
+    "faqs": [
+      ["Can you replace a control arm or wishbone?", "Yes. We inspect the fault and discuss the appropriate control arm, wishbone, bush or ball joint repair for the vehicle."],
+      ["Do you repair suspension-related MOT failures?", "Yes. Send the MOT report so we can assess the failed mechanical component. The MOT retest is carried out elsewhere."],
+      ["Will I need a wheel alignment afterwards?", "Some steering or suspension work can affect wheel geometry. We can advise when an alignment check is appropriate, but we do not provide wheel alignment or tracking."],
+      ["Is a suspension knock safe to drive with?", "It depends on the cause and severity. If the steering feels loose or the vehicle is unstable, stop using it and call for advice before driving further."]
+    ]
+  },
   "gearbox-repairs": {
     "sections": [
       [
@@ -237,6 +263,28 @@ module.exports = {
         "Do you offer DPF or EGR deletion?",
         "Our service is diagnosis and repair of emissions equipment, with the repair route agreed after assessment."
       ]
+    ]
+  },
+  "exhaust-repairs": {
+    "sections": [
+      [
+        "Blowing exhausts, rattles and loose mountings",
+        "A blowing exhaust may become louder during acceleration or be most noticeable when the engine is cold. A rattle can come from a loose bracket, mounting rubber, heat shield, exhaust joint or another underbody component. The repair depends on where the noise or leak begins, not just the section that sounds loudest from the driver's seat. We inspect accessible pipes, joints, hangers, silencers and related fittings to identify the likely cause before suggesting parts. Send the registration and describe when the noise starts, and tell us if you have noticed fumes or damage after striking a kerb or speed bump."
+      ],
+      [
+        "Corrosion, replacement sections and repair scope",
+        "Exhaust systems vary by vehicle, with different layouts, sensors, emissions equipment and replacement sections. Surface corrosion is not always the same as a failed pipe or perforated silencer. A separated clamp, failed hanger or leaking joint may need a different repair from a badly corroded section. We consider the condition of the surrounding components and suitable parts before agreeing the job. If an emissions-related warning light is present, a mechanical leak and an electronic or after-treatment fault should not be treated as the same diagnosis. We can discuss the relevant fault-finding separately, depending on the vehicle and symptoms."
+      ],
+      [
+        "Exhaust-related MOT failures and safe driving",
+        "If your MOT failure sheet mentions an exhaust leak, insecure component, excessive noise or a mechanical exhaust defect, send the report before booking. We can assess the relevant mechanical failure and agree the repair scope. We do not conduct MOT tests or retests: those take place at a testing station after the repair. A strong exhaust-fume smell in the cabin, a dragging exhaust or a component at risk of falling off calls for caution rather than another drive to reproduce the noise. Contact us before transporting a vehicle that may be unsafe. The final quotation depends on the fitted exhaust system and parts actually required."
+      ]
+    ],
+    "faqs": [
+      ["Can you repair a blowing exhaust?", "We assess the source of the leak and discuss suitable mechanical repairs or replacement sections based on the vehicle and damage."],
+      ["Do you repair exhaust-related MOT failures?", "Yes. Send the MOT failure report for assessment. We repair mechanical defects; the MOT retest is carried out by a testing station."],
+      ["Does an exhaust warning light mean the pipe is leaking?", "Not necessarily. Sensor, emissions and engine-running faults can also be involved, so diagnosis may be needed before ordering parts."],
+      ["Can you quote before seeing the car?", "Send the registration and the reported symptoms or MOT wording. We can discuss a repair estimate, but the final parts and labour depend on the fault found."]
     ]
   },
   "servicing": {
@@ -407,7 +455,7 @@ module.exports = {
       ],
       [
         "From first enquiry to collection",
-        "The initial conversation helps identify the right next step; it cannot confirm unseen internal damage. We discuss diagnostic work, strip-down when appropriate, the parts route and the quotation before major work proceeds. Typical turnaround is 1–3 weeks depending on parts availability and internal damage. Keep any previous diagnostic report or service history available, especially if the engine has already been replaced. Our engine rebuild warranty is 3 months or 10,000 miles on parts and labour. At collection we explain the agreed work and relevant handover care, and accept debit cards, contactless/mobile NFC and bank transfer."
+        "The initial conversation helps identify the right next step; it cannot confirm unseen internal damage. We discuss diagnostic work, strip-down when appropriate, the parts route and the quotation before major work proceeds. Typical turnaround is 1–3 weeks depending on parts availability and internal damage. Keep any previous diagnostic report or service history available, especially if the engine has already been replaced. Our standard engine-rebuild warranty is 6 months or 10,000 miles, whichever comes first; exact cover and any job-specific variation are confirmed in writing. At collection we explain the agreed work and relevant handover care, and accept debit cards, contactless/mobile NFC and bank transfer."
       ]
     ],
     "faqs": []

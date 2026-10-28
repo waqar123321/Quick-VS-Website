@@ -9,8 +9,15 @@
   - Email: info@quickvs.com.
   - Hours: Monday-Saturday 10:00-18:00. Closed Sundays.
 - Do not fabricate reviews, testimonials, case studies, prices, warranty terms, technical claims or photos.
+- The usual engine-rebuild warranty is 6 months or 10,000 miles, whichever occurs first. Individual jobs can have different written terms; do not promise universal coverage of parts, labour or ancillary work without confirmation.
 - Verify uncertain information or ask for it. Never publish invented IDs, placeholder configuration, prices, case studies or workshop-specific claims.
 - Keep the tone honest, technical, no-nonsense and mechanic-led.
+- Position QuickVS as an all-makes general mechanical workshop with specialist engine-rebuild capability. Keep servicing, brakes, suspension/control arms and MOT failure repairs easy to find; do not make the homepage appear engine-rebuild-only.
+- Keep the Services navigation usable by click/tap and keyboard, with grouped direct links to individual repair pages and a secondary link to the full services directory.
+- Pricing must reflect confirmed, current workshop terms. Do not invent a "from £" figure, imply a fixed engine-rebuild price or copy competitor rates. Keep pricing short and scan-friendly: no scope/parts lists or repeated descriptions. Mark labour-only prices clearly and confirm the final quote before work.
+- Owner-approved October 2026 figures: diagnostics £50; oil and filter service labour from £60; full service labour from £70; front brake pad fitting labour from £40 per side; general mechanical labour £70/hour. Engine rebuild starting prices: BMW N47 £3,250; BMW B47 £3,500; BMW N57 £4,200; JLR 2.0 Ingenium £3,500; JLR 3.0 TDV6/SDV6 £4,750; Ford Transit 2.0 EcoBlue £3,000. SVR/supercharged V8 is quote only. Engine figures are not fixed quotations or confirmation of universal parts/fitting inclusions. Other repairs are quoted individually. The owner confirms the business is not VAT registered; do not add VAT to these figures or imply VAT registration.
+- Owner-confirmed additional services: battery replacement, starter motors, alternators, wheel bearings, shocks/springs, cooling systems/water pumps/thermostats, exhaust repairs and diesel injector diagnostics/replacement. Group related work into useful pages without crowding the main navigation. Do not advertise DPF cleaning.
+- MOT work means repairing mechanical failures and advisories, not operating an MOT test centre. Do not advertise MOT testing, wheel alignment/tracking, bodywork or tyre sales. Tyre fitting is for customer-supplied tyres only.
 - Avoid keyword stuffing. Write for real garage customers first, then search engines.
 - Do not add services the business does not offer. If unsure, use the source-of-truth list before writing copy.
 - Run `npm run build` before opening a PR. This regenerates static HTML and validates links, schema and public copy.

@@ -32,7 +32,7 @@ module.exports = [
       ],
       [
         "Check the rebuild terms and timescale",
-        "Quick Solution Vehicles LTD provides a 3-month or 10,000-mile parts and labour warranty on engine rebuilds. Typical turnaround is 1–3 weeks depending on parts availability and internal damage. Discuss the written terms for your agreed work and any required follow-up maintenance at handover. Parts availability, machining requirements and additional inspection findings affect scheduling; a typical timeframe is not a guaranteed collection date. Ask for updates before making transport or work commitments that depend on completion."
+        "Quick Solution Vehicles LTD's standard engine-rebuild warranty is 6 months or 10,000 miles, whichever comes first. The written terms for your particular job confirm what is covered and any variation. Typical turnaround is 1–3 weeks depending on parts availability and internal damage. Discuss the written terms for your agreed work and any required follow-up maintenance at handover. Parts availability, machining requirements and additional inspection findings affect scheduling; a typical timeframe is not a guaranteed collection date. Ask for updates before making transport or work commitments that depend on completion."
       ],
       [
         "Plan delivery before arranging recovery",
@@ -87,7 +87,7 @@ module.exports = [
       ],
       [
         "Discuss assessment with the Birmingham workshop",
-        "Quick Solution Vehicles LTD handles timing chain assessment and all-makes engine rebuild enquiries alongside general mechanical repairs. Send your registration, engine details if known, symptoms, running status and any existing report. Engine rebuilds include a 3-month or 10,000-mile parts and labour warranty, with typical turnaround of 1–3 weeks depending on parts availability and internal damage. These are rebuild terms; the written proposal should specify the terms for the actual work agreed."
+        "Quick Solution Vehicles LTD handles timing chain assessment and all-makes engine rebuild enquiries alongside general mechanical repairs. Send your registration, engine details if known, symptoms, running status and any existing report. Our standard engine-rebuild warranty is 6 months or 10,000 miles, whichever comes first, with typical turnaround of 1–3 weeks depending on parts availability and internal damage. The written proposal should specify the warranty cover and any variation for the actual work agreed."
       ]
     ],
     "photo": "5847"
