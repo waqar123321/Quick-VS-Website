@@ -126,7 +126,10 @@ assert.equal((pricingMain.match(/<table\b/g)||[]).length,2,"Pricing should use t
 assert.ok(!/faq-list|pricing-card|number-list/.test(pricingMain),"Keep pricing free of FAQs, breakdown cards and preparation lists");
 assert.ok(pricingMain.replace(/<[^>]*>/g," ").trim().split(/\s+/).length<=300,"Keep pricing concise");
 const dropdown=home.match(/<details class="services-nav-item"[\s\S]*?<\/details>/)?.[0];
-assert.ok(dropdown&&dropdown.includes("<summary>Services"),"Services navigation must be a clickable dropdown");
+assert.ok(dropdown&&dropdown.includes("<summary>Workshop Services"),"Workshop Services navigation must be a labelled clickable dropdown");
+const stylesheet=fs.readFileSync(path.join(root,"styles.css"),"utf8");
+assert.ok(stylesheet.includes(".faq-list details {"),"FAQ card styling must be scoped to FAQ items");
+assert.ok(stylesheet.includes(".services-nav-item { position: relative; border: 0; border-radius: 0; background: transparent; }"),"Workshop Services dropdown must not inherit the white FAQ card background");
 assert.ok(dropdown.indexOf("Everyday garage jobs")<dropdown.indexOf("Engine rebuild specialists"),"Dropdown should put everyday work first");
 assert.ok(dropdown.includes('href="/services/"'),"Dropdown must preserve a view-all-services link");
 assert.ok(homeMain.indexOf("Everyday garage work")<homeMain.indexOf("Engine rebuild specialists"),"Homepage should introduce routine garage services before engine rebuilds");
