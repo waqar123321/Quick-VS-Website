@@ -2,8 +2,8 @@ module.exports = [
   {
     "slug": "performance-engine-rebuilds",
     "title": "Performance & Prestige Engine Rebuilds Birmingham",
-    "metaTitle": "Performance & Prestige Engine Rebuilds Birmingham | SVR, M-Power, AMG & RS | Quick Solution Vehicles",
-    "desc": "Specialist performance engine rebuilds in Birmingham B11. Range Rover SVR 5.0 V8, BMW S55/S58/B58/N55, Mercedes-AMG, Audi RS/S3, Golf R & Porsche. Call 07522 179040.",
+    "metaTitle": "Performance Engine Rebuilds Birmingham | SVR & AMG | QuickVS",
+    "desc": "Performance engine rebuild assessment in Birmingham B11 for Range Rover SVR, BMW M, Mercedes-AMG, Audi RS, VW R and Porsche. Call or WhatsApp your fault.",
     "keyword": "Performance engine rebuild",
     "short": "SVR, BMW M, AMG, Audi RS, VW R and Porsche engine rebuild enquiries.",
     "opening": "Knocking, an oil warning or a non-running performance car needs a clear repair plan before another engine is ordered. Quick Solution Vehicles LTD assesses performance and prestige petrol and diesel engines in Sparkbrook, Birmingham. Send your registration, engine details and fault description by WhatsApp, or call the workshop to discuss inspection, recovery and rebuild options. We consider factory-spec restoration and suitable uprated builds across the engine ranges below.",
@@ -38,7 +38,7 @@ module.exports = [
       ],
       [
         "Turnaround, warranty and recovery",
-        "Typical engine-rebuild turnaround is 1–3 weeks depending on parts availability and internal damage. Our engine rebuilds carry a 3-month or 10,000-mile parts and labour warranty. The final quotation depends on the condition found and the agreed factory or uprated build scope. If the car is knocking, has a red oil warning or has suffered a timing failure, stop using it and contact the workshop. Recovery for suitable engine work can be arranged at customer cost. We accept debit cards, contactless/mobile NFC and bank transfer."
+        "Typical engine-rebuild turnaround is 1–3 weeks depending on parts availability and internal damage. Our standard engine-rebuild warranty is 6 months or 10,000 miles, whichever comes first; the written terms for each job confirm what is covered and any variation. The final quotation depends on the condition found and the agreed factory or uprated build scope. If the car is knocking, has a red oil warning or has suffered a timing failure, stop using it and contact the workshop. Recovery for suitable engine work can be arranged at customer cost. We accept debit cards, contactless/mobile NFC and bank transfer."
       ]
     ],
     "faqs": [
@@ -71,8 +71,8 @@ module.exports = [
   {
     "slug": "all-makes-engine-rebuilds",
     "title": "All-Makes Car & Van Engine Rebuilds Birmingham",
-    "metaTitle": "All-Makes Car & Van Engine Rebuilds Birmingham | Petrol & Diesel Specialists | Quick Solution Vehicles",
-    "desc": "Complete petrol, diesel & commercial van engine rebuilds in Birmingham B11. Ford EcoBlue/EcoBoost, BMW, JLR, Mercedes OM651/OM654, VW/Audi, Hyundai, Kia & Peugeot.",
+    "metaTitle": "Car & Van Engine Rebuilds Birmingham | QuickVS",
+    "desc": "All-makes car and van engine rebuild assessment in Birmingham B11, including Ford, BMW, JLR, Mercedes, VW, Hyundai, Kia and Peugeot. Call or WhatsApp.",
     "keyword": "All-makes petrol diesel and van engine rebuild",
     "short": "Petrol, diesel and commercial van rebuilds across all makes and engine ranges.",
     "opening": "We handle engine rebuild enquiries across all makes, models and engine ranges, from everyday petrol cars to diesel SUVs and commercial vans. Quick Solution Vehicles LTD combines general mechanical repairs with major engine assessment in Sparkbrook, Birmingham. The engine code, failure cause and internal condition determine the repair, not just the make badge. Call or WhatsApp your registration and symptoms to discuss the next step, including a non-runner needing recovery.",
@@ -115,7 +115,7 @@ module.exports = [
       ],
       [
         "Turnaround, warranty and workshop details",
-        "Typical engine-rebuild turnaround is 1–3 weeks depending on parts availability and internal damage. Engine rebuilds include a 3-month or 10,000-mile parts and labour warranty. We are at 56a Stratford Street North, Sparkbrook, Birmingham B11 1BP and open Monday–Saturday 10:00–18:00, closed Sundays. Recovery for suitable major engine work can be arranged at customer cost after discussion with the workshop. We accept debit cards, contactless/mobile NFC and bank transfer. For an initial enquiry, WhatsApp the registration, make/model, fault symptoms and whether the vehicle runs."
+        "Typical engine-rebuild turnaround is 1–3 weeks depending on parts availability and internal damage. Our standard engine-rebuild warranty is 6 months or 10,000 miles, whichever comes first; the written terms for each job confirm what is covered and any variation. We are at 56a Stratford Street North, Sparkbrook, Birmingham B11 1BP and open Monday–Saturday 10:00–18:00, closed Sundays. Recovery for suitable major engine work can be arranged at customer cost after discussion with the workshop. We accept debit cards, contactless/mobile NFC and bank transfer. For an initial enquiry, WhatsApp the registration, make/model, fault symptoms and whether the vehicle runs."
       ]
     ],
     "faqs": [

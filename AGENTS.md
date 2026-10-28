@@ -9,6 +9,7 @@
   - Email: info@quickvs.com.
   - Hours: Monday-Saturday 10:00-18:00. Closed Sundays.
 - Do not fabricate reviews, testimonials, case studies, prices, warranty terms, technical claims or photos.
+- The usual engine-rebuild warranty is 6 months or 10,000 miles, whichever occurs first. Individual jobs can have different written terms; do not promise universal coverage of parts, labour or ancillary work without confirmation.
 - Verify uncertain information or ask for it. Never publish invented IDs, placeholder configuration, prices, case studies or workshop-specific claims.
 - Keep the tone honest, technical, no-nonsense and mechanic-led.
 - Avoid keyword stuffing. Write for real garage customers first, then search engines.

@@ -44,11 +44,13 @@ for(const page of pages) {
   const title=text.match(/<title>([^<]+)<\/title>/)?.[1];
   const description=text.match(/name="description" content="([^"]+)"/)?.[1];
   assert.ok(title&&description,pathname+": missing metadata");
+  assert.ok(title.replaceAll("&amp;","&").length<=70,pathname+": overlong SEO title");
   assert.ok(!titles.has(title),pathname+": duplicate title");titles.add(title);
   assert.ok(!descriptions.has(description),pathname+": duplicate description");descriptions.add(description);
   assert.ok(text.includes("G-GEJR9VMEYV"),pathname+": missing real GA4 ID");
   assert.ok(!/(?:G|GTM|AW)-X{3,}|YOUR_[A-Z_]+|TODO|example\.com/i.test(text),pathname+": invalid public configuration");
   assert.ok(!/quickvs\.co\.uk|https?:\/\/www\.quickvs\.com|http:\/\/quickvs\.com/i.test(text),pathname+": legacy domain");
+  assert.ok(!/3[ -]months? or 10,000[ -]miles?/i.test(text),pathname+": outdated rebuild warranty");
   assert.ok(!/jotform|<form\b/i.test(text),pathname+": retired enquiry form");
   assert.ok(!/bookmygarage|<iframe/i.test(text),pathname+": retired booking embed");
   assert.ok(!/credit\s*cards?/i.test(text),pathname+": unsupported payment claim");
