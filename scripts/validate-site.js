@@ -114,7 +114,9 @@ const homeMain=home.match(/<main\b[^>]*>([\s\S]*?)<\/main>/)?.[1]||"";
 const pricing=pages.find(p=>p.pathname==="/pricing/")?.text;
 assert.ok(pricing,"Pricing and quote guidance page missing");
 assert.ok(home.includes('href="/pricing/"'),"Homepage must link to pricing");
-assert.ok(pricing.includes("Quote based on your vehicle")&&pricing.includes("Engine rebuild enquiries"),"Pricing page needs service-specific quote guidance");
+assert.ok(pricing.includes("Labour from £60")&&pricing.includes("Labour from £70")&&pricing.includes("Labour from £40 per side"),"Pricing page must show confirmed labour-only starting figures");
+assert.ok(pricing.includes("From £4,200")&&pricing.includes("From £3,500")&&pricing.includes("£50"),"Pricing page must show confirmed diagnostic and engine starting figures");
+assert.ok(pricing.includes("parts and materials additional")||pricing.includes("parts and materials are additional"),"Pricing page must distinguish labour-only figures from parts costs");
 const dropdown=home.match(/<details class="services-nav-item"[\s\S]*?<\/details>/)?.[0];
 assert.ok(dropdown&&dropdown.includes("<summary>Services"),"Services navigation must be a clickable dropdown");
 assert.ok(dropdown.indexOf("Everyday garage jobs")<dropdown.indexOf("Engine rebuild specialists"),"Dropdown should put everyday work first");
@@ -132,7 +134,7 @@ for(const service of services) {
   const main=service.text.match(/<main\b[^>]*>([\s\S]*?)<\/main>/)[1].replace(/<[^>]*>/g," ").replace(/&[a-z#0-9]+;/gi," ");
   assert.ok(main.trim().split(/\s+/).length>=400,"Service needs more useful detail: "+service.pathname);
 }
-assert.equal(services.length,20);
+assert.equal(services.length,21);
 const reviews=JSON.parse(fs.readFileSync(path.join(root,"content/reviews.json"),"utf8")).reviews;
 assert.equal(reviews.length,5);
 for(const page of pages.filter(p=>p.pathname==="/"||p.pathname==="/testimonials/"||(p.pathname.startsWith("/services/")&&/rebuild/.test(p.pathname)))) {

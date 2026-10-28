@@ -261,6 +261,28 @@ module.exports = {
       ]
     ]
   },
+  "exhaust-repairs": {
+    "sections": [
+      [
+        "Blowing exhausts, rattles and loose mountings",
+        "A blowing exhaust may become louder during acceleration or be most noticeable when the engine is cold. A rattle can come from a loose bracket, mounting rubber, heat shield, exhaust joint or another underbody component. The repair depends on where the noise or leak begins, not just the section that sounds loudest from the driver's seat. We inspect accessible pipes, joints, hangers, silencers and related fittings to identify the likely cause before suggesting parts. Send the registration and describe when the noise starts, and tell us if you have noticed fumes or damage after striking a kerb or speed bump."
+      ],
+      [
+        "Corrosion, replacement sections and repair scope",
+        "Exhaust systems vary by vehicle, with different layouts, sensors, emissions equipment and replacement sections. Surface corrosion is not always the same as a failed pipe or perforated silencer. A separated clamp, failed hanger or leaking joint may need a different repair from a badly corroded section. We consider the condition of the surrounding components and suitable parts before agreeing the job. If an emissions-related warning light is present, a mechanical leak and an electronic or after-treatment fault should not be treated as the same diagnosis. We can discuss the relevant fault-finding separately, depending on the vehicle and symptoms."
+      ],
+      [
+        "Exhaust-related MOT failures and safe driving",
+        "If your MOT failure sheet mentions an exhaust leak, insecure component, excessive noise or a mechanical exhaust defect, send the report before booking. We can assess the relevant mechanical failure and agree the repair scope. We do not conduct MOT tests or retests: those take place at a testing station after the repair. A strong exhaust-fume smell in the cabin, a dragging exhaust or a component at risk of falling off calls for caution rather than another drive to reproduce the noise. Contact us before transporting a vehicle that may be unsafe. The final quotation depends on the fitted exhaust system and parts actually required."
+      ]
+    ],
+    "faqs": [
+      ["Can you repair a blowing exhaust?", "We assess the source of the leak and discuss suitable mechanical repairs or replacement sections based on the vehicle and damage."],
+      ["Do you repair exhaust-related MOT failures?", "Yes. Send the MOT failure report for assessment. We repair mechanical defects; the MOT retest is carried out by a testing station."],
+      ["Does an exhaust warning light mean the pipe is leaking?", "Not necessarily. Sensor, emissions and engine-running faults can also be involved, so diagnosis may be needed before ordering parts."],
+      ["Can you quote before seeing the car?", "Send the registration and the reported symptoms or MOT wording. We can discuss a repair estimate, but the final parts and labour depend on the fault found."]
+    ]
+  },
   "servicing": {
     "sections": [
       [

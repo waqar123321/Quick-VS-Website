@@ -64,6 +64,7 @@ const serviceMenuGroups = [
     ["Timing belts", "/services/timing-belt-replacement/"],
     ["Timing chains", "/services/timing-chain-replacement/"],
     ["Gearbox & driveline", "/services/gearbox-repairs/"],
+    ["Exhaust repairs", "/services/exhaust-repairs/"],
     ["DPF & EGR faults", "/services/dpf-egr-emissions/"],
     ["Trade & warranty repairs", "/services/trade-warranty-repairs/"]
   ]],
@@ -179,6 +180,16 @@ const generalServices = [
     related: ["/services/engine-diagnostics/", "/services/servicing/"]
   },
   {
+    slug: "exhaust-repairs",
+    title: "Exhaust Repairs in Birmingham",
+    short: "Exhaust noise, blowing, corrosion and mechanical MOT failure repairs.",
+    desc: "Exhaust repairs in Sparkbrook, Birmingham for blowing exhausts, loose components, corrosion and mechanical MOT failure items.",
+    intro:
+      "A louder exhaust, a rattle underneath the car or an exhaust-related MOT failure needs the source of the problem checked. We assess the relevant pipes, joints, mountings and components before agreeing the repair or replacement route.",
+    points: ["Exhaust leaks and noise investigation", "Pipe, joint and mounting assessment", "Mechanical MOT failure repair planning"],
+    related: ["/services/mot-failure-repairs/", "/services/dpf-egr-emissions/", "/services/engine-diagnostics/"]
+  },
+  {
     slug: "servicing",
     title: "Vehicle Servicing in Birmingham",
     short: "Oil, filters, fluids, plugs and practical vehicle inspections.",
@@ -196,7 +207,7 @@ const generalServices = [
     intro:
       "Quick Solution Vehicles is not an MOT test centre. We repair mechanical MOT failures and advisories so you can return to your chosen test centre with the issues rectified.",
     points: ["Failure item repair", "Advisory repair planning", "Clear retest advice"],
-    related: ["/services/brakes/", "/services/suspension-steering-repairs/", "/services/servicing/"]
+    related: ["/services/brakes/", "/services/suspension-steering-repairs/", "/services/exhaust-repairs/", "/services/servicing/"]
   },
   {
     slug: "customer-supplied-tyre-fitting",
@@ -474,6 +485,13 @@ const servicePhotos = {
   'performance-engine-rebuilds':['5842'],
   'engine-diagnostics':['5846','5847','5851']
 };
+const servicePriceNotes = {
+  'engine-diagnostics': 'Diagnostics: £50. Any additional testing or repair scope is discussed separately.',
+  'servicing': 'Oil and filter service labour from £60; full service labour from £70. Parts and materials are additional.',
+  'brakes': 'Front brake pad fitting labour from £40 per side. Pads and other required parts are additional.',
+  'bmw-n57-engine-rebuild': 'BMW N57 rebuilds from £4,200, subject to inspection and written confirmation of the job scope.',
+  'jlr-ingenium-engine-rebuild': 'JLR 2.0 Ingenium rebuilds from £3,500, subject to inspection and written confirmation of the job scope.'
+};
 function sections(items) { return items.map(([title,copy],i)=>'<section class="section service-detail '+(i%2?'section-muted':'')+'"><h2>'+esc(title)+'</h2><div class="detail-copy">'+copy.split("\n\n").map(p=>'<p>'+inlineCopy(p)+'</p>').join("")+'</div></section>').join(""); }
 function faqsHtml(items) { return items.length?'<section class="section"><p class="section-kicker">Workshop FAQs</p><h2>Before you book</h2><div class="faq-list">'+items.map(([q,a])=>'<details><summary>'+esc(q)+'</summary><p>'+esc(a)+'</p></details>').join("")+'</div></section>':""; }
 function reviewSection() { return '<section class="section section-muted"><div class="section-heading"><div><p class="section-kicker">Customer feedback</p><h2>Five-star Google reviews</h2></div><a class="text-link" href="'+maps+'">View Google profile</a></div><div class="review-grid">'+reviews.map(r=>'<figure class="review-card"><figcaption><strong>'+esc(r.author)+'</strong><span class="review-stars" aria-label="5 out of 5 stars">★★★★★</span></figcaption><blockquote><p>'+esc(r.text)+'</p></blockquote></figure>').join("")+'</div></section>'; }
@@ -493,6 +511,7 @@ function renderService(service) {
   if (service.why) items.unshift(["Diagnosis before major work",service.why]);
   let body='<nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true"> / </span><a href="/services/">Services</a><span aria-hidden="true"> / </span><span aria-current="page">'+esc(service.title)+'</span></nav>'+hero(isRebuild?"Engine rebuild workshop":"Mechanical repairs Birmingham",service.title,service.heroIntro||service.opening||service.intro)+
     '<div class="service-pricing-link"><a href="/pricing/">How pricing and repair quotes work</a></div>';
+  if (servicePriceNotes[service.slug]) body+='<aside class="service-price-note"><strong>Starting price:</strong> '+esc(servicePriceNotes[service.slug])+' <a href="/pricing/">See pricing details</a></aside>';
   if(isRebuild) body+='<section class="trust-strip" aria-label="Engine rebuild terms"><span>Standard warranty: 6 months or 10,000 miles*</span><span>Typical turnaround 1–3 weeks</span><span>*Written job-specific terms apply</span></section>';
   if(service.heroIntro) body+=sections([["Discuss your engine rebuild",service.opening]]);
   if(service.points) body+='<section class="section intro-grid"><div><h2>'+esc(service.short)+'</h2></div><div class="intro-copy"><p>'+esc(service.desc)+'</p><ul class="check-list">'+service.points.map(p=>'<li>'+esc(p)+'</li>').join("")+'</ul></div></section>';
@@ -544,28 +563,35 @@ function renderServices() {
 }
 function renderPricing() {
   const quoteTypes = [
-    ["Car servicing", "Oil specification, service items, mileage and fitted engine affect the parts and labour needed.", "/services/servicing/", "car servicing"],
-    ["Brakes and discs", "Tell us whether you need pads, discs or fault investigation, and whether it is the front or rear axle.", "/services/brakes/", "brake repair"],
-    ["Suspension and control arms", "A wishbone, bush or ball joint job depends on the fault, vehicle fitment and access needed.", "/services/suspension-steering-repairs/", "suspension or control arm repair"],
-    ["MOT failure repairs", "Send a photograph of the MOT report so we can identify the failed mechanical items. We do not perform MOT tests.", "/services/mot-failure-repairs/", "MOT failure repairs"],
-    ["Diagnostics and fault finding", "The initial investigation depends on the symptoms, existing fault reports and checks needed.", "/services/engine-diagnostics/", "engine diagnostics"],
-    ["Clutch and timing repairs", "Vehicle design, access, correct parts and any associated damage can change the quote.", "/services/clutch-replacement/", "clutch or timing repairs"],
-    ["Engine rebuilds", "A timing repair, cylinder head repair and complete bottom-end rebuild are different scopes. Inspection determines the final quotation.", "/services/engine-rebuild-birmingham/", "engine rebuild assessment"]
+    ["Engine diagnostics", "£50", "Diagnostic work is discussed before booking. Any further testing or repairs are quoted for the actual fault.", "/services/engine-diagnostics/", "engine diagnostics"],
+    ["Oil and filter service", "Labour from £60", "This is the labour starting price only. Oil, filters and other required parts are additional and depend on the vehicle.", "/services/servicing/", "oil and filter service"],
+    ["Full car service", "Labour from £70", "This is the labour starting price only. Required oils, filters, plugs and other service parts are priced separately.", "/services/servicing/", "full car service"],
+    ["Front brake pad fitting", "Labour from £40 per side", "Labour for one front wheel starts at £40. Brake pads and any other required parts are additional; the car determines the final quote.", "/services/brakes/", "front brake pads"],
+    ["Suspension and control arms", "Vehicle-specific quote", "A wishbone, bush or ball joint job depends on the vehicle, failed component and access needed.", "/services/suspension-steering-repairs/", "suspension or control arm repair"],
+    ["MOT failure repairs", "Quote by repair", "Send a photograph of the MOT report so we can identify the failed mechanical items. We do not perform MOT tests.", "/services/mot-failure-repairs/", "MOT failure repairs"],
+    ["Clutch and timing repairs", "Vehicle-specific quote", "Vehicle design, access, correct parts and any associated damage can change the quote.", "/services/clutch-replacement/", "clutch or timing repairs"]
   ];
-  const quoteCards = quoteTypes.map(([title, description, url, job]) =>
-    '<article class="pricing-card"><h3>'+esc(title)+'</h3><p class="pricing-status">Quote based on your vehicle</p><p>'+esc(description)+'</p><div class="pricing-card-actions"><a href="'+url+'">Service details</a><a href="'+whatsappForJob(job)+'">WhatsApp for a quote</a></div></article>'
+  const quoteCards = quoteTypes.map(([title, price, description, url, job]) =>
+    '<article class="pricing-card"><h3>'+esc(title)+'</h3><p class="pricing-status">'+esc(price)+'</p><p>'+esc(description)+'</p><div class="pricing-card-actions"><a href="'+url+'">Service details</a><a href="'+whatsappForJob(job)+'">WhatsApp for a quote</a></div></article>'
+  ).join('');
+  const enginePrices = [
+    ["BMW N57 engine rebuild", "From £4,200", "The final price and included work are confirmed in writing after assessment of the engine, damage, parts and labour.", "/services/bmw-n57-engine-rebuild/", "BMW N57 engine rebuild"],
+    ["JLR 2.0 Ingenium engine rebuild", "From £3,500", "For AJ200D/AJ200P engine enquiries. The precise repair scope, components and fitting requirements determine the written quotation.", "/services/jlr-ingenium-engine-rebuild/", "JLR 2.0 Ingenium engine rebuild"]
+  ];
+  const engineCards = enginePrices.map(([title, price, description, url, job]) =>
+    '<article class="pricing-card"><h3>'+esc(title)+'</h3><p class="pricing-status">'+esc(price)+'</p><p>'+esc(description)+'</p><div class="pricing-card-actions"><a href="'+url+'">Engine details</a><a href="'+whatsappForJob(job)+'">WhatsApp for a quote</a></div></article>'
   ).join('');
   const pricingFaqs = [
     ["Can I get an estimate before bringing my car in?", "Tell us the registration, mileage and work needed. For straightforward known jobs we can discuss an estimate; faults and major repairs may need inspection before the scope can be confirmed."],
-    ["Why is there not one fixed engine rebuild price?", "Engines, damage, parts and machining vary. A timing repair or cylinder-head job is not the same as a complete rebuild. We agree the actual work and quotation from the evidence found."],
+    ["Are engine rebuild starting prices fixed quotations?", "No. Published starting prices are for the relevant engine family and are not a promise that every damaged engine can be rebuilt at that figure. The written quote states the work included after inspection."],
     ["Are parts and labour included?", "The written estimate or quotation for your job will identify the agreed work and what is included. Do not assume an unrelated repair, additional damage or recovery is included unless stated."],
     ["Do you charge for MOT testing?", "We are not an MOT test centre. We can assess and repair mechanical failures and advisories before the vehicle returns to a testing station for its MOT or retest."],
     ["Is vehicle recovery included?", "Recovery for suitable non-running vehicles can be discussed and arranged at customer cost. Confirm the arrangements before transport."]
   ];
   const body='<nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true"> / </span><span aria-current="page">Pricing</span></nav>'+
     hero("Workshop pricing & quotes", "Car repair and engine rebuild pricing in Birmingham", "The cost depends on the vehicle and the actual job. Choose your service below and WhatsApp your registration for a tailored estimate or to discuss the inspection needed before a final quotation.")+
-    '<section class="section"><p class="section-kicker">Clear expectations before work starts</p><h2>How your repair is priced</h2><p>There is no single fixed price for every car. The correct oil, parts, labour time and any fault diagnosis depend on the vehicle. We discuss the agreed scope and price before carrying out additional work.</p><div class="pricing-grid">'+quoteCards+'</div></section>'+
-    '<section class="section section-muted"><p class="section-kicker">Engine rebuild enquiries</p><h2>Why an engine rebuild quote needs the right scope</h2><div class="detail-copy"><p>A rebuild starting estimate only means something when the engine and work included are clearly defined. A chain failure needing top-end repair, a damaged crankshaft, a complete rebuild and fitting a replacement engine are not interchangeable jobs.</p><p>Send your registration, engine code if known, mileage, symptoms and whether the vehicle runs. We can discuss the assessment route and likely repair options. Any final rebuild quotation depends on inspection findings, parts, machining and the work you approve. The usual rebuild warranty is six months or 10,000 miles, whichever comes first, with the specific cover and any variation confirmed in your written job terms.</p><p><a class="text-link" href="/blog/engine-rebuild-assessment-and-quote/">Read our engine assessment and quotation guide</a></p></div></section>'+
+    '<section class="section"><p class="section-kicker">Everyday garage pricing</p><h2>Starting prices and tailored quotes</h2><p>Labour-only prices are marked clearly, with parts and materials additional. The correct oil, components and labour time depend on the vehicle. We confirm the job scope and the full quotation before additional work proceeds.</p><div class="pricing-grid">'+quoteCards+'</div></section>'+
+    '<section class="section section-muted"><p class="section-kicker">Engine rebuild starting prices</p><h2>BMW N57 and JLR Ingenium rebuilds</h2><p>These engine-specific starting figures are indicative. The final written quotation depends on confirmed damage and what the agreed job includes. Other engines are quoted individually after discussing the specification and assessment required.</p><div class="pricing-grid">'+engineCards+'</div><div class="detail-copy"><p>A chain failure needing top-end work, a damaged crankshaft, a complete rebuild and fitting a replacement unit are different jobs. Send your registration, engine code if known, mileage, symptoms and whether the vehicle runs. The usual rebuild warranty is six months or 10,000 miles, whichever comes first, with the specific cover and any variation confirmed in the written job terms.</p><p><a class="text-link" href="/blog/engine-rebuild-assessment-and-quote/">Read our engine assessment and quotation guide</a></p></div></section>'+
     '<section class="section"><p class="section-kicker">Request a quote</p><h2>What to send so we can help quicker</h2><ol class="number-list"><li>Your registration, make, model and mileage.</li><li>The service needed or the symptoms, including any MOT failure wording.</li><li>Whether the vehicle drives safely or needs recovery.</li><li>Any existing report, photo or video that helps explain the problem.</li></ol><p>For planned servicing and straightforward jobs, send the details first. For serious engine damage, an accurate final price may require diagnosis or strip-down.</p>'+contactButtons("pricing")+'</section>'+
     faqsHtml(pricingFaqs)+cta();
   writePage("/pricing/",layout({title:"Car Repair & Engine Rebuild Pricing Birmingham | QuickVS",description:"How car servicing, brakes, suspension, MOT failure repairs and engine rebuilds are quoted at our Birmingham garage. Send your reg for a tailored estimate.",pathname:"/pricing/",body,faqs:pricingFaqs}));
