@@ -182,6 +182,10 @@ module.exports = {
   "suspension-steering-repairs": {
     "sections": [
       [
+        "Shock absorbers and coil springs",
+        "A broken spring, leaking shock absorber or excessive bouncing needs inspection. We replace failed shocks and springs after checking the fitted suspension and related components. Tell us about changes in ride height, knocking or an MOT finding. A broken spring can damage a tyre or leave the vehicle unsafe, so contact us before driving if a corner sits low or something is catching. We discuss whether related wear or axle-pair replacement needs consideration for your vehicle."
+      ],
+      [
         "Control arms, wishbones, bushes and ball joints",
         "Worn suspension components can cause knocking over bumps, unstable steering, uneven tyre wear or an MOT failure. A control arm may have a worn bush or ball joint, but other components can make similar noises. We inspect the affected corner and connected parts before recommending replacement. The correct wishbone, bush or joint depends on the registration and fitted suspension specification. After repair, we check the secured components and steering operation; if wheel geometry needs measuring or adjusting, we explain that alignment must be arranged with a separate provider because we do not offer tracking or wheel alignment."
       ],

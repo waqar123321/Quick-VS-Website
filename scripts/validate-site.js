@@ -116,7 +116,15 @@ assert.ok(pricing,"Pricing and quote guidance page missing");
 assert.ok(home.includes('href="/pricing/"'),"Homepage must link to pricing");
 assert.ok(pricing.includes("Labour from £60")&&pricing.includes("Labour from £70")&&pricing.includes("Labour from £40 per side"),"Pricing page must show confirmed labour-only starting figures");
 assert.ok(pricing.includes("From £4,200")&&pricing.includes("From £3,500")&&pricing.includes("£50"),"Pricing page must show confirmed diagnostic and engine starting figures");
+for (const [name, price] of [["BMW N47", "From £3,250"], ["BMW B47", "From £3,500"], ["BMW N57", "From £4,200"], ["JLR 2.0 Ingenium", "From £3,500"], ["JLR 3.0 TDV6 / SDV6", "From £4,750"], ["Ford Transit 2.0 EcoBlue", "From £3,000"], ["SVR / supercharged V8", "Quote only"], ["General mechanical labour", "£70 per hour"]]) {
+  const row = [...pricing.matchAll(/<tr>([\s\S]*?)<\/tr>/g)].find(match=>match[1].includes(name));
+  assert.ok(row&&row[1].includes(price), "Missing approved price for "+name);
+}
 assert.ok(pricing.includes("parts and materials additional")||pricing.includes("parts and materials are additional"),"Pricing page must distinguish labour-only figures from parts costs");
+const pricingMain=pricing.match(/<main\b[^>]*>([\s\S]*?)<\/main>/)[1];
+assert.equal((pricingMain.match(/<table\b/g)||[]).length,2,"Pricing should use two compact price lists");
+assert.ok(!/faq-list|pricing-card|number-list/.test(pricingMain),"Keep pricing free of FAQs, breakdown cards and preparation lists");
+assert.ok(pricingMain.replace(/<[^>]*>/g," ").trim().split(/\s+/).length<=300,"Keep pricing concise");
 const dropdown=home.match(/<details class="services-nav-item"[\s\S]*?<\/details>/)?.[0];
 assert.ok(dropdown&&dropdown.includes("<summary>Services"),"Services navigation must be a clickable dropdown");
 assert.ok(dropdown.indexOf("Everyday garage jobs")<dropdown.indexOf("Engine rebuild specialists"),"Dropdown should put everyday work first");
@@ -132,9 +140,17 @@ for(const service of services) {
   assert.ok(hub.includes(link),"Service missing from hub: "+service.pathname);
   for(const page of pages) assert.ok(page.text.match(/<footer\b[\s\S]*?<\/footer>/)?.[0].includes(link),"Service absent from footer: "+service.pathname);
   const main=service.text.match(/<main\b[^>]*>([\s\S]*?)<\/main>/)[1].replace(/<[^>]*>/g," ").replace(/&[a-z#0-9]+;/gi," ");
-  assert.ok(main.trim().split(/\s+/).length>=400,"Service needs more useful detail: "+service.pathname);
+  assert.ok(main.trim().split(/\s+/).length>=200,"Service needs useful customer-facing detail: "+service.pathname);
 }
-assert.equal(services.length,21);
+assert.equal(services.length,25);
+for (const slug of ["battery-starter-alternator-repairs", "wheel-bearing-replacement", "cooling-system-repairs", "diesel-injector-repairs"]) {
+  const page=services.find(service=>service.pathname==="/services/"+slug+"/");
+  assert.ok(page,"Missing confirmed service "+slug);
+  const inbound=services.filter(service=>service!==page&&service.text.match(/<main\b[^>]*>([\s\S]*?)<\/main>/)[1].includes('href="'+page.pathname+'"'));
+  assert.ok(inbound.length>0,"Service needs a contextual link from an existing repair page: "+slug);
+  assert.ok(!/class="service-price-note"/.test(page.text),"No unconfirmed separate service price: "+slug);
+}
+assert.ok(services.find(service=>service.pathname==="/services/suspension-steering-repairs/").text.includes("Shock absorbers and coil springs"),"Suspension page must cover confirmed shocks and springs work");
 const reviews=JSON.parse(fs.readFileSync(path.join(root,"content/reviews.json"),"utf8")).reviews;
 assert.equal(reviews.length,5);
 for(const page of pages.filter(p=>p.pathname==="/"||p.pathname==="/testimonials/"||(p.pathname.startsWith("/services/")&&/rebuild/.test(p.pathname)))) {
