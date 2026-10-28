@@ -1140,6 +1140,58 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
 }
 .site-nav { gap: 13px; font-size: 12px; }
 .brand { min-width: 240px; }
+.services-nav-item { position: relative; }
+.services-nav-item > summary {
+  display: inline-flex; align-items: center; gap: 8px; list-style: none;
+  cursor: pointer; color: inherit; font: inherit; font-weight: 800;
+}
+.services-nav-item > summary::-webkit-details-marker { display: none; }
+.services-nav-item > summary:hover, .services-nav-item[open] > summary { color: #fff; }
+.services-nav-item > summary:focus-visible { outline: 3px solid var(--gold); outline-offset: 5px; }
+.services-menu-chevron {
+  display: inline-block; width: 7px; height: 7px; border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor; transform: translateY(-2px) rotate(45deg);
+}
+.services-nav-item[open] .services-menu-chevron { transform: translateY(2px) rotate(225deg); }
+.services-dropdown {
+  position: absolute; top: calc(100% + 20px); left: -24px; z-index: 60;
+  width: min(850px, calc(100vw - 36px)); max-height: min(72vh, 670px); overflow-y: auto;
+  padding: 26px; color: var(--ink); background: #fff;
+  border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow);
+}
+.services-dropdown-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 25px; }
+.services-dropdown-heading { margin: 0 0 12px; font-size: 14px; font-weight: 900; color: #131d2c; }
+.services-dropdown-group ul { list-style: none; padding: 0; margin: 0; }
+.services-dropdown-group li + li { margin-top: 4px; }
+.site-nav .services-dropdown a {
+  display: block; padding: 8px 9px; color: #25354a; border-radius: 6px;
+  font-size: 13px; font-weight: 650; line-height: 1.4;
+}
+.site-nav .services-dropdown a:hover, .site-nav .services-dropdown a:focus-visible {
+  color: #131d2c; background: #eff3f8; text-decoration: underline;
+}
+.site-nav .services-dropdown .services-all-link {
+  display: block; margin-top: 20px; padding: 12px 14px;
+  color: #fff; background: #172338; text-align: center; font-weight: 800;
+}
+.site-nav .services-dropdown .services-all-link:hover,
+.site-nav .services-dropdown .services-all-link:focus-visible { color: #fff; background: #2a3d58; }
+.quote-teaser { display: flex; align-items: center; justify-content: space-between; gap: 28px; }
+.quote-teaser > div { max-width: 750px; }
+.quote-teaser .button { flex-shrink: 0; }
+.service-pricing-link { width: min(var(--max), calc(100% - 36px)); margin: 18px auto; }
+.service-pricing-link a { color: #175a9b; text-decoration: underline; text-underline-offset: 3px; font-weight: 700; }
+.pricing-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; margin-top: 28px; }
+.pricing-card { display: flex; flex-direction: column; gap: 12px; min-width: 0; padding: 24px; border: 1px solid var(--line); border-radius: 10px; background: #fff; box-shadow: 0 6px 18px rgba(16, 25, 37, 0.05); }
+.pricing-card h3 { margin: 0; font-size: 21px; line-height: 1.22; }
+.pricing-card p { margin: 0; color: #394350; }
+.pricing-card .pricing-status { width: fit-content; padding: 6px 10px; border-radius: 5px; color: #145039; background: #e5f4ed; font-size: 12px; font-weight: 800; }
+.pricing-card-actions { display: flex; flex-direction: column; gap: 10px; margin-top: auto; padding-top: 14px; }
+.pricing-card-actions a { display: block; padding: 9px 12px; text-align: center; border-radius: 6px; font-weight: 800; }
+.pricing-card-actions a:first-child { color: #175a9b; border: 1px solid #d0dae6; }
+.pricing-card-actions a:last-child { color: #fff; background: #146c43; }
+.pricing-card-actions a:hover { filter: brightness(0.92); }
+@media (max-width: 1020px) { .pricing-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 .button-whatsapp { background: #146c43; color: #fff; }
 .contact-actions { display: flex; flex-wrap: wrap; gap: 12px; }
 .page-hero .contact-actions { margin: 26px 0 16px; }
@@ -1180,8 +1232,17 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
   .site-nav a { padding: 12px 18px; font-size: 15px; }
   .nav-toggle { display: inline-flex; width: 42px; height: 42px; border: 1px solid #58606e; border-radius: 6px; background: none; flex-direction: column; justify-content: center; align-items: center; gap: 5px; }
   .nav-toggle span { display: block; width: 20px; height: 2px; background: #fff; }
+  .services-nav-item { width: 100%; }
+  .services-nav-item > summary { display: flex; justify-content: space-between; padding: 12px 18px; font-size: 15px; }
+  .services-dropdown { position: static; width: 100%; max-height: none; padding: 18px; overflow: visible; border-radius: 8px; box-shadow: none; }
+  .services-dropdown-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; }
 }
 @media (max-width: 760px) {
+  .services-dropdown-grid { grid-template-columns: 1fr; gap: 18px; }
+  .site-nav .services-dropdown a { font-size: 14px; padding: 9px; }
+  .pricing-grid { grid-template-columns: 1fr; }
+  .quote-teaser { flex-direction: column; align-items: stretch; }
+  .quote-teaser .button { width: fit-content; }
   .review-grid { grid-template-columns: 1fr; }
   .contact-actions { flex-direction: row; }
   .contact-actions .button { flex: 1 1 220px; }

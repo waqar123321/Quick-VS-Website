@@ -110,12 +110,22 @@ for(const entry of entries) {
 }
 const home=pages.find(p=>p.pathname==="/").text;
 const hub=pages.find(p=>p.pathname==="/services/").text;
-assert.ok(home.indexOf("Everyday garage work")<home.indexOf("Engine rebuild specialists"),"Homepage should introduce routine garage services before engine rebuilds");
+const homeMain=home.match(/<main\b[^>]*>([\s\S]*?)<\/main>/)?.[1]||"";
+const pricing=pages.find(p=>p.pathname==="/pricing/")?.text;
+assert.ok(pricing,"Pricing and quote guidance page missing");
+assert.ok(home.includes('href="/pricing/"'),"Homepage must link to pricing");
+assert.ok(pricing.includes("Quote based on your vehicle")&&pricing.includes("Engine rebuild enquiries"),"Pricing page needs service-specific quote guidance");
+const dropdown=home.match(/<details class="services-nav-item"[\s\S]*?<\/details>/)?.[0];
+assert.ok(dropdown&&dropdown.includes("<summary>Services"),"Services navigation must be a clickable dropdown");
+assert.ok(dropdown.indexOf("Everyday garage jobs")<dropdown.indexOf("Engine rebuild specialists"),"Dropdown should put everyday work first");
+assert.ok(dropdown.includes('href="/services/"'),"Dropdown must preserve a view-all-services link");
+assert.ok(homeMain.indexOf("Everyday garage work")<homeMain.indexOf("Engine rebuild specialists"),"Homepage should introduce routine garage services before engine rebuilds");
 assert.ok(hub.indexOf("Everyday car repairs, servicing and MOT work")<hub.indexOf("All-makes and performance engine rebuilds"),"Service hub should lead with everyday repairs");
 assert.ok(home.includes('href="/services/suspension-steering-repairs/"'),"Homepage must feature suspension and control arm repairs");
 const services=pages.filter(p=>p.pathname.startsWith("/services/")&&p.pathname!=="/services/");
 for(const service of services) {
   const link='href="'+service.pathname+'"';
+  assert.ok(dropdown.includes(link),"Service missing from dropdown: "+service.pathname);
   assert.ok(home.includes(link),"Service missing from homepage: "+service.pathname);
   assert.ok(hub.includes(link),"Service missing from hub: "+service.pathname);
   for(const page of pages) assert.ok(page.text.match(/<footer\b[\s\S]*?<\/footer>/)?.[0].includes(link),"Service absent from footer: "+service.pathname);

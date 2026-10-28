@@ -13,6 +13,8 @@
 - Verify uncertain information or ask for it. Never publish invented IDs, placeholder configuration, prices, case studies or workshop-specific claims.
 - Keep the tone honest, technical, no-nonsense and mechanic-led.
 - Position QuickVS as an all-makes general mechanical workshop with specialist engine-rebuild capability. Keep servicing, brakes, suspension/control arms and MOT failure repairs easy to find; do not make the homepage appear engine-rebuild-only.
+- Keep the Services navigation usable by click/tap and keyboard, with grouped direct links to individual repair pages and a secondary link to the full services directory.
+- Pricing must reflect confirmed, current workshop terms. Do not invent a "from £" figure, imply a fixed engine-rebuild price or copy competitor rates; confirm the exact scope, parts/labour and any tax wording before publishing an owner-provided starting price.
 - MOT work means repairing mechanical failures and advisories, not operating an MOT test centre. Do not advertise MOT testing, wheel alignment/tracking, bodywork or tyre sales. Tyre fitting is for customer-supplied tyres only.
 - Avoid keyword stuffing. Write for real garage customers first, then search engines.
 - Do not add services the business does not offer. If unsure, use the source-of-truth list before writing copy.

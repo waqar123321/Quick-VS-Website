@@ -11,9 +11,10 @@ function fixture(stored=null,storageThrows=false,pageUrl="https://quickvs.com/se
   const year={textContent:""};
   const nav={classList:{open:false,toggle(){return this.open=!this.open},remove(){this.open=false}},addEventListener(name,fn){buttons.navClick=fn}};
   const toggle={attrs:{},setAttribute(name,value){this.attrs[name]=value},addEventListener(name,fn){buttons.toggle=fn}};
+  const servicesMenu={open:false,contains(target){return target?.insideServicesMenu===true}};
   const document={
     referrer:"https://search.test/path?private=value",
-    querySelector(selector){return {"[data-nav]":nav,"[data-nav-toggle]":toggle,"[data-year]":year,"[data-consent-panel]":panel}[selector]||null},
+    querySelector(selector){return {"[data-nav]":nav,"[data-nav-toggle]":toggle,"[data-services-menu]":servicesMenu,"[data-year]":year,"[data-consent-panel]":panel}[selector]||null},
     querySelectorAll(selector){return selector==="[data-consent]"?[accept,reject]:selector==="[data-cookie-settings]"?[settings]:[]},
     createElement(){return {}},head:{appendChild(node){scripts.push(node)}},
     addEventListener(name,fn){(listeners[name]||=[]).push(fn)}
@@ -27,7 +28,7 @@ function fixture(stored=null,storageThrows=false,pageUrl="https://quickvs.com/se
     (listeners.click||[]).forEach(fn=>fn({target,defaultPrevented:prevented}));
   }
   function tracked(){return JSON.parse(JSON.stringify(context.dataLayer.filter(x=>x[0]==="event").map(x=>({name:x[1],params:x[2]}))));}
-  return {context,panel,accept,reject,settings,scripts,cookies,click,tracked,buttons,nav,toggle,listeners};
+  return {context,panel,accept,reject,settings,scripts,cookies,click,tracked,buttons,nav,toggle,servicesMenu,listeners};
 }
 let f=fixture();
 assert.equal(f.scripts.length,0,"No Google code before consent");
@@ -53,7 +54,12 @@ assert.ok(f.cookies.some(x=>x.startsWith("_ga=")));
 assert.ok(!f.cookies.some(x=>x.startsWith("unrelated=")),"Only analytics cookies may be deleted");
 f.accept.click();assert.equal(f.scripts.length,1,"One Google tag per page");
 f.buttons.toggle();assert.equal(f.toggle.attrs["aria-expanded"],"true");
+f.servicesMenu.open=true;
 f.listeners.keydown.forEach(fn=>fn({key:"Escape"}));assert.equal(f.toggle.attrs["aria-expanded"],"false");
+assert.equal(f.servicesMenu.open,false,"Escape closes Services dropdown");
+f.servicesMenu.open=true;
+f.listeners.click.forEach(fn=>fn({target:{insideServicesMenu:false,closest(){return null}},defaultPrevented:false}));
+assert.equal(f.servicesMenu.open,false,"Clicking outside closes Services dropdown");
 f=fixture({analytics:false,expiresAt:Date.now()+100000});assert.equal(f.scripts.length,0);assert.equal(f.panel.hidden,true);
 f=fixture({analytics:true,expiresAt:Date.now()+100000});assert.equal(f.scripts.length,1);assert.equal(f.panel.hidden,true);
 f=fixture({analytics:true,expiresAt:0});assert.equal(f.scripts.length,0);assert.equal(f.panel.hidden,false);

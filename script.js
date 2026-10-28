@@ -2,13 +2,22 @@
   "use strict";
   const nav = document.querySelector("[data-nav]");
   const toggle = document.querySelector("[data-nav-toggle]");
+  const servicesMenu = document.querySelector("[data-services-menu]");
   const year = document.querySelector("[data-year]");
   if (year) year.textContent = new Date().getFullYear();
-  function closeNav() { if (nav && toggle) { nav.classList.remove("is-open"); toggle.setAttribute("aria-expanded", "false"); } }
+  function closeNav() {
+    if (nav && toggle) { nav.classList.remove("is-open"); toggle.setAttribute("aria-expanded", "false"); }
+    if (servicesMenu) servicesMenu.open = false;
+  }
   if (nav && toggle) {
     toggle.addEventListener("click", () => toggle.setAttribute("aria-expanded", String(nav.classList.toggle("is-open"))));
     nav.addEventListener("click", event => { if (event.target.closest("a")) closeNav(); });
     document.addEventListener("keydown", event => { if (event.key === "Escape") closeNav(); });
+  }
+  if (servicesMenu) {
+    document.addEventListener("click", event => {
+      if (!servicesMenu.contains(event.target)) servicesMenu.open = false;
+    });
   }
 
   const consentKey = "qsv-analytics-consent-v1";
