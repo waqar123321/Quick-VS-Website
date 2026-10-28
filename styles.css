@@ -630,20 +630,20 @@ h3 {
   gap: 12px;
 }
 
-details {
+.faq-list details {
   border: 1px solid var(--line);
   border-radius: 8px;
   background: #fff;
 }
 
-summary {
+.faq-list summary {
   padding: 20px 22px;
   font-size: 18px;
   font-weight: 900;
   cursor: pointer;
 }
 
-details p {
+.faq-list details p {
   margin: 0;
   padding: 0 22px 22px;
   color: var(--muted);
@@ -1140,10 +1140,11 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
 }
 .site-nav { gap: 13px; font-size: 12px; }
 .brand { min-width: 240px; }
-.services-nav-item { position: relative; }
+.services-nav-item { position: relative; border: 0; border-radius: 0; background: transparent; }
 .services-nav-item > summary {
-  display: inline-flex; align-items: center; gap: 8px; list-style: none;
-  cursor: pointer; color: inherit; font: inherit; font-weight: 800;
+  display: inline-flex; align-items: center; gap: 8px; padding: 8px 4px;
+  list-style: none; white-space: nowrap;
+  cursor: pointer; color: rgba(255, 255, 255, 0.88); font: inherit; font-weight: 800;
 }
 .services-nav-item > summary::-webkit-details-marker { display: none; }
 .services-nav-item > summary:hover, .services-nav-item[open] > summary { color: #fff; }
