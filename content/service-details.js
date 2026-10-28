@@ -179,6 +179,28 @@ module.exports = {
       ]
     ]
   },
+  "suspension-steering-repairs": {
+    "sections": [
+      [
+        "Control arms, wishbones, bushes and ball joints",
+        "Worn suspension components can cause knocking over bumps, unstable steering, uneven tyre wear or an MOT failure. A control arm may have a worn bush or ball joint, but other components can make similar noises. We inspect the affected corner and connected parts before recommending replacement. The correct wishbone, bush or joint depends on the registration and fitted suspension specification. After repair, we check the secured components and steering operation; if wheel geometry needs measuring or adjusting, we explain that alignment must be arranged with a separate provider because we do not offer tracking or wheel alignment."
+      ],
+      [
+        "Steering play, vibration and uneven tyre wear",
+        "Steering looseness can involve track rod ends, ball joints, mounts, bushes or other components, so we start with the symptoms and an inspection. A vibration at speed is not automatically a control-arm fault; tyres, wheels, brakes and related parts may also need assessment. Tell us whether the car pulls under braking, knocks while turning or has recently struck a pothole or kerb. Dangerous looseness, a wheel sitting abnormally or major steering loss should be treated as a safety concern—do not keep driving simply to reproduce it."
+      ],
+      [
+        "Mechanical MOT failure and advisory repairs",
+        "If the MOT report lists worn suspension joints, bushes, steering components or related mechanical defects, send the full wording or a photograph before booking. We check the reported area and explain the repair required, including any related wear found during inspection. Quick Solution Vehicles repairs mechanical MOT failures and advisories, but is not an MOT test centre. You arrange the MOT retest with a testing station after the agreed repair. Pricing and timescales are confirmed around the actual parts and access required rather than a universal price for every control arm."
+      ]
+    ],
+    "faqs": [
+      ["Can you replace a control arm or wishbone?", "Yes. We inspect the fault and discuss the appropriate control arm, wishbone, bush or ball joint repair for the vehicle."],
+      ["Do you repair suspension-related MOT failures?", "Yes. Send the MOT report so we can assess the failed mechanical component. The MOT retest is carried out elsewhere."],
+      ["Will I need a wheel alignment afterwards?", "Some steering or suspension work can affect wheel geometry. We can advise when an alignment check is appropriate, but we do not provide wheel alignment or tracking."],
+      ["Is a suspension knock safe to drive with?", "It depends on the cause and severity. If the steering feels loose or the vehicle is unstable, stop using it and call for advice before driving further."]
+    ]
+  },
   "gearbox-repairs": {
     "sections": [
       [

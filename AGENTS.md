@@ -12,6 +12,8 @@
 - The usual engine-rebuild warranty is 6 months or 10,000 miles, whichever occurs first. Individual jobs can have different written terms; do not promise universal coverage of parts, labour or ancillary work without confirmation.
 - Verify uncertain information or ask for it. Never publish invented IDs, placeholder configuration, prices, case studies or workshop-specific claims.
 - Keep the tone honest, technical, no-nonsense and mechanic-led.
+- Position QuickVS as an all-makes general mechanical workshop with specialist engine-rebuild capability. Keep servicing, brakes, suspension/control arms and MOT failure repairs easy to find; do not make the homepage appear engine-rebuild-only.
+- MOT work means repairing mechanical failures and advisories, not operating an MOT test centre. Do not advertise MOT testing, wheel alignment/tracking, bodywork or tyre sales. Tyre fitting is for customer-supplied tyres only.
 - Avoid keyword stuffing. Write for real garage customers first, then search engines.
 - Do not add services the business does not offer. If unsure, use the source-of-truth list before writing copy.
 - Run `npm run build` before opening a PR. This regenerates static HTML and validates links, schema and public copy.

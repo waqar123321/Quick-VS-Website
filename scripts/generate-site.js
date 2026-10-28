@@ -42,9 +42,11 @@ const areas = [
 
 const nav = [
   ["Home", "/"], ["Services", "/services/"],
-  ["All-Makes Rebuilds", "/services/all-makes-engine-rebuilds/"],
-  ["Performance Rebuilds", "/services/performance-engine-rebuilds/"],
-  ["About", "/about/"], ["Reviews", "/testimonials/"], ["Contact", "/contact/"]
+  ["Servicing", "/services/servicing/"],
+  ["Brakes", "/services/brakes/"],
+  ["MOT Repairs", "/services/mot-failure-repairs/"],
+  ["Engine Rebuilds", "/services/engine-rebuild-birmingham/"],
+  ["Contact", "/contact/"]
 ];
 
 const coreLinks = [
@@ -114,7 +116,17 @@ const generalServices = [
     intro:
       "Brake faults need straight answers. We inspect discs, pads and related mechanical items, then explain what is worn, what is still serviceable and what needs replacing.",
     points: ["Brake discs and pads", "Noise and vibration checks", "MOT failure brake repairs"],
-    related: ["/services/mot-failure-repairs/", "/services/servicing/"]
+    related: ["/services/mot-failure-repairs/", "/services/suspension-steering-repairs/", "/services/servicing/"]
+  },
+  {
+    slug: "suspension-steering-repairs",
+    title: "Suspension and Steering Repairs in Birmingham",
+    short: "Control arms, wishbones, ball joints, bushes and steering components.",
+    desc: "Suspension and steering repairs in Sparkbrook, Birmingham, including control arms, wishbones, bushes, ball joints and MOT failure repairs.",
+    intro:
+      "Knocks over bumps, steering play, uneven tyre wear and an MOT suspension failure can have different causes. We inspect the relevant steering and suspension components and explain what needs repair before replacing parts.",
+    points: ["Control arm and wishbone assessment", "Bush, ball joint and steering checks", "Mechanical MOT failure rectification"],
+    related: ["/services/mot-failure-repairs/", "/services/brakes/", "/services/servicing/"]
   },
   {
     slug: "gearbox-repairs",
@@ -144,7 +156,7 @@ const generalServices = [
     intro:
       "Regular servicing keeps small issues from becoming expensive ones. We carry out oil, filter, fluid, plug and inspection work with clear advice on what needs attention now and what can wait.",
     points: ["Oil and filters", "Fluids and plugs", "Inspection notes"],
-    related: ["/services/brakes/", "/services/engine-diagnostics/"]
+    related: ["/services/brakes/", "/services/suspension-steering-repairs/", "/services/engine-diagnostics/"]
   },
   {
     slug: "mot-failure-repairs",
@@ -154,7 +166,7 @@ const generalServices = [
     intro:
       "Quick Solution Vehicles is not an MOT test centre. We repair mechanical MOT failures and advisories so you can return to your chosen test centre with the issues rectified.",
     points: ["Failure item repair", "Advisory repair planning", "Clear retest advice"],
-    related: ["/services/brakes/", "/services/servicing/"]
+    related: ["/services/brakes/", "/services/suspension-steering-repairs/", "/services/servicing/"]
   },
   {
     slug: "customer-supplied-tyre-fitting",
@@ -357,26 +369,26 @@ function analyticsSnippet() {
 }
 function header(pathname) {
   return '<a class="skip-link" href="#main-content">Skip to content</a><header class="site-header"><div class="header-inner">' +
-    '<a class="brand" href="/" aria-label="Quick Solution Vehicles home"><img class="brand-logo" src="/assets/qsv-logo.svg" width="94" height="44" alt="Quick Solution Vehicles logo"><span><strong>Quick Solution Vehicles</strong><small>Engine rebuild specialists</small></span></a>' +
+    '<a class="brand" href="/" aria-label="Quick Solution Vehicles home"><img class="brand-logo" src="/assets/qsv-logo.svg" width="94" height="44" alt="Quick Solution Vehicles logo"><span><strong>Quick Solution Vehicles</strong><small>Car repairs &amp; engine rebuilds</small></span></a>' +
     '<button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" data-nav-toggle aria-label="Open navigation"><span></span><span></span><span></span></button>' +
     '<nav id="site-nav" class="site-nav" data-nav>' + nav.map(([label,href]) => '<a href="'+href+'"'+(href===pathname?' aria-current="page"':'')+'>'+label+'</a>').join("") +
     '</nav><div class="header-actions"><a class="button button-light" data-contact-location="header" href="tel:'+business.primaryTel+'">'+business.primaryPhone+'</a></div></div></header>';
 }
 function contactButtons(location = "content") {
   return '<div class="contact-actions"><a class="button button-primary" data-contact-location="'+location+'" href="tel:'+business.primaryTel+'">Call Workshop: '+business.primaryPhone+'</a>' +
-    '<a class="button button-whatsapp" data-contact-location="'+location+'" href="'+whatsapp+'">WhatsApp Reg &amp; Fault</a></div>';
+    '<a class="button button-whatsapp" data-contact-location="'+location+'" href="'+whatsapp+'">WhatsApp Your Reg &amp; Job</a></div>';
 }
 function footer() {
   const engines = allServices.filter(s=>rebuildSlugs.has(s.slug));
   const other = allServices.filter(s=>!rebuildSlugs.has(s.slug));
   const links = list => list.map(s=>'<li><a href="/services/'+s.slug+'/">'+esc(s.title.replace(/(?: in|,) Birmingham| Birmingham$/,""))+'</a></li>').join("");
   return '<footer class="site-footer"><div class="footer-main"><div class="footer-grid">' +
-    '<div class="footer-brand"><img class="footer-logo" width="150" height="70" src="/assets/qsv-logo.svg" alt="Quick Solution Vehicles logo"><h2 class="footer-title">'+business.legalName+'</h2><p>Engine rebuilds across all makes, alongside general mechanical repairs in Sparkbrook, Birmingham.</p><p>Company No. '+business.companiesHouse+'</p><ul class="footer-contact"><li><a data-contact-location="footer" href="tel:'+business.primaryTel+'">'+business.primaryPhone+'</a></li><li><a href="mailto:'+business.email+'">'+business.email+'</a></li><li>'+business.address+'</li><li>'+business.hours+'</li></ul><a class="text-link" href="'+maps+'">Google Maps &amp; directions</a></div>' +
+    '<div class="footer-brand"><img class="footer-logo" width="150" height="70" src="/assets/qsv-logo.svg" alt="Quick Solution Vehicles logo"><h2 class="footer-title">'+business.legalName+'</h2><p>Car servicing, brakes, suspension, MOT failure repairs and specialist engine rebuilds in Sparkbrook, Birmingham.</p><p>Company No. '+business.companiesHouse+'</p><ul class="footer-contact"><li><a data-contact-location="footer" href="tel:'+business.primaryTel+'">'+business.primaryPhone+'</a></li><li><a href="mailto:'+business.email+'">'+business.email+'</a></li><li>'+business.address+'</li><li>'+business.hours+'</li></ul><a class="text-link" href="'+maps+'">Google Maps &amp; directions</a></div>' +
     '<div class="footer-column"><h3>Engine Rebuilds</h3><ul>'+links(engines)+'</ul></div>' +
     '<div class="footer-column"><h3>Mechanical Services</h3><ul>'+links(other)+'</ul></div>' +
     '<div class="footer-column"><h3>Workshop</h3><ul>'+nav.map(([label,href])=>'<li><a href="'+href+'">'+label+'</a></li>').join("")+'<li><a href="/blog/">Repair advice</a></li>'+guides.map(g=>'<li><a href="/blog/'+g.slug+'/">'+esc(g.title)+'</a></li>').join("")+'<li><a href="/privacy/">Privacy &amp; cookies</a></li><li><button class="cookie-settings" type="button" data-cookie-settings>Cookie settings</button></li></ul><h3>Payment</h3><p>Debit cards, contactless / mobile NFC and bank transfer.</p><p>Standard engine-rebuild warranty: 6 months or 10,000 miles (whichever comes first). Written job-specific terms apply.</p></div>' +
     '</div></div><div class="footer-bottom"><p>&copy; <span data-year>2026</span> '+business.legalName+'</p><a href="/sitemap.xml">Sitemap</a></div></footer>' +
-    '<div class="mobile-call-bar"><a data-contact-location="mobile_bar" href="tel:'+business.primaryTel+'"><span aria-hidden="true">📞 </span><span>Call Workshop: <span class="phone-number">'+business.primaryPhone+'</span></span></a><a data-contact-location="mobile_bar" class="mobile-whatsapp" href="'+whatsapp+'"><span aria-hidden="true">💬 </span>WhatsApp Reg &amp; Fault</a></div>' +
+    '<div class="mobile-call-bar"><a data-contact-location="mobile_bar" href="tel:'+business.primaryTel+'"><span aria-hidden="true">📞 </span><span>Call Workshop: <span class="phone-number">'+business.primaryPhone+'</span></span></a><a data-contact-location="mobile_bar" class="mobile-whatsapp" href="'+whatsapp+'"><span aria-hidden="true">💬 </span>WhatsApp Your Reg &amp; Job</a></div>' +
     '<section class="consent-panel" data-consent-panel hidden aria-labelledby="consent-title"><h2 id="consent-title">Optional analytics cookies</h2><p>Allow analytics to help us understand which pages and contact buttons are useful. You can reject these cookies and still use every workshop contact option. <a href="/privacy/">Privacy &amp; cookies</a></p><div class="consent-actions"><button type="button" data-consent="accept">Accept analytics</button><button type="button" data-consent="reject">Reject analytics</button></div></section>';
 }
 function layout({ title, description, pathname, body, faqs = [], service, noindex = false, article }) {
@@ -393,8 +405,8 @@ function layout({ title, description, pathname, body, faqs = [], service, noinde
     '<meta name="twitter:card" content="summary_large_image">\n<meta name="twitter:title" content="'+esc(title)+'">\n<meta name="twitter:description" content="'+esc(description)+'">\n<meta name="twitter:image" content="'+socialImage+'">\n<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" sizes="any">\n<link rel="stylesheet" href="/styles.css?v=20261020-1">\n<script defer src="/script.js?v=20261020-1"></script>\n' +
     schemas.map(jsonLd).join("\n")+'\n</head>\n<body>\n'+header(pathname)+'\n<main id="main-content">'+body+'</main>\n'+footer()+'\n</body>\n</html>\n';
 }
-function hero(kicker, title, copy) { return '<section class="page-hero"><div class="page-hero-content"><p class="eyebrow">'+esc(kicker)+'</p><h1>'+esc(title)+'</h1><p class="page-hero-copy">'+esc(copy)+'</p>'+contactButtons("hero")+'<p class="hero-reassurance">Mon–Sat 10:00–18:00 · Sparkbrook, Birmingham B11 · Tell us whether your vehicle runs</p></div></section>'; }
-function cta() { return '<section class="section cta-band"><div><p class="section-kicker">Speak to the workshop</p><h2>Send your reg and tell us what happened.</h2><p>Include the make/model, mileage, fault symptoms and whether it runs. For a non-runner needing recovery, contact us before arranging delivery.</p><p>Chain rattle · Knocking · Non-start · Oil warning · Overheating</p></div><div class="cta-actions">'+contactButtons("cta")+'<a href="mailto:'+business.email+'">Email '+business.email+'</a></div></section>'; }
+function hero(kicker, title, copy) { return '<section class="page-hero"><div class="page-hero-content"><p class="eyebrow">'+esc(kicker)+'</p><h1>'+esc(title)+'</h1><p class="page-hero-copy">'+esc(copy)+'</p>'+contactButtons("hero")+'<p class="hero-reassurance">Mon–Sat 10:00–18:00 · Sparkbrook, Birmingham B11 · All-makes garage</p></div></section>'; }
+function cta() { return '<section class="section cta-band"><div><p class="section-kicker">Speak to the workshop</p><h2>Need a service, repair or fault checked?</h2><p>Send your registration, mileage and the work needed or symptoms. For an MOT failure, share the report; for a non-runner, call before arranging delivery.</p><p>Servicing · Brakes · Suspension · MOT repairs · Diagnostics · Engine rebuilds</p></div><div class="cta-actions">'+contactButtons("cta")+'<a href="mailto:'+business.email+'">Email '+business.email+'</a></div></section>'; }
 function inlineCopy(copy) {
   const pattern = /\[([^\]]+)\]\((\/[^\s)]+)\)/g;
   let html = '', cursor = 0;
@@ -454,30 +466,36 @@ function renderService(service) {
   writePage(pathname,layout({title:service.metaTitle||service.title+" | Quick Solution Vehicles",description:service.metaDescription||service.desc,pathname,body,faqs,service}));
 }
 const homeFaqs = [
+  ["Can you repair a car that has failed its MOT?","Yes. We repair mechanical MOT failures and advisories, including brakes and suspension. We do not conduct MOT tests or retests; those are carried out at a testing station."],
+  ["Do you replace control arms and wishbones?","Yes. We inspect suspension and steering faults, including control arms, wishbones, bushes and ball joints, then agree the repair needed. We do not provide wheel alignment or tracking."],
+  ["Can I book ordinary servicing or brake repairs?","Yes. We handle oil and filter services, brake discs and pads, clutches, diagnostics and other general mechanical work as well as engine rebuilds."],
   ["Do you rebuild engines across all makes?","Yes. We handle petrol, diesel, performance and commercial van engine rebuild enquiries across all makes and engine ranges."],
   ["Do Ingenium engines use wet timing belts?","No. JLR 2.0 AJ200D/AJ200P engines use timing chains. We assess timing chain, balance shaft, turbo and oil dilution faults."],
   ["Which engines do you assess for wet-belt concerns?","Wet-belt-equipped Ford 1.0 EcoBoost, Ford 2.0 EcoBlue and earlier 1.2 PureTech variants. Other versions, including Ford 1.5 EcoBoost, are identified before the timing design is specified."],
   ["How long does an engine rebuild take?","Typically 1–3 weeks depending on parts availability and internal damage."],
   ["What warranty is included?","Our standard engine-rebuild warranty is 6 months or 10,000 miles, whichever comes first. The written terms for your job confirm the cover and any variation."]
 ];
+const featuredEverydayServices = ["servicing", "brakes", "suspension-steering-repairs", "mot-failure-repairs", "engine-diagnostics", "clutch-replacement"]
+  .map(slug => generalServices.find(service => service.slug === slug));
 function renderHome() {
-  const body=hero("Engine rebuilds · General mechanical repairs","Engine rebuilds and mechanical repairs in Birmingham.","Petrol, diesel, performance cars and commercial vans. Quick Solution Vehicles LTD assesses engine failures and handles general mechanical repairs at our Sparkbrook workshop. Call for advice or WhatsApp your registration, symptoms and running status.")+
-    '<section class="trust-strip" aria-label="Workshop details"><span>Standard rebuild warranty: 6 months or 10,000 miles*</span><span>Typical rebuild turnaround 1–3 weeks</span><span>*Written job-specific terms apply</span></section>'+
+  const body=hero("All-makes garage · Sparkbrook Birmingham","Car repairs, servicing and engine rebuilds in Birmingham.","Need an oil service, brakes, suspension repair, clutch, diagnostics or mechanical MOT failure fixed? Quick Solution Vehicles LTD handles everyday car repairs and specialist engine rebuilds at our Sparkbrook workshop. Call or WhatsApp your registration and the job needed.")+
+    '<section class="trust-strip" aria-label="Workshop services"><span>All-makes car servicing &amp; repairs</span><span>Brakes, suspension &amp; MOT failure repairs</span><span>Specialist engine rebuilds too</span></section>'+
+    '<section class="section"><p class="section-kicker">Everyday garage work</p><h2>Servicing, brakes, suspension and MOT repairs</h2><p>We are a general mechanical workshop as well as engine rebuild specialists. Choose the service you need and tell us your registration, mileage and symptoms.</p>'+cards(featuredEverydayServices)+'</section>'+
+    sections([["MOT failure and advisory repairs—not MOT testing","Failed on brakes, a control arm, a suspension joint or another mechanical item? Send us a photo of the MOT failure report. We assess and repair the fault; your chosen testing station carries out the MOT test or retest. Read more about [MOT failure repairs](/services/mot-failure-repairs/)."],["Control arms, wishbones and steering faults","Knocking over bumps, play in the steering or a failed ball joint needs inspection before parts are ordered. We assess bushes, wishbones, ball joints and relevant steering components. See our [suspension and steering repairs](/services/suspension-steering-repairs/) page. Wheel alignment and tracking are not offered here."]])+
+    '<section class="section section-muted"><p class="section-kicker">More mechanical services</p><h2>Timing belts, gearboxes, tyres and other repairs</h2>'+cards(generalServices.filter(service=>service.slug!=="engine-rebuilds" && !featuredEverydayServices.includes(service)))+'</section>'+
+    '<section class="section"><p class="section-kicker">Engine rebuild specialists</p><h2>All-makes, commercial and performance engine work</h2><p>For serious engine faults we inspect the damage before agreeing repair, rebuild or replacement options. Our engine services remain a core part of the workshop.</p>'+cards(landingPages)+'</section>'+
+    '<section class="section section-muted"><p class="section-kicker">Specialist engine work</p><h2>BMW, Jaguar Land Rover and engine rebuild enquiries</h2>'+cards([generalServices[0],...specialistServices])+'</section>'+
     workshopGallery(['5842','5849','5847'])+
-    '<section class="section"><p class="section-kicker">Engine repair enquiries</p><h2>Everyday engines, commercial vans and performance cars</h2>'+cards(landingPages)+'</section>'+
-    sections([["JLR Ingenium timing chain, balance shaft, turbo & oil dilution faults","The 2.0 AJ200D diesel and AJ200P petrol use timing chains. We identify the engine and assess timing, lubrication and associated damage before agreeing a repair route. Our JLR and Range Rover pages explain the relevant engine coverage."],["Wet Belt Replacement & Engine Recovery","We assess wet-belt-equipped Ford 1.0 EcoBoost, Ford 2.0 EcoBlue Transit/Transit Custom and relevant Ranger engines, and earlier Peugeot/Citroën/Vauxhall 1.2 PureTech engines. Ford 1.5 EcoBoost enquiries are welcome too, with the actual timing design confirmed first. Oil warnings, belt debris, knocking or timing failure may require internal assessment as well as belt replacement."]])+
-    '<section class="section section-muted"><p class="section-kicker">Specialist engine work</p><h2>Explore your engine repair options</h2>'+cards(specialistServices)+'</section>'+
-    '<section class="section"><p class="section-kicker">General mechanical repairs</p><h2>Diagnostics, timing, brakes and more</h2>'+cards(generalServices)+'</section>'+
     reviewSection()+faqsHtml(homeFaqs)+
     '<section class="section local-seo"><p class="section-kicker">Areas we cover</p><h2>Sparkbrook workshop, wider Birmingham customers</h2><p>We support drivers across Birmingham, Solihull, Dudley, Walsall, Sandwell, Coventry, Wolverhampton and West Bromwich. For suitable non-running cars and engine work, recovery from further afield can be discussed at customer cost.</p><p>'+business.address+'</p><a class="text-link" href="'+maps+'">Find the workshop on Google Maps</a></section>'+cta();
-  writePage("/",layout({title:"Engine Rebuilds Birmingham | Quick Solution Vehicles",description:"All-makes petrol, diesel, performance and van engine rebuilds plus mechanical repairs in Birmingham B11. Call 07522 179040 or WhatsApp your reg and fault.",pathname:"/",body:body+guideCards(),faqs:homeFaqs}));
+  writePage("/",layout({title:"Car Repairs, Servicing & Engine Rebuilds | Birmingham",description:"Car servicing, brake repairs, suspension, clutches and MOT failure repairs in Sparkbrook, Birmingham. All-makes engine rebuild specialists too. Call QuickVS.",pathname:"/",body:body+guideCards(),faqs:homeFaqs}));
 }
 function renderServices() {
-  const body=hero("Workshop services","Engine rebuilds and mechanical repairs in Birmingham.","Choose the page that matches your engine or symptoms, then call or WhatsApp the workshop to discuss assessment.")+
-    '<section class="section"><h2>All-makes and performance engines</h2>'+cards(landingPages)+'</section>'+
-    '<section class="section section-muted"><h2>Engine families and rebuild planning</h2>'+cards(specialistServices)+'</section>'+
-    '<section class="section"><h2>General mechanical services</h2>'+cards(generalServices)+'</section>'+cta();
-  writePage("/services/",layout({title:"Car Repairs & Engine Rebuilds Birmingham | QuickVS",description:"Engine rebuilds, diagnostics, timing chains and belts, clutches, brakes, servicing and mechanical MOT repairs in Sparkbrook, Birmingham.",pathname:"/services/",body}));
+  const body=hero("Workshop services","Car repairs, servicing and engine rebuilds in Birmingham.","Choose the service that fits your car or van. We handle everyday mechanical repairs, MOT failures and specialist engine rebuilds. Call or WhatsApp the workshop to discuss the work.")+
+    '<section class="section"><h2>Everyday car repairs, servicing and MOT work</h2>'+cards(generalServices.filter(service=>service.slug!=="engine-rebuilds"))+'</section>'+
+    '<section class="section section-muted"><h2>All-makes and performance engine rebuilds</h2>'+cards([generalServices[0],...landingPages])+'</section>'+
+    '<section class="section"><h2>BMW, JLR and engine rebuild planning</h2>'+cards(specialistServices)+'</section>'+cta();
+  writePage("/services/",layout({title:"Car Repairs & Servicing Birmingham | QuickVS Garage",description:"Car servicing, brakes, suspension and control arms, clutches, diagnostics and mechanical MOT failure repairs in Sparkbrook, Birmingham. Engine rebuilds too.",pathname:"/services/",body}));
 }
 function renderContact() {
   const body=hero("Contact the workshop","Call or WhatsApp your registration and fault.","Talk directly to Quick Solution Vehicles LTD about engine rebuilds, diagnosis and mechanical repairs. Tell us whether the vehicle runs before arranging delivery.")+

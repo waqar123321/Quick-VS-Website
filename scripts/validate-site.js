@@ -110,6 +110,9 @@ for(const entry of entries) {
 }
 const home=pages.find(p=>p.pathname==="/").text;
 const hub=pages.find(p=>p.pathname==="/services/").text;
+assert.ok(home.indexOf("Everyday garage work")<home.indexOf("Engine rebuild specialists"),"Homepage should introduce routine garage services before engine rebuilds");
+assert.ok(hub.indexOf("Everyday car repairs, servicing and MOT work")<hub.indexOf("All-makes and performance engine rebuilds"),"Service hub should lead with everyday repairs");
+assert.ok(home.includes('href="/services/suspension-steering-repairs/"'),"Homepage must feature suspension and control arm repairs");
 const services=pages.filter(p=>p.pathname.startsWith("/services/")&&p.pathname!=="/services/");
 for(const service of services) {
   const link='href="'+service.pathname+'"';
@@ -119,7 +122,7 @@ for(const service of services) {
   const main=service.text.match(/<main\b[^>]*>([\s\S]*?)<\/main>/)[1].replace(/<[^>]*>/g," ").replace(/&[a-z#0-9]+;/gi," ");
   assert.ok(main.trim().split(/\s+/).length>=400,"Service needs more useful detail: "+service.pathname);
 }
-assert.equal(services.length,19);
+assert.equal(services.length,20);
 const reviews=JSON.parse(fs.readFileSync(path.join(root,"content/reviews.json"),"utf8")).reviews;
 assert.equal(reviews.length,5);
 for(const page of pages.filter(p=>p.pathname==="/"||p.pathname==="/testimonials/"||(p.pathname.startsWith("/services/")&&/rebuild/.test(p.pathname)))) {
@@ -158,4 +161,4 @@ for(const photo of Object.values(photos)) {
 }
 assert.ok(photos['5842'].redactions.length>=1,'X5 privacy review must be recorded');
 assert.ok(!walk(path.join(root,'assets')).some(f=>/IMG_\d+|\.zip$/i.test(f)),'Private originals must stay outside public assets');
-console.log("Validated "+pages.length+" HTML files, "+entries.length+" sitemap URLs, 19 service pages, metadata, schema, contact details and internal resources.");
+console.log("Validated "+pages.length+" HTML files, "+entries.length+" sitemap URLs, "+services.length+" service pages, metadata, schema, contact details and internal resources.");
