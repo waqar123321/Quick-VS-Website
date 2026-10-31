@@ -66,6 +66,7 @@ const serviceMenuGroups = [
     ["Cooling, water pumps & thermostats", "/services/cooling-system-repairs/"],
     ["Diesel injector repairs", "/services/diesel-injector-repairs/"],
     ["Timing belts", "/services/timing-belt-replacement/"],
+    ["Wet belt replacement", "/services/wet-belt-replacement/"],
     ["Timing chains", "/services/timing-chain-replacement/"],
     ["Gearbox & driveline", "/services/gearbox-repairs/"],
     ["Exhaust repairs", "/services/exhaust-repairs/"],
@@ -235,7 +236,8 @@ const generalServices = [
   }
 ];
 
-generalServices.push(...require("../content/additional-services"));
+const wetBelt = require("../content/wet-belt");
+generalServices.push(...require("../content/additional-services"), wetBelt.service);
 
 const specialistServices = [
   {
@@ -448,18 +450,19 @@ function footer() {
     '<div class="mobile-call-bar"><a data-contact-location="mobile_bar" href="tel:'+business.primaryTel+'"><span aria-hidden="true">📞 </span><span>Call Workshop: <span class="phone-number">'+business.primaryPhone+'</span></span></a><a data-contact-location="mobile_bar" class="mobile-whatsapp" href="'+whatsapp+'"><span aria-hidden="true">💬 </span>WhatsApp Your Reg &amp; Job</a></div>' +
     '<section class="consent-panel" data-consent-panel hidden aria-labelledby="consent-title"><h2 id="consent-title">Optional analytics cookies</h2><p>Allow analytics to help us understand which pages and contact buttons are useful. You can reject these cookies and still use every workshop contact option. <a href="/privacy/">Privacy &amp; cookies</a></p><div class="consent-actions"><button type="button" data-consent="accept">Accept analytics</button><button type="button" data-consent="reject">Reject analytics</button></div></section>';
 }
-function layout({ title, description, pathname, body, faqs = [], service, noindex = false, article }) {
+function layout({ title, description, pathname, body, faqs = [], service, noindex = false, article, image, imageAlt, pageStyles }) {
   const schemas = [businessSchema(), breadcrumbSchema(pathname, title)];
   if (faqs.length) schemas.push(faqSchema(faqs));
   if (service) schemas.push(serviceSchema(service));
   const articleImages = article ? photos[article.photo].articleImages.map(urlFor) : [];
-  const socialImage = articleImages[0] || heroImage;
+  const socialImage = image ? urlFor(image) : articleImages[0] || heroImage;
   if (article) schemas.push({"@context":"https://schema.org","@type":"Article","@id":urlFor(pathname+"#article"),"image":articleImages,"headline":article.title,"description":article.description,"mainEntityOfPage":urlFor(pathname),"datePublished":article.published,"dateModified":article.updated,"author":{"@type":"Organization","name":business.legalName,"url":urlFor("/about/"),"logo":urlFor("/assets/qsv-logo.svg")},"publisher":{"@id":urlFor("/#business")}});
   return '<!doctype html>\n<html lang="en-GB">\n<head>\n<meta charset="utf-8">\n' + analyticsSnippet() +
     '\n<meta name="viewport" content="width=device-width, initial-scale=1">\n<title>'+esc(title)+'</title>\n<meta name="description" content="'+esc(description)+'">\n' +
     '<meta name="robots" content="'+(noindex?'noindex, follow':'index, follow, max-image-preview:large')+'">\n<meta name="theme-color" content="#111827">\n' +
-    '<link rel="canonical" href="'+urlFor(pathname)+'">\n<meta property="og:type" content="'+(article?"article":"website")+'">\n<meta property="og:title" content="'+esc(title)+'">\n<meta property="og:description" content="'+esc(description)+'">\n<meta property="og:url" content="'+urlFor(pathname)+'">\n<meta property="og:image" content="'+socialImage+'">\n<meta property="og:image:alt" content="'+esc(article?photos[article.photo].alt:photos['5842'].alt)+'">\n' +
+    '<link rel="canonical" href="'+urlFor(pathname)+'">\n<meta property="og:type" content="'+(article?"article":"website")+'">\n<meta property="og:title" content="'+esc(title)+'">\n<meta property="og:description" content="'+esc(description)+'">\n<meta property="og:url" content="'+urlFor(pathname)+'">\n<meta property="og:image" content="'+socialImage+'">\n<meta property="og:image:alt" content="'+esc(imageAlt || (article?photos[article.photo].alt:photos['5842'].alt))+'">\n' +
     '<meta name="twitter:card" content="summary_large_image">\n<meta name="twitter:title" content="'+esc(title)+'">\n<meta name="twitter:description" content="'+esc(description)+'">\n<meta name="twitter:image" content="'+socialImage+'">\n<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" sizes="any">\n<link rel="stylesheet" href="/styles.css?v=20261028-3">\n<script defer src="/script.js?v=20261028-3"></script>\n' +
+    (pageStyles ? '<link rel="stylesheet" href="'+pageStyles+'">\n' : '') +
     schemas.map(jsonLd).join("\n")+'\n</head>\n<body>\n'+header(pathname)+'\n<main id="main-content">'+body+'</main>\n'+footer()+'\n</body>\n</html>\n';
 }
 function hero(kicker, title, copy) { return '<section class="page-hero"><div class="page-hero-content"><p class="eyebrow">'+esc(kicker)+'</p><h1>'+esc(title)+'</h1><p class="page-hero-copy">'+esc(copy)+'</p>'+contactButtons("hero")+'<p class="hero-reassurance">Mon–Sat 10:00–18:00 · Sparkbrook, Birmingham B11 · All-makes garage</p></div></section>'; }
@@ -510,6 +513,15 @@ function related(service) {
   }).join("")+'<a class="link-card" href="/services/">All mechanical services</a></div></section>';
 }
 function renderService(service) {
+  if (service.slug === wetBelt.service.slug) {
+    const pathname = "/services/" + service.slug + "/";
+    writePage(pathname, layout({ title: service.metaTitle, description: service.desc, pathname,
+      body: wetBelt.render({ esc, business, maps }), faqs: wetBelt.faqs, service,
+      image: "/assets/wet-belt/wet-belt-replacement-1440.webp",
+      imageAlt: "AI-generated illustration of a wet timing belt replacement",
+      pageStyles: "/assets/wet-belt.css?v=20261031" }));
+    return;
+  }
   const extra = serviceDetails[service.slug] || { sections: [], faqs: [] };
   const isRebuild = rebuildSlugs.has(service.slug);
   const faqs = [...(service.faqs||[]), ...extra.faqs];
@@ -573,7 +585,10 @@ function renderPricing() {
     ["Oil and filter service", "Labour from £60", "/services/servicing/"],
     ["Full car service", "Labour from £70", "/services/servicing/"],
     ["Front brake pad fitting", "Labour from £40 per side", "/services/brakes/"],
-    ["General mechanical labour", "£70 per hour"]
+    ["General mechanical labour", "£70 per hour"],
+    ["1.2 PureTech wet belt", "From £650", "/services/wet-belt-replacement/"],
+    ["Ford 1.0 EcoBoost wet belt", "From £850", "/services/wet-belt-replacement/"],
+    ["2.0 EcoBlue wet belt (Transit / Custom)", "From £1,050", "/services/wet-belt-replacement/"]
   ];
   const enginePrices = [
     ["BMW N47", "From £3,250", "/services/bmw-n47-engine-rebuild/"],
@@ -587,7 +602,7 @@ function renderPricing() {
   const priceTable = (caption, rows) => '<table class="price-table"><caption class="sr-only">'+esc(caption)+'</caption><thead><tr><th scope="col">Service</th><th scope="col">Price</th></tr></thead><tbody>'+rows.map(([title, price, url])=>'<tr><th scope="row">'+(url?'<a href="'+url+'">'+esc(title)+'</a>':esc(title))+'</th><td>'+esc(price)+'</td></tr>').join('')+'</tbody></table>';
   const body='<nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true"> / </span><span aria-current="page">Pricing</span></nav>'+
     hero("Workshop prices", "Car repair and engine rebuild prices", "Call or WhatsApp your registration and the job needed for a quote from our Birmingham workshop.")+
-    '<div class="pricing-layout"><section class="pricing-panel"><h2>Everyday garage work</h2>'+priceTable('Everyday garage prices', workshopPrices)+'<p class="pricing-note">Labour-only prices: parts and materials are additional. Further diagnostic work is agreed separately.</p></section>'+
+    '<div class="pricing-layout"><section class="pricing-panel"><h2>Everyday garage work</h2>'+priceTable('Everyday garage prices', workshopPrices)+'<p class="pricing-note">Where marked labour-only, parts and materials are additional. Wet belt figures are replacement starting prices; final quotes depend on the vehicle and repair scope.</p></section>'+
     '<section class="pricing-panel"><h2>Engine rebuilds</h2>'+priceTable('Engine rebuild starting prices', enginePrices)+'<p class="pricing-note">Starting prices, not fixed quotes. Final prices are confirmed after inspection.</p></section></div>'+
     '<section class="section pricing-contact"><h2>Need another repair?</h2><p>For <a href="/services/">all other workshop services</a>, send your registration and symptoms. We agree the price before work starts.</p>'+contactButtons("pricing")+'</section>';
   writePage("/pricing/",layout({title:"Car Repair & Engine Rebuild Prices Birmingham | QuickVS",description:"Birmingham workshop prices: diagnostics £50, oil service labour from £60, full service labour from £70, and engine rebuild starting prices. Call QuickVS.",pathname:"/pricing/",body}));
