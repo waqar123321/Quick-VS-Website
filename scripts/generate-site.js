@@ -65,7 +65,8 @@ const serviceMenuGroups = [
     ["Battery, starter & alternator", "/services/battery-starter-alternator-repairs/"],
     ["Cooling, water pumps & thermostats", "/services/cooling-system-repairs/"],
     ["Diesel injector repairs", "/services/diesel-injector-repairs/"],
-    ["Timing belts", "/services/timing-belt-replacement/"],
+    ["Cambelt replacement", "/services/cambelt-replacement-birmingham/"],
+    ["VW Group engine & timing repairs", "/services/vw-audi-engine-repairs-birmingham/"],
     ["Wet belt replacement", "/services/wet-belt-replacement/"],
     ["Timing chains", "/services/timing-chain-replacement/"],
     ["Gearbox & driveline", "/services/gearbox-repairs/"],
@@ -120,19 +121,9 @@ const generalServices = [
     short: "Timing chain, guide, tensioner and related repair work.",
     desc: "Timing chain replacement in Birmingham for rattles, chain stretch, guide failure and serious timing-related engine faults.",
     intro:
-      "Timing chain faults can move quickly from a noise to major engine damage. We inspect the symptoms, confirm the likely cause and replace chain-related components carefully where repair is viable.",
+      "Our all-makes garage assesses timing chain faults on BMW N47/N57, JLR Ingenium and VW/Audi TSI/TFSI petrol engines. We investigate rattles, timing faults and warning lights before agreeing repair work.",
     points: ["Chain, guide and tensioner replacement", "BMW N47 and N57 knowledge", "Engine damage checks before repair"],
     related: ["/services/bmw-n47-engine-rebuild/", "/services/bmw-n57-engine-rebuild/"]
-  },
-  {
-    slug: "timing-belt-replacement",
-    title: "Timing Belt Replacement in Birmingham",
-    short: "Timing belt and related component replacement.",
-    desc: "Timing belt replacement in Birmingham with practical advice on belts, water pumps and age or mileage-related replacement.",
-    intro:
-      "A timing belt is not a part to ignore. We replace belts and related components where required, using a careful process that protects the engine from avoidable timing damage.",
-    points: ["Belt condition advice", "Water pump checks where applicable", "Correct timing procedure"],
-    related: ["/services/cooling-system-repairs/", "/services/engine-diagnostics/", "/services/servicing/"]
   },
   {
     slug: "clutch-replacement",
@@ -236,8 +227,9 @@ const generalServices = [
   }
 ];
 
+const timingServices = require("../content/timing-services");
 const wetBelt = require("../content/wet-belt");
-generalServices.push(...require("../content/additional-services"), wetBelt.service);
+generalServices.push(...require("../content/additional-services"), wetBelt.service, ...timingServices.services);
 
 const specialistServices = [
   {
@@ -381,10 +373,10 @@ function writePage(pathname, content) {
   fs.writeFileSync(file, content, "utf8");
   sitePages.push(pathname);
 }
-function businessSchema() {
+function businessSchema(legalName = business.legalName) {
   const schema = {
     "@context": "https://schema.org", "@type": "AutoRepair", "@id": urlFor("/#business"),
-    name: business.legalName, legalName: business.legalName, url: urlFor("/"),
+    name: legalName, legalName, url: urlFor("/"),
     logo: urlFor("/assets/qsv-logo.svg"), image: heroImage, telephone: business.primaryTel,
     email: business.email, address: { "@type": "PostalAddress", streetAddress: business.streetAddress,
       addressLocality: "Birmingham", addressRegion: "West Midlands", postalCode: business.postcode, addressCountry: "GB" },
@@ -406,7 +398,7 @@ function breadcrumbSchema(pathname, title) {
     "@type": "ListItem", position: i+1, name, item: urlFor(url) })) };
 }
 function faqSchema(faqs) { return { "@context": "https://schema.org", "@type": "FAQPage",
-  mainEntity: faqs.map(([name,text]) => ({ "@type": "Question", name, acceptedAnswer: { "@type": "Answer", text } })) }; }
+  mainEntity: faqs.map(([name,text]) => ({ "@type": "Question", name, acceptedAnswer: { "@type": "Answer", text: text.replace(/\[([^\]]+)\]\(\/[^\s)]+\)/g, "$1") } })) }; }
 function serviceSchema(service) { return { "@context": "https://schema.org", "@type": "Service",
   "@id": urlFor("/services/" + service.slug + "/#service"), url: urlFor("/services/" + service.slug + "/"),
   name: service.title, serviceType: service.keyword || service.title, provider: { "@id": urlFor("/#business") },
@@ -451,7 +443,7 @@ function footer() {
     '<section class="consent-panel" data-consent-panel hidden aria-labelledby="consent-title"><h2 id="consent-title">Optional analytics cookies</h2><p>Allow analytics to help us understand which pages and contact buttons are useful. You can reject these cookies and still use every workshop contact option. <a href="/privacy/">Privacy &amp; cookies</a></p><div class="consent-actions"><button type="button" data-consent="accept">Accept analytics</button><button type="button" data-consent="reject">Reject analytics</button></div></section>';
 }
 function layout({ title, description, pathname, body, faqs = [], service, noindex = false, article, image, imageAlt, pageStyles }) {
-  const schemas = [businessSchema(), breadcrumbSchema(pathname, title)];
+  const schemas = [businessSchema(service?.timingLanding ? "Quick Solution Vehicles Ltd" : business.legalName), breadcrumbSchema(pathname, title)];
   if (faqs.length) schemas.push(faqSchema(faqs));
   if (service) schemas.push(serviceSchema(service));
   const articleImages = article ? photos[article.photo].articleImages.map(urlFor) : [];
@@ -461,7 +453,8 @@ function layout({ title, description, pathname, body, faqs = [], service, noinde
     '\n<meta name="viewport" content="width=device-width, initial-scale=1">\n<title>'+esc(title)+'</title>\n<meta name="description" content="'+esc(description)+'">\n' +
     '<meta name="robots" content="'+(noindex?'noindex, follow':'index, follow, max-image-preview:large')+'">\n<meta name="theme-color" content="#111827">\n' +
     '<link rel="canonical" href="'+urlFor(pathname)+'">\n<meta property="og:type" content="'+(article?"article":"website")+'">\n<meta property="og:title" content="'+esc(title)+'">\n<meta property="og:description" content="'+esc(description)+'">\n<meta property="og:url" content="'+urlFor(pathname)+'">\n<meta property="og:image" content="'+socialImage+'">\n<meta property="og:image:alt" content="'+esc(imageAlt || (article?photos[article.photo].alt:photos['5842'].alt))+'">\n' +
-    '<meta name="twitter:card" content="summary_large_image">\n<meta name="twitter:title" content="'+esc(title)+'">\n<meta name="twitter:description" content="'+esc(description)+'">\n<meta name="twitter:image" content="'+socialImage+'">\n<link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="16x16 32x32 48x48 64x64">\n<link rel="icon" href="/favicon-96x96.png" type="image/png" sizes="96x96">\n<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" sizes="any">\n<link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">\n<link rel="stylesheet" href="/styles.css?v=20261028-3">\n<script defer src="/script.js?v=20261028-3"></script>\n' +
+    '<meta name="twitter:card" content="summary_large_image">\n<meta name="twitter:title" content="'+esc(title)+'">\n<meta name="twitter:description" content="'+esc(description)+'">\n<meta name="twitter:image" content="'+socialImage+'">\n<link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="16x16 32x32 48x48 64x64">\n<link rel="icon" href="/favicon-96x96.png" type="image/png" sizes="96x96">\n<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" sizes="any">\n<link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">\n<link rel="stylesheet" href="/styles.css?v=20261102-vag">\n<script defer src="/script.js?v=20261028-3"></script>\n' +
+    (service?.timingLanding ? '<link rel="preload" as="image" href="/assets/workshop/dismantled-engine-block-assessment-768.webp" media="(max-width: 760px)" fetchpriority="high">\n<link rel="preload" as="image" href="/assets/workshop/dismantled-engine-block-assessment-1152.webp" media="(min-width: 761px)" fetchpriority="high">\n' : '') +
     (pageStyles ? '<link rel="stylesheet" href="'+pageStyles+'">\n' : '') +
     schemas.map(jsonLd).join("\n")+'\n</head>\n<body>\n'+header(pathname)+'\n<main id="main-content">'+body+'</main>\n'+footer()+'\n</body>\n</html>\n';
 }
@@ -502,7 +495,7 @@ const servicePriceNotes = {
   'jlr-ingenium-engine-rebuild': 'JLR 2.0 Ingenium rebuilds from £3,500, subject to inspection and written confirmation of the job scope.'
 };
 function sections(items) { return items.map(([title,copy],i)=>'<section class="section service-detail '+(i%2?'section-muted':'')+'"><h2>'+esc(title)+'</h2><div class="detail-copy">'+copy.split("\n\n").map(p=>'<p>'+inlineCopy(p)+'</p>').join("")+'</div></section>').join(""); }
-function faqsHtml(items) { return items.length?'<section class="section"><p class="section-kicker">Workshop FAQs</p><h2>Before you book</h2><div class="faq-list">'+items.map(([q,a])=>'<details><summary>'+esc(q)+'</summary><p>'+esc(a)+'</p></details>').join("")+'</div></section>':""; }
+function faqsHtml(items) { return items.length?'<section class="section"><p class="section-kicker">Workshop FAQs</p><h2>Before you book</h2><div class="faq-list">'+items.map(([q,a])=>'<details><summary>'+esc(q)+'</summary><p>'+inlineCopy(a)+'</p></details>').join("")+'</div></section>':""; }
 function reviewSection() { return '<section class="section section-muted"><div class="section-heading"><div><p class="section-kicker">Customer feedback</p><h2>Five-star Google reviews</h2></div><a class="text-link" href="'+maps+'">View Google profile</a></div><div class="review-grid">'+reviews.map(r=>'<figure class="review-card"><figcaption><strong>'+esc(r.author)+'</strong><span class="review-stars" aria-label="5 out of 5 stars">★★★★★</span></figcaption><blockquote><p>'+esc(r.text)+'</p></blockquote></figure>').join("")+'</div></section>'; }
 function cards(list) { return '<div class="service-grid">'+list.map(s=>'<article class="service-card"><a href="/services/'+s.slug+'/"><span class="service-icon">Workshop service</span><h3>'+esc(s.title)+'</h3><p>'+esc(s.short||s.desc)+'</p></a></article>').join("")+'</div>'; }
 function related(service) {
@@ -513,6 +506,12 @@ function related(service) {
   }).join("")+'<a class="link-card" href="/services/">All mechanical services</a></div></section>';
 }
 function renderService(service) {
+  if (service.timingLanding) {
+    const pathname = "/services/" + service.slug + "/";
+    writePage(pathname, layout({ title: service.metaTitle, description: service.desc, pathname, service, faqs: service.faqs,
+      body: timingServices.render(service, { hero, sections, reviewSection, faqsHtml, contactButtons, esc }) }));
+    return;
+  }
   if (service.slug === wetBelt.service.slug) {
     const pathname = "/services/" + service.slug + "/";
     writePage(pathname, layout({ title: service.metaTitle, description: service.desc, pathname,
@@ -535,6 +534,7 @@ function renderService(service) {
   if(showEnginePrices) body+='<section class="section service-detail" aria-labelledby="engine-prices"><p class="section-kicker">Clear starting prices</p><h2 id="engine-prices">Engine rebuild starting prices</h2>'+priceTable('Engine rebuild starting prices', enginePrices)+'<p class="pricing-note">Starting prices, not fixed quotes. The final price and repair scope are confirmed after inspection.</p>'+contactButtons("engine_prices")+'</section>';
   if(service.heroIntro) body+=sections([["Discuss your engine rebuild",service.opening]]);
   if(service.points) body+='<section class="section intro-grid"><div><h2>'+esc(service.short)+'</h2></div><div class="intro-copy"><p>'+esc(service.desc)+'</p><ul class="check-list">'+service.points.map(p=>'<li>'+esc(p)+'</li>').join("")+'</ul></div></section>';
+  if(service.slug==="timing-chain-replacement") body+=timingServices.chainCards({ inlineCopy });
   body+=sections(items);
   body+=sections(serviceNavigation[service.slug]||[]);
   if(servicePhotos[service.slug]) body+=workshopGallery(servicePhotos[service.slug]);
@@ -569,7 +569,7 @@ function renderHome() {
     sections([["MOT failure and advisory repairs—not MOT testing","Failed on brakes, a control arm, a suspension joint or another mechanical item? Send us a photo of the MOT failure report. We assess and repair the fault; your chosen testing station carries out the MOT test or retest. Read more about [MOT failure repairs](/services/mot-failure-repairs/)."],["Control arms, wishbones and steering faults","Knocking over bumps, play in the steering or a failed ball joint needs inspection before parts are ordered. We assess bushes, wishbones, ball joints and relevant steering components. See our [suspension and steering repairs](/services/suspension-steering-repairs/) page. Wheel alignment and tracking are not offered here."]])+
     '<section class="section section-muted"><p class="section-kicker">More mechanical services</p><h2>Starting, cooling, exhaust and other repairs</h2>'+cards(generalServices.filter(service=>service.slug!=="engine-rebuilds" && !featuredEverydayServices.includes(service)))+'</section>'+
     '<section class="section"><p class="section-kicker">Engine rebuild specialists</p><h2>All-makes, commercial and performance engine work</h2><p>For serious engine faults we inspect the damage before agreeing repair, rebuild or replacement options. Our engine services remain a core part of the workshop.</p>'+cards(landingPages)+'</section>'+
-    '<section class="section section-muted"><p class="section-kicker">Specialist engine work</p><h2>BMW, Jaguar Land Rover and engine rebuild enquiries</h2>'+cards([generalServices[0],...specialistServices])+'</section>'+
+    '<section class="section section-muted"><p class="section-kicker">Specialist engine work</p><h2>BMW, Jaguar Land Rover and other engine enquiries</h2><p>Our all-makes coverage includes VW, Audi, Skoda and SEAT petrol and diesel engines.</p>'+cards([generalServices[0],...specialistServices])+'</section>'+
     workshopGallery(['5842','5849','5847'])+
     reviewSection()+faqsHtml(homeFaqs)+
     '<section class="section local-seo"><p class="section-kicker">Areas we cover</p><h2>Sparkbrook workshop, wider Birmingham customers</h2><p>We support drivers across Birmingham, Solihull, Dudley, Walsall, Sandwell, Coventry, Wolverhampton and West Bromwich. For suitable non-running cars and engine work, recovery from further afield can be discussed at customer cost.</p><p>'+business.address+'</p><a class="text-link" href="'+maps+'">Find the workshop on Google Maps</a></section>'+cta();
@@ -599,6 +599,8 @@ function renderPricing() {
     ["Full car service", "Labour from £70", "/services/servicing/"],
     ["Front brake pad fitting", "Labour from £40 per side", "/services/brakes/"],
     ["General mechanical labour", "£70 per hour"],
+    ["VW Group timing chain", "Quote by registration", "/services/vw-audi-engine-repairs-birmingham/"],
+    ["Cambelt replacement", "Quote by registration", "/services/cambelt-replacement-birmingham/"],
     ["1.2 PureTech wet belt", "From £650", "/services/wet-belt-replacement/"],
     ["Ford 1.0 EcoBoost wet belt", "From £850", "/services/wet-belt-replacement/"],
     ["2.0 EcoBlue wet belt (Transit / Custom)", "From £1,050", "/services/wet-belt-replacement/"]
@@ -637,7 +639,7 @@ function renderGuide(article) {
 function renderAdvice() {
   const body=hero("Practical repair advice","Before you drive with an engine fault","The symptoms and the circumstances matter. These checks help you describe the problem to the workshop and plan the right next step.")+
     sections([["Red oil warning, knocking or sudden timing noise","A red oil-pressure warning is different from a routine service reminder. Stop safely and switch the engine off if a serious oil warning or heavy knocking develops. Continuing to run a distressed engine can increase internal damage. An oil level check can provide useful information, but a correct level does not prove that pressure is adequate. Tell the workshop when the warning appeared, whether noise accompanied it and what happened immediately beforehand. Do not repeatedly restart the engine merely to see whether the warning goes away."],["Overheating and coolant loss","A temperature warning, steam or sudden coolant loss calls for a safe stop and assessment. Do not open a hot cooling system. The repair may involve a leak, circulation fault or more extensive damage; overheating alone does not prove that the head gasket is the original cause. Tell us whether the coolant level has been dropping, the heater behaviour changed or another garage recently worked on the cooling system. A pressure test and relevant mechanical checks may be needed before choosing parts or deciding whether internal engine work is required."],["Non-start and fault-code reports","Describe whether the engine turns normally, clicks, cranks unusually quickly or will not turn. Those are different starting points for diagnosis. Keep any existing code report and note whether the fault is intermittent, hot or cold. A stored code identifies a detected condition; the wiring, supply, fuel, timing or mechanical cause still needs checking. Tell us about recent battery, engine or timing work and whether the vehicle stopped while moving. Send the registration and running status before arranging recovery so the initial assessment and access can be discussed."],["Timing chains and wet belts are different designs","BMW N47/N57 and JLR 2.0 Ingenium enquiries often involve timing chains. Wet-belt assessment applies to particular Ford EcoBoost/EcoBlue and earlier PureTech engines. Similar names and engine capacities do not prove that the drive design is the same. A preventative belt or chain job also differs from repairing an engine after timing loss. We identify the fitted engine, consider its maintenance record and assess any associated damage before agreeing the scope. Use the service pages below to read about the relevant repair route."]])+
-    '<section class="section section-muted"><h2>Relevant workshop services</h2>'+cards(allServices.filter(s=>["engine-diagnostics","timing-chain-replacement","timing-belt-replacement"].includes(s.slug)))+'</section>'+cta();
+    '<section class="section section-muted"><h2>Relevant workshop services</h2>'+cards(allServices.filter(s=>["engine-diagnostics","timing-chain-replacement","cambelt-replacement-birmingham"].includes(s.slug)))+'</section>'+cta();
   writePage("/blog/",layout({title:"Engine Warning Signs & Repair Advice | QuickVS",description:"Practical guidance on oil warnings, knocking, overheating, non-starts, timing chains and wet belts from Quick Solution Vehicles in Birmingham.",pathname:"/blog/",body:body+guideCards()}));
 }
 function renderPrivacy() {
@@ -646,6 +648,10 @@ function renderPrivacy() {
   writePage("/privacy/",layout({title:"Privacy & Cookies | Quick Solution Vehicles LTD",description:"How Quick Solution Vehicles LTD handles workshop enquiries and optional website analytics. Contact info@quickvs.com.",pathname:"/privacy/",body}));
 }
 renderHome(); renderServices(); allServices.forEach(renderService); renderPricing(); renderContact(); renderAbout(); renderReviews(); renderAdvice(); guides.forEach(renderGuide); renderPrivacy();
+delete dates["/services/timing-belt-replacement/"];
+const legacyBeltDir = path.join(root, "services/timing-belt-replacement");
+fs.mkdirSync(legacyBeltDir, {recursive:true});
+fs.writeFileSync(path.join(legacyBeltDir, "index.html"), '<!doctype html>\n<html lang="en-GB"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Cambelt page moved | QuickVS</title><meta name="robots" content="noindex, follow"><meta http-equiv="refresh" content="0; url=/services/cambelt-replacement-birmingham/"><link rel="canonical" href="https://quickvs.com/services/cambelt-replacement-birmingham/"></head><body><main><h1>Cambelt replacement</h1><p>This information is now on our <a href="/services/cambelt-replacement-birmingham/">cambelt replacement page</a>.</p></main></body></html>\n');
 fs.writeFileSync(datesFile, JSON.stringify(dates, null, 2)+"\n");
 fs.writeFileSync(path.join(root,"sitemap.xml"),'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+sitePages.map(p=>'  <url><loc>'+urlFor(p)+'</loc><lastmod>'+dates[p]+'</lastmod></url>').join("\n")+'\n</urlset>\n');
 fs.writeFileSync(path.join(root,"robots.txt"),"User-agent: *\nAllow: /\n\nSitemap: https://quickvs.com/sitemap.xml\n");

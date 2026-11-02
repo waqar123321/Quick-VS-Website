@@ -49,7 +49,7 @@ module.exports = [
       ["Can you replace a water pump or thermostat?", "Yes. We diagnose the fault, identify the correct components and discuss replacement for your vehicle."],
       ["Does overheating mean I need an engine rebuild?", "Not necessarily. The cooling fault and any resulting engine damage need assessment before deciding the repair."]
     ],
-    related: ["/services/engine-diagnostics/", "/services/timing-belt-replacement/", "/services/engine-rebuilds/"]
+    related: ["/services/engine-diagnostics/", "/services/cambelt-replacement-birmingham/", "/services/engine-rebuilds/"]
   },
   {
     slug: "diesel-injector-repairs",

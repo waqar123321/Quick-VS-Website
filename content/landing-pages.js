@@ -138,7 +138,7 @@ module.exports = [
     ],
     "related": [
       "/services/performance-engine-rebuilds/",
-      "/services/timing-belt-replacement/",
+      "/services/cambelt-replacement-birmingham/",
       "/services/jlr-ingenium-engine-rebuild/",
       "/services/engine-rebuilds/"
     ],

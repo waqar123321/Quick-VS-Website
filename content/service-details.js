@@ -86,36 +86,10 @@ module.exports = {
       [
         "Does a snapped chain always require another engine?",
         "No. Strip-down and damage assessment determine whether the head, bottom end or complete engine can be repaired."
-      ]
-    ]
-  },
-  "timing-belt-replacement": {
-    "sections": [
-      [
-        "Identify the belt design before choosing the job",
-        "Timing belts synchronise the crankshaft and camshaft, but not every vehicle uses the same arrangement. Some run dry behind covers, while belt-in-oil designs operate inside the engine. The registration, engine code and build date are needed to establish the correct parts and replacement schedule. Age matters alongside mileage. A missing service record is a reason to check the requirements rather than assume the belt has been changed. We assess related tensioners, pulleys, seals and the water pump where it forms part of the applicable drive."
       ],
       [
-        "Wet Belt Replacement & Engine Recovery",
-        "We assess wet-belt-equipped Ford 1.0 EcoBoost engines, Ford 2.0 EcoBlue applications including Transit, Transit Custom and relevant Ranger variants, and earlier Peugeot, Citroën and Vauxhall 1.2 PureTech engines. Ford 1.5 EcoBoost enquiries are also welcome, but the timing design must be identified: the three-cylinder 1.5 uses chain-driven camshafts. Newer PureTech versions can also be chain-driven. On a deteriorating wet belt, debris may affect the oil pickup and lubrication system. An oil warning, knocking or belt failure needs damage assessment as well as a belt quotation."
-      ],
-      [
-        "Replacement after deterioration or failure",
-        "Preventative belt replacement and recovery after engine failure are separate repair situations. If timing has been lost, valve damage and other internal contact may need investigation before installing a kit. Where belt debris or low pressure is involved, the repair scope may require sump, pickup and oil-system checks, with assessment of bearings and turbo lubrication. We discuss what is necessary for the specific engine, confirm the parts route and check timing after assembly. Do not restart an engine with a red oil warning or suspected timing failure merely to see whether it clears."
-      ]
-    ],
-    "faqs": [
-      [
-        "Are all EcoBoost engines wet-belt engines?",
-        "No. The family contains different belt and chain designs. We identify the actual engine before specifying a repair."
-      ],
-      [
-        "Can a wet belt cause low oil pressure?",
-        "Deteriorating belt material can contaminate the oil system and restrict a pickup. Inspection is needed to confirm the cause and damage."
-      ],
-      [
-        "Can you recover a vehicle after a belt failure?",
-        "Contact the workshop first. Recovery for suitable major engine work can be arranged at customer cost."
+        "Does my VW/Audi have a timing chain or a cambelt?",
+        "It depends on the engine code and year. Older EA111 TSI and EA888 TSI/TFSI engines use chains; newer EA211 TSI and most 1.6/2.0 TDI engines use cambelts for the camshaft drive. Model names alone are not enough. WhatsApp your reg and mileage so we can identify it, or read about [cambelt replacement](/services/cambelt-replacement-birmingham/)."
       ]
     ]
   },

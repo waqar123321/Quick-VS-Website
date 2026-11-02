@@ -23,12 +23,20 @@ function walk(dir) {
   });
 }
 const htmlFiles=walk(root).filter(file=>file.endsWith(".html"));
-const pages=htmlFiles.map(file=>{
+const allHtmlPages=htmlFiles.map(file=>{
   const rel=path.relative(root,file).replaceAll("\\","/");
   const pathname=rel==="404.html"?"/404.html":"/"+rel.replace(/index\.html$/,"");
   return {file,pathname,text:fs.readFileSync(file,"utf8")};
 });
+const legacyPath="/services/timing-belt-replacement/";
+const legacy=allHtmlPages.find(p=>p.pathname===legacyPath);
+assert.ok(legacy,"Keep the old timing-belt URL as a redirect");
+assert.ok(legacy.text.includes('http-equiv="refresh" content="0; url=/services/cambelt-replacement-birmingham/"'),"Legacy belt URL must redirect immediately");
+assert.ok(legacy.text.includes('rel="canonical" href="https://quickvs.com/services/cambelt-replacement-birmingham/"'),"Legacy belt canonical must consolidate to cambelt");
+assert.ok(legacy.text.includes('content="noindex, follow"'),"Legacy redirect must not compete with the new page");
+const pages=allHtmlPages.filter(p=>p.pathname!==legacyPath);
 const sitemap=fs.readFileSync(path.join(root,"sitemap.xml"),"utf8");
+assert.ok(!sitemap.includes(origin+legacyPath),"Redirects do not belong in the sitemap");
 const entries=[...sitemap.matchAll(/<url><loc>([^<]+)<\/loc><lastmod>([^<]+)<\/lastmod><\/url>/g)].map(m=>({url:m[1],date:m[2]}));
 const indexable=pages.filter(p=>p.pathname!=="/404.html");
 assert.equal(entries.length,indexable.length,"Sitemap must include every indexable page exactly once");
@@ -70,7 +78,7 @@ for(const page of pages) {
     const schema=JSON.parse(match[1]);
     assertNoReviewMarkup(schema, pathname);
     if(schema["@type"]==="AutoRepair") {
-      assert.equal(schema.name,"Quick Solution Vehicles LTD");
+      assert.equal(schema.name, /\/(?:vw-audi-engine-repairs-birmingham|cambelt-replacement-birmingham)\/$/.test(pathname) ? "Quick Solution Vehicles Ltd" : "Quick Solution Vehicles LTD");
       assert.equal(schema.telephone,"+447522179040");
       assert.equal(schema.email,"info@quickvs.com");
       assert.equal(schema.url,origin+"/");
@@ -145,7 +153,7 @@ for(const service of services) {
   const main=service.text.match(/<main\b[^>]*>([\s\S]*?)<\/main>/)[1].replace(/<[^>]*>/g," ").replace(/&[a-z#0-9]+;/gi," ");
   assert.ok(main.trim().split(/\s+/).length>=200,"Service needs useful customer-facing detail: "+service.pathname);
 }
-assert.equal(services.length,26);
+assert.equal(services.length,27);
 for (const slug of ["battery-starter-alternator-repairs", "wheel-bearing-replacement", "cooling-system-repairs", "diesel-injector-repairs"]) {
   const page=services.find(service=>service.pathname==="/services/"+slug+"/");
   assert.ok(page,"Missing confirmed service "+slug);
@@ -156,7 +164,7 @@ for (const slug of ["battery-starter-alternator-repairs", "wheel-bearing-replace
 assert.ok(services.find(service=>service.pathname==="/services/suspension-steering-repairs/").text.includes("Shock absorbers and coil springs"),"Suspension page must cover confirmed shocks and springs work");
 const reviews=JSON.parse(fs.readFileSync(path.join(root,"content/reviews.json"),"utf8")).reviews;
 assert.equal(reviews.length,5);
-for(const page of pages.filter(p=>p.pathname==="/"||p.pathname==="/testimonials/"||(p.pathname.startsWith("/services/")&&/rebuild/.test(p.pathname)))) {
+for(const page of pages.filter(p=>p.pathname==="/"||p.pathname==="/testimonials/"||["/services/timing-chain-replacement/","/services/vw-audi-engine-repairs-birmingham/","/services/cambelt-replacement-birmingham/"].includes(p.pathname)||(p.pathname.startsWith("/services/")&&/rebuild/.test(p.pathname)))) {
   const cards=[...page.text.matchAll(/<figure class="review-card">([\s\S]*?)<\/figure>/g)].map(m=>m[1]);
   assert.equal(cards.length,reviews.length,"Missing visible reviews on "+page.pathname);
   for (const review of reviews) {
@@ -192,4 +200,29 @@ for(const photo of Object.values(photos)) {
 }
 assert.ok(photos['5842'].redactions.length>=1,'X5 privacy review must be recorded');
 assert.ok(!walk(path.join(root,'assets')).some(f=>/IMG_\d+|\.zip$/i.test(f)),'Private originals must stay outside public assets');
+
+const timingLandingSlugs=["vw-audi-engine-repairs-birmingham","cambelt-replacement-birmingham"];
+for(const [i,slug] of timingLandingSlugs.entries()) {
+  const page=pages.find(p=>p.pathname==="/services/"+slug+"/");
+  const main=page.text.match(/<main\b[^>]*>([\s\S]*?)<\/main>/)[1];
+  const text=main.replace(/<[^>]*>/g," ").replace(/&[a-z#0-9]+;/gi," ").trim();
+  const words=text.split(/\s+/).length;
+  assert.ok(words>=(i===0?700:600)&&words<=(i===0?1000:900),slug+": content length "+words);
+  assert.ok(!/£|\bDSG\b|gearbox|\bEGR\b|auto.electrics/i.test(text),slug+": unrelated service or unapproved price");
+  assert.ok(page.text.match(/<title>([^<]+)<\/title>/)[1].replaceAll("&amp;","&").length<=60,slug+": title over 60 characters");
+  assert.ok(page.text.match(/name="description" content="([^"]+)"/)[1].replaceAll("&amp;","&").length<=155,slug+": description over 155 characters");
+  assert.ok(main.includes("Quote by registration — WhatsApp your reg and mileage"),slug+": missing quote guidance");
+  const schemas=[...page.text.matchAll(/<script type="application\/ld\+json">\s*([\s\S]*?)\s*<\/script>/g)].map(m=>JSON.parse(m[1]));
+  for(const type of ["AutoRepair","Service","BreadcrumbList","FAQPage"])assert.equal(schemas.filter(v=>v["@type"]===type).length,1,slug+": expected one "+type);
+  const faq=schemas.find(v=>v["@type"]==="FAQPage");
+  assert.equal(faq.mainEntity.length,5,slug+": expected five FAQs");
+  for(const item of faq.mainEntity)assert.ok(!/\[[^\]]+\]\(/.test(item.acceptedAnswer.text),slug+": raw markdown in FAQ schema");
+  assert.ok(main.includes('href="/services/'+timingLandingSlugs[1-i]+'/"'),slug+": missing reciprocal link");
+}
+const chain=pages.find(p=>p.pathname==="/services/timing-chain-replacement/").text;
+assert.equal((chain.match(/class="service-card chain-engine-card"/g)||[]).length,3,"Expected three timing-chain engine cards");
+assert.ok(chain.includes("Does my VW/Audi have a timing chain or a cambelt?"),"Missing VW chain/cambelt FAQ");
+assert.ok(pricing.includes("VW Group timing chain")&&pricing.includes("Cambelt replacement")&&pricing.includes("Quote by registration"),"Missing quote-only price rows");
+for(const page of pages)assert.ok(!page.text.includes('href="'+legacyPath+'"'),"Internal link still points to old belt page: "+page.pathname);
+
 console.log("Validated "+pages.length+" HTML files, "+entries.length+" sitemap URLs, "+services.length+" service pages, metadata, schema, contact details and internal resources.");

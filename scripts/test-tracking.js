@@ -73,4 +73,23 @@ assert.ok(!JSON.stringify(campaign).includes("private"),"Known campaign labels m
 f=fixture(null,false,"https://quickvs.com/?utm_source=google&utm_medium=organic&utm_campaign=gbp_workshop&utm_content=private");
 f.accept.click();campaign=f.context.dataLayer.find(x=>x[0]==="config")[2];
 assert.equal(campaign.campaign_content,undefined,"Unknown campaign text must not enter Analytics");
-console.log("Tracking tests passed: consent, withdrawal, real ID, click channels, navigation, PII redaction and expired/blocked storage.");
+for(const slug of ["vw-audi-engine-repairs-birmingham","cambelt-replacement-birmingham"]) {
+  const pathname="/services/"+slug+"/";
+  const html=fs.readFileSync(path.join(__dirname,"..",pathname,"index.html"),"utf8");
+  assert.equal(html.match(/<script>([\s\S]*?)<\/script>/)[1],head,"New page must retain the shared consent-aware Google setup");
+  assert.ok(html.includes('src="/script.js?v=20261028-3"'),"New page must load the existing shared tracking script");
+  const contacts=["tel:+447522179040","https://wa.me/447522179040?","mailto:info@quickvs.com","https://maps.google.com/maps?cid=2157141621358514254"].map(prefix=>{
+    const href=[...html.matchAll(/href="([^"]+)"/g)].map(m=>m[1]).find(h=>h.startsWith(prefix));
+    assert.ok(href,pathname+": missing real "+prefix+" contact link");return href;
+  });
+  const page=fixture(null,false,"https://quickvs.com"+pathname+"?reg=private");
+  contacts.forEach(href=>page.click(href));
+  assert.equal(page.tracked().length,0,pathname+": no tracking before consent");
+  page.accept.click();contacts.forEach(href=>page.click(href));
+  assert.deepEqual(page.tracked().map(e=>e.name),["phone_call_click","whatsapp_click","email_click","directions_click"]);
+  assert.ok(page.tracked().every(e=>e.params.page_path===pathname),pathname+": event page attribution");
+  assert.ok(!JSON.stringify(page.tracked()).includes("private"),pathname+": no enquiry information in analytics");
+  page.reject.click();contacts.forEach(href=>page.click(href));
+  assert.equal(page.tracked().length,4,pathname+": withdrawal stops tracking");
+}
+console.log("Tracking tests passed: consent, withdrawal, real ID, four click channels on both new pages, navigation, PII redaction and expired/blocked storage.");
