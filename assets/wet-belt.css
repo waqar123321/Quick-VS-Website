@@ -13,9 +13,13 @@
 .wet-hero h1 { margin: 0 0 24px; font-size: clamp(40px, 4.3vw, 61px); line-height: 1.04; letter-spacing: -.045em; font-weight: 850; }
 .wet-hero h1 span { color: #f1f3f6; }
 .wet-lead { max-width: 540px; font-size: 18px; color: #d3d9e2; line-height: 1.65; }
+.wet-hero-prices { margin: 28px 0 22px; }
+.wet-hero-prices .wet-hero-price { margin: 0 0 14px; }
+.wet-hero-prices .wet-hero-price:last-child { margin-bottom: 0; }
+#wet-reviews { scroll-margin-top: 100px; }
 .wet-hero-price { display: flex; align-items: baseline; flex-wrap: wrap; gap: 0 9px; font-size: 16px; margin: 28px 0 22px; }
 .wet-hero-price strong { font-size: 32px; line-height: 1; letter-spacing: -.04em; }
-.wet-hero-price span { font-size: 13px; color: #bfc8d5; }
+.wet-hero-price span { font-size: 15px; color: #d3d9e2; }
 .wet-landing .contact-actions { gap: 10px; }
 .wet-landing .button { gap: 12px; min-height: 52px; font-weight: 750; padding: 14px 19px; }
 .wet-hours { color: #c8d0db; font-size: 13px; margin: 20px 0 0; }
@@ -114,3 +118,4 @@
   .wet-booking { padding: 28px 24px; }
   .wet-visit { border-left: 0; padding-left: 0; padding-top: 27px; border-top: 1px solid #414954; }
 }
+

@@ -516,21 +516,23 @@ function renderService(service) {
   if (service.slug === wetBelt.service.slug) {
     const pathname = "/services/" + service.slug + "/";
     writePage(pathname, layout({ title: service.metaTitle, description: service.desc, pathname,
-      body: wetBelt.render({ esc, business, maps }), faqs: wetBelt.faqs, service,
+      body: wetBelt.render({ esc, business, maps, reviewSection }), faqs: wetBelt.faqs, service,
       image: "/assets/wet-belt/wet-belt-replacement-1440.webp",
       imageAlt: "AI-generated illustration of a wet timing belt replacement",
-      pageStyles: "/assets/wet-belt.css?v=20261031" }));
+      pageStyles: "/assets/wet-belt.css?v=20261102" }));
     return;
   }
   const extra = serviceDetails[service.slug] || { sections: [], faqs: [] };
   const isRebuild = rebuildSlugs.has(service.slug);
+  const showEnginePrices = ["engine-rebuild-birmingham", "engine-rebuilds", "all-makes-engine-rebuilds"].includes(service.slug);
   const faqs = [...(service.faqs||[]), ...extra.faqs];
   let items = [...(service.sections||[]), ...extra.sections];
   if (service.why) items.unshift(["Diagnosis before major work",service.why]);
   let body='<nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true"> / </span><a href="/services/">Services</a><span aria-hidden="true"> / </span><span aria-current="page">'+esc(service.title)+'</span></nav>'+hero(isRebuild?"Engine rebuild workshop":"Mechanical repairs Birmingham",service.title,service.heroIntro||service.opening||service.intro)+
     '<div class="service-pricing-link"><a href="/pricing/">Workshop prices &amp; engine rebuild starting prices</a></div>';
-  if (servicePriceNotes[service.slug]) body+='<aside class="service-price-note"><strong>Starting price:</strong> '+esc(servicePriceNotes[service.slug])+' <a href="/pricing/">See pricing details</a></aside>';
-  if(isRebuild) body+='<section class="trust-strip" aria-label="Engine rebuild terms"><span>Standard warranty: 6 months or 10,000 miles*</span><span>Typical turnaround 1–3 weeks</span><span>*Written job-specific terms apply</span></section>';
+  if (!showEnginePrices && servicePriceNotes[service.slug]) body+='<aside class="service-price-note"><strong>Starting price:</strong> '+esc(servicePriceNotes[service.slug])+' <a href="/pricing/">See pricing details</a></aside>';
+  if(isRebuild) body+='<section class="trust-strip" aria-label="Engine rebuild terms"><span>Standard warranty: 6 months or 10,000 miles*</span><span>Typical turnaround 1–3 weeks</span><span>*Whichever comes first; written terms confirm the cover and any job-specific variation.</span></section>';
+  if(showEnginePrices) body+='<section class="section service-detail" aria-labelledby="engine-prices"><p class="section-kicker">Clear starting prices</p><h2 id="engine-prices">Engine rebuild starting prices</h2>'+priceTable('Engine rebuild starting prices', enginePrices)+'<p class="pricing-note">Starting prices, not fixed quotes. The final price and repair scope are confirmed after inspection.</p>'+contactButtons("engine_prices")+'</section>';
   if(service.heroIntro) body+=sections([["Discuss your engine rebuild",service.opening]]);
   if(service.points) body+='<section class="section intro-grid"><div><h2>'+esc(service.short)+'</h2></div><div class="intro-copy"><p>'+esc(service.desc)+'</p><ul class="check-list">'+service.points.map(p=>'<li>'+esc(p)+'</li>').join("")+'</ul></div></section>';
   body+=sections(items);
@@ -540,6 +542,7 @@ function renderService(service) {
   if(service.symptoms) body+='<section class="section section-muted"><p class="section-kicker">Symptoms to report</p><h2>What has changed?</h2><ul class="check-list">'+service.symptoms.map(s=>'<li>'+esc(s)+'</li>').join("")+'</ul><p>Describe when the symptom started, whether warning lights appeared and whether the engine still runs.</p></section>';
   if(service.process) body+='<section class="section"><h2>From assessment to handover</h2><ol class="number-list">'+service.process.map(s=>'<li>'+esc(s)+'</li>').join("")+'</ol><p>'+esc(service.parts)+'</p></section>';
   if(isRebuild) body+='<section class="section assurance-strip"><p><strong>Standard warranty:</strong> '+business.warranty+'. <strong>Typical turnaround:</strong> '+business.timeframe+'.</p><p>Costs are confirmed after inspection and agreement of the repair scope. Recovery for suitable engine work can be arranged at customer cost.</p></section>'+reviewSection();
+  if(service.slug==="timing-chain-replacement") body+=reviewSection();
   body+=faqsHtml(faqs)+related(service);
   if(isRebuild||service.slug==="timing-chain-replacement") body+=guideCards(service.slug);
   body+=cta();
@@ -579,6 +582,16 @@ function renderServices() {
     '<section class="section"><h2>BMW, JLR and engine rebuild planning</h2>'+cards(specialistServices)+'</section>'+cta();
   writePage("/services/",layout({title:"Car Repairs & Servicing Birmingham | QuickVS Garage",description:"Car servicing, brakes, suspension and control arms, clutches, diagnostics and mechanical MOT failure repairs in Sparkbrook, Birmingham. Engine rebuilds too.",pathname:"/services/",body}));
 }
+const enginePrices = [
+    ["BMW N47", "From £3,250", "/services/bmw-n47-engine-rebuild/"],
+    ["BMW B47", "From £3,500", "/services/all-makes-engine-rebuilds/"],
+    ["BMW N57", "From £4,200", "/services/bmw-n57-engine-rebuild/"],
+    ["JLR 2.0 Ingenium", "From £3,500", "/services/jlr-ingenium-engine-rebuild/"],
+    ["JLR 3.0 TDV6 / SDV6", "From £4,750", "/services/range-rover-engine-rebuild/"],
+    ["Ford Transit 2.0 EcoBlue", "From £3,000", "/services/all-makes-engine-rebuilds/"],
+    ["SVR / supercharged V8", "Quote only", "/services/performance-engine-rebuilds/"]
+  ];
+const priceTable = (caption, rows) => '<table class="price-table"><caption class="sr-only">'+esc(caption)+'</caption><thead><tr><th scope="col">Service</th><th scope="col">Price</th></tr></thead><tbody>'+rows.map(([title, price, url])=>'<tr><th scope="row">'+(url?'<a href="'+url+'">'+esc(title)+'</a>':esc(title))+'</th><td>'+esc(price)+'</td></tr>').join('')+'</tbody></table>';
 function renderPricing() {
   const workshopPrices = [
     ["Engine diagnostics", "£50", "/services/engine-diagnostics/"],
@@ -590,16 +603,6 @@ function renderPricing() {
     ["Ford 1.0 EcoBoost wet belt", "From £850", "/services/wet-belt-replacement/"],
     ["2.0 EcoBlue wet belt (Transit / Custom)", "From £1,050", "/services/wet-belt-replacement/"]
   ];
-  const enginePrices = [
-    ["BMW N47", "From £3,250", "/services/bmw-n47-engine-rebuild/"],
-    ["BMW B47", "From £3,500", "/services/all-makes-engine-rebuilds/"],
-    ["BMW N57", "From £4,200", "/services/bmw-n57-engine-rebuild/"],
-    ["JLR 2.0 Ingenium", "From £3,500", "/services/jlr-ingenium-engine-rebuild/"],
-    ["JLR 3.0 TDV6 / SDV6", "From £4,750", "/services/range-rover-engine-rebuild/"],
-    ["Ford Transit 2.0 EcoBlue", "From £3,000", "/services/all-makes-engine-rebuilds/"],
-    ["SVR / supercharged V8", "Quote only", "/services/performance-engine-rebuilds/"]
-  ];
-  const priceTable = (caption, rows) => '<table class="price-table"><caption class="sr-only">'+esc(caption)+'</caption><thead><tr><th scope="col">Service</th><th scope="col">Price</th></tr></thead><tbody>'+rows.map(([title, price, url])=>'<tr><th scope="row">'+(url?'<a href="'+url+'">'+esc(title)+'</a>':esc(title))+'</th><td>'+esc(price)+'</td></tr>').join('')+'</tbody></table>';
   const body='<nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true"> / </span><span aria-current="page">Pricing</span></nav>'+
     hero("Workshop prices", "Car repair and engine rebuild prices", "Call or WhatsApp your registration and the job needed for a quote from our Birmingham workshop.")+
     '<div class="pricing-layout"><section class="pricing-panel"><h2>Everyday garage work</h2>'+priceTable('Everyday garage prices', workshopPrices)+'<p class="pricing-note">Where marked labour-only, parts and materials are additional. Wet belt figures are replacement starting prices; final quotes depend on the vehicle and repair scope.</p></section>'+
@@ -650,4 +653,5 @@ fs.writeFileSync(path.join(root,".nojekyll"),"");
 const notFoundBody=hero("Page not found","We couldn't find that page.","Use the services list or speak directly to the workshop about your vehicle.")+cta();
 fs.writeFileSync(path.join(root,"404.html"),layout({title:"Page Not Found | Quick Solution Vehicles",description:"Find workshop services or contact Quick Solution Vehicles in Birmingham.",pathname:"/404.html",body:notFoundBody,noindex:true}));
 console.log("Generated "+sitePages.length+" canonical pages and a dedicated 404 page.");
+
 
