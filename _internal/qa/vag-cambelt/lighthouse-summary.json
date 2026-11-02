@@ -1,0 +1,45 @@
+{
+  "lighthouseVersion": "13.6.0",
+  "environment": "Local branch preview on 127.0.0.1:4174; simulated mobile; not a production field measurement",
+  "viewport": {
+    "mobile": true,
+    "width": 390,
+    "height": 844,
+    "deviceScaleFactor": 1,
+    "disabled": false
+  },
+  "scores": {
+    "vwAudi": {
+      "performance": 99,
+      "accessibility": 100,
+      "seo": 100
+    },
+    "cambelt": {
+      "performance": 99,
+      "accessibility": 100,
+      "seo": 100
+    }
+  },
+  "runs": [
+    {
+      "page": "/services/vw-audi-engine-repairs-birmingham/",
+      "fetchTime": "2026-11-02T19:30:42.261Z",
+      "metrics": {
+        "fcp": 1188.62095,
+        "lcp": 2111.2419,
+        "cls": 0,
+        "tbt": 5
+      }
+    },
+    {
+      "page": "/services/cambelt-replacement-birmingham/",
+      "fetchTime": "2026-11-02T19:31:33.050Z",
+      "metrics": {
+        "fcp": 1309.24125,
+        "lcp": 1958.4825,
+        "cls": 0,
+        "tbt": 21
+      }
+    }
+  ]
+}

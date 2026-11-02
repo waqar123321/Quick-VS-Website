@@ -1290,3 +1290,15 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
   .workshop-photo figcaption { font-size: 14px; }
 }
 
+
+/* Compact timing coverage follows the existing service-card design. */
+.chain-coverage { padding-top: 30px; padding-bottom: 30px; }
+.chain-engine-card { padding: 24px; }
+.chain-engine-card h3 { margin-top: 0; font-size: 21px; }
+.chain-engine-card p { margin-bottom: 0; }
+.chain-engine-card a { color: #175a9b; text-decoration: underline; text-underline-offset: 3px; }
+.timing-quote-line p { margin: 0; font-weight: 700; color: #20362c; }
+.timing-page-hero::before { background-image: linear-gradient(90deg, rgba(5, 9, 15, 0.86), rgba(5, 9, 15, 0.46), rgba(5, 9, 15, 0.82)), url("/assets/workshop/dismantled-engine-block-assessment-1152.webp"); }
+@media (max-width: 760px) { .timing-page-hero::before { background-image: linear-gradient(90deg, rgba(5, 9, 15, 0.86), rgba(5, 9, 15, 0.46), rgba(5, 9, 15, 0.82)), url("/assets/workshop/dismantled-engine-block-assessment-768.webp"); } }
+@media (max-width: 760px) { .chain-coverage .service-grid { grid-template-columns: 1fr; } }
+
