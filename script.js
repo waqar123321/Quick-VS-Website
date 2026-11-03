@@ -20,7 +20,7 @@
     });
   }
 
-  const consentKey = "qsv-analytics-consent-v1";
+  const consentKey = "qsv-analytics-consent-v2";
   const measurementId = window.qsvAnalyticsId;
   const panel = document.querySelector("[data-consent-panel]");
   let analyticsAllowed = false;
@@ -33,7 +33,16 @@
     } catch (_) { return null; }
   }
   function safePageUrl(value) {
-    try { const url = new URL(value); return url.origin + url.pathname; } catch (_) { return ""; }
+    try {
+      const url = new URL(value);
+      const allowed = new Set(["gclid", "gbraid", "wbraid", "gad_source", "gad_campaignid",
+        "utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content"]);
+      // Keep attribution values as supplied, including their original URL encoding.
+      // All other query parameters and the fragment remain excluded.
+      const query = url.search.slice(1).split("&").filter(part =>
+        allowed.has(new URLSearchParams(part).keys().next().value)).join("&");
+      return url.origin + url.pathname + (query ? "?" + query : "");
+    } catch (_) { return ""; }
   }
   function workshopCampaign() {
     // Retain only the fixed, non-personal labels used by our GBP post links.
@@ -51,7 +60,7 @@
     if (hostname.endsWith("quickvs.com")) domains.push(".quickvs.com");
     document.cookie.split(";").forEach(cookie => {
       const name = cookie.split("=")[0].trim();
-      if (!/^_ga(?:_|$)/.test(name)) return;
+      if (!/^_ga(?:_|$)|^_gcl_/.test(name)) return;
       domains.forEach(domain => {
         document.cookie = name + "=; Max-Age=0; path=/; SameSite=Lax" + (domain ? "; domain=" + domain : "");
       });
@@ -59,13 +68,15 @@
   }
   function applyChoice(allow) {
     analyticsAllowed = allow;
+    if (!allow) clearAnalyticsCookies();
     if (!measurementId || typeof window.gtag !== "function") return;
     window["ga-disable-" + measurementId] = !allow;
     window.gtag("consent", "update", {
       analytics_storage: allow ? "granted" : "denied",
-      ad_storage: "denied", ad_user_data: "denied", ad_personalization: "denied"
+      ad_storage: allow ? "granted" : "denied",
+      ad_user_data: allow ? "granted" : "denied", ad_personalization: "denied"
     });
-    if (!allow) { clearAnalyticsCookies(); return; }
+    if (!allow) return;
     if (tagLoaded) return;
     tagLoaded = true;
     const tag = document.createElement("script");
@@ -89,7 +100,10 @@
   }
   const choice = readChoice();
   if (choice) applyChoice(choice.analytics);
-  else if (panel) panel.hidden = false;
+  else {
+    clearAnalyticsCookies();
+    if (panel) panel.hidden = false;
+  }
   document.querySelectorAll("[data-consent]").forEach(button => button.addEventListener("click", () => saveChoice(button.dataset.consent === "accept")));
   document.querySelectorAll("[data-cookie-settings]").forEach(button => button.addEventListener("click", () => {
     settingsTrigger = button;
