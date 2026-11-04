@@ -7,12 +7,13 @@
 .wet-landing h3 { line-height: 1.3; }
 :where(.wet-landing) p { margin-top: 0; }
 .wet-hero { background: var(--night); color: #fff; }
-.wet-hero-grid { display: grid; grid-template-columns: 1.05fr 1fr; gap: 54px; align-items: center; padding-block: 56px; }
+.wet-hero-grid { padding-block: 48px; }
 .wet-hero-copy { min-width: 0; }
 .wet-hero .eyebrow { color: #f6bd40; margin-bottom: 22px; font-size: 12px; letter-spacing: .12em; }
 .wet-hero h1 { margin: 0 0 24px; font-size: clamp(40px, 4.3vw, 61px); line-height: 1.04; letter-spacing: -.045em; font-weight: 850; }
 .wet-hero h1 span { color: #f1f3f6; }
 .wet-lead { max-width: 540px; font-size: 18px; color: #d3d9e2; line-height: 1.65; }
+.wet-offer { color: #fff; font-size: 19px; font-weight: 700; margin-bottom: 8px; }
 .wet-hero-prices { margin: 28px 0 22px; }
 .wet-hero-prices .wet-hero-price { margin: 0 0 14px; }
 .wet-hero-prices .wet-hero-price:last-child { margin-bottom: 0; }
@@ -24,10 +25,6 @@
 .wet-landing .button { gap: 12px; min-height: 52px; font-weight: 750; padding: 14px 19px; }
 .wet-hours { color: #c8d0db; font-size: 13px; margin: 20px 0 0; }
 .wet-hours span { padding: 0 6px; }
-.wet-hero-image, .wet-detail-image { margin: 0; min-width: 0; }
-.wet-hero-image picture, .wet-detail-image picture { display: block; border-radius: 12px; overflow: hidden; }
-.wet-hero-image img { width: 100%; height: 430px; object-fit: cover; }
-.wet-hero-image figcaption { color: #aeb9c8; font-size: 11px; margin-top: 10px; }
 .wet-jump { border-bottom: 1px solid var(--wet-border); background: #fff; }
 .wet-jump .wet-container { display: flex; gap: 32px; overflow-x: auto; scrollbar-width: thin; }
 .wet-jump a { padding-block: 20px; white-space: nowrap; font-size: 14px; font-weight: 700; min-height: 60px; }
@@ -44,9 +41,10 @@
 .wet-price span { font-size: 14px; font-weight: 500; letter-spacing: 0; color: #586271; }
 .wet-price-card > a { display: flex; align-items: center; justify-content: space-between; gap: 10px; border-top: 1px solid var(--wet-border); padding-top: 18px; font-size: 14px; font-weight: 750; color: #a81117; }
 .wet-price-note { font-size: 13px; color: #596575; margin: 20px 0 0; max-width: 940px; }
-.wet-work-grid { display: grid; grid-template-columns: 1fr 1.15fr; align-items: start; gap: 56px; }
+.wet-work-grid { max-width: 800px; }
+.wet-included { margin-top: 20px; }
+.wet-included p { margin-bottom: 8px; }
 .wet-detail-image img { width: 100%; height: auto; aspect-ratio: 3 / 2; object-fit: cover; }
-.wet-detail-image figcaption { font-size: 12px; color: #596575; padding-top: 10px; }
 .wet-steps { padding: 0; margin: 0; list-style: none; }
 .wet-steps li { display: grid; grid-template-columns: 35px 1fr; gap: 18px; padding-bottom: 24px; margin-bottom: 24px; border-bottom: 1px solid var(--wet-border); }
 .wet-steps li:last-child { padding-bottom: 0; margin-bottom: 0; border: 0; }
@@ -79,39 +77,43 @@
 .wet-visit > a { color: #fff; font-size: 14px; font-weight: 650; text-decoration: underline; text-underline-offset: 4px; }
 .wet-visit p.wet-local { font-size: 13px; margin: 20px 0 0; color: #aeb9c8; }
 @media (max-width: 1000px) {
-  .wet-hero-grid { gap: 28px; }
-  .wet-hero-image img { height: 400px; }
   .wet-price-card { padding: 22px; }
   .wet-price-card h3 { font-size: 22px; }
-  .wet-work-grid { gap: 30px; }
   .wet-faq-grid { gap: 36px; grid-template-columns: .85fr 1.2fr; }
   .wet-booking { gap: 32px; padding: 34px; }
 }
 @media (max-width: 760px) {
   .wet-container { width: calc(100% - 36px); }
   .wet-section { padding-block: 48px; scroll-margin-top: 94px; }
-  .wet-hero-grid { grid-template-columns: 1fr; gap: 30px; padding-block: 36px 28px; }
-  .wet-hero h1 { max-width: 550px; font-size: clamp(39px, 9vw, 55px); }
-  .wet-hero .eyebrow { font-size: 10px; margin-bottom: 20px; }
-  .wet-lead { font-size: 16px; }
-  .wet-hero-price { margin-block: 23px; }
-  .wet-hero-image img { height: auto; aspect-ratio: 1.7; }
-  .wet-landing .contact-actions .button { flex: 1 1 220px; }
-  .wet-jump .wet-container { gap: 25px; }
-  .wet-jump a { font-size: 13px; padding-block: 17px; min-height: 54px; }
+  .wet-hero-grid { padding-block: 15px; }
+  .wet-hero h1 { max-width: 550px; font-size: clamp(32px, 9vw, 48px); margin-bottom: 10px; }
+  .wet-hero .eyebrow { margin-bottom: 8px; }
+  .wet-lead { font-size: 18px; margin-top: 12px; }
+  .wet-hero-prices { margin: 8px 0; }
+  .wet-hero-prices .wet-hero-price { margin-bottom: 8px; }
+  .wet-hero .contact-actions { margin-top: 8px; }
+  .wet-hero-price span, .wet-hours { font-size: 17px; }
+  .wet-hero-price strong { font-size: 24px; }
+  .wet-jump .wet-container { flex-wrap: wrap; gap: 0 18px; overflow: visible; }
+  .wet-jump a:last-child { margin-left: 0; }
+  .wet-jump a { font-size: 17px; padding-block: 12px; min-height: 48px; }
   .wet-heading { margin-bottom: 26px; }
-  .wet-heading > p:last-child { font-size: 16px; }
+  .wet-heading > p:last-child { font-size: 18px; }
   .wet-prices { grid-template-columns: 1fr; gap: 16px; }
   .wet-price-card { padding: 24px; }
   .wet-price-card h3 { font-size: 25px; }
   .wet-makes { margin-bottom: 18px; }
   .wet-price { font-size: 43px; margin-bottom: 20px; }
-  .wet-work-grid, .wet-faq-grid, .wet-booking { grid-template-columns: 1fr; gap: 30px; }
-  .wet-detail-image img { max-height: 330px; }
+  .wet-faq-grid, .wet-booking { grid-template-columns: 1fr; gap: 30px; }
   .wet-engine-list article { grid-template-columns: 1fr; gap: 12px; }
   .wet-engine-list h3 { font-size: 22px; }
   .wet-warning { padding: 23px 19px; grid-template-columns: 24px 1fr; gap: 14px; margin-top: 28px; }
   .wet-warning h3 { font-size: 18px; }
+  .wet-makes, .wet-price span, .wet-price-card > a, .wet-price-note, .wet-steps p,
+  .wet-engine-list p, .wet-inline-help, .wet-warning p, .wet-warning a,
+  .wet-faq-grid .faq-list summary, .wet-faq-grid .faq-list details p,
+  .wet-booking > div > p:not(.section-kicker), .wet-visit > a { font-size: 18px; line-height: 1.5; }
+  .wet-price-card > a { min-height: 48px; padding-block: 8px; }
   .wet-faq-grid .wet-heading { margin-bottom: 0; }
   .wet-faq-grid .faq-list summary { padding: 18px; }
   .wet-faq-grid .faq-list details p { padding: 0 18px 20px; }

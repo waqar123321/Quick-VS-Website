@@ -1302,3 +1302,98 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
 @media (max-width: 760px) { .timing-page-hero::before { background-image: linear-gradient(90deg, rgba(5, 9, 15, 0.86), rgba(5, 9, 15, 0.46), rgba(5, 9, 15, 0.82)), url("/assets/workshop/dismantled-engine-block-assessment-768.webp"); } }
 @media (max-width: 760px) { .chain-coverage .service-grid { grid-template-columns: 1fr; } }
 
+/* Workshop enquiries share the existing buttons, cards and colours. */
+.call-first .button { font-size: 17px; text-align: center; }
+.call-first .button-primary { min-height: 56px; font-size: 19px; }
+.button-quote { color: var(--ink); background: #fff; border-color: #596372; }
+.hero-offer { max-width: 46rem; margin: 0; color: #fff; font-size: 20px; font-weight: 700; line-height: 1.5; }
+.quote-trust { padding-block: 14px; text-align: center; }
+.quote-trust a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
+.quote-section, .next-steps { padding-block: 24px; }
+.quote-section { scroll-margin-top: 88px; }
+.quote-card { max-width: 52rem; margin-inline: auto; background: var(--soft); color: var(--ink); border: 1px solid var(--line); }
+.quote-card p { color: #394350; }
+.quote-card h2, .next-steps h2 { margin-bottom: 10px; font-size: clamp(25px, 3vw, 33px); }
+.quote-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 18px; margin-bottom: 18px; }
+.quote-field { min-width: 0; }
+.quote-field:last-child { grid-column: 1 / -1; }
+.quote-field label { display: block; margin-bottom: 4px; font-weight: 700; }
+.quote-field :is(input, select, textarea) {
+  display: block; width: 100%; min-height: 48px; padding: 8px 12px; border: 1px solid #596372;
+  border-radius: 6px; background: #fff; color: var(--ink); font: inherit;
+}
+.quote-field :is(input, select, textarea):focus-visible { outline: 3px solid #175a9b; outline-offset: 2px; }
+.quote-field textarea { resize: vertical; }
+.quote-field [aria-invalid="true"] { border: 2px solid #a21119; }
+.quote-error { display: block; color: #a21119; }
+.quote-card button { font-size: 17px; }
+.quote-card button:disabled { cursor: default; opacity: .76; }
+.quote-privacy { margin: 8px 0 0; }
+.quote-privacy a, .quote-feedback a { color: #175a9b; text-decoration: underline; text-underline-offset: 3px; }
+.contact-card .text-link { color: #adceff; text-decoration: underline; text-underline-offset: 3px; }
+.quote-feedback:not(:empty) { margin-top: 10px; font-weight: 700; }
+.quote-card :is(a, button):focus-visible, .consent-panel :is(a, button):focus-visible { outline-color: #175a9b; }
+.next-steps ol { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px 34px; margin: 0; padding-left: 24px; }
+.next-steps li::marker { color: #a21119; font-weight: 800; }
+.contact-map { margin: 16px 0; }
+.contact-map img { width: 100%; height: auto; border: 1px solid var(--line); border-radius: 8px; }
+.contact-map figcaption { margin-top: 5px; }
+.contact-map figcaption a { text-decoration: underline; }
+.consent-actions button { min-height: 48px; }
+
+@media (max-width: 760px) {
+  /* The dock occupies its own viewport row. The hero and form always scroll clear of it. */
+  body { display: grid; grid-template-rows: minmax(0, 1fr) auto; height: 100vh; height: 100dvh; padding: 0; overflow: hidden; font-size: 18px; line-height: 1.55; }
+  .site-content { min-width: 0; overflow-y: auto; scroll-padding-bottom: 12px; }
+  .mobile-dock { display: flex; flex-direction: column; min-width: 0; }
+  .mobile-call-bar {
+    position: static; display: grid; grid-template-columns: 1.35fr 1.15fr 1fr;
+    z-index: auto; box-shadow: none;
+  }
+  .mobile-call-bar a { min-height: 54px; padding: 4px 6px; font-size: 17px; }
+  .mobile-call-bar a.mobile-quote { background: var(--night-2); }
+  .mobile-call-bar a:focus-visible { outline-offset: -4px; }
+  .consent-panel {
+    position: static; display: grid; grid-template-rows: auto minmax(0, 1fr) auto; gap: 5px;
+    width: 100%; max-height: 30vh; max-height: 30dvh; margin: 0; padding: 8px 14px;
+    border: 0; border-top: 1px solid var(--line); border-radius: 10px 10px 0 0; box-shadow: none;
+  }
+  /* Keep the first-visit dock the same size before the deferred script reveals it. */
+  html[data-consent-pending] .consent-panel[hidden] { display: grid !important; visibility: hidden; pointer-events: none; }
+  .consent-panel h2 { font-size: 16px; margin: 0; }
+  .consent-panel p { margin: 0; font-size: 14px; line-height: 1.45; overflow: auto; }
+  .consent-actions button { padding: 6px; font-size: 16px; }
+  .header-inner { grid-template-columns: 1fr auto auto; gap: 8px; min-height: 62px; }
+  .header-actions { display: flex; }
+  .header-actions .button { padding-inline: 10px; white-space: nowrap; font-size: 18px; }
+  .header-inner .nav-toggle { width: 48px; height: 48px; }
+  .site-nav { max-height: calc(100dvh - 116px - env(safe-area-inset-bottom)); }
+  body:has(.consent-panel:not([hidden])) .site-nav { max-height: calc(70dvh - 116px - env(safe-area-inset-bottom)); }
+  .site-nav a, .site-nav .services-dropdown a, .services-nav-item > summary { min-height: 48px; }
+  .site-nav a, .site-nav .services-dropdown a, .services-nav-item > summary { font-size: 17px; }
+  .brand > span { display: none; }
+  .page-hero-content { padding-block: 16px; }
+  .page-hero:not(.timing-page-hero)::before {
+    background-image: linear-gradient(90deg, rgba(5, 9, 15, .86), rgba(5, 9, 15, .46), rgba(5, 9, 15, .82)), url("/assets/workshop/dismantled-engine-block-assessment-480.webp");
+  }
+  .page-hero h1 { font-size: clamp(30px, 8.35vw, 48px); line-height: 1.04; margin-bottom: 8px; }
+  .page-hero .eyebrow { margin-bottom: 8px; }
+  .page-hero .contact-actions { margin: 10px 0; }
+  .hero-offer, .page-hero-copy, .detail-copy, .hero-reassurance, .pricing-note,
+  .price-table, .price-table thead th, .workshop-photo figcaption,
+  .faq-list p, .footer-bottom { font-size: 18px; line-height: 1.5; }
+  .breadcrumbs { padding-block: 8px; font-size: 17px; }
+  .site-footer a, .contact-card > .text-link, .wet-price-card > a { overflow-wrap: anywhere; }
+  .call-first { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  .call-first .button { width: 100%; padding-inline: 5px; }
+  .call-first .button-primary { grid-column: 1 / -1; }
+  .quote-card { padding: 16px; }
+  .quote-fields, .next-steps ol { grid-template-columns: 1fr; }
+  .quote-trust a { display: inline-flex; min-height: 48px; align-items: center; }
+  .cookie-settings { min-height: 48px; }
+}
+
+@media (min-width: 480px) and (max-width: 760px) {
+  .brand > span { display: block; }
+}
+

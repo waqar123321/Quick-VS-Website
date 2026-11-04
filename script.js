@@ -20,18 +20,12 @@
     });
   }
 
-  const consentKey = "qsv-analytics-consent-v2";
+  const consentKey = window.qsvConsentKey;
   const measurementId = window.qsvAnalyticsId;
   const panel = document.querySelector("[data-consent-panel]");
   let analyticsAllowed = false;
   let tagLoaded = false;
   let settingsTrigger = null;
-  function readChoice() {
-    try {
-      const choice = JSON.parse(localStorage.getItem(consentKey));
-      return choice && typeof choice.analytics === "boolean" && choice.expiresAt > Date.now() ? choice : null;
-    } catch (_) { return null; }
-  }
   function safePageUrl(value) {
     try {
       const url = new URL(value);
@@ -98,21 +92,32 @@
     if (panel) panel.hidden = true;
     if (settingsTrigger) { settingsTrigger.focus(); settingsTrigger = null; }
   }
-  const choice = readChoice();
+  const choice = window.qsvSavedConsent;
   if (choice) applyChoice(choice.analytics);
   else {
     clearAnalyticsCookies();
     if (panel) panel.hidden = false;
   }
+  document.documentElement.removeAttribute("data-consent-pending");
   document.querySelectorAll("[data-consent]").forEach(button => button.addEventListener("click", () => saveChoice(button.dataset.consent === "accept")));
   document.querySelectorAll("[data-cookie-settings]").forEach(button => button.addEventListener("click", () => {
     settingsTrigger = button;
     if (panel) { panel.hidden = false; panel.querySelector("button").focus(); }
   }));
 
+  document.addEventListener("qsv:quote-success", event => {
+    if (!analyticsAllowed || !measurementId || typeof window.gtag !== "function") return;
+    window.gtag("event", "generate_lead", {
+      send_to: measurementId,
+      job_type: event.detail,
+      page_path: location.pathname
+    });
+  });
+
   document.addEventListener("click", event => {
     const anchor = event.target.closest("a[href]");
     if (!anchor || !analyticsAllowed || typeof window.gtag !== "function" || event.defaultPrevented) return;
+    if (event.target.closest(".quote-trust")) return;
     let url;
     try { url = new URL(anchor.getAttribute("href"), location.href); } catch (_) { return; }
     let name;
