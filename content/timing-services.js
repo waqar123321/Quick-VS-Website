@@ -70,15 +70,15 @@ function chainCards({ inlineCopy }) {
   return '<section class="section chain-coverage"><h2>Engines we commonly see</h2><div class="service-grid">' + cards.map(([name,text])=>'<article class="service-card chain-engine-card"><h3>'+name+'</h3><p>'+inlineCopy(text)+'</p></article>').join('')+'</div></section>';
 }
 
-function render(service, { hero, sections, reviewSection, faqsHtml, contactButtons, esc }) {
+function render(service, { hero, sections, reviewSection, faqsHtml, contactButtons, esc, top, bottom, business }) {
   const isVag = service.slug === vagSlug;
   const process = isVag ? '<section class="section service-detail section-muted"><h2>From your registration to an agreed repair</h2><ol class="number-list"><li><strong>Send your reg and mileage.</strong> Include the symptoms, running status and service history.</li><li><strong>Agree the inspection.</strong> We explain the checks needed, including any proposed dismantling.</li><li><strong>Approve the written price.</strong> Parts, labour and scope are agreed before repair work starts. Further findings are discussed first.</li></ol></section>' : '';
-  const cta = '<section class="section cta-band"><div><p class="section-kicker">Talk to the workshop</p><h2>'+(isVag?'Discuss your engine or timing repair':'Plan your cambelt replacement')+'</h2><p>'+esc(quoteLine)+'</p><p>Quick Solution Vehicles Ltd<br>56a Stratford Street North, Sparkbrook, Birmingham B11 1BP<br>Mon–Sat 10:00–18:00, Sunday closed</p><p>Workshop-based only. Please arrange a booking before delivery.</p></div><div class="cta-actions">'+contactButtons(isVag?'vag_quote':'cambelt_quote')+'<a href="mailto:info@quickvs.com">info@quickvs.com</a></div></section>';
+  const cta = '<section class="section cta-band"><div><p class="section-kicker">Talk to the workshop</p><h2>'+(isVag?'Discuss your engine or timing repair':'Plan your cambelt replacement')+'</h2><p>'+esc(quoteLine)+'</p><p>'+business.legalName+'<br>'+business.address+'<br>'+business.hours+'</p><p>Workshop-based only. Please arrange a booking before delivery.</p></div><div class="cta-actions">'+contactButtons(isVag?'vag_quote':'cambelt_quote')+'<a href="mailto:info@quickvs.com">info@quickvs.com</a></div></section>';
   return '<nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">Home</a> / <a href="/services/">Services</a> / <span aria-current="page">'+(isVag?'VW Group engine and timing repairs':'Cambelt replacement')+'</span></nav>' +
-    hero('Independent all-makes garage', service.title, service.intro).replace('class="page-hero"', 'class="page-hero timing-page-hero"') +
+    hero('Independent all-makes garage', service.title, service.intro).replace('class="page-hero"', 'class="page-hero timing-page-hero"') + top +
     '<div class="service-pricing-link timing-quote-line"><p>'+esc(quoteLine)+'</p></div>' +
     sections(service.sections) + process +
-    (isVag ? reviewSection()+faqsHtml(service.faqs) : faqsHtml(service.faqs)+reviewSection()) + cta;
+    (isVag ? reviewSection()+faqsHtml(service.faqs) : faqsHtml(service.faqs)+reviewSection()) + cta + bottom;
 }
 
 module.exports = { services, render, chainCards, quoteLine, vagSlug, cambeltSlug };

@@ -38,7 +38,7 @@ module.exports = [
       ],
       [
         "Turnaround, warranty and recovery",
-        "Typical engine-rebuild turnaround is 1–3 weeks depending on parts availability and internal damage. Our standard engine-rebuild warranty is 6 months or 10,000 miles, whichever comes first; the written terms for each job confirm what is covered and any variation. The final quotation depends on the condition found and the agreed factory or uprated build scope. If the car is knocking, has a red oil warning or has suffered a timing failure, stop using it and contact the workshop. Recovery for suitable engine work can be arranged at customer cost. We accept debit cards, contactless/mobile NFC and bank transfer."
+        "Typical engine-rebuild turnaround is 1–3 weeks depending on parts availability and internal damage. Our standard engine-rebuild warranty is 6 months or 10,000 miles, whichever comes first; exact cover confirmed in writing. The final quotation depends on the condition found and the agreed factory or uprated build scope. If the car is knocking, has a red oil warning or has suffered a timing failure, stop using it and contact the workshop. Recovery for suitable engine work can be arranged at customer cost. Pay by debit card or bank transfer."
       ]
     ],
     "faqs": [
@@ -115,7 +115,7 @@ module.exports = [
       ],
       [
         "Turnaround, warranty and workshop details",
-        "Typical engine-rebuild turnaround is 1–3 weeks depending on parts availability and internal damage. Our standard engine-rebuild warranty is 6 months or 10,000 miles, whichever comes first; the written terms for each job confirm what is covered and any variation. We are at 56a Stratford Street North, Sparkbrook, Birmingham B11 1BP and open Monday–Saturday 10:00–18:00, closed Sundays. Recovery for suitable major engine work can be arranged at customer cost after discussion with the workshop. We accept debit cards, contactless/mobile NFC and bank transfer. For an initial enquiry, WhatsApp the registration, make/model, fault symptoms and whether the vehicle runs."
+        "Typical engine-rebuild turnaround is 1–3 weeks depending on parts availability and internal damage. Our standard engine-rebuild warranty is 6 months or 10,000 miles, whichever comes first; exact cover confirmed in writing. We are at 56a Stratford Street North, Sparkbrook, Birmingham, B11 1BP, United Kingdom. Monday-Saturday 10:00-18:00. Closed Sundays. Recovery for suitable major engine work can be arranged at customer cost after discussion with the workshop. Pay by debit card or bank transfer. For an initial enquiry, WhatsApp the registration, make/model, fault symptoms and whether the vehicle runs."
       ]
     ],
     "faqs": [

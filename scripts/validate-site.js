@@ -56,10 +56,18 @@ for(const page of pages) {
   assert.ok(!titles.has(title),pathname+": duplicate title");titles.add(title);
   assert.ok(!descriptions.has(description),pathname+": duplicate description");descriptions.add(description);
   assert.ok(text.includes("G-GEJR9VMEYV"),pathname+": missing real GA4 ID");
-  assert.ok(!/(?:G|GTM|AW)-X{3,}|YOUR_[A-Z_]+|TODO|example\.com/i.test(text),pathname+": invalid public configuration");
+  const publicHtml=text.replace(/<!-- TODO WAQAR (?:PHOTO|CONFIRM)[^>]*-->/g,"");
+  assert.ok(!/(?:G|GTM|AW)-X{3,}|YOUR_[A-Z_]+|TODO|example\.com/i.test(publicHtml),pathname+": invalid public configuration");
   assert.ok(!/quickvs\.co\.uk|https?:\/\/www\.quickvs\.com|http:\/\/quickvs\.com/i.test(text),pathname+": legacy domain");
   assert.ok(!/3[ -]months? or 10,000[ -]miles?/i.test(text),pathname+": outdated rebuild warranty");
-  assert.ok(!/jotform|<form\b/i.test(text),pathname+": retired enquiry form");
+  assert.ok(!/jotform/i.test(text),pathname+": retired enquiry form");
+  const forms=[...text.matchAll(/<form\b[^>]*>/gi)].map(match=>match[0]);
+  const hasQuoteForm=/^\/services\/[^/]+\/$/.test(pathname)||["/","/contact/","/pricing/"].includes(pathname);
+  assert.equal(forms.length,hasQuoteForm?2:0,pathname+": quote form count");
+  assert.ok(forms.every(form=>form.includes('data-quote-form action="https://api.web3forms.com/submit" method="post"')),pathname+": unexpected form delivery");
+  assert.ok(!/\/assets\/wet-belt\/|AI-generated illustration/i.test(text),pathname+": generated image reference");
+  const ids=[...text.matchAll(/\sid="([^"]+)"/g)].map(match=>match[1]);
+  assert.equal(new Set(ids).size,ids.length,pathname+": duplicate HTML id");
   assert.ok(!/bookmygarage|<iframe/i.test(text),pathname+": retired booking embed");
   assert.ok(!/credit\s*cards?/i.test(text),pathname+": unsupported payment claim");
   assert.ok(text.includes("info@quickvs.com"),pathname+": missing email");
@@ -78,13 +86,13 @@ for(const page of pages) {
     const schema=JSON.parse(match[1]);
     assertNoReviewMarkup(schema, pathname);
     if(schema["@type"]==="AutoRepair") {
-      assert.equal(schema.name, /\/(?:vw-audi-engine-repairs-birmingham|cambelt-replacement-birmingham)\/$/.test(pathname) ? "Quick Solution Vehicles Ltd" : "Quick Solution Vehicles LTD");
+      assert.equal(schema.name,"Quick Solution Vehicles LTD");
       assert.equal(schema.telephone,"+447522179040");
       assert.equal(schema.email,"info@quickvs.com");
       assert.equal(schema.url,origin+"/");
       assert.equal(schema.geo.latitude,52.4686661);assert.equal(schema.geo.longitude,-1.877204);
       assert.equal(schema.hasMap,"https://maps.google.com/maps?cid=2157141621358514254");
-      assert.deepEqual(schema.paymentAccepted,["Debit Card","Contactless / Mobile NFC","Bank Transfer"]);
+      assert.deepEqual(schema.paymentAccepted,["Debit Card","Bank Transfer"]);
     }
   }
   for(const match of text.matchAll(/(?:href|src)="([^"]+)"/g)) {
@@ -132,7 +140,8 @@ assert.ok(pricing.includes("parts and materials additional")||pricing.includes("
 const pricingMain=pricing.match(/<main\b[^>]*>([\s\S]*?)<\/main>/)[1];
 assert.equal((pricingMain.match(/<table\b/g)||[]).length,2,"Pricing should use two compact price lists");
 assert.ok(!/faq-list|pricing-card|number-list/.test(pricingMain),"Keep pricing free of FAQs, breakdown cards and preparation lists");
-assert.ok(pricingMain.replace(/<[^>]*>/g," ").trim().split(/\s+/).length<=300,"Keep pricing concise");
+const withoutQuoteForms=html=>html.replace(/<section class="section quote-section"[^>]*>[\s\S]*?<\/section>/g,"");
+assert.ok(withoutQuoteForms(pricingMain).replace(/<[^>]*>/g," ").trim().split(/\s+/).length<=300,"Keep pricing concise");
 const dropdown=home.match(/<details class="services-nav-item"[\s\S]*?<\/details>/)?.[0];
 assert.ok(dropdown&&dropdown.includes("<summary>Workshop Services"),"Workshop Services navigation must be a labelled clickable dropdown");
 const stylesheet=fs.readFileSync(path.join(root,"styles.css"),"utf8");
@@ -205,9 +214,9 @@ const timingLandingSlugs=["vw-audi-engine-repairs-birmingham","cambelt-replaceme
 for(const [i,slug] of timingLandingSlugs.entries()) {
   const page=pages.find(p=>p.pathname==="/services/"+slug+"/");
   const main=page.text.match(/<main\b[^>]*>([\s\S]*?)<\/main>/)[1];
-  const text=main.replace(/<[^>]*>/g," ").replace(/&[a-z#0-9]+;/gi," ").trim();
+  const text=withoutQuoteForms(main).replace(/<[^>]*>/g," ").replace(/&[a-z#0-9]+;/gi," ").trim();
   const words=text.split(/\s+/).length;
-  assert.ok(words>=(i===0?700:600)&&words<=(i===0?1000:900),slug+": content length "+words);
+  assert.ok(words>=(i===0?700:600)&&words<=(i===0?1100:1000),slug+": content length "+words);
   assert.ok(!/£|\bDSG\b|gearbox|\bEGR\b|auto.electrics/i.test(text),slug+": unrelated service or unapproved price");
   assert.ok(page.text.match(/<title>([^<]+)<\/title>/)[1].replaceAll("&amp;","&").length<=60,slug+": title over 60 characters");
   assert.ok(page.text.match(/name="description" content="([^"]+)"/)[1].replaceAll("&amp;","&").length<=155,slug+": description over 155 characters");

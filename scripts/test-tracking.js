@@ -14,6 +14,7 @@ function fixture(stored=null,storageThrows=false,pageUrl="https://quickvs.com/se
   const servicesMenu={open:false,contains(target){return target?.insideServicesMenu===true}};
   const document={
     referrer,
+    documentElement:{setAttribute(){},removeAttribute(){}},
     querySelector(selector){return {"[data-nav]":nav,"[data-nav-toggle]":toggle,"[data-services-menu]":servicesMenu,"[data-year]":year,"[data-consent-panel]":panel}[selector]||null},
     querySelectorAll(selector){return selector==="[data-consent]"?[accept,reject]:selector==="[data-cookie-settings]"?[settings]:[]},
     createElement(){return {}},head:{appendChild(node){scripts.push(node)}},
@@ -47,6 +48,14 @@ assert.equal(config[2].page_location,"https://quickvs.com/services/performance-e
 assert.equal(config[2].page_referrer,"https://search.test/path");
 for(const href of ["tel:+441234567890","https://wa.me.attacker.test/447522179040","https://wa.me/447000000000","mailto:other@test.invalid"])f.click(href);
 f.click("tel:+447522179040","hero",true);
+f.listeners.click.forEach(fn=>fn({
+  defaultPrevented:false,
+  target:{closest(selector){
+    if(selector===".quote-trust")return {};
+    if(selector==="a[href]")return {dataset:{},getAttribute(){return "https://maps.google.com/maps?cid=2157141621358514254"}};
+    return null;
+  }}
+}));
 assert.equal(f.tracked().length,4,"Unrelated or cancelled contacts must not be measured");
 f.settings.click();assert.equal(f.panel.hidden,false);
 f.reject.click();f.click("tel:+447522179040");assert.equal(f.tracked().length,4,"Withdrawal stops tracking");
@@ -76,7 +85,7 @@ assert.equal(campaign.campaign_content,undefined,"Unknown GBP content must not o
 for(const pathname of ["/", "/services/wet-belt-replacement/", "/services/timing-chain-replacement/", "/services/engine-rebuild-birmingham/", "/services/vw-audi-engine-repairs-birmingham/", "/services/cambelt-replacement-birmingham/", "/contact/"]) {
   const html=fs.readFileSync(path.join(__dirname,"..",pathname,"index.html"),"utf8");
   assert.equal(html.match(/<script>([\s\S]*?)<\/script>/)[1],head,"New page must retain the shared consent-aware Google setup");
-  assert.ok(html.includes('src="/script.js?v=20261103-consent-v2"'),"New page must load the existing shared tracking script");
+  assert.match(html, /<script defer src="\/script\.js\?v=[^"]+"><\/script>/, "Page must load the shared tracking script");
   const contacts=["tel:+447522179040","https://wa.me/447522179040?","mailto:info@quickvs.com","https://maps.google.com/maps?cid=2157141621358514254"].map(prefix=>{
     const href=[...html.matchAll(/href="([^"]+)"/g)].map(m=>m[1]).find(h=>h.startsWith(prefix));
     assert.ok(href,pathname+": missing real "+prefix+" contact link");return href;
@@ -91,6 +100,20 @@ for(const pathname of ["/", "/services/wet-belt-replacement/", "/services/timing
   page.reject.click();contacts.forEach(href=>page.click(href));
   assert.equal(page.tracked().length,4,pathname+": withdrawal stops tracking");
 }
+
+f=fixture(null,false,"https://quickvs.com/services/wet-belt-replacement/?reg=AB12CDE");
+const quoteSuccess = () => f.listeners["qsv:quote-success"].forEach(fn => fn({detail:"wet_belt"}));
+quoteSuccess();
+assert.equal(f.tracked().length,0,"A successful quote before consent is not measured");
+f.accept.click();
+quoteSuccess();
+assert.deepEqual(f.tracked(),[{
+  name:"generate_lead",
+  params:{send_to:"G-GEJR9VMEYV",job_type:"wet_belt",page_path:"/services/wet-belt-replacement/"}
+}],"A successful quote sends only category and page after consent");
+f.reject.click();
+quoteSuccess();
+assert.equal(f.tracked().length,1,"Withdrawal also stops quote measurement");
 
 const consentStates = {analytics_storage:"denied",ad_storage:"denied",ad_user_data:"denied",ad_personalization:"denied"};
 f=fixture();
