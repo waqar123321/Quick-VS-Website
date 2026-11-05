@@ -61,21 +61,31 @@ const services = [
   }
 ];
 
-function chainCards({ inlineCopy }) {
+function chainCards({ esc }) {
   const cards = [
-    ['BMW N47/N57', 'Cold-start rattle or timing-correlation faults? Explore [BMW N47 repairs](/services/bmw-n47-engine-rebuild/) and [N57 repairs](/services/bmw-n57-engine-rebuild/).'],
-    ['JLR 2.0 Ingenium', 'Start-up rattle or timing warning lights need checking. See [Ingenium engine assessment](/services/jlr-ingenium-engine-rebuild/).'],
-    ['VW/Audi/Skoda/SEAT TSI/TFSI', 'Cold-start rattle or cam/crank faults on chain-driven petrol engines? See [VW Group timing repairs](/services/vw-audi-engine-repairs-birmingham/).']
+    ['BMW N47 / N57', 'Cold-start rattle or timing-correlation faults?', [
+      ['bmw-n47-engine-rebuild', 'N47 →', 'BMW N47'],
+      ['bmw-n57-engine-rebuild', 'N57 →', 'BMW N57']
+    ]],
+    ['JLR 2.0 Ingenium', 'Start-up rattle or timing warning lights need checking.', [
+      ['jlr-ingenium-engine-rebuild', 'Read more →', 'JLR 2.0 Ingenium']
+    ]],
+    ['VW/Audi/Skoda/SEAT TSI/TFSI', 'Cold-start rattle or cam/crank faults on chain-driven petrol engines?', [
+      ['vw-audi-engine-repairs-birmingham', 'Read more →', 'VW/Audi/Skoda/SEAT TSI/TFSI']
+    ]]
   ];
-  return '<section class="section chain-coverage"><h2>Engines we commonly see</h2><div class="service-grid">' + cards.map(([name,text])=>'<article class="service-card chain-engine-card"><h3>'+name+'</h3><p>'+inlineCopy(text)+'</p></article>').join('')+'</div></section>';
+  return '<section class="section chain-coverage"><h2>Engines we commonly see</h2><div class="service-grid">' +
+    cards.map(([name, text, links]) => '<article class="service-card chain-engine-card"><h3>'+esc(name)+'</h3><p>'+esc(text)+'</p><div class="chain-engine-links">'+
+      links.map(([slug, label, engine]) => '<a href="/services/'+slug+'/" aria-label="Read more about '+esc(engine)+'">'+esc(label)+'</a>').join('')+
+      '</div></article>').join('') +
+    '</div></section>';
 }
 
 function render(service, { hero, sections, reviewSection, faqsHtml, contactButtons, esc, top, bottom, business, costHtml }) {
   const isVag = service.slug === vagSlug;
   const process = isVag ? '<section class="section service-detail section-muted"><h2>From your registration to an agreed repair</h2><ol class="number-list"><li><strong>Send your reg and mileage.</strong> Include the symptoms, running status and service history.</li><li><strong>Agree the inspection.</strong> We explain the checks needed, including any proposed dismantling.</li><li><strong>Approve the written price.</strong> Parts, labour and scope are agreed before repair work starts. Further findings are discussed first.</li></ol></section>' : '';
   const cta = '<section class="section cta-band"><div><p class="section-kicker">Talk to the workshop</p><h2>'+(isVag?'Discuss your engine or timing repair':'Plan your cambelt replacement')+'</h2><p>'+esc(quoteLine)+'</p><p>'+business.legalName+'<br>'+business.address+'<br>'+business.hours+'</p><p>Workshop-based only. Please arrange a booking before delivery.</p></div><div class="cta-actions">'+contactButtons(isVag?'vag_quote':'cambelt_quote')+'<a href="mailto:info@quickvs.com">info@quickvs.com</a></div></section>';
-  return '<nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">Home</a> / <a href="/services/">Services</a> / <span aria-current="page">'+(isVag?'VW Group engine and timing repairs':'Cambelt replacement')+'</span></nav>' +
-    hero('Independent all-makes garage', service.title, service.intro).replace('class="page-hero', 'class="page-hero timing-page-hero') + costHtml + top +
+  return hero('Independent all-makes garage', service.title, service.intro).replace('class="page-hero', 'class="page-hero timing-page-hero') + costHtml + top +
     '<div class="service-pricing-link timing-quote-line"><p>'+esc(quoteLine)+'</p></div>' +
     sections(service.sections) + process +
     (isVag ? reviewSection()+faqsHtml(service.faqs) : faqsHtml(service.faqs)+reviewSection()) + cta + bottom;

@@ -34,6 +34,11 @@ assert.ok(legacy,"Keep the old timing-belt URL as a redirect");
 assert.ok(legacy.text.includes('http-equiv="refresh" content="0; url=/services/cambelt-replacement-birmingham/"'),"Legacy belt URL must redirect immediately");
 assert.ok(legacy.text.includes('rel="canonical" href="https://quickvs.com/services/cambelt-replacement-birmingham/"'),"Legacy belt canonical must consolidate to cambelt");
 assert.ok(legacy.text.includes('content="noindex, follow"'),"Legacy redirect must not compete with the new page");
+for (const { text, pathname } of allHtmlPages) {
+  assert.equal([...text.matchAll(/<h1(?=[\s>])/gi)].length, 1, pathname+": expected one H1");
+}
+const withoutQuoteForms=html=>html.replace(/<section class="section quote-section"[^>]*>[\s\S]*?<\/section>/g,"");
+const pagesByPath = new Map(allHtmlPages.map(page => [page.pathname, page]));
 const pages=allHtmlPages.filter(p=>p.pathname!==legacyPath);
 const sitemap=fs.readFileSync(path.join(root,"sitemap.xml"),"utf8");
 assert.ok(!sitemap.includes(origin+legacyPath),"Redirects do not belong in the sitemap");
@@ -45,7 +50,21 @@ const titles=new Set(),descriptions=new Set();
 const photos=JSON.parse(fs.readFileSync(path.join(root,'content/workshop-photos.json'),'utf8'));
 for(const page of pages) {
   const {text,pathname}=page;
-  assert.equal((text.match(/<h1\b/g)||[]).length,1,pathname+": expected one H1");
+  const needsBreadcrumb = pathname.startsWith("/services/") || pathname.startsWith("/blog/") || pathname === "/pricing/";
+  if (needsBreadcrumb) {
+    const breadcrumb = text.match(/<nav class="breadcrumbs" aria-label="Breadcrumb">([\s\S]*?)<\/nav>/)?.[1];
+    assert.ok(breadcrumb?.includes('href="/"') && breadcrumb.includes('aria-current="page"'), pathname+": missing breadcrumb markup");
+  }
+  // The form's fixed feedback templates and the legacy redirect retain their published markup.
+  for (const [, node] of withoutQuoteForms(text).matchAll(/<\/a>([^<]+)/gi)) {
+    const decoded = node.replace(/&nbsp;/gi, " ")
+      .replace(/&(period|comma|colon|semi|excl|quest|hellip|mdash|ndash);/gi, ".")
+      .replace(/&#(x[\da-f]+|\d+);/gi, (entity, number) => {
+        const code = number[0].toLowerCase() === "x" ? parseInt(number.slice(1), 16) : Number(number);
+        return code <= 0x10FFFF ? String.fromCodePoint(code) : entity;
+      });
+    assert.doesNotMatch(decoded, /^\s*[\p{P}][\p{P}\s]*$/u, pathname+": punctuation-only text after a link");
+  }
   assert.equal(text.match(/rel="canonical" href="([^"]+)"/)?.[1],origin+pathname,pathname+": canonical mismatch");
   assert.equal(text.match(/property="og:url" content="([^"]+)"/)?.[1],origin+pathname,pathname+": og:url mismatch");
   if(pathname!=="/404.html") assert.ok(pathname===pathname.toLowerCase()&&pathname.endsWith("/"),"Noncanonical path "+pathname);
@@ -63,7 +82,7 @@ for(const page of pages) {
   assert.ok(!/jotform/i.test(text),pathname+": retired enquiry form");
   const forms=[...text.matchAll(/<form\b[^>]*>/gi)].map(match=>match[0]);
   const hasQuoteForm=/^\/services\/[^/]+\/$/.test(pathname)||["/","/contact/","/pricing/"].includes(pathname);
-  assert.equal(forms.length,hasQuoteForm?2:0,pathname+": quote form count");
+  assert.equal(forms.length,pathname==="/" ? 1 : hasQuoteForm ? 2 : 0,pathname+": quote form count");
   assert.ok(forms.every(form=>form.includes('data-quote-form action="https://api.web3forms.com/submit" method="post"')),pathname+": unexpected form delivery");
   assert.ok(!/\/assets\/wet-belt\/|AI-generated illustration/i.test(text),pathname+": generated image reference");
   const ids=[...text.matchAll(/\sid="([^"]+)"/g)].map(match=>match[1]);
@@ -82,9 +101,11 @@ for(const page of pages) {
     assert.ok(!/\bnoindex\b/i.test(text),pathname+": accidental noindex");
     assert.ok(entries.some(e=>e.url===origin+pathname),pathname+": absent from sitemap");
   }
+  let breadcrumbSchemas = 0;
   for(const match of text.matchAll(/<script type="application\/ld\+json">\s*([\s\S]*?)\s*<\/script>/g)) {
     const schema=JSON.parse(match[1]);
     assertNoReviewMarkup(schema, pathname);
+    if (schema["@type"] === "BreadcrumbList") breadcrumbSchemas++;
     if(schema["@type"]==="AutoRepair") {
       assert.equal(schema.name,"Quick Solution Vehicles LTD");
       assert.equal(schema.telephone,"+447522179040");
@@ -93,6 +114,16 @@ for(const page of pages) {
       assert.equal(schema.geo.latitude,52.4686661);assert.equal(schema.geo.longitude,-1.877204);
       assert.equal(schema.hasMap,"https://maps.google.com/maps?cid=2157141621358514254");
       assert.deepEqual(schema.paymentAccepted,["Debit Card","Bank Transfer"]);
+    }
+  }
+  assert.equal(breadcrumbSchemas, 1, pathname+": expected one BreadcrumbList schema");
+  for (const [, menu] of text.matchAll(/<nav class="jump-menu"[^>]*>([\s\S]*?)<\/nav>/g)) {
+    for (const [, href] of menu.matchAll(/<a href="([^"]+)"/g)) {
+      const url = new URL(href, origin+pathname);
+      const target = pagesByPath.get(url.pathname);
+      const id = decodeURIComponent(url.hash.slice(1));
+      const ids = [...(target?.text || "").matchAll(/\sid="([^"]+)"/g)].map(match => match[1]);
+      assert.ok(url.origin === origin && id && ids.includes(id), pathname+": missing jump-menu target "+href);
     }
   }
   for(const match of text.matchAll(/(?:href|src)="([^"]+)"/g)) {
@@ -140,7 +171,6 @@ assert.ok(pricing.includes("parts and materials additional")||pricing.includes("
 const pricingMain=pricing.match(/<main\b[^>]*>([\s\S]*?)<\/main>/)[1];
 assert.equal((pricingMain.match(/<table\b/g)||[]).length,2,"Pricing should use two compact price lists");
 assert.ok(!/faq-list|pricing-card|number-list/.test(pricingMain),"Keep pricing free of FAQs, breakdown cards and preparation lists");
-const withoutQuoteForms=html=>html.replace(/<section class="section quote-section"[^>]*>[\s\S]*?<\/section>/g,"");
 assert.ok(withoutQuoteForms(pricingMain).replace(/<[^>]*>/g," ").trim().split(/\s+/).length<=300,"Keep pricing concise");
 const dropdown=home.match(/<details class="services-nav-item"[\s\S]*?<\/details>/)?.[0];
 assert.ok(dropdown&&dropdown.includes("<summary>Workshop Services"),"Workshop Services navigation must be a labelled clickable dropdown");
@@ -149,7 +179,12 @@ assert.ok(stylesheet.includes(".faq-list details {"),"FAQ card styling must be s
 assert.ok(stylesheet.includes(".services-nav-item { position: relative; border: 0; border-radius: 0; background: transparent; }"),"Workshop Services dropdown must not inherit the white FAQ card background");
 assert.ok(dropdown.indexOf("Everyday garage jobs")<dropdown.indexOf("Engine rebuild specialists"),"Dropdown should put everyday work first");
 assert.ok(dropdown.includes('href="/services/"'),"Dropdown must preserve a view-all-services link");
-assert.ok(homeMain.indexOf("Everyday garage work")<homeMain.indexOf("Engine rebuild specialists"),"Homepage should introduce routine garage services before engine rebuilds");
+const homeServices = homeMain.match(/<section class="section home-services">[\s\S]*?<\/section>/)?.[0] || "";
+const firstEngine = homeServices.indexOf('href="/services/timing-chain-replacement/"');
+for (const slug of ["servicing", "brakes", "mot-failure-repairs", "suspension-steering-repairs"]) {
+  const tile = homeServices.indexOf('href="/services/'+slug+'/"');
+  assert.ok(tile >= 0 && tile < firstEngine, "Homepage must feature "+slug+" before specialist engine work");
+}
 assert.ok(hub.indexOf("Everyday car repairs, servicing and MOT work")<hub.indexOf("All-makes and performance engine rebuilds"),"Service hub should lead with everyday repairs");
 assert.ok(home.includes('href="/services/suspension-steering-repairs/"'),"Homepage must feature suspension and control arm repairs");
 const services=pages.filter(p=>p.pathname.startsWith("/services/")&&p.pathname!=="/services/");
@@ -175,8 +210,9 @@ const reviews=JSON.parse(fs.readFileSync(path.join(root,"content/reviews.json"),
 assert.equal(reviews.length,5);
 for(const page of pages.filter(p=>p.pathname==="/"||p.pathname==="/testimonials/"||["/services/timing-chain-replacement/","/services/vw-audi-engine-repairs-birmingham/","/services/cambelt-replacement-birmingham/"].includes(p.pathname)||(p.pathname.startsWith("/services/")&&/rebuild/.test(p.pathname)))) {
   const cards=[...page.text.matchAll(/<figure class="review-card">([\s\S]*?)<\/figure>/g)].map(m=>m[1]);
-  assert.equal(cards.length,reviews.length,"Missing visible reviews on "+page.pathname);
-  for (const review of reviews) {
+  const expected = page.pathname === "/" ? [reviews[3], reviews[0], reviews[1]] : reviews;
+  assert.equal(cards.length,expected.length,"Missing visible reviews on "+page.pathname);
+  for (const review of expected) {
     assert.ok(cards.some(card=>card.includes('<strong>'+esc(review.author)+'</strong>')&&card.includes('<blockquote><p>'+esc(review.text)+'</p></blockquote>')),"Visible review changed on "+page.pathname+": "+review.author);
   }
 }
@@ -185,7 +221,10 @@ const advice=pages.find(p=>p.pathname==="/blog/").text;
 for(const guide of guides) {
   const pathname="/blog/"+guide.slug+"/",page=pages.find(p=>p.pathname===pathname),link='href="'+pathname+'"';
   assert.ok(page,"Missing guide "+pathname);
-  assert.ok(home.includes(link)&&advice.includes(link),"Guide missing from discovery hubs "+pathname);
+  assert.ok(advice.includes(link),"Guide missing from repair advice hub "+pathname);
+  for (const { text, pathname: source } of pages) {
+    assert.ok(text.match(/<footer\b[\s\S]*?<\/footer>/)?.[0].includes(link), source+": footer missing "+pathname);
+  }
   const article=[...page.text.matchAll(/<script type="application\/ld\+json">\s*([\s\S]*?)\s*<\/script>/g)].map(m=>JSON.parse(m[1])).find(s=>s["@type"]==="Article");
   assert.equal(article.headline,guide.title);assert.equal(article.mainEntityOfPage,origin+pathname);
   assert.equal(article.author.name,"Quick Solution Vehicles LTD");assert.equal(article.datePublished,guide.published);
@@ -198,7 +237,6 @@ for(const guide of guides) {
   }
   assert.ok(page.text.includes('property="og:type" content="article"'));
   assert.ok(page.text.includes('datetime="'+guide.published+'"'),"Missing visible publication date");
-  for(const p of pages)assert.ok(p.text.match(/<footer\b[\s\S]*?<\/footer>/)?.[0].includes(link),"Guide absent from footer "+pathname);
 }
 assert.equal(fs.readFileSync(path.join(root,"robots.txt"),"utf8"),"User-agent: *\nAllow: /\n\nSitemap: https://quickvs.com/sitemap.xml\n");
 assert.ok(fs.existsSync(path.join(root,".nojekyll")));

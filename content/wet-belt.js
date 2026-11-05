@@ -28,14 +28,14 @@ const faqs = [
   ['Could my PureTech repair qualify for manufacturer support?', 'Some earlier PureTech engines may qualify for manufacturer support for certain belt-related faults, subject to the vehicle and service history. Check eligibility with the manufacturer before authorising a paid repair. We are an independent workshop; we cannot approve manufacturer claims.']
 ];
 
-function render({ esc, business, maps, reviewSection, contactButtons, top, bottom, payment }) {
+function render({ esc, breadcrumb, jumpMenu, business, maps, reviewSection, contactButtons, top, bottom, payment }) {
   const message = encodeURIComponent('Hi Quick Solution Vehicles, I would like a wet belt replacement quote.\nRegistration: \nMileage: \nMake/model: \nAny warning lights or symptoms: ');
   const whatsapp = 'https://wa.me/447522179040?text=' + message;
   const buttons = location => contactButtons("wet_belt_" + location, whatsapp);
   return `<div class="wet-landing">
-    <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">Home</a> / <a href="/services/">Services</a> / <span aria-current="page">Wet belt replacement</span></nav>
     <section class="wet-hero"><div class="wet-container wet-hero-grid"><div class="wet-hero-copy">
-      <p class="eyebrow">Quick Solution Vehicles · Sparkbrook</p>
+      ${breadcrumb}
+      <p class="eyebrow" hidden>Quick Solution Vehicles · Sparkbrook</p>
       <h1>Ford &amp; PureTech wet belt replacement in Birmingham</h1>
       <div class="wet-hero-prices">${engines.slice(0, 2).map(e => `<p class="wet-hero-price"><span>${e.name}</span> From <strong>${e.price}</strong></p>`).join('')}</div>
       <p class="cost-disclaimer">${startingPrices}</p>
@@ -43,8 +43,8 @@ function render({ esc, business, maps, reviewSection, contactButtons, top, botto
       <p class="wet-lead">Ford EcoBoost, Transit EcoBlue and PureTech wet belts. Tell us your registration and mileage for a quote from our Sparkbrook workshop.</p>
       <p class="wet-hours">Mon–Sat, 10am–6pm <span aria-hidden="true">·</span> Birmingham B11</p>
     </div></div></section>
+    ${jumpMenu([["#wet-prices", "Prices"], ["#wet-work", "What’s involved"], ["#wet-engines", "Your engine"], ["#wet-reviews", "Reviews"], ["#wet-questions", "FAQs"], ["#wet-quote", "Get a quote", true]], "On this page", true)}
     ${top}
-    <nav class="wet-jump" aria-label="On this page"><div class="wet-container"><a href="#wet-prices">Prices</a><a href="#wet-work">What’s involved</a><a href="#wet-engines">Your engine</a><a href="#wet-reviews">Reviews</a><a href="#wet-questions">FAQs</a><a href="#wet-quote">Get a quote <span aria-hidden="true">↗</span></a></div></nav>
     <section class="wet-section wet-container" id="wet-prices"><div class="wet-heading"><p class="section-kicker">Clear starting prices</p><h2>Wet belt replacement cost</h2><p>Choose your engine below. We confirm the exact price for your vehicle before booking the work.</p></div>
       ${priceCards(engines.map(e => ({ ...e, detail: e.makes, action: `<a href="${whatsapp}" data-contact-location="wet_belt_price">Get my vehicle’s quote <span aria-hidden="true">↗</span></a>` })), esc)}
       <p class="cost-disclaimer">${startingPrices}</p>
@@ -59,7 +59,7 @@ function render({ esc, business, maps, reviewSection, contactButtons, top, botto
       <div class="wet-work-grid"><!-- TODO WAQAR PHOTO: wet-belt components during a real workshop job -->
       <ol class="wet-steps"><li><span aria-hidden="true">01</span><div><h3>Confirm the engine and the job</h3><p>We check the vehicle details, service history and any symptoms. Planned replacement and a belt-related breakdown need different repair plans.</p></div></li><li><span aria-hidden="true">02</span><div><h3>Replace the right components</h3><p>The timing belt, applicable oil-pump drive belt, tensioners, seals and required fixings are identified for your engine. Your quote confirms the parts and work involved.</p></div></li><li><span aria-hidden="true">03</span><div><h3>Check the oil system</h3><p>The oil pickup and relevant lubrication components need attention where belt debris is present. Blockages or wear can require further cleaning, testing or replacement.</p></div></li><li><span aria-hidden="true">04</span><div><h3>Refill and check</h3><p>Correct-specification oil and a new filter form part of the repair. Timing, sealing and the relevant running checks are completed before handover.</p></div></li></ol></div>
     </div></section>
-    <section class="wet-section wet-container" id="wet-engines"><div class="wet-heading"><p class="section-kicker">Cars and vans</p><h2>Which engine do you have?</h2><p>These are the main wet-belt applications we cover. A registration check helps us avoid quoting for the wrong engine version.</p></div><div class="wet-engine-list">${engines.map(e => `<article><h3>${e.name}</h3><p>${e.detail}</p></article>`).join('')}</div><p class="wet-inline-help">Not sure? <a data-contact-location="wet_belt_identify" href="${whatsapp}">Send us your registration</a>. Dry cambelt? See <a href="/services/cambelt-replacement-birmingham/">cambelt replacement</a>.</p>
+    <section class="wet-section wet-container" id="wet-engines"><div class="wet-heading"><p class="section-kicker">Cars and vans</p><h2>Which engine do you have?</h2><p>These are the main wet-belt applications we cover. A registration check helps us avoid quoting for the wrong engine version.</p></div><div class="wet-engine-list">${engines.map(e => `<article><h3>${e.name}</h3><p>${e.detail}</p></article>`).join('')}</div><p class="wet-inline-help">Not sure? <a data-contact-location="wet_belt_identify" href="${whatsapp}">Send us your registration</a>. Dry cambelt? See <a href="/services/cambelt-replacement-birmingham/">cambelt replacement.</a></p>
     </section>
     <div id="wet-reviews">${reviewSection()}</div>
     <section class="wet-soft" id="wet-questions"><div class="wet-container wet-section wet-faq-grid"><div class="wet-heading"><p class="section-kicker">Before you book</p><h2>A few useful answers</h2><p>Unsure about your service history or a warning light? Tell us what you know when you get in touch.</p></div><div class="faq-list">${faqs.map(([q,a]) => `<details><summary>${esc(q)}</summary><p>${esc(a)}</p></details>`).join('')}</div></div></section>

@@ -9,8 +9,8 @@ function fixture(stored=null,storageThrows=false,pageUrl="https://quickvs.com/se
   const settings={addEventListener(name,fn){this.click=fn},focus(){this.focused=true}};
   const panel={hidden:true,querySelector(){return accept}};
   const year={textContent:""};
-  const nav={classList:{open:false,toggle(){return this.open=!this.open},remove(){this.open=false}},addEventListener(name,fn){buttons.navClick=fn}};
-  const toggle={attrs:{},setAttribute(name,value){this.attrs[name]=value},addEventListener(name,fn){buttons.toggle=fn}};
+  const nav={classList:{open:false,toggle(_name, open){return this.open=open}},addEventListener(name,fn){buttons.navClick=fn}};
+  const toggle={attrs:{},focus(){this.focused=true},setAttribute(name,value){this.attrs[name]=value},addEventListener(name,fn){buttons.toggle=fn}};
   const servicesMenu={open:false,contains(target){return target?.insideServicesMenu===true}};
   const document={
     referrer,
@@ -66,6 +66,7 @@ f.buttons.toggle();assert.equal(f.toggle.attrs["aria-expanded"],"true");
 f.servicesMenu.open=true;
 f.listeners.keydown.forEach(fn=>fn({key:"Escape"}));assert.equal(f.toggle.attrs["aria-expanded"],"false");
 assert.equal(f.servicesMenu.open,false,"Escape closes Services dropdown");
+assert.equal(f.toggle.focused,true,"Closing the mobile menu returns focus");
 f.servicesMenu.open=true;
 f.listeners.click.forEach(fn=>fn({target:{insideServicesMenu:false,closest(){return null}},defaultPrevented:false}));
 assert.equal(f.servicesMenu.open,false,"Clicking outside closes Services dropdown");

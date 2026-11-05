@@ -5,19 +5,54 @@
   const servicesMenu = document.querySelector("[data-services-menu]");
   const year = document.querySelector("[data-year]");
   if (year) year.textContent = new Date().getFullYear();
-  function closeNav() {
-    if (nav && toggle) { nav.classList.remove("is-open"); toggle.setAttribute("aria-expanded", "false"); }
-    if (servicesMenu) servicesMenu.open = false;
+  const backdrop = document.querySelector("[data-nav-backdrop]");
+  const background = document.querySelectorAll("main, .site-footer, .mobile-dock, .brand, .header-actions");
+  const mobileNav = window.matchMedia?.("(max-width: 1200px)");
+  let navOpen = false;
+  function setNav(open) {
+    const wasOpen = navOpen;
+    navOpen = open;
+    nav.classList.toggle("is-open", open);
+    toggle.setAttribute("aria-expanded", String(open));
+    toggle.setAttribute("aria-label", open ? "Close navigation" : "Open navigation");
+    for (const element of background) element.inert = open;
+    if (!open && servicesMenu) servicesMenu.open = false;
+    if (wasOpen && !open && mobileNav?.matches !== false) toggle.focus();
   }
   if (nav && toggle) {
-    toggle.addEventListener("click", () => toggle.setAttribute("aria-expanded", String(nav.classList.toggle("is-open"))));
-    nav.addEventListener("click", event => { if (event.target.closest("a")) closeNav(); });
-    document.addEventListener("keydown", event => { if (event.key === "Escape") closeNav(); });
+    toggle.addEventListener("click", () => setNav(!navOpen));
+    backdrop?.addEventListener("click", () => setNav(false));
+    nav.addEventListener("click", event => { if (navOpen && event.target.closest("a")) setNav(false); });
+    mobileNav?.addEventListener("change", () => { if (navOpen) setNav(false); });
+    document.addEventListener("keydown", event => {
+      if (event.key !== "Escape") return;
+      if (navOpen) setNav(false);
+      else if (servicesMenu?.open) {
+        servicesMenu.open = false;
+        servicesMenu.querySelector("summary")?.focus();
+      }
+    });
   }
   if (servicesMenu) {
     document.addEventListener("click", event => {
       if (!servicesMenu.contains(event.target)) servicesMenu.open = false;
     });
+  }
+
+  const mobileBar = document.querySelector(".mobile-call-bar");
+  const heroButtons = [...document.querySelectorAll(".page-hero .call-first, .wet-hero .call-first")]
+    .flatMap(group => [...group.querySelectorAll(".button-primary, .button-whatsapp")]);
+  if (mobileBar && heroButtons.length === 2 && "IntersectionObserver" in window) {
+    const visibleButtons = new Set();
+    const headerHeight = document.querySelector(".site-header")?.offsetHeight || 0;
+    const observer = new IntersectionObserver(entries => {
+      for (const entry of entries) {
+        if (entry.intersectionRatio >= 0.99) visibleButtons.add(entry.target);
+        else visibleButtons.delete(entry.target);
+      }
+      mobileBar.hidden = visibleButtons.size === heroButtons.length;
+    }, { rootMargin: "-"+headerHeight+"px 0px 0px", threshold: 0.99 });
+    heroButtons.forEach(button => observer.observe(button));
   }
 
   const consentKey = window.qsvConsentKey;
