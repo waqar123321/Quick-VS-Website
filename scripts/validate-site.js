@@ -63,7 +63,7 @@ for(const page of pages) {
   assert.ok(!/jotform/i.test(text),pathname+": retired enquiry form");
   const forms=[...text.matchAll(/<form\b[^>]*>/gi)].map(match=>match[0]);
   const hasQuoteForm=/^\/services\/[^/]+\/$/.test(pathname)||["/","/contact/","/pricing/"].includes(pathname);
-  assert.equal(forms.length,hasQuoteForm?2:0,pathname+": quote form count");
+  assert.equal(forms.length,pathname==="/" ? 1 : hasQuoteForm ? 2 : 0,pathname+": quote form count");
   assert.ok(forms.every(form=>form.includes('data-quote-form action="https://api.web3forms.com/submit" method="post"')),pathname+": unexpected form delivery");
   assert.ok(!/\/assets\/wet-belt\/|AI-generated illustration/i.test(text),pathname+": generated image reference");
   const ids=[...text.matchAll(/\sid="([^"]+)"/g)].map(match=>match[1]);
@@ -149,7 +149,12 @@ assert.ok(stylesheet.includes(".faq-list details {"),"FAQ card styling must be s
 assert.ok(stylesheet.includes(".services-nav-item { position: relative; border: 0; border-radius: 0; background: transparent; }"),"Workshop Services dropdown must not inherit the white FAQ card background");
 assert.ok(dropdown.indexOf("Everyday garage jobs")<dropdown.indexOf("Engine rebuild specialists"),"Dropdown should put everyday work first");
 assert.ok(dropdown.includes('href="/services/"'),"Dropdown must preserve a view-all-services link");
-assert.ok(homeMain.indexOf("Everyday garage work")<homeMain.indexOf("Engine rebuild specialists"),"Homepage should introduce routine garage services before engine rebuilds");
+const homeServices = homeMain.match(/<section class="section home-services">[\s\S]*?<\/section>/)?.[0] || "";
+const firstEngine = homeServices.indexOf('href="/services/timing-chain-replacement/"');
+for (const slug of ["servicing", "brakes", "mot-failure-repairs", "suspension-steering-repairs"]) {
+  const tile = homeServices.indexOf('href="/services/'+slug+'/"');
+  assert.ok(tile >= 0 && tile < firstEngine, "Homepage must feature "+slug+" before specialist engine work");
+}
 assert.ok(hub.indexOf("Everyday car repairs, servicing and MOT work")<hub.indexOf("All-makes and performance engine rebuilds"),"Service hub should lead with everyday repairs");
 assert.ok(home.includes('href="/services/suspension-steering-repairs/"'),"Homepage must feature suspension and control arm repairs");
 const services=pages.filter(p=>p.pathname.startsWith("/services/")&&p.pathname!=="/services/");
@@ -175,8 +180,9 @@ const reviews=JSON.parse(fs.readFileSync(path.join(root,"content/reviews.json"),
 assert.equal(reviews.length,5);
 for(const page of pages.filter(p=>p.pathname==="/"||p.pathname==="/testimonials/"||["/services/timing-chain-replacement/","/services/vw-audi-engine-repairs-birmingham/","/services/cambelt-replacement-birmingham/"].includes(p.pathname)||(p.pathname.startsWith("/services/")&&/rebuild/.test(p.pathname)))) {
   const cards=[...page.text.matchAll(/<figure class="review-card">([\s\S]*?)<\/figure>/g)].map(m=>m[1]);
-  assert.equal(cards.length,reviews.length,"Missing visible reviews on "+page.pathname);
-  for (const review of reviews) {
+  const expected = page.pathname === "/" ? [reviews[3], reviews[0], reviews[1]] : reviews;
+  assert.equal(cards.length,expected.length,"Missing visible reviews on "+page.pathname);
+  for (const review of expected) {
     assert.ok(cards.some(card=>card.includes('<strong>'+esc(review.author)+'</strong>')&&card.includes('<blockquote><p>'+esc(review.text)+'</p></blockquote>')),"Visible review changed on "+page.pathname+": "+review.author);
   }
 }
@@ -185,7 +191,7 @@ const advice=pages.find(p=>p.pathname==="/blog/").text;
 for(const guide of guides) {
   const pathname="/blog/"+guide.slug+"/",page=pages.find(p=>p.pathname===pathname),link='href="'+pathname+'"';
   assert.ok(page,"Missing guide "+pathname);
-  assert.ok(home.includes(link)&&advice.includes(link),"Guide missing from discovery hubs "+pathname);
+  assert.ok(advice.includes(link),"Guide missing from repair advice hub "+pathname);
   const article=[...page.text.matchAll(/<script type="application\/ld\+json">\s*([\s\S]*?)\s*<\/script>/g)].map(m=>JSON.parse(m[1])).find(s=>s["@type"]==="Article");
   assert.equal(article.headline,guide.title);assert.equal(article.mainEntityOfPage,origin+pathname);
   assert.equal(article.author.name,"Quick Solution Vehicles LTD");assert.equal(article.datePublished,guide.published);

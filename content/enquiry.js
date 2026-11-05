@@ -45,8 +45,8 @@ function quoteForm({ job, id = "quote", business, whatsapp }) {
   </section>`;
 }
 
-function trustStrip(maps, recovery = false) {
-  return `<div class="trust-strip quote-trust"><!-- TODO WAQAR CONFIRM current review count --><span><a href="${maps}">★ ${reviewSummary}</a> · Price agreed in writing before work · Sparkbrook B11 workshop · Open Saturdays${recovery ? " · Recovery can be arranged (customer cost)" : ""}</span></div>`;
+function trustStrip(maps, recovery = false, coverage = "") {
+  return `<div class="trust-strip quote-trust"><!-- TODO WAQAR CONFIRM current review count --><span><a href="${maps}">★ ${reviewSummary}</a> · Price agreed in writing before work · Sparkbrook B11 workshop · Open Saturdays${coverage ? " · " + coverage : ""}${recovery ? " · Recovery can be arranged (customer cost)" : ""}</span></div>`;
 }
 
 function nextSteps() {
