@@ -1125,16 +1125,15 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
 .mobile-call-bar a.mobile-whatsapp { background: #146c43; }
 .nav-backdrop { display: none; }
 @media (max-width: 1200px) {
-  html:has(.site-nav.is-open), body:has(.site-nav.is-open) { overflow: hidden; }
-  .site-header:has(.site-nav.is-open) { z-index: 90; }
+  .site-header:has(.site-nav.is-open) { z-index: 90; backdrop-filter: none; background: #0b111b; }
   .site-header:has(.site-nav.is-open) .nav-backdrop {
-    position: absolute; inset: 100% 0 auto; height: 100dvh; display: block;
-    background: rgba(0, 0, 0, .58); touch-action: none;
+    position: fixed; inset: 0; height: auto; z-index: -1;
+    touch-action: none; display: block; background: rgba(0, 0, 0, .58);
   }
   body:has(.site-nav.is-open) .consent-panel { visibility: hidden; }
   .header-inner { grid-template-columns: 1fr auto auto; }
-  .site-nav { display: none; position: absolute; left: 0; right: 0; top: 100%; padding: 20px; max-height: min(75dvh, calc(100dvh - 90px)); overflow-y: auto; overscroll-behavior: contain; background: var(--night); flex-direction: column; align-items: stretch; gap: 0; }
-  .site-nav.is-open { display: flex; }
+  .site-nav { display: none; position: absolute; left: 0; right: 0; top: 100%; padding: 20px; max-height: min(75dvh, calc(100dvh - 90px)); overflow-y: auto; background: var(--night); flex-direction: column; align-items: stretch; gap: 0; }
+  .site-nav.is-open { display: flex; overscroll-behavior: contain; }
   .site-nav a { padding: 12px 18px; font-size: 15px; }
   .nav-toggle { display: inline-flex; width: 42px; height: 42px; border: 1px solid #58606e; border-radius: 6px; background: none; flex-direction: column; justify-content: center; align-items: center; gap: 5px; }
   .nav-toggle span { display: block; width: 20px; height: 2px; background: #fff; }
