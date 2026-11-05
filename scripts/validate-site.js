@@ -34,6 +34,11 @@ assert.ok(legacy,"Keep the old timing-belt URL as a redirect");
 assert.ok(legacy.text.includes('http-equiv="refresh" content="0; url=/services/cambelt-replacement-birmingham/"'),"Legacy belt URL must redirect immediately");
 assert.ok(legacy.text.includes('rel="canonical" href="https://quickvs.com/services/cambelt-replacement-birmingham/"'),"Legacy belt canonical must consolidate to cambelt");
 assert.ok(legacy.text.includes('content="noindex, follow"'),"Legacy redirect must not compete with the new page");
+for (const { text, pathname } of allHtmlPages) {
+  assert.equal([...text.matchAll(/<h1(?=[\s>])/gi)].length, 1, pathname+": expected one H1");
+}
+const withoutQuoteForms=html=>html.replace(/<section class="section quote-section"[^>]*>[\s\S]*?<\/section>/g,"");
+const pagesByPath = new Map(allHtmlPages.map(page => [page.pathname, page]));
 const pages=allHtmlPages.filter(p=>p.pathname!==legacyPath);
 const sitemap=fs.readFileSync(path.join(root,"sitemap.xml"),"utf8");
 assert.ok(!sitemap.includes(origin+legacyPath),"Redirects do not belong in the sitemap");
@@ -45,7 +50,21 @@ const titles=new Set(),descriptions=new Set();
 const photos=JSON.parse(fs.readFileSync(path.join(root,'content/workshop-photos.json'),'utf8'));
 for(const page of pages) {
   const {text,pathname}=page;
-  assert.equal((text.match(/<h1\b/g)||[]).length,1,pathname+": expected one H1");
+  const needsBreadcrumb = pathname.startsWith("/services/") || pathname.startsWith("/blog/") || pathname === "/pricing/";
+  if (needsBreadcrumb) {
+    const breadcrumb = text.match(/<nav class="breadcrumbs" aria-label="Breadcrumb">([\s\S]*?)<\/nav>/)?.[1];
+    assert.ok(breadcrumb?.includes('href="/"') && breadcrumb.includes('aria-current="page"'), pathname+": missing breadcrumb markup");
+  }
+  // The form's fixed feedback templates and the legacy redirect retain their published markup.
+  for (const [, node] of withoutQuoteForms(text).matchAll(/<\/a>([^<]+)/gi)) {
+    const decoded = node.replace(/&nbsp;/gi, " ")
+      .replace(/&(period|comma|colon|semi|excl|quest|hellip|mdash|ndash);/gi, ".")
+      .replace(/&#(x[\da-f]+|\d+);/gi, (entity, number) => {
+        const code = number[0].toLowerCase() === "x" ? parseInt(number.slice(1), 16) : Number(number);
+        return code <= 0x10FFFF ? String.fromCodePoint(code) : entity;
+      });
+    assert.doesNotMatch(decoded, /^\s*[\p{P}][\p{P}\s]*$/u, pathname+": punctuation-only text after a link");
+  }
   assert.equal(text.match(/rel="canonical" href="([^"]+)"/)?.[1],origin+pathname,pathname+": canonical mismatch");
   assert.equal(text.match(/property="og:url" content="([^"]+)"/)?.[1],origin+pathname,pathname+": og:url mismatch");
   if(pathname!=="/404.html") assert.ok(pathname===pathname.toLowerCase()&&pathname.endsWith("/"),"Noncanonical path "+pathname);
@@ -82,9 +101,11 @@ for(const page of pages) {
     assert.ok(!/\bnoindex\b/i.test(text),pathname+": accidental noindex");
     assert.ok(entries.some(e=>e.url===origin+pathname),pathname+": absent from sitemap");
   }
+  let breadcrumbSchemas = 0;
   for(const match of text.matchAll(/<script type="application\/ld\+json">\s*([\s\S]*?)\s*<\/script>/g)) {
     const schema=JSON.parse(match[1]);
     assertNoReviewMarkup(schema, pathname);
+    if (schema["@type"] === "BreadcrumbList") breadcrumbSchemas++;
     if(schema["@type"]==="AutoRepair") {
       assert.equal(schema.name,"Quick Solution Vehicles LTD");
       assert.equal(schema.telephone,"+447522179040");
@@ -93,6 +114,16 @@ for(const page of pages) {
       assert.equal(schema.geo.latitude,52.4686661);assert.equal(schema.geo.longitude,-1.877204);
       assert.equal(schema.hasMap,"https://maps.google.com/maps?cid=2157141621358514254");
       assert.deepEqual(schema.paymentAccepted,["Debit Card","Bank Transfer"]);
+    }
+  }
+  assert.equal(breadcrumbSchemas, 1, pathname+": expected one BreadcrumbList schema");
+  for (const [, menu] of text.matchAll(/<nav class="jump-menu"[^>]*>([\s\S]*?)<\/nav>/g)) {
+    for (const [, href] of menu.matchAll(/<a href="([^"]+)"/g)) {
+      const url = new URL(href, origin+pathname);
+      const target = pagesByPath.get(url.pathname);
+      const id = decodeURIComponent(url.hash.slice(1));
+      const ids = [...(target?.text || "").matchAll(/\sid="([^"]+)"/g)].map(match => match[1]);
+      assert.ok(url.origin === origin && id && ids.includes(id), pathname+": missing jump-menu target "+href);
     }
   }
   for(const match of text.matchAll(/(?:href|src)="([^"]+)"/g)) {
@@ -140,7 +171,6 @@ assert.ok(pricing.includes("parts and materials additional")||pricing.includes("
 const pricingMain=pricing.match(/<main\b[^>]*>([\s\S]*?)<\/main>/)[1];
 assert.equal((pricingMain.match(/<table\b/g)||[]).length,2,"Pricing should use two compact price lists");
 assert.ok(!/faq-list|pricing-card|number-list/.test(pricingMain),"Keep pricing free of FAQs, breakdown cards and preparation lists");
-const withoutQuoteForms=html=>html.replace(/<section class="section quote-section"[^>]*>[\s\S]*?<\/section>/g,"");
 assert.ok(withoutQuoteForms(pricingMain).replace(/<[^>]*>/g," ").trim().split(/\s+/).length<=300,"Keep pricing concise");
 const dropdown=home.match(/<details class="services-nav-item"[\s\S]*?<\/details>/)?.[0];
 assert.ok(dropdown&&dropdown.includes("<summary>Workshop Services"),"Workshop Services navigation must be a labelled clickable dropdown");

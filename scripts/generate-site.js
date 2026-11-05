@@ -653,8 +653,10 @@ function inlineCopy(copy) {
   let html = '', cursor = 0;
   for (const match of copy.matchAll(pattern)) {
     if (match[2].startsWith('//')) throw new Error('External inline link');
-    html += esc(copy.slice(cursor, match.index)) + '<a href="'+esc(match[2])+'">'+esc(match[1])+'</a>';
-    cursor = match.index + match[0].length;
+    const end = match.index + match[0].length;
+    const punctuation = copy.slice(end).match(/^([\p{P}]+)(?=\s*(?:\[[^\]]+\]\(\/|$))/u)?.[1] || "";
+    html += esc(copy.slice(cursor, match.index)) + '<a href="'+esc(match[2])+'">'+esc(match[1]+punctuation)+'</a>';
+    cursor = end + punctuation.length;
   }
   return html + esc(copy.slice(cursor));
 }
@@ -829,7 +831,7 @@ const homeTiles = [
   ["exhaust-repairs", "Exhaust", "Leaks, noise and loose mountings."],
   ["battery-starter-alternator-repairs", "Battery and starting", "Batteries, starters and alternators."],
   ["timing-chain-replacement", "Timing chains", "Chains, guides and tensioners."],
-  [wetBelt.service.slug, "Wet belts", "Ford EcoBoost, EcoBlue and PureTech."],
+  [wetBelt.service.slug, "Wet belts", "Ford EcoBoost from £850, Transit EcoBlue from £1,050 and PureTech from £650."],
   ["engine-rebuild-birmingham", "Engine rebuilds", "Petrol, diesel and commercial engines."],
   ["bmw-n47-engine-rebuild", "BMW engines", "BMW N47 assessment and rebuilds."],
   ["jlr-ingenium-engine-rebuild", "JLR engines", "2.0 Ingenium assessment and rebuilds."],
@@ -846,7 +848,7 @@ function renderHome() {
     reviewSection("", { limit: 3, home: true })+
     workshopGallery(['5842','5849','5847'], "Workshop photos", { link: "/about/#workshop-photos" })+
     faqsHtml([homeFaqs[0], homeFaqs[1], homeFaqs[2], homeFaqs[3], homeFaqs[7]])+
-    '<section class="section local-seo"><h2>Sparkbrook workshop, wider Birmingham customers</h2><p>We support drivers across Birmingham, Solihull, Dudley, Walsall, Sandwell, Coventry, Wolverhampton and West Bromwich. For suitable non-running cars and engine work, recovery from further afield can be discussed at customer cost.</p><p>'+business.address+'</p><a class="text-link" href="'+maps+'">Find the workshop on Google Maps</a></section>'+cta("#quote")+form();
+    '<section class="section local-seo"><h2>Sparkbrook workshop, wider Birmingham customers</h2><p>We support drivers across Birmingham, Solihull, Dudley, Walsall, Sandwell, Coventry, Wolverhampton and West Bromwich. For suitable non-running cars and engine work, recovery from further afield can be discussed at customer cost.</p><p>'+business.address+'</p><a class="text-link" href="'+maps+'">Find the workshop on Google Maps</a></section>'+cta("#quote-bottom")+'<div id="quote-bottom">'+form()+'</div>';
   writePage("/",layout({title:"Car Repairs, Servicing & Engine Rebuilds | Birmingham",description:"Car servicing, brake repairs, suspension, clutches and MOT failure repairs in Sparkbrook, Birmingham. All-makes engine rebuild specialists too. Call QuickVS.",pathname:"/",body,faqs:homeFaqs}));
 }
 function renderServices() {
