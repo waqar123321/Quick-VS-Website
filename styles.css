@@ -741,113 +741,44 @@ textarea:focus {
 }
 
 .site-footer {
-  color: #fff;
-  background: #34445a;
+  color: #f1f4f8;
+  background: var(--night);
+  font-size: 15px;
+  line-height: 1.45;
 }
 
-.footer-main {
+.footer-main, .footer-bottom {
   width: min(var(--max), calc(100% - 36px));
-  margin: 0 auto;
-  padding: 66px 0 44px;
+  margin-inline: auto;
 }
-
+.footer-main { padding-block: 30px 12px; }
 .footer-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.9fr) minmax(0, 1.1fr) minmax(0, 1.35fr);
-  gap: 36px;
+  grid-template-columns: minmax(0, 1.25fr) repeat(2, minmax(0, 1fr));
+  gap: 24px;
 }
-
-.footer-grid > div { min-width: 0; }
-
-.footer-brand {
-  display: grid;
-  gap: 18px;
+.site-footer h2, .site-footer h3 { font-size: 19px; line-height: 1.25; margin: 0 0 8px; }
+.site-footer p, .site-footer address { margin: 0 0 4px; }
+.site-footer address { font-style: normal; }
+.site-footer ul { margin: 0; padding: 0; list-style: none; }
+.site-footer li a, .site-footer li button { display: inline-block; padding-block: 4px; }
+.site-footer a:hover, .site-footer a:focus-visible, .site-footer .text-link, .footer-bottom a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
+.footer-contact-links { display: flex; flex-wrap: wrap; column-gap: 12px; }
+.footer-column ul, .footer-directory ul { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 10px; }
+.footer-column > .text-link, .footer-contact > .text-link { display: inline-block; padding-block: 4px; }
+.footer-directory { margin-top: 12px; border-top: 1px solid #424b58; }
+.footer-directory summary { padding-block: 8px; font-weight: 700; cursor: pointer; }
+.footer-directory ul { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.footer-bottom { padding-block: 12px; border-top: 1px solid #424b58; font-size: 13px; color: #c9d1dc; }
 
-.footer-logo {
-  width: 260px;
-  max-width: 100%;
-  border-radius: 6px;
-  background: #050505;
-}
-
-.footer-title {
-  margin: 0;
-  color: #fff;
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: 25px;
-  line-height: 1.15;
-}
-
-.footer-column h2,
-.footer-column h3 {
-  margin: 0 0 18px;
-  color: #fff;
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: 18px;
-  line-height: 1.35;
-}
-
-.footer-column ul + h3 { margin-top: 30px; }
-
-.footer-column ul {
-  display: grid;
-  gap: 18px;
-  padding: 0;
-  margin: 0;
-  list-style: none;
-}
-
-.footer-column a {
-  color: rgba(255, 255, 255, 0.84);
-  font-size: 18px;
-}
-
-.footer-column a:hover,
-.footer-column a:focus-visible {
-  color: #fff;
-}
-
-.footer-contact li {
-  display: block;
-  color: rgba(255, 255, 255, 0.86);
-  font-size: 16px;
-  line-height: 1.6;
-}
-
-.footer-icon {
-  color: #70b3ff;
-  font-weight: 900;
-}
-
-.footer-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin-top: 12px;
-}
-
-.footer-bottom {
-  width: min(var(--max), calc(100% - 36px));
-  margin: 0 auto;
-  display: flex;
-  justify-content: space-between;
-  gap: 20px;
-  padding: 24px 0;
-  border-top: 1px solid rgba(255, 255, 255, 0.18);
-}
-
-.site-footer p {
-  margin: 6px 0 0;
-  color: rgba(255, 255, 255, 0.78);
-}
-
-.footer-links {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 18px;
-  color: rgba(255, 255, 255, 0.76);
-  font-weight: 800;
+@media (max-width: 760px) {
+  .footer-main { padding-block: 18px 4px; }
+  .footer-grid { grid-template-columns: 1fr; gap: 12px; }
+  .footer-directory ul { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .footer-bottom { padding-block: 9px; }
 }
 
 .cta-band {
@@ -1006,10 +937,6 @@ textarea:focus {
     display: none;
   }
 
-  .footer-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
   .hero-stats,
   .booking-shell,
   .intro-grid,
@@ -1098,16 +1025,6 @@ textarea:focus {
   .service-card,
   .highlight-card {
     min-height: auto;
-  }
-
-  .footer-grid,
-  .footer-bottom {
-    flex-direction: column;
-    grid-template-columns: 1fr;
-  }
-
-  .footer-bottom {
-    display: flex;
   }
 
   .mobile-call-bar {
@@ -1233,8 +1150,6 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
 .consent-actions button:last-child { background: #fff; color: var(--night); }
 .site-footer a { overflow-wrap: break-word; }
 .site-footer .text-link { color: #fff; text-decoration: underline; text-underline-offset: 3px; }
-.footer-contact { display: grid; gap: 12px; list-style: none; padding: 0; margin: 0; }
-.footer-contact a { display: inline-block; white-space: nowrap; }
 .mobile-call-bar .phone-number { display: block; white-space: nowrap; font-weight: 800; }
 .mobile-call-bar { background: #0b111b; padding-bottom: env(safe-area-inset-bottom); }
 .mobile-call-bar a { display: flex; align-items: center; justify-content: center; gap: 4px; text-align: center; min-height: 64px; line-height: 1.35; padding: 12px 10px; color: #fff; background: #c5151c; }
@@ -1389,7 +1304,7 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
   .page-hero .contact-actions { margin: 10px 0; }
   .hero-offer, .page-hero-copy, .detail-copy, .hero-reassurance, .pricing-note,
   .price-table, .price-table thead th, .workshop-photo figcaption,
-  .faq-list p, .footer-bottom { font-size: 18px; line-height: 1.5; }
+  .faq-list p { font-size: 18px; line-height: 1.5; }
   .site-footer a, .contact-card > .text-link, .wet-price-card > a { overflow-wrap: anywhere; }
   .call-first { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
   .call-first .button { width: 100%; padding-inline: 5px; }
@@ -1397,7 +1312,6 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
   .quote-card { padding: 16px; }
   .quote-fields, .next-steps ol { grid-template-columns: 1fr; }
   .quote-trust a { display: inline-flex; min-height: 48px; align-items: center; }
-  .cookie-settings { min-height: 48px; }
 }
 
 @media (min-width: 480px) and (max-width: 760px) {

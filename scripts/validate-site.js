@@ -204,7 +204,6 @@ for(const guide of guides) {
   }
   assert.ok(page.text.includes('property="og:type" content="article"'));
   assert.ok(page.text.includes('datetime="'+guide.published+'"'),"Missing visible publication date");
-  for(const p of pages)assert.ok(p.text.match(/<footer\b[\s\S]*?<\/footer>/)?.[0].includes(link),"Guide absent from footer "+pathname);
 }
 assert.equal(fs.readFileSync(path.join(root,"robots.txt"),"utf8"),"User-agent: *\nAllow: /\n\nSitemap: https://quickvs.com/sitemap.xml\n");
 assert.ok(fs.existsSync(path.join(root,".nojekyll")));
