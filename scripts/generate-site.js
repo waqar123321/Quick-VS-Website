@@ -425,6 +425,7 @@ function header(pathname) {
   return '<a class="skip-link" href="#main-content">Skip to content</a><header class="site-header"><div class="header-inner">' +
     '<a class="brand" href="/" aria-label="Quick Solution Vehicles home"><img class="brand-logo" src="/assets/qsv-logo.svg" width="94" height="44" alt="Quick Solution Vehicles logo"><span><strong>Quick Solution Vehicles</strong><small>Car repairs &amp; engine rebuilds</small></span></a>' +
     '<button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" data-nav-toggle aria-label="Open navigation"><span></span><span></span><span></span></button>' +
+    '<div class="nav-backdrop" data-nav-backdrop aria-hidden="true"></div>' +
     '<nav id="site-nav" class="site-nav" data-nav aria-label="Main navigation">' + nav.map(([label,href]) => href==="/services/" ? serviceDropdown() : '<a href="'+href+'"'+(href===pathname?' aria-current="page"':'')+'>'+label+'</a>').join("") +
     '</nav><div class="header-actions"><a class="button button-light" data-contact-location="header" href="tel:'+business.primaryTel+'">'+business.primaryPhone+'</a></div></div></header>';
 }

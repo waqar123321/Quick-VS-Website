@@ -5,14 +5,33 @@
   const servicesMenu = document.querySelector("[data-services-menu]");
   const year = document.querySelector("[data-year]");
   if (year) year.textContent = new Date().getFullYear();
-  function closeNav() {
-    if (nav && toggle) { nav.classList.remove("is-open"); toggle.setAttribute("aria-expanded", "false"); }
-    if (servicesMenu) servicesMenu.open = false;
+  const backdrop = document.querySelector("[data-nav-backdrop]");
+  const background = document.querySelectorAll("main, .site-footer, .mobile-dock, .brand, .header-actions");
+  const mobileNav = window.matchMedia?.("(max-width: 1200px)");
+  let navOpen = false;
+  function setNav(open) {
+    const wasOpen = navOpen;
+    navOpen = open;
+    nav.classList.toggle("is-open", open);
+    toggle.setAttribute("aria-expanded", String(open));
+    toggle.setAttribute("aria-label", open ? "Close navigation" : "Open navigation");
+    for (const element of background) element.inert = open;
+    if (!open && servicesMenu) servicesMenu.open = false;
+    if (wasOpen && !open && mobileNav?.matches !== false) toggle.focus();
   }
   if (nav && toggle) {
-    toggle.addEventListener("click", () => toggle.setAttribute("aria-expanded", String(nav.classList.toggle("is-open"))));
-    nav.addEventListener("click", event => { if (event.target.closest("a")) closeNav(); });
-    document.addEventListener("keydown", event => { if (event.key === "Escape") closeNav(); });
+    toggle.addEventListener("click", () => setNav(!navOpen));
+    backdrop?.addEventListener("click", () => setNav(false));
+    nav.addEventListener("click", event => { if (navOpen && event.target.closest("a")) setNav(false); });
+    mobileNav?.addEventListener("change", () => { if (navOpen) setNav(false); });
+    document.addEventListener("keydown", event => {
+      if (event.key !== "Escape") return;
+      if (navOpen) setNav(false);
+      else if (servicesMenu?.open) {
+        servicesMenu.open = false;
+        servicesMenu.querySelector("summary")?.focus();
+      }
+    });
   }
   if (servicesMenu) {
     document.addEventListener("click", event => {

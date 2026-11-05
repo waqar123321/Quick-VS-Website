@@ -910,29 +910,6 @@ textarea:focus {
     background: #fff;
   }
 
-  .site-nav {
-    position: absolute;
-    top: 76px;
-    left: 18px;
-    right: 18px;
-    display: none;
-    flex-direction: column;
-    align-items: stretch;
-    gap: 0;
-    padding: 8px;
-    border-radius: 8px;
-    background: rgba(11, 17, 27, 0.98);
-    box-shadow: var(--shadow);
-  }
-
-  .site-nav.is-open {
-    display: flex;
-  }
-
-  .site-nav a {
-    padding: 14px;
-  }
-
   .header-actions {
     display: none;
   }
@@ -1154,9 +1131,17 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
 .mobile-call-bar { background: #0b111b; padding-bottom: env(safe-area-inset-bottom); }
 .mobile-call-bar a { display: flex; align-items: center; justify-content: center; gap: 4px; text-align: center; min-height: 64px; line-height: 1.35; padding: 12px 10px; color: #fff; background: #c5151c; }
 .mobile-call-bar a.mobile-whatsapp { background: #146c43; }
+.nav-backdrop { display: none; }
 @media (max-width: 1200px) {
+  html:has(.site-nav.is-open), body:has(.site-nav.is-open) { overflow: hidden; }
+  .site-header:has(.site-nav.is-open) { z-index: 90; }
+  .site-header:has(.site-nav.is-open) .nav-backdrop {
+    position: absolute; inset: 100% 0 auto; height: 100dvh; display: block;
+    background: rgba(0, 0, 0, .58); touch-action: none;
+  }
+  body:has(.site-nav.is-open) .consent-panel { visibility: hidden; }
   .header-inner { grid-template-columns: 1fr auto auto; }
-  .site-nav { display: none; position: absolute; left: 0; right: 0; top: 100%; padding: 20px; max-height: calc(100dvh - 90px); overflow-y: auto; overscroll-behavior: contain; background: var(--night); flex-direction: column; align-items: stretch; gap: 0; }
+  .site-nav { display: none; position: absolute; left: 0; right: 0; top: 100%; padding: 20px; max-height: min(75dvh, calc(100dvh - 90px)); overflow-y: auto; overscroll-behavior: contain; background: var(--night); flex-direction: column; align-items: stretch; gap: 0; }
   .site-nav.is-open { display: flex; }
   .site-nav a { padding: 12px 18px; font-size: 15px; }
   .nav-toggle { display: inline-flex; width: 42px; height: 42px; border: 1px solid #58606e; border-radius: 6px; background: none; flex-direction: column; justify-content: center; align-items: center; gap: 5px; }
@@ -1284,12 +1269,11 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
   .consent-panel h2 { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
   .consent-panel p { margin: 0 0 8px; font-size: 14px; line-height: 1.45; }
   .consent-actions button, .consent-actions button:last-child { padding: 6px; font-size: 16px; background: #fff; color: var(--night); }
-  body:has(.site-nav.is-open) .consent-panel { visibility: hidden; }
   .header-inner { grid-template-columns: 1fr auto auto; gap: 8px; min-height: 62px; }
   .header-actions { display: flex; }
   .header-actions .button { padding-inline: 10px; white-space: nowrap; font-size: 18px; }
   .header-inner .nav-toggle { width: 48px; height: 48px; }
-  .site-nav { max-height: calc(100dvh - 116px - env(safe-area-inset-bottom)); }
+  .site-nav { max-height: min(75dvh, calc(100dvh - 116px - env(safe-area-inset-bottom))); }
   .site-nav a, .site-nav .services-dropdown a, .services-nav-item > summary { min-height: 48px; }
   .site-nav a, .site-nav .services-dropdown a, .services-nav-item > summary { font-size: 17px; }
   .brand > span { display: none; }
