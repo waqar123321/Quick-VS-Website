@@ -466,8 +466,151 @@ function footer(quoteHref) {
     '<section class="consent-panel" data-consent-panel hidden aria-labelledby="consent-title"><h2 id="consent-title">Analytics and ad measurement cookies</h2><p>We&#39;d like to use cookies to understand which pages and contact buttons are useful and which of our Google ads lead to enquiries. We don&#39;t use them for personalised advertising. You can reject them and still use every workshop contact option. <a href="/privacy/">Privacy &amp; cookies</a></p><div class="consent-actions"><button type="button" data-consent="accept">Accept</button><button type="button" data-consent="reject">Reject</button></div></section>' +
     '<div class="mobile-call-bar" aria-label="Contact the workshop"><a data-contact-location="mobile_bar" aria-label="Call '+business.primaryPhone+'" href="tel:'+business.primaryTel+'">Call</a><a data-contact-location="mobile_bar" class="mobile-whatsapp" href="'+whatsapp+'">WhatsApp</a><a class="mobile-quote" data-contact-location="sticky" aria-label="Get a free quote" href="'+quoteHref+'">Quote</a></div></div>';
 }
+const jumpLabels = new Map([
+  ["Engine rebuild starting prices", "Rebuild prices"],
+  ["Engine replacement cost", "Replacement prices"],
+  ["Timing chain replacement cost", "Chain prices"],
+  ["Cambelt replacement cost", "Cambelt prices"],
+  ["Clutch replacement cost", "Clutch prices"],
+  ["Engines we commonly see", "Engine types"],
+  ["Chain rattle needs an engine-specific diagnosis", "Chain rattle"],
+  ["Replacement scope and damage checks", "Repair scope"],
+  ["Lubrication and handover checks", "Final checks"],
+  ["What happens next", "Next steps"],
+  ["Before you book", "FAQs"],
+  ["Five-star Google reviews", "Reviews"],
+  ["Inside our Birmingham workshop", "Workshop photos"],
+  ["Workshop inspection in pictures", "Workshop photos"],
+  ["BMW X5 M: damage uncovered during strip-down", "Workshop photos"],
+  ["A non-start does not always mean a new battery", "Non-start checks"],
+  ["Replacement matched to your vehicle", "Correct parts"],
+  ["When the engine turns but will not start", "Cranking faults"],
+  ["N47 chain damage and lubrication assessment", "N47 checks"],
+  ["N57 bottom-end, turbo and cooling checks", "N57 checks"],
+  ["Chain repair and internal damage are separate questions", "Internal damage"],
+  ["Assess the lubrication concern as well as the damage", "Oil pressure"],
+  ["Noise, vibration and pulling under braking", "Brake symptoms"],
+  ["Condition checks and the agreed repair", "Brake checks"],
+  ["MOT items and safe collection", "MOT and collection"],
+  ["Conventional dry cambelts", "Dry cambelts"],
+  ["When is your cambelt due?", "Replacement intervals"],
+  ["What is normally replaced?", "Parts replaced"],
+  ["Warning signs and the risk of failure", "Warning signs"],
+  ["Common makes and how we quote", "Vehicle makes"],
+  ["Slipping, judder and a changing bite point", "Clutch symptoms"],
+  ["Clutch, flywheel and release-system checks", "Flywheel checks"],
+  ["Planning the repair and checking operation", "Repair process"],
+  ["Coolant loss and overheating checks", "Cooling checks"],
+  ["Stop safely if the engine overheats", "Overheating"],
+  ["Cooling repair or engine assessment?", "Repair options"],
+  ["Check the tyre specification before booking", "Tyre specification"],
+  ["Wheel condition, valves and fitting suitability", "Wheel checks"],
+  ["Bring the details needed for a fitting enquiry", "What to send"],
+  ["Check the fuelling fault before replacing injectors", "Fuelling checks"],
+  ["A repair suited to the fitted diesel engine", "Injector repair"],
+  ["Poor running and emissions warnings", "Related symptoms"],
+  ["Understand why a diesel warning returns", "Warning lights"],
+  ["Regeneration, fuelling and oil condition", "Regeneration"],
+  ["A repair route that retains emissions equipment", "Emissions equipment"],
+  ["Warning lights, live data and mechanical evidence", "Fault finding"],
+  ["Non-start, knocking and oil-pressure warnings", "Engine symptoms"],
+  ["Bring useful information to the workshop", "What to send"],
+  ["Planning a local workshop rebuild in Birmingham", "Planning a rebuild"],
+  ["From first enquiry to collection", "Repair process"],
+  ["What a complete engine rebuild involves", "Rebuild scope"],
+  ["Find the failure cause before rebuilding", "Failure diagnosis"],
+  ["Repair, rebuild or replace: agreeing the scope", "Repair options"],
+  ["Blowing exhausts, rattles and loose mountings", "Exhaust noise"],
+  ["Corrosion, replacement sections and repair scope", "Repair scope"],
+  ["Exhaust-related MOT failures and safe driving", "MOT failures"],
+  ["Separate gearbox faults from related components", "Gear selection"],
+  ["Leaks, noises and mechanical inspection", "Gearbox checks"],
+  ["Agree the route before removal", "Repair process"],
+  ["Identify AJ200D and AJ200P correctly", "Engine identification"],
+  ["Chain, balance shaft, turbo and oil dilution faults", "Ingenium faults"],
+  ["The fitted engine changes the diagnosis", "Engine identification"],
+  ["Choose an engine-specific assessment", "Assessment options"],
+  ["Start with the exact failure wording", "Failure report"],
+  ["Mechanical defects and related checks", "Related checks"],
+  ["Repair planning and your retest", "MOT retest"],
+  ["OEM Spec Restoration vs. Forged Builds", "Build options"],
+  ["Measured assessment, repair scope and final checks", "Repair scope"],
+  ["Turnaround, warranty and recovery", "Warranty and turnaround"],
+  ["Turnaround, warranty and workshop details", "Warranty and turnaround"],
+  ["A rebuild plan for the engine you actually have", "Rebuild planning"],
+  ["Match the service to the engine and its history", "Service history"],
+  ["Oil, filters, plugs and practical inspections", "Service checks"],
+  ["Maintenance after an engine repair", "After a repair"],
+  ["Shock absorbers and coil springs", "Shocks and springs"],
+  ["Control arms, wishbones, bushes and ball joints", "Control arms"],
+  ["Steering play, vibration and uneven tyre wear", "Steering symptoms"],
+  ["Mechanical MOT failure and advisory repairs", "MOT repairs"],
+  ["Evidence for a major mechanical authorisation", "Authorisation"],
+  ["Scope, parts and communication during repair", "Repair scope"],
+  ["Recovery and workshop planning", "Recovery"],
+  ["Start with the engine, not just the badge", "Engine identification"],
+  ["TSI and TFSI timing chain concerns", "Timing chains"],
+  ["Cambelts on later TSI and TDI engines", "Cambelts"],
+  ["When there may be internal engine damage", "Internal damage"],
+  ["Find the noisy or worn component", "Bearing checks"],
+  ["Bearing or complete hub replacement", "Hub replacement"],
+  ["Wheel noise, brakes and suspension", "Related symptoms"],
+  ["Everyday garage work", "Everyday prices"],
+  ["Engine rebuilds", "Rebuild prices"],
+  ["Need another repair?", "Other repairs"],
+  ["Everyday car repairs, servicing and MOT work", "Everyday repairs"],
+  ["All-makes and performance engine rebuilds", "Engine rebuilds"],
+  ["BMW, JLR and engine rebuild planning", "BMW and JLR"],
+  ["Start with the registration and running status", "Vehicle details"],
+  ["Describe the sequence rather than guessing the failed part", "Describe symptoms"],
+  ["Agree the initial inspection and authorisation", "Initial inspection"],
+  ["Compare the scope of two quotes", "Compare quotes"],
+  ["Check the rebuild terms and timescale", "Warranty and timescale"],
+  ["Plan delivery before arranging recovery", "Delivery"],
+  ["A BMW X5 M arrived with a dead engine", "Initial symptoms"],
+  ["The engine block damage was extensive", "Block damage"],
+  ["The customer decided on a replacement engine", "Repair decision"],
+  ["What can cause damage on this scale?", "Possible causes"],
+  ["What matters when fitting a replacement engine?", "Replacement checks"],
+  ["A noise is a symptom, not a confirmed diagnosis", "Noise and symptoms"],
+  ["Identify the engine before choosing a timing procedure", "Identify the engine"],
+  ["What a timing repair is intended to address", "Timing repair"],
+  ["Why timing loss can require further inspection", "Timing failure"],
+  ["When rebuilding or replacement becomes the discussion", "Repair options"],
+  ["Keep the original cause in the repair plan", "Failure diagnosis"],
+]);
+function jumpMenu(links, label = "On this page", wet = false) {
+  const container = wet ? ' class="wet-container"' : '';
+  return '<nav class="jump-menu" aria-label="'+label+'"><div'+container+'>'+
+    links.map(([href, text, arrow]) => '<a href="'+href+'">'+esc(text)+(arrow ? ' <span aria-hidden="true">↗</span>' : '')+'</a>').join('')+
+    '</div></nav>';
+}
+function addJumpMenu(body, quoteHref, label) {
+  const headingPattern = /<h2( [^>]*)?>([^<]+)<\/h2>/g;
+  const headings = [...body.matchAll(headingPattern)];
+  if (new Set(headings.map(heading => heading[2])).size < 4) return body;
+  const links = [];
+  const ids = new Set([...body.matchAll(/\sid="([^"]+)"/g)].map(match => match[1]));
+  body = body.replace(headingPattern, (html, attributes = "", title) => {
+    if (links.length === 6 || !jumpLabels.has(title)) return html;
+    const existingId = attributes.match(/\sid="([^"]+)"/)?.[1];
+    const baseId = title.toLowerCase().replace(/&[^;]+;/g, " ").normalize("NFD")
+      .replace(/\p{M}/gu, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+    let id = existingId || baseId;
+    for (let suffix = 2; !existingId && ids.has(id); suffix++) id = baseId+"-"+suffix;
+    ids.add(id);
+    links.push(["#"+id, jumpLabels.get(title)]);
+    return existingId ? html : '<h2'+attributes+' id="'+id+'">'+title+'</h2>';
+  });
+  if (!links.length) return body;
+  links.push([quoteHref, "Get a quote"]);
+  return body.replace("</section>", "</section>"+jumpMenu(links, label));
+}
 function layout({ title, description, pathname, body, faqs = [], service, noindex = false, article, pageStyles }) {
   const quoteHref = service || quotePages.has(pathname) ? "#quote" : "/contact/#quote";
+  if (pathname !== "/services/"+wetBelt.service.slug+"/" && (pathname.startsWith("/services/") || pathname === "/pricing/" || article)) {
+    body = addJumpMenu(body, quoteHref, article ? "In this guide" : "On this page");
+  }
   const schemas = [businessSchema(), breadcrumbSchema(pathname, title)];
   if (faqs.length) schemas.push(faqSchema(faqs));
   if (service) schemas.push(serviceSchema(service));
@@ -625,7 +768,7 @@ function renderService(service) {
   if (service.slug === wetBelt.service.slug) {
     const pathname = "/services/" + service.slug + "/";
     writePage(pathname, layout({ title: service.metaTitle, description: service.desc, pathname,
-      body: wetBelt.render({ esc, breadcrumb, business, maps, reviewSection: serviceReviews, contactButtons: serviceButtons, top, bottom, payment }), faqs: wetBelt.faqs, service,
+      body: wetBelt.render({ esc, breadcrumb, jumpMenu, business, maps, reviewSection: serviceReviews, contactButtons: serviceButtons, top, bottom, payment }), faqs: wetBelt.faqs, service,
       pageStyles: landingPriceStyles }));
     return;
   }

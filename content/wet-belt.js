@@ -28,7 +28,7 @@ const faqs = [
   ['Could my PureTech repair qualify for manufacturer support?', 'Some earlier PureTech engines may qualify for manufacturer support for certain belt-related faults, subject to the vehicle and service history. Check eligibility with the manufacturer before authorising a paid repair. We are an independent workshop; we cannot approve manufacturer claims.']
 ];
 
-function render({ esc, breadcrumb, business, maps, reviewSection, contactButtons, top, bottom, payment }) {
+function render({ esc, breadcrumb, jumpMenu, business, maps, reviewSection, contactButtons, top, bottom, payment }) {
   const message = encodeURIComponent('Hi Quick Solution Vehicles, I would like a wet belt replacement quote.\nRegistration: \nMileage: \nMake/model: \nAny warning lights or symptoms: ');
   const whatsapp = 'https://wa.me/447522179040?text=' + message;
   const buttons = location => contactButtons("wet_belt_" + location, whatsapp);
@@ -44,7 +44,7 @@ function render({ esc, breadcrumb, business, maps, reviewSection, contactButtons
       <p class="wet-hours">Mon–Sat, 10am–6pm <span aria-hidden="true">·</span> Birmingham B11</p>
     </div></div></section>
     ${top}
-    <nav class="wet-jump" aria-label="On this page"><div class="wet-container"><a href="#wet-prices">Prices</a><a href="#wet-work">What’s involved</a><a href="#wet-engines">Your engine</a><a href="#wet-reviews">Reviews</a><a href="#wet-questions">FAQs</a><a href="#wet-quote">Get a quote <span aria-hidden="true">↗</span></a></div></nav>
+    ${jumpMenu([["#wet-prices", "Prices"], ["#wet-work", "What’s involved"], ["#wet-engines", "Your engine"], ["#wet-reviews", "Reviews"], ["#wet-questions", "FAQs"], ["#wet-quote", "Get a quote", true]], "On this page", true)}
     <section class="wet-section wet-container" id="wet-prices"><div class="wet-heading"><p class="section-kicker">Clear starting prices</p><h2>Wet belt replacement cost</h2><p>Choose your engine below. We confirm the exact price for your vehicle before booking the work.</p></div>
       ${priceCards(engines.map(e => ({ ...e, detail: e.makes, action: `<a href="${whatsapp}" data-contact-location="wet_belt_price">Get my vehicle’s quote <span aria-hidden="true">↗</span></a>` })), esc)}
       <p class="cost-disclaimer">${startingPrices}</p>

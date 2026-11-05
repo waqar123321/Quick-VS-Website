@@ -25,11 +25,6 @@
 .wet-landing .button { gap: 12px; min-height: 52px; font-weight: 750; padding: 14px 19px; }
 .wet-hours { color: #c8d0db; font-size: 13px; margin: 20px 0 0; }
 .wet-hours span { padding: 0 6px; }
-.wet-jump { border-bottom: 1px solid var(--wet-border); background: #fff; }
-.wet-jump .wet-container { display: flex; gap: 32px; overflow-x: auto; scrollbar-width: thin; }
-.wet-jump a { padding-block: 20px; white-space: nowrap; font-size: 14px; font-weight: 700; min-height: 60px; }
-.wet-jump a:last-child { margin-left: auto; color: var(--accent); }
-.wet-jump a:hover { text-decoration: underline; text-underline-offset: 5px; }
 .wet-heading { max-width: 710px; margin-bottom: 32px; }
 .wet-heading > p:last-child { font-size: 17px; color: #4e5969; line-height: 1.7; margin-bottom: 0; }
 .wet-prices { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
@@ -94,9 +89,6 @@
   .wet-hero .contact-actions { margin-top: 8px; }
   .wet-hero-price span, .wet-hours { font-size: 17px; }
   .wet-hero-price strong { font-size: 24px; }
-  .wet-jump .wet-container { flex-wrap: wrap; gap: 0 18px; overflow: visible; }
-  .wet-jump a:last-child { margin-left: 0; }
-  .wet-jump a { font-size: 17px; padding-block: 12px; min-height: 48px; }
   .wet-heading { margin-bottom: 26px; }
   .wet-heading > p:last-child { font-size: 18px; }
   .wet-prices { grid-template-columns: 1fr; gap: 16px; }
