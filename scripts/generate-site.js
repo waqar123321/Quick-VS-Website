@@ -484,8 +484,14 @@ function layout({ title, description, pathname, body, faqs = [], service, noinde
     (pageStyles ? '<link rel="stylesheet" href="'+pageStyles+'">\n' : '') +
     schemas.map(jsonLd).join("\n")+'\n</head>\n<body>\n<div class="site-content">'+header(pathname)+'\n<main id="main-content">'+body+'</main>\n'+footer(quoteHref)+'\n</body>\n</html>\n';
 }
-function hero(kicker, title, copy, { lead = "", quoteHref = "/contact/#quote", priceLead } = {}) {
-  return '<section class="page-hero'+(priceLead ? ' cost-hero' : '')+'"><div class="page-hero-content"><p class="eyebrow">'+esc(kicker)+'</p><h1>'+esc(title)+'</h1>'+
+function breadcrumbs(current, parent) {
+  const separator = '<span class="breadcrumb-separator" aria-hidden="true">/</span>';
+  return '<nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">Home</a>'+separator+
+    (parent ? '<a href="'+parent[1]+'">'+parent[0]+'</a>'+separator : '')+
+    '<span aria-current="page">'+esc(current)+'</span></nav>';
+}
+function hero(kicker, title, copy, { lead = "", quoteHref = "/contact/#quote", priceLead, breadcrumb = "", hideEyebrow = false } = {}) {
+  return '<section class="page-hero'+(priceLead ? ' cost-hero' : '')+'"><div class="page-hero-content">'+breadcrumb+'<p class="eyebrow"'+(hideEyebrow?' hidden':'')+'>'+esc(kicker)+'</p><h1>'+esc(title)+'</h1>'+
     (priceLead ? '<p class="hero-offer">'+esc(priceLead)+'</p><p class="cost-disclaimer">'+costs.startingPrices+'</p>' : (lead ? '<p class="hero-offer">'+esc(lead)+'</p>' : ''))+contactButtons("hero", quoteHref)+
     '<p class="page-hero-copy">'+esc(copy)+'</p><p class="hero-reassurance">Mon–Sat 10am–6pm · Sparkbrook, Birmingham B11 · All-makes garage</p></div></section>';
 }
@@ -601,7 +607,13 @@ function renderService(service) {
   const hasSteps = isRebuild || job !== "servicing_repair";
   const top = trustStrip(maps, isRebuild) + form(job) + (hasSteps ? nextSteps() : "") + photoSlot(service.slug);
   const bottom = form(job, "quote-bottom");
-  const serviceHero = (kicker, title, copy) => hero(kicker, title, copy, { lead: heroOffers[service.slug] || service.short, quoteHref: "#quote", priceLead: replacementLanding ? "Rebuilds from £3,000 · Used replacements from £"+cost.rows[0][1] : priceLead });
+  const breadcrumbTitle = {
+    [wetBelt.service.slug]: "Wet belt replacement",
+    [timingServices.vagSlug]: "VW Group engine and timing repairs",
+    [timingServices.cambeltSlug]: "Cambelt replacement"
+  }[service.slug] || service.title;
+  const breadcrumb = breadcrumbs(breadcrumbTitle, ["Services", "/services/"]);
+  const serviceHero = (kicker, title, copy) => hero(kicker, title, copy, { breadcrumb, hideEyebrow: true, lead: heroOffers[service.slug] || service.short, quoteHref: "#quote", priceLead: replacementLanding ? "Rebuilds from £3,000 · Used replacements from £"+cost.rows[0][1] : priceLead });
   const serviceButtons = (location, messageLink) => contactButtons(location, "#quote", messageLink);
   const serviceReviews = () => reviewSection(service.slug);
   if (service.timingLanding) {
@@ -613,7 +625,7 @@ function renderService(service) {
   if (service.slug === wetBelt.service.slug) {
     const pathname = "/services/" + service.slug + "/";
     writePage(pathname, layout({ title: service.metaTitle, description: service.desc, pathname,
-      body: wetBelt.render({ esc, business, maps, reviewSection: serviceReviews, contactButtons: serviceButtons, top, bottom, payment }), faqs: wetBelt.faqs, service,
+      body: wetBelt.render({ esc, breadcrumb, business, maps, reviewSection: serviceReviews, contactButtons: serviceButtons, top, bottom, payment }), faqs: wetBelt.faqs, service,
       pageStyles: landingPriceStyles }));
     return;
   }
@@ -623,7 +635,7 @@ function renderService(service) {
   if (cost?.faq) faqs.push(cost.faq);
   let items = [...(service.sections||[]), ...extra.sections];
   if (service.why) items.unshift(["Diagnosis before major work",service.why]);
-  let body='<nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true"> / </span><a href="/services/">Services</a><span aria-hidden="true"> / </span><span aria-current="page">'+esc(service.title)+'</span></nav>'+serviceHero(isRebuild?"Engine rebuild workshop":"Mechanical repairs Birmingham",service.title,service.heroIntro||service.opening||service.intro)+(replacementLanding ? "" : costHtml)+top+
+  let body=serviceHero(isRebuild?"Engine rebuild workshop":"Mechanical repairs Birmingham",service.title,service.heroIntro||service.opening||service.intro)+(replacementLanding ? "" : costHtml)+top+
     '<div class="service-pricing-link"><a href="/pricing/">Workshop prices &amp; engine rebuild starting prices</a></div>';
   if (!showEnginePrices && servicePriceNotes[service.slug]) body+='<aside class="service-price-note"><strong>Starting price:</strong> '+esc(servicePriceNotes[service.slug])+(isRebuild ? " "+payment+"." : "")+' <a href="/pricing/">See pricing details</a></aside>';
   if(isRebuild) body+='<section class="trust-strip" aria-label="Engine rebuild terms"><span>Standard warranty: '+warranty+'.</span><span>Typical turnaround 1–3 weeks</span><span>'+payment+'.</span></section>';
@@ -672,7 +684,7 @@ function renderHome() {
   writePage("/",layout({title:"Car Repairs, Servicing & Engine Rebuilds | Birmingham",description:"Car servicing, brake repairs, suspension, clutches and MOT failure repairs in Sparkbrook, Birmingham. All-makes engine rebuild specialists too. Call QuickVS.",pathname:"/",body:body+guideCards()+form("servicing_repair","quote-bottom"),faqs:homeFaqs}));
 }
 function renderServices() {
-  const body=hero("Workshop services","Car repairs, servicing and engine rebuilds in Birmingham.","Choose the service that fits your car or van. We handle everyday mechanical repairs, MOT failures and specialist engine rebuilds. Call or WhatsApp the workshop to discuss the work.")+
+  const body=hero("Workshop services","Car repairs, servicing and engine rebuilds in Birmingham.","Choose the service that fits your car or van. We handle everyday mechanical repairs, MOT failures and specialist engine rebuilds. Call or WhatsApp the workshop to discuss the work.", { breadcrumb: breadcrumbs("Services"), hideEyebrow: true })+
     '<section class="section"><h2>Everyday car repairs, servicing and MOT work</h2>'+cards(generalServices.filter(service=>service.slug!=="engine-rebuilds"))+'</section>'+
     '<section class="section section-muted"><h2>All-makes and performance engine rebuilds</h2>'+cards([generalServices[0],...landingPages])+'</section>'+
     '<section class="section"><h2>BMW, JLR and engine rebuild planning</h2>'+cards(specialistServices)+'</section>'+cta();
@@ -701,8 +713,7 @@ function renderPricing() {
     ["Ford 1.0 EcoBoost wet belt", "From £850", "/services/wet-belt-replacement/"],
     ["2.0 EcoBlue wet belt (Transit / Custom)", "From £1,050", "/services/wet-belt-replacement/"]
   ];
-  const body='<nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true"> / </span><span aria-current="page">Pricing</span></nav>'+
-    hero("Workshop prices", "Car repair and engine rebuild prices", "Call or WhatsApp your registration and the job needed for a quote from our Birmingham workshop.", { quoteHref: "#quote" })+form()+
+  const body=hero("Workshop prices", "Car repair and engine rebuild prices", "Call or WhatsApp your registration and the job needed for a quote from our Birmingham workshop.", { quoteHref: "#quote", breadcrumb: breadcrumbs("Pricing") })+form()+
     '<div class="pricing-layout"><section class="pricing-panel"><h2>Everyday garage work</h2>'+priceTable('Everyday garage prices', workshopPrices)+'<p class="pricing-note">Where marked labour-only, parts and materials are additional. Wet belt figures are replacement starting prices; final quotes depend on the vehicle and repair scope. '+payment+'.</p></section>'+
     '<section class="pricing-panel"><h2>Engine rebuilds</h2>'+priceTable('Engine rebuild starting prices', enginePrices)+'<p class="pricing-note">Starting prices, not fixed quotes. Final prices are confirmed after inspection. '+payment+'.</p></section></div>'+
     '<section class="section pricing-contact"><h2>Need another repair?</h2><p>For <a href="/services/">all other workshop services</a>, send your registration and symptoms. We agree the price before work starts.</p>'+contactButtons("pricing", "#quote-bottom")+'</section>'+form("servicing_repair","quote-bottom");
@@ -730,11 +741,11 @@ function guideCards(serviceSlug) {
 }
 function renderGuide(article) {
   const pathname="/blog/"+article.slug+"/";
-  const body='<nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">Home</a> / <a href="/blog/">Repair advice</a> / <span aria-current="page">'+esc(article.title)+'</span></nav>'+hero("Workshop guide",article.title,article.intro)+'<section class="section"><p>By Quick Solution Vehicles LTD · Published <time datetime="'+article.published+'">'+new Intl.DateTimeFormat('en-GB',{day:'numeric',month:'long',year:'numeric',timeZone:'UTC'}).format(new Date(article.published+'T12:00:00Z'))+'</time></p></section>'+workshopGallery(article.photos||[article.photo],article.photoHeading||'Workshop inspection in pictures')+sections(article.sections)+'<section class="section section-muted"><h2>Related repair services</h2>'+cards(allServices.filter(s=>article.services.includes(s.slug)))+'</section>'+guideCards()+cta();
+  const body=hero("Workshop guide", article.title, article.intro, { breadcrumb: breadcrumbs(article.title, ["Repair advice", "/blog/"]), hideEyebrow: true })+'<section class="section"><p>By Quick Solution Vehicles LTD · Published <time datetime="'+article.published+'">'+new Intl.DateTimeFormat('en-GB',{day:'numeric',month:'long',year:'numeric',timeZone:'UTC'}).format(new Date(article.published+'T12:00:00Z'))+'</time></p></section>'+workshopGallery(article.photos||[article.photo],article.photoHeading||'Workshop inspection in pictures')+sections(article.sections)+'<section class="section section-muted"><h2>Related repair services</h2>'+cards(allServices.filter(s=>article.services.includes(s.slug)))+'</section>'+guideCards()+cta();
   writePage(pathname,layout({title:article.metaTitle,description:article.description,pathname,body,article}));
 }
 function renderAdvice() {
-  const body=hero("Practical repair advice","Before you drive with an engine fault","The symptoms and the circumstances matter. These checks help you describe the problem to the workshop and plan the right next step.")+
+  const body=hero("Practical repair advice","Before you drive with an engine fault","The symptoms and the circumstances matter. These checks help you describe the problem to the workshop and plan the right next step.", { breadcrumb: breadcrumbs("Repair advice"), hideEyebrow: true })+
     sections([["Red oil warning, knocking or sudden timing noise","A red oil-pressure warning is different from a routine service reminder. Stop safely and switch the engine off if a serious oil warning or heavy knocking develops. Continuing to run a distressed engine can increase internal damage. An oil level check can provide useful information, but a correct level does not prove that pressure is adequate. Tell the workshop when the warning appeared, whether noise accompanied it and what happened immediately beforehand. Do not repeatedly restart the engine merely to see whether the warning goes away."],["Overheating and coolant loss","A temperature warning, steam or sudden coolant loss calls for a safe stop and assessment. Do not open a hot cooling system. The repair may involve a leak, circulation fault or more extensive damage; overheating alone does not prove that the head gasket is the original cause. Tell us whether the coolant level has been dropping, the heater behaviour changed or another garage recently worked on the cooling system. A pressure test and relevant mechanical checks may be needed before choosing parts or deciding whether internal engine work is required."],["Non-start and fault-code reports","Describe whether the engine turns normally, clicks, cranks unusually quickly or will not turn. Those are different starting points for diagnosis. Keep any existing code report and note whether the fault is intermittent, hot or cold. A stored code identifies a detected condition; the wiring, supply, fuel, timing or mechanical cause still needs checking. Tell us about recent battery, engine or timing work and whether the vehicle stopped while moving. Send the registration and running status before arranging recovery so the initial assessment and access can be discussed."],["Timing chains and wet belts are different designs","BMW N47/N57 and JLR 2.0 Ingenium enquiries often involve timing chains. Wet-belt assessment applies to particular Ford EcoBoost/EcoBlue and earlier PureTech engines. Similar names and engine capacities do not prove that the drive design is the same. A preventative belt or chain job also differs from repairing an engine after timing loss. We identify the fitted engine, consider its maintenance record and assess any associated damage before agreeing the scope. Use the service pages below to read about the relevant repair route."]])+
     '<section class="section section-muted"><h2>Relevant workshop services</h2>'+cards(allServices.filter(s=>["engine-diagnostics","timing-chain-replacement","cambelt-replacement-birmingham"].includes(s.slug)))+'</section>'+cta();
   writePage("/blog/",layout({title:"Engine Warning Signs & Repair Advice | QuickVS",description:"Practical guidance on oil warnings, knocking, overheating, non-starts, timing chains and wet belts from Quick Solution Vehicles in Birmingham.",pathname:"/blog/",body:body+guideCards()}));

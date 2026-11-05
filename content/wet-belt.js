@@ -28,14 +28,14 @@ const faqs = [
   ['Could my PureTech repair qualify for manufacturer support?', 'Some earlier PureTech engines may qualify for manufacturer support for certain belt-related faults, subject to the vehicle and service history. Check eligibility with the manufacturer before authorising a paid repair. We are an independent workshop; we cannot approve manufacturer claims.']
 ];
 
-function render({ esc, business, maps, reviewSection, contactButtons, top, bottom, payment }) {
+function render({ esc, breadcrumb, business, maps, reviewSection, contactButtons, top, bottom, payment }) {
   const message = encodeURIComponent('Hi Quick Solution Vehicles, I would like a wet belt replacement quote.\nRegistration: \nMileage: \nMake/model: \nAny warning lights or symptoms: ');
   const whatsapp = 'https://wa.me/447522179040?text=' + message;
   const buttons = location => contactButtons("wet_belt_" + location, whatsapp);
   return `<div class="wet-landing">
-    <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">Home</a> / <a href="/services/">Services</a> / <span aria-current="page">Wet belt replacement</span></nav>
     <section class="wet-hero"><div class="wet-container wet-hero-grid"><div class="wet-hero-copy">
-      <p class="eyebrow">Quick Solution Vehicles · Sparkbrook</p>
+      ${breadcrumb}
+      <p class="eyebrow" hidden>Quick Solution Vehicles · Sparkbrook</p>
       <h1>Ford &amp; PureTech wet belt replacement in Birmingham</h1>
       <div class="wet-hero-prices">${engines.slice(0, 2).map(e => `<p class="wet-hero-price"><span>${e.name}</span> From <strong>${e.price}</strong></p>`).join('')}</div>
       <p class="cost-disclaimer">${startingPrices}</p>

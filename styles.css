@@ -1205,8 +1205,14 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
 .page-hero .contact-actions { margin: 26px 0 16px; }
 .hero-reassurance { margin: 16px 0 0; color: #e1e5eb; font-size: 14px; }
 .service-detail { padding-top: 54px; padding-bottom: 54px; }
-.breadcrumbs { width: min(var(--max), calc(100% - 36px)); margin: 0 auto; padding: 16px 0; font-size: 14px; line-height: 1.6; }
-.breadcrumbs a, .detail-copy a { color: #175a9b; text-decoration: underline; text-underline-offset: 3px; }
+.breadcrumbs { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 8px; margin: 0 0 12px; color: #d3d9e2; font-size: 14px; line-height: 1.4; }
+.breadcrumbs a { flex-shrink: 0; color: inherit; text-decoration: underline; text-underline-offset: 3px; }
+.breadcrumb-separator { flex-shrink: 0; }
+.detail-copy a { color: #175a9b; text-decoration: underline; text-underline-offset: 3px; }
+@media (max-width: 600px) {
+  .breadcrumbs { flex-wrap: nowrap; }
+  .breadcrumbs [aria-current="page"] { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+}
 .service-detail h2 { max-width: 850px; font-size: clamp(26px, 3vw, 40px); line-height: 1.18; }
 .detail-copy { max-width: 900px; color: #394350; font-size: 18px; }
 .detail-copy p:last-child { margin-bottom: 0; }
@@ -1378,13 +1384,12 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
   .page-hero:not(.timing-page-hero)::before {
     background-image: linear-gradient(90deg, rgba(5, 9, 15, .86), rgba(5, 9, 15, .46), rgba(5, 9, 15, .82)), url("/assets/workshop/dismantled-engine-block-assessment-480.webp");
   }
-  .page-hero h1 { font-size: clamp(30px, 8.35vw, 48px); line-height: 1.04; margin-bottom: 8px; }
+  .page-hero h1 { font-size: clamp(26px, 7.15vw, 46px); line-height: 1.04; margin-bottom: 8px; }
   .page-hero .eyebrow { margin-bottom: 8px; }
   .page-hero .contact-actions { margin: 10px 0; }
   .hero-offer, .page-hero-copy, .detail-copy, .hero-reassurance, .pricing-note,
   .price-table, .price-table thead th, .workshop-photo figcaption,
   .faq-list p, .footer-bottom { font-size: 18px; line-height: 1.5; }
-  .breadcrumbs { padding-block: 8px; font-size: 17px; }
   .site-footer a, .contact-card > .text-link, .wet-price-card > a { overflow-wrap: anywhere; }
   .call-first { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
   .call-first .button { width: 100%; padding-inline: 5px; }

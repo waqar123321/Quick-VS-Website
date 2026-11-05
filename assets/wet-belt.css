@@ -133,7 +133,7 @@
   .landing-cost .wet-prices { grid-template-columns: 1fr; }
   .cost-hero .page-hero-content, .wet-hero-grid { padding-block: 10px; }
   .cost-hero .eyebrow, .wet-hero .eyebrow { margin-bottom: 5px; }
-  .cost-hero h1, .wet-hero h1 { font-size: clamp(29px, 7.6vw, 46px); line-height: 1.06; }
+  .cost-hero h1, .wet-hero h1 { font-size: clamp(26px, 7.15vw, 46px); line-height: 1.06; }
   .cost-hero .hero-offer, .wet-hero .wet-hero-price { font-size: 17px; line-height: 1.4; }
   .cost-hero .contact-actions, .wet-hero .contact-actions { margin-top: 6px; }
   .cost-hero .cost-disclaimer, .wet-hero .cost-disclaimer { margin-block: 5px; }
