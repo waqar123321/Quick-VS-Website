@@ -85,6 +85,7 @@
   .wet-engine-list h3 { font-size: 22px; }
   .wet-warning { padding: 23px 19px; grid-template-columns: 24px 1fr; gap: 14px; margin-top: 28px; }
   .wet-warning h3 { font-size: 18px; }
+  .wet-steps li > span { font-size: 14px; }
   .wet-steps p,
   .wet-engine-list p, .wet-inline-help, .wet-warning p, .wet-warning a,
   .wet-faq-grid .faq-list summary, .wet-faq-grid .faq-list details p,

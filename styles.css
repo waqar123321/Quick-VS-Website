@@ -1143,6 +1143,9 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
   .services-dropdown { position: static; width: 100%; max-height: none; padding: 18px; overflow: visible; border-radius: 8px; box-shadow: none; }
   .services-dropdown-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; }
 }
+@media (max-width: 600px) {
+  .site-nav.is-open { justify-self: stretch; width: 100%; }
+}
 @media (max-width: 760px) {
   .services-dropdown-grid { grid-template-columns: 1fr; gap: 18px; }
   .site-nav .services-dropdown a { font-size: 14px; padding: 9px; }
