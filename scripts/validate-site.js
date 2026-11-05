@@ -215,9 +215,11 @@ for(const [i,slug] of timingLandingSlugs.entries()) {
   const page=pages.find(p=>p.pathname==="/services/"+slug+"/");
   const main=page.text.match(/<main\b[^>]*>([\s\S]*?)<\/main>/)[1];
   const text=withoutQuoteForms(main).replace(/<[^>]*>/g," ").replace(/&[a-z#0-9]+;/gi," ").trim();
-  const words=text.split(/\s+/).length;
+  const words=withoutQuoteForms(main).replace(/<section class="section service-detail landing-cost"[\s\S]*?<\/section>/g,"").replace(/<[^>]*>/g," ").replace(/&[a-z#0-9]+;/gi," ").trim().split(/\s+/).length;
   assert.ok(words>=(i===0?700:600)&&words<=(i===0?1100:1000),slug+": content length "+words);
-  assert.ok(!/£|\bDSG\b|gearbox|\bEGR\b|auto.electrics/i.test(text),slug+": unrelated service or unapproved price");
+  const prices=[...text.matchAll(/£[\d,]+/g)].map(match=>match[0]);
+  assert.deepEqual(prices,i===0?[]:["£299","£299","£399"],slug+": unapproved price");
+  assert.ok(!/\bDSG\b|gearbox|\bEGR\b|auto.electrics/i.test(text),slug+": unrelated service");
   assert.ok(page.text.match(/<title>([^<]+)<\/title>/)[1].replaceAll("&amp;","&").length<=60,slug+": title over 60 characters");
   assert.ok(page.text.match(/name="description" content="([^"]+)"/)[1].replaceAll("&amp;","&").length<=155,slug+": description over 155 characters");
   assert.ok(main.includes("Quote by registration — WhatsApp your reg and mileage"),slug+": missing quote guidance");
