@@ -590,7 +590,7 @@ const jumpLabels = new Map([
 ]);
 function jumpMenu(links, label = "On this page", wet = false) {
   const container = wet ? ' class="wet-container"' : '';
-  return '<nav class="jump-menu" aria-label="'+label+'"><div'+container+'>'+
+  return '<nav class="jump-menu" aria-label="'+label+'">'+(wet ? '' : '<p class="jump-menu-label">'+label+'</p>')+'<div'+container+'>'+
     links.map(([href, text, arrow]) => '<a href="'+href+'">'+esc(text)+(arrow ? ' <span aria-hidden="true">↗</span>' : '')+'</a>').join('')+
     '</div></nav>';
 }
@@ -630,7 +630,7 @@ function layout({ title, description, pathname, body, faqs = [], service, noinde
     '\n<meta name="viewport" content="width=device-width, initial-scale=1">\n<title>'+esc(title)+'</title>\n<meta name="description" content="'+esc(description)+'">\n' +
     '<meta name="robots" content="'+(noindex?'noindex, follow':'index, follow, max-image-preview:large')+'">\n<meta name="theme-color" content="#111827">\n' +
     '<link rel="canonical" href="'+urlFor(pathname)+'">\n<meta property="og:type" content="'+(article?"article":"website")+'">\n<meta property="og:title" content="'+esc(title)+'">\n<meta property="og:description" content="'+esc(description)+'">\n<meta property="og:url" content="'+urlFor(pathname)+'">\n<meta property="og:image" content="'+socialImage+'">\n<meta property="og:image:alt" content="'+esc(article?photos[article.photo].alt:photos['5842'].alt)+'">\n' +
-    '<meta name="twitter:card" content="summary_large_image">\n<meta name="twitter:title" content="'+esc(title)+'">\n<meta name="twitter:description" content="'+esc(description)+'">\n<meta name="twitter:image" content="'+socialImage+'">\n<link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="16x16 32x32 48x48 64x64">\n<link rel="icon" href="/favicon-96x96.png" type="image/png" sizes="96x96">\n<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" sizes="any">\n<link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">\n<link rel="stylesheet" href="/styles.css?v=20261104-enquiries">\n<script defer src="/script.js?v=20261104-enquiries"></script>\n' +
+    '<meta name="twitter:card" content="summary_large_image">\n<meta name="twitter:title" content="'+esc(title)+'">\n<meta name="twitter:description" content="'+esc(description)+'">\n<meta name="twitter:image" content="'+socialImage+'">\n<link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="16x16 32x32 48x48 64x64">\n<link rel="icon" href="/favicon-96x96.png" type="image/png" sizes="96x96">\n<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" sizes="any">\n<link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">\n<link rel="stylesheet" href="/styles.css?v=20261105-mobile">\n<script defer src="/script.js?v=20261105-mobile"></script>\n' +
     (service?.timingLanding ? '<link rel="preload" as="image" href="/assets/workshop/dismantled-engine-block-assessment-768.webp" media="(max-width: 760px)" fetchpriority="high">\n<link rel="preload" as="image" href="/assets/workshop/dismantled-engine-block-assessment-1152.webp" media="(min-width: 761px)" fetchpriority="high">\n' : service?.slug === wetBelt.service.slug ? '' : '<link rel="preload" as="image" href="/assets/workshop/dismantled-engine-block-assessment-480.webp" media="(max-width: 760px)" fetchpriority="high">\n') +
     (quoteHref === "#quote" ? '<script defer src="/quote-form.js?v=20261104-enquiries"></script>\n' : '') +
     (pageStyles ? '<link rel="stylesheet" href="'+pageStyles+'">\n' : '') +
@@ -643,7 +643,7 @@ function breadcrumbs(current, parent) {
     '<span aria-current="page">'+esc(current)+'</span></nav>';
 }
 function hero(kicker, title, copy, { lead = "", quoteHref = "/contact/#quote", priceLead, breadcrumb = "", hideEyebrow = false } = {}) {
-  return '<section class="page-hero'+(priceLead ? ' cost-hero' : '')+'"><div class="page-hero-content">'+breadcrumb+'<p class="eyebrow"'+(hideEyebrow?' hidden':'')+'>'+esc(kicker)+'</p><h1>'+esc(title)+'</h1>'+
+  return '<section class="page-hero'+(priceLead ? ' cost-hero' : '')+(hideEyebrow && title.length >= 55 ? ' long-title' : '')+'"><div class="page-hero-content">'+breadcrumb+'<p class="eyebrow"'+(hideEyebrow?' hidden':'')+'>'+esc(kicker)+'</p><h1>'+esc(title)+'</h1>'+
     (priceLead ? '<p class="hero-offer">'+esc(priceLead)+'</p><p class="cost-disclaimer">'+costs.startingPrices+'</p>' : (lead ? '<p class="hero-offer">'+esc(lead)+'</p>' : ''))+contactButtons("hero", quoteHref)+
     '<p class="page-hero-copy">'+esc(copy)+'</p><p class="hero-reassurance">Mon–Sat 10am–6pm · Sparkbrook, Birmingham B11 · All-makes garage</p></div></section>';
 }
@@ -690,7 +690,7 @@ function reviewSection(slug = "", { limit = reviews.length, home = false } = {})
   const ordered = [reviews[preferred], ...reviews.filter((_, i) => i !== preferred)];
   return '<section class="section section-muted"><div class="section-heading"><div><p class="section-kicker">Customer feedback</p><h2>Five-star Google reviews</h2><p>'+reviewSummary+'</p></div><a class="text-link" href="'+(home ? '/testimonials/' : maps)+'">'+(home ? 'All reviews →' : 'View Google profile')+'</a></div><div class="review-grid">'+ordered.slice(0, limit).map(r=>'<figure class="review-card"><figcaption><strong>'+esc(r.author)+'</strong><span class="review-stars" aria-label="'+r.rating+' out of 5 stars">★ '+r.rating+'/5</span></figcaption><blockquote><p>'+esc(r.text)+'</p></blockquote></figure>').join("")+'</div></section>';
 }
-function cards(list) { return '<div class="service-grid">'+list.map(s=>'<article class="service-card"><a href="/services/'+s.slug+'/"><span class="service-icon">Workshop service</span><h3>'+esc(s.title)+'</h3><p>'+esc(s.short||s.desc)+'</p></a></article>').join("")+'</div>'; }
+function cards(list) { return '<div class="service-grid">'+list.map(s=>'<article class="service-card"><a href="/services/'+s.slug+'/"><h3>'+esc(s.title)+'</h3><p>'+esc(s.short||s.desc)+'</p></a></article>').join("")+'</div>'; }
 function related(service) {
   const urls = [...new Set(service.related||[])].filter(u=>u!=="/services/"+service.slug+"/");
   return '<section class="section section-muted"><p class="section-kicker">Related workshop services</p><h2>Choose the right repair route</h2><div class="link-grid">'+urls.map(u=>{
@@ -742,7 +742,7 @@ const costLandings = {
     faq: costs.replacementCostFaq
   }
 };
-const landingPriceStyles = "/assets/wet-belt.css?v=20261105-costs";
+const wetBeltStyles = "/assets/wet-belt.css?v=20261105-mobile";
 
 function renderService(service) {
   const cost = costLandings[service.slug];
@@ -770,15 +770,14 @@ function renderService(service) {
   const serviceReviews = () => reviewSection(service.slug);
   if (service.timingLanding) {
     const pathname = "/services/" + service.slug + "/";
-    writePage(pathname, layout({ title: service.metaTitle, description: service.desc, pathname, service, faqs: service.faqs, pageStyles: cost ? landingPriceStyles : undefined,
-      body: timingServices.render(service, { hero: serviceHero, sections, reviewSection: serviceReviews, faqsHtml, contactButtons: serviceButtons, esc, top, bottom, business, costHtml }) }));
+    writePage(pathname, layout({ title: service.metaTitle, description: service.desc, pathname, service, faqs: service.faqs, body: timingServices.render(service, { hero: serviceHero, sections, reviewSection: serviceReviews, faqsHtml, contactButtons: serviceButtons, esc, top, bottom, business, costHtml }) }));
     return;
   }
   if (service.slug === wetBelt.service.slug) {
     const pathname = "/services/" + service.slug + "/";
     writePage(pathname, layout({ title: service.metaTitle, description: service.desc, pathname,
       body: wetBelt.render({ esc, breadcrumb, jumpMenu, business, maps, reviewSection: serviceReviews, contactButtons: serviceButtons, top, bottom, payment }), faqs: wetBelt.faqs, service,
-      pageStyles: landingPriceStyles }));
+      pageStyles: wetBeltStyles }));
     return;
   }
   const extra = serviceDetails[service.slug] || { sections: [], faqs: [] };
@@ -807,7 +806,7 @@ function renderService(service) {
   if(isRebuild||service.slug==="timing-chain-replacement") body+=guideCards(service.slug);
   body+=cta("#quote-bottom")+bottom;
   const pathname="/services/"+service.slug+"/";
-  writePage(pathname,layout({title:replacementLanding ? "Engine Rebuild & Replacement Birmingham | QuickVS" : service.metaTitle||service.title+" | Quick Solution Vehicles",description:service.metaDescription||service.desc,pathname,body,faqs,service,pageStyles:cost ? landingPriceStyles : undefined}));
+  writePage(pathname,layout({title:replacementLanding ? "Engine Rebuild & Replacement Birmingham | QuickVS" : service.metaTitle||service.title+" | Quick Solution Vehicles",description:service.metaDescription||service.desc,pathname,body,faqs,service}));
 }
 const homeFaqs = [
   ["Can you repair a car that has failed its MOT?","Yes. We repair mechanical MOT failures and advisories, including brakes and suspension. We do not conduct MOT tests or retests; those are carried out at a testing station."],

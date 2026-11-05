@@ -434,8 +434,7 @@ h3 {
 }
 
 .service-card {
-  min-height: 250px;
-  padding: 28px;
+  padding: 24px;
 }
 
 .service-card p,
@@ -443,14 +442,6 @@ h3 {
 .review-card p,
 .contact-panel p {
   color: var(--muted);
-}
-
-.service-icon {
-  display: inline-flex;
-  margin-bottom: 34px;
-  color: var(--accent);
-  font-size: 13px;
-  font-weight: 900;
 }
 
 .feature-image img,
@@ -1255,7 +1246,6 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
     position: fixed; inset: auto 0 0; display: grid; grid-template-columns: 1.35fr 1.15fr 1fr;
     z-index: 60;
   }
-  .mobile-call-bar[hidden] { display: none; }
   .mobile-dock:has(.mobile-call-bar[hidden]) .consent-panel { bottom: 0; padding-bottom: calc(10px + env(safe-area-inset-bottom)); }
   .mobile-call-bar a { min-height: 54px; padding: 4px 6px; font-size: 17px; }
   .mobile-call-bar a.mobile-quote { background: var(--night-2); }
@@ -1277,11 +1267,13 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
   .site-nav a, .site-nav .services-dropdown a, .services-nav-item > summary { min-height: 48px; }
   .site-nav a, .site-nav .services-dropdown a, .services-nav-item > summary { font-size: 17px; }
   .brand > span { display: none; }
+  .brand strong, .brand small, .eyebrow, .section-kicker, .trust-strip span { font-size: 14px; }
   .page-hero-content { padding-block: 16px; }
   .page-hero:not(.timing-page-hero)::before {
     background-image: linear-gradient(90deg, rgba(5, 9, 15, .86), rgba(5, 9, 15, .46), rgba(5, 9, 15, .82)), url("/assets/workshop/dismantled-engine-block-assessment-480.webp");
   }
-  .page-hero h1 { font-size: clamp(26px, 7.15vw, 46px); line-height: 1.04; margin-bottom: 8px; }
+  .page-hero h1 { font-size: clamp(24px, 6.3vw, 46px); letter-spacing: -.025em; line-height: 1.04; margin-bottom: 8px; }
+  .page-hero.long-title h1 { font-size: clamp(22px, 5.7vw, 46px); }
   .page-hero .eyebrow { margin-bottom: 8px; }
   .page-hero .contact-actions { margin: 10px 0; }
   .hero-offer, .page-hero-copy, .detail-copy, .hero-reassurance, .pricing-note,
@@ -1307,7 +1299,8 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
 .jump-menu a { padding-block: 20px; white-space: nowrap; font-size: 14px; font-weight: 700; min-height: 60px; }
 .jump-menu a:last-child { margin-left: auto; color: var(--accent); }
 .jump-menu a:hover { text-decoration: underline; text-underline-offset: 5px; }
-.jump-menu > div:not(.wet-container) { width: min(var(--max), calc(100% - 36px)); margin-inline: auto; }
+.jump-menu-label, .jump-menu > div:not(.wet-container) { width: min(var(--max), calc(100% - 36px)); margin-inline: auto; }
+.jump-menu-label { margin-block: 12px 0; color: var(--muted); font-size: 14px; font-weight: 700; }
 main h2[id], main #quote { scroll-margin-top: 92px; }
 @media (max-width: 760px) {
   .jump-menu > div { flex-wrap: wrap; gap: 0 18px; overflow: visible; }
@@ -1343,4 +1336,43 @@ main h2[id], main #quote { scroll-margin-top: 92px; }
   .home-content .review-grid { gap: 8px; }
   .home-content .review-card { padding: 14px; }
   .home-content .local-seo p { margin-bottom: 8px; }
+}
+
+/* Price cards shared by wet belt and other workshop landing pages. */
+.wet-prices { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+.wet-price-card { padding: 28px; border: 1px solid var(--wet-border); border-top: 3px solid var(--accent); border-radius: 9px; display: flex; flex-direction: column; }
+.wet-label { font-size: 11px; font-weight: 750; letter-spacing: .09em; text-transform: uppercase; color: #626d7b; margin-bottom: 10px; }
+.wet-price-card h3 { margin: 0 0 10px; font-size: 25px; letter-spacing: -.03em; }
+.wet-makes { font-size: 13px; color: #586271; margin-bottom: 26px; }
+.wet-price { font-size: 44px; line-height: 1.1; font-weight: 800; letter-spacing: -.045em; margin-bottom: 25px; margin-top: auto !important; }
+.wet-price span { font-size: 14px; font-weight: 500; letter-spacing: 0; color: #586271; }
+.wet-price-card > a { display: flex; align-items: center; justify-content: space-between; gap: 10px; border-top: 1px solid var(--wet-border); padding-top: 18px; font-size: 14px; font-weight: 750; color: #a81117; }
+.wet-price-note { font-size: 13px; color: #596575; margin: 20px 0 0; max-width: 940px; }
+@media (max-width: 1000px) {
+  .wet-price-card { padding: 22px; }
+  .wet-price-card h3 { font-size: 22px; }
+}
+@media (max-width: 760px) {
+  .wet-prices { grid-template-columns: 1fr; gap: 16px; }
+  .wet-price-card { padding: 24px; }
+  .wet-price-card h3 { font-size: 25px; }
+  .wet-makes { margin-bottom: 18px; }
+  .wet-price { font-size: 43px; margin-bottom: 20px; }
+  .wet-price-card > a { min-height: 48px; padding-block: 8px; }
+  .wet-label { font-size: 14px; }
+  .wet-makes, .wet-price span, .wet-price-card > a, .wet-price-note { font-size: 18px; line-height: 1.5; }
+}
+.landing-cost { --wet-border: var(--line); }
+.landing-cost .wet-prices { grid-template-columns: repeat(auto-fit, minmax(min(100%, 215px), 1fr)); }
+.landing-cost .wet-price { margin-bottom: 0; }
+.cost-disclaimer { margin: 8px 0 12px; font-size: 17px; line-height: 1.5; }
+.cost-hero .cost-disclaimer, .wet-hero .cost-disclaimer { color: #e1e5eb; }
+.cost-hero .hero-offer { margin-bottom: 0; }
+@media (max-width: 760px) {
+  .landing-cost .wet-prices { grid-template-columns: 1fr; }
+  .cost-hero .page-hero-content { padding-block: 10px; }
+  .cost-hero h1 { line-height: 1.06; }
+  .cost-hero .hero-offer { font-size: 17px; line-height: 1.4; }
+  .cost-hero .contact-actions { margin-top: 6px; }
+  .cost-hero .cost-disclaimer, .wet-hero .cost-disclaimer { margin-block: 5px; }
 }

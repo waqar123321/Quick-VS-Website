@@ -43,8 +43,8 @@ function render({ esc, breadcrumb, jumpMenu, business, maps, reviewSection, cont
       <p class="wet-lead">Ford EcoBoost, Transit EcoBlue and PureTech wet belts. Tell us your registration and mileage for a quote from our Sparkbrook workshop.</p>
       <p class="wet-hours">Mon–Sat, 10am–6pm <span aria-hidden="true">·</span> Birmingham B11</p>
     </div></div></section>
-    ${top}
     ${jumpMenu([["#wet-prices", "Prices"], ["#wet-work", "What’s involved"], ["#wet-engines", "Your engine"], ["#wet-reviews", "Reviews"], ["#wet-questions", "FAQs"], ["#wet-quote", "Get a quote", true]], "On this page", true)}
+    ${top}
     <section class="wet-section wet-container" id="wet-prices"><div class="wet-heading"><p class="section-kicker">Clear starting prices</p><h2>Wet belt replacement cost</h2><p>Choose your engine below. We confirm the exact price for your vehicle before booking the work.</p></div>
       ${priceCards(engines.map(e => ({ ...e, detail: e.makes, action: `<a href="${whatsapp}" data-contact-location="wet_belt_price">Get my vehicle’s quote <span aria-hidden="true">↗</span></a>` })), esc)}
       <p class="cost-disclaimer">${startingPrices}</p>
