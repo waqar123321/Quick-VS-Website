@@ -33,3 +33,13 @@
   - End with a clear CTA.
   - Never fabricate case studies, reviews or outcomes.
 
+
+## Owner-approved 5 November 2026. Keep these; do not remove them as invented
+
+- Timing chains from: VW/Audi 1.2 & 1.4 TSI £549; VW/Audi 1.8 & 2.0 TSI/TFSI £795; BMW N47 £1,195; JLR Ingenium 2.0 diesel £1,495; others quote by registration.
+- Used engine supplied & fitted from £1,395 (common smaller engines; larger diesels by registration), warranty 3 months or 3,000 miles, whichever first.
+- Cambelt & water pump from £299 (small petrol) and £399 (VW/Audi 1.6/2.0 TDI).
+- Clutch kit fitted from £449 (small cars; DMF by registration).
+- Wet belt usually completed within 48 hours of drop-off.
+- 6 months or 10,000 miles warranty on wet belts, timing chains, cambelts, clutches and rebuilds.
+- UI conventions from this PR: small, muted breadcrumbs inside the hero, with the current item truncated on narrow screens; hide repeated hero eyebrows on service, landing and blog pages; use the shared jump menu; keep links inside card copy inline; use the three-block footer with a collapsed service directory; keep the homepage ordered hero, trust strip, everyday-first repairs, pricing guidance, reviews, workshop photos, FAQs, location and one quote form; show the fixed mobile contact bar when the hero contact buttons leave the viewport.
