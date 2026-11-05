@@ -231,7 +231,7 @@ for(const [i,slug] of timingLandingSlugs.entries()) {
   assert.ok(main.includes('href="/services/'+timingLandingSlugs[1-i]+'/"'),slug+": missing reciprocal link");
 }
 const chain=pages.find(p=>p.pathname==="/services/timing-chain-replacement/").text;
-assert.equal((chain.match(/class="service-card chain-engine-card"/g)||[]).length,3,"Expected three timing-chain engine cards");
+assert.equal((chain.match(/class="service-card chain-engine-card"/g)||[]).length,4,"Expected four timing-chain engine cards");
 assert.ok(chain.includes("Does my VW/Audi have a timing chain or a cambelt?"),"Missing VW chain/cambelt FAQ");
 assert.ok(pricing.includes("VW Group timing chain")&&pricing.includes("Cambelt replacement")&&pricing.includes("Quote by registration"),"Missing quote-only price rows");
 for(const page of pages)assert.ok(!page.text.includes('href="'+legacyPath+'"'),"Internal link still points to old belt page: "+page.pathname);

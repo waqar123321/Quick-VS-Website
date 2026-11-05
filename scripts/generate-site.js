@@ -630,7 +630,7 @@ function renderService(service) {
   if(showEnginePrices) body+='<section class="section service-detail" aria-labelledby="engine-prices"><p class="section-kicker">Clear starting prices</p><h2 id="engine-prices">Engine rebuild starting prices</h2>'+priceTable('Engine rebuild starting prices', enginePrices)+(replacementLanding ? '<p class="cost-disclaimer">'+costs.startingPrices+'</p><p class="pricing-note">'+payment+'.</p>' : '<p class="pricing-note">Starting prices, not fixed quotes. The final price and repair scope are confirmed after inspection. '+payment+'.</p>')+serviceButtons("engine_prices")+'</section>'+(replacementLanding ? costHtml : "");
   if(service.heroIntro) body+=sections([["Discuss your engine rebuild",service.opening]]);
   if(service.points) body+='<section class="section intro-grid"><div><h2>'+esc(service.short)+'</h2></div><div class="intro-copy"><p>'+esc(service.desc)+'</p><ul class="check-list">'+service.points.map(p=>'<li>'+esc(p)+'</li>').join("")+'</ul></div></section>';
-  if(service.slug==="timing-chain-replacement") body+=timingServices.chainCards({ inlineCopy });
+  if(service.slug==="timing-chain-replacement") body+=timingServices.chainCards({ esc });
   body+=sections(items);
   body+=sections(serviceNavigation[service.slug]||[]);
   if(servicePhotos[service.slug]) body+=workshopGallery(servicePhotos[service.slug]);
