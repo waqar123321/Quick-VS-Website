@@ -121,3 +121,20 @@
   .wet-visit { border-left: 0; padding-left: 0; padding-top: 27px; border-top: 1px solid #414954; }
 }
 
+
+/* The wet-belt cards also serve the other paid landing pages. */
+.landing-cost { --wet-border: var(--line); }
+.landing-cost .wet-prices { grid-template-columns: repeat(auto-fit, minmax(min(100%, 215px), 1fr)); }
+.landing-cost .wet-price { margin-bottom: 0; }
+.cost-disclaimer { margin: 8px 0 12px; font-size: 17px; line-height: 1.5; }
+.cost-hero .cost-disclaimer, .wet-hero .cost-disclaimer { color: #e1e5eb; }
+.cost-hero .hero-offer { margin-bottom: 0; }
+@media (max-width: 760px) {
+  .landing-cost .wet-prices { grid-template-columns: 1fr; }
+  .cost-hero .page-hero-content, .wet-hero-grid { padding-block: 10px; }
+  .cost-hero .eyebrow, .wet-hero .eyebrow { margin-bottom: 5px; }
+  .cost-hero h1, .wet-hero h1 { font-size: clamp(29px, 7.6vw, 46px); line-height: 1.06; }
+  .cost-hero .hero-offer, .wet-hero .wet-hero-price { font-size: 17px; line-height: 1.4; }
+  .cost-hero .contact-actions, .wet-hero .contact-actions { margin-top: 6px; }
+  .cost-hero .cost-disclaimer, .wet-hero .cost-disclaimer { margin-block: 5px; }
+}

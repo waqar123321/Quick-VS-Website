@@ -1,4 +1,5 @@
 const fs = require("fs");
+const costs = require("../content/landing-costs");
 const path = require("path");
 
 const root = path.resolve(__dirname, "..");
@@ -122,7 +123,7 @@ const generalServices = [
     short: "Timing chain, guide, tensioner and related repair work.",
     desc: "Timing chain replacement in Birmingham for rattles, chain stretch, guide failure and serious timing-related engine faults.",
     intro:
-      "Our all-makes garage assesses timing chain faults on BMW N47/N57, JLR Ingenium and VW/Audi TSI/TFSI petrol engines. We investigate rattles, timing faults and warning lights before agreeing repair work.",
+      "Our all-makes garage assesses timing chain faults on BMW N47/N57, JLR Ingenium, VW/Audi TSI/TFSI petrol engines, Mercedes and Jaguar. We investigate rattles, timing faults and warning lights before agreeing repair work.",
     points: ["Chain, guide and tensioner replacement", "BMW N47 and N57 knowledge", "Engine damage checks before repair"],
     related: ["/services/bmw-n47-engine-rebuild/", "/services/bmw-n57-engine-rebuild/"]
   },
@@ -483,9 +484,9 @@ function layout({ title, description, pathname, body, faqs = [], service, noinde
     (pageStyles ? '<link rel="stylesheet" href="'+pageStyles+'">\n' : '') +
     schemas.map(jsonLd).join("\n")+'\n</head>\n<body>\n<div class="site-content">'+header(pathname)+'\n<main id="main-content">'+body+'</main>\n'+footer(quoteHref)+'\n</body>\n</html>\n';
 }
-function hero(kicker, title, copy, { lead = "", quoteHref = "/contact/#quote" } = {}) {
-  return '<section class="page-hero"><div class="page-hero-content"><p class="eyebrow">'+esc(kicker)+'</p><h1>'+esc(title)+'</h1>'+
-    (lead ? '<p class="hero-offer">'+esc(lead)+'</p>' : '')+contactButtons("hero", quoteHref)+
+function hero(kicker, title, copy, { lead = "", quoteHref = "/contact/#quote", priceLead } = {}) {
+  return '<section class="page-hero'+(priceLead ? ' cost-hero' : '')+'"><div class="page-hero-content"><p class="eyebrow">'+esc(kicker)+'</p><h1>'+esc(title)+'</h1>'+
+    (priceLead ? '<p class="hero-offer">'+esc(priceLead)+'</p><p class="cost-disclaimer">'+costs.startingPrices+'</p>' : (lead ? '<p class="hero-offer">'+esc(lead)+'</p>' : ''))+contactButtons("hero", quoteHref)+
     '<p class="page-hero-copy">'+esc(copy)+'</p><p class="hero-reassurance">Mon–Sat 10am–6pm · Sparkbrook, Birmingham B11 · All-makes garage</p></div></section>';
 }
 function cta(quoteHref) { return '<section class="section cta-band"><div><p class="section-kicker">Speak to the workshop</p><h2>Need a service, repair or fault checked?</h2><p>Send your registration, mileage and the work needed or symptoms. For an MOT failure, share the report; for a non-runner, call before arranging delivery.</p><p>Servicing · Brakes · Suspension · MOT repairs · Diagnostics · Engine rebuilds</p></div><div class="cta-actions">'+contactButtons("cta", quoteHref)+'<a href="mailto:'+business.email+'">Email '+business.email+'</a></div></section>'; }
@@ -557,7 +558,39 @@ const heroOffers = {
   [timingServices.vagSlug]: quoteLead,
   [timingServices.cambeltSlug]: quoteLead
 };
+const costLandings = {
+  "timing-chain-replacement": {
+    heading: "Timing chain replacement cost",
+    rows: costs.timingChain,
+    quote: "Mercedes, Jaguar, BMW N57 and other engines: send your registration for a quote.",
+    faq: costs.timingCostFaq
+  },
+  [timingServices.cambeltSlug]: {
+    heading: "Cambelt replacement cost",
+    rows: costs.cambelt,
+    quote: "Other engines: send your registration for a quote."
+  },
+  "clutch-replacement": {
+    heading: "Clutch replacement cost",
+    rows: costs.clutch,
+    quote: "Cars with a dual mass flywheel: send your registration for a quote."
+  },
+  "engine-rebuild-birmingham": {
+    heading: "Engine replacement cost",
+    rows: costs.usedEngine,
+    intro: "A rebuild repairs your existing engine where it can be saved. A used replacement is another option if the damage makes a rebuild impractical.",
+    warranty: costs.usedEngineWarranty,
+    after: '<p>Rebuild warranty: '+costs.repairWarranty+'.</p>',
+    faq: costs.replacementCostFaq
+  }
+};
+const landingPriceStyles = "/assets/wet-belt.css?v=20261105-costs";
+
 function renderService(service) {
+  const cost = costLandings[service.slug];
+  const costHtml = cost ? costs.costSection(cost.heading, cost.rows, esc, cost) : "";
+  const priceLead = cost ? cost.rows[0][0]+" · From £"+cost.rows[0][1] : "";
+  const replacementLanding = service.slug === "engine-rebuild-birmingham";
   const isRebuild = rebuildSlugs.has(service.slug);
   const job = isRebuild ? "engine_rebuild" : {
     "timing-chain-replacement": "timing_chain",
@@ -568,32 +601,33 @@ function renderService(service) {
   const hasSteps = isRebuild || job !== "servicing_repair";
   const top = trustStrip(maps, isRebuild) + form(job) + (hasSteps ? nextSteps() : "") + photoSlot(service.slug);
   const bottom = form(job, "quote-bottom");
-  const serviceHero = (kicker, title, copy) => hero(kicker, title, copy, { lead: heroOffers[service.slug] || service.short, quoteHref: "#quote" });
+  const serviceHero = (kicker, title, copy) => hero(kicker, title, copy, { lead: heroOffers[service.slug] || service.short, quoteHref: "#quote", priceLead: replacementLanding ? "Rebuilds from £3,000 · Used replacements from £"+cost.rows[0][1] : priceLead });
   const serviceButtons = (location, messageLink) => contactButtons(location, "#quote", messageLink);
   const serviceReviews = () => reviewSection(service.slug);
   if (service.timingLanding) {
     const pathname = "/services/" + service.slug + "/";
-    writePage(pathname, layout({ title: service.metaTitle, description: service.desc, pathname, service, faqs: service.faqs,
-      body: timingServices.render(service, { hero: serviceHero, sections, reviewSection: serviceReviews, faqsHtml, contactButtons: serviceButtons, esc, top, bottom, business }) }));
+    writePage(pathname, layout({ title: service.metaTitle, description: service.desc, pathname, service, faqs: service.faqs, pageStyles: cost ? landingPriceStyles : undefined,
+      body: timingServices.render(service, { hero: serviceHero, sections, reviewSection: serviceReviews, faqsHtml, contactButtons: serviceButtons, esc, top, bottom, business, costHtml }) }));
     return;
   }
   if (service.slug === wetBelt.service.slug) {
     const pathname = "/services/" + service.slug + "/";
     writePage(pathname, layout({ title: service.metaTitle, description: service.desc, pathname,
       body: wetBelt.render({ esc, business, maps, reviewSection: serviceReviews, contactButtons: serviceButtons, top, bottom, payment }), faqs: wetBelt.faqs, service,
-      pageStyles: "/assets/wet-belt.css?v=20261104-enquiries" }));
+      pageStyles: landingPriceStyles }));
     return;
   }
   const extra = serviceDetails[service.slug] || { sections: [], faqs: [] };
   const showEnginePrices = ["engine-rebuild-birmingham", "engine-rebuilds", "all-makes-engine-rebuilds"].includes(service.slug);
   const faqs = [...(service.faqs||[]), ...extra.faqs];
+  if (cost?.faq) faqs.push(cost.faq);
   let items = [...(service.sections||[]), ...extra.sections];
   if (service.why) items.unshift(["Diagnosis before major work",service.why]);
-  let body='<nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true"> / </span><a href="/services/">Services</a><span aria-hidden="true"> / </span><span aria-current="page">'+esc(service.title)+'</span></nav>'+serviceHero(isRebuild?"Engine rebuild workshop":"Mechanical repairs Birmingham",service.title,service.heroIntro||service.opening||service.intro)+top+
+  let body='<nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true"> / </span><a href="/services/">Services</a><span aria-hidden="true"> / </span><span aria-current="page">'+esc(service.title)+'</span></nav>'+serviceHero(isRebuild?"Engine rebuild workshop":"Mechanical repairs Birmingham",service.title,service.heroIntro||service.opening||service.intro)+(replacementLanding ? "" : costHtml)+top+
     '<div class="service-pricing-link"><a href="/pricing/">Workshop prices &amp; engine rebuild starting prices</a></div>';
   if (!showEnginePrices && servicePriceNotes[service.slug]) body+='<aside class="service-price-note"><strong>Starting price:</strong> '+esc(servicePriceNotes[service.slug])+(isRebuild ? " "+payment+"." : "")+' <a href="/pricing/">See pricing details</a></aside>';
   if(isRebuild) body+='<section class="trust-strip" aria-label="Engine rebuild terms"><span>Standard warranty: '+warranty+'.</span><span>Typical turnaround 1–3 weeks</span><span>'+payment+'.</span></section>';
-  if(showEnginePrices) body+='<section class="section service-detail" aria-labelledby="engine-prices"><p class="section-kicker">Clear starting prices</p><h2 id="engine-prices">Engine rebuild starting prices</h2>'+priceTable('Engine rebuild starting prices', enginePrices)+'<p class="pricing-note">Starting prices, not fixed quotes. The final price and repair scope are confirmed after inspection. '+payment+'.</p>'+serviceButtons("engine_prices")+'</section>';
+  if(showEnginePrices) body+='<section class="section service-detail" aria-labelledby="engine-prices"><p class="section-kicker">Clear starting prices</p><h2 id="engine-prices">Engine rebuild starting prices</h2>'+priceTable('Engine rebuild starting prices', enginePrices)+(replacementLanding ? '<p class="cost-disclaimer">'+costs.startingPrices+'</p><p class="pricing-note">'+payment+'.</p>' : '<p class="pricing-note">Starting prices, not fixed quotes. The final price and repair scope are confirmed after inspection. '+payment+'.</p>')+serviceButtons("engine_prices")+'</section>'+(replacementLanding ? costHtml : "");
   if(service.heroIntro) body+=sections([["Discuss your engine rebuild",service.opening]]);
   if(service.points) body+='<section class="section intro-grid"><div><h2>'+esc(service.short)+'</h2></div><div class="intro-copy"><p>'+esc(service.desc)+'</p><ul class="check-list">'+service.points.map(p=>'<li>'+esc(p)+'</li>').join("")+'</ul></div></section>';
   if(service.slug==="timing-chain-replacement") body+=timingServices.chainCards({ inlineCopy });
@@ -609,7 +643,7 @@ function renderService(service) {
   if(isRebuild||service.slug==="timing-chain-replacement") body+=guideCards(service.slug);
   body+=cta("#quote-bottom")+bottom;
   const pathname="/services/"+service.slug+"/";
-  writePage(pathname,layout({title:service.metaTitle||service.title+" | Quick Solution Vehicles",description:service.metaDescription||service.desc,pathname,body,faqs,service}));
+  writePage(pathname,layout({title:replacementLanding ? "Engine Rebuild & Replacement Birmingham | QuickVS" : service.metaTitle||service.title+" | Quick Solution Vehicles",description:service.metaDescription||service.desc,pathname,body,faqs,service,pageStyles:cost ? landingPriceStyles : undefined}));
 }
 const homeFaqs = [
   ["Can you repair a car that has failed its MOT?","Yes. We repair mechanical MOT failures and advisories, including brakes and suspension. We do not conduct MOT tests or retests; those are carried out at a testing station."],

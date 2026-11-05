@@ -429,7 +429,7 @@ module.exports = {
       ],
       [
         "From first enquiry to collection",
-        "The initial conversation helps identify the right next step; it cannot confirm unseen internal damage. We discuss diagnostic work, strip-down when appropriate, the parts route and the quotation before major work proceeds. Typical turnaround is 1–3 weeks depending on parts availability and internal damage. Keep any previous diagnostic report or service history available, especially if the engine has already been replaced. Our standard engine-rebuild warranty is 6 months or 10,000 miles, whichever comes first; exact cover confirmed in writing. At collection we explain the agreed work and relevant handover care, and accept debit cards, contactless/mobile NFC and bank transfer."
+        "The initial conversation helps identify the right next step; it cannot confirm unseen internal damage. We discuss diagnostic work, strip-down when appropriate, the parts route and the quotation before major work proceeds. Typical turnaround is 1–3 weeks depending on parts availability and internal damage. Keep any previous diagnostic report or service history available, especially if the engine has already been replaced. Our standard engine-rebuild warranty is 6 months or 10,000 miles, whichever comes first; exact cover confirmed in writing. At collection we explain the agreed work and relevant handover care. Pay by debit card or bank transfer."
       ]
     ],
     "faqs": []

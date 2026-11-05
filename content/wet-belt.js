@@ -1,3 +1,5 @@
+const { priceCards, startingPrices, repairWarranty } = require("./landing-costs");
+
 // Starting prices approved by the owner on 31 October 2026.
 const service = {
   slug: 'wet-belt-replacement',
@@ -21,7 +23,7 @@ const engines = [
 const faqs = [
   ['When should a wet belt be replaced?', 'The interval depends on the engine, vehicle age and manufacturer’s current schedule. Send your registration, mileage and any belt replacement invoice so we can check the correct starting point. Do not wait for a warning light: a belt can deteriorate before there is an obvious driving problem.'],
   ['Does every EcoBoost or PureTech have a wet timing belt?', 'No. Some engine versions use a timing chain, and a wet oil-pump drive belt is a separate component. We identify the engine and timing layout before recommending the job. If you have a 1.5 EcoBoost or another version not listed above, send your registration for advice.'],
-  ['How long will my vehicle be in the workshop?', 'We confirm the workshop time when we quote, once we know the engine and whether this is planned maintenance or an existing fault. Please arrange a booking before bringing the vehicle in. Belt debris, oil-pressure concerns or additional damage can require more investigation and time.'],
+  ['How long does a wet belt replacement take?', "Usually within 48 hours of drop-off. We confirm timing when we quote, and extra checks can add time if there's oil-system debris or an oil-pressure fault."],
   ['Can you check a wet belt without removing it?', 'On applicable PureTech engines, an accessible section of the belt can be inspected and measured with the correct tool. Ford EcoBoost belts cannot be assessed in the same way. An accessible visual check does not reveal the entire belt or replace the manufacturer’s replacement schedule.'],
   ['Could my PureTech repair qualify for manufacturer support?', 'Some earlier PureTech engines may qualify for manufacturer support for certain belt-related faults, subject to the vehicle and service history. Check eligibility with the manufacturer before authorising a paid repair. We are an independent workshop; we cannot approve manufacturer claims.']
 ];
@@ -34,21 +36,23 @@ function render({ esc, business, maps, reviewSection, contactButtons, top, botto
     <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">Home</a> / <a href="/services/">Services</a> / <span aria-current="page">Wet belt replacement</span></nav>
     <section class="wet-hero"><div class="wet-container wet-hero-grid"><div class="wet-hero-copy">
       <p class="eyebrow">Quick Solution Vehicles · Sparkbrook</p>
-      <h1>Wet belt replacement <span>in Birmingham.</span></h1>
-      <p class="wet-offer">Check your engine and agree a price before you book.</p>
+      <h1>Ford &amp; PureTech wet belt replacement in Birmingham</h1>
       <div class="wet-hero-prices">${engines.slice(0, 2).map(e => `<p class="wet-hero-price"><span>${e.name}</span> From <strong>${e.price}</strong></p>`).join('')}</div>
+      <p class="cost-disclaimer">${startingPrices}</p>
       ${buttons('hero')}
       <p class="wet-lead">Ford EcoBoost, Transit EcoBlue and PureTech wet belts. Tell us your registration and mileage for a quote from our Sparkbrook workshop.</p>
       <p class="wet-hours">Mon–Sat, 10am–6pm <span aria-hidden="true">·</span> Birmingham B11</p>
     </div></div></section>
     ${top}
     <nav class="wet-jump" aria-label="On this page"><div class="wet-container"><a href="#wet-prices">Prices</a><a href="#wet-work">What’s involved</a><a href="#wet-engines">Your engine</a><a href="#wet-reviews">Reviews</a><a href="#wet-questions">FAQs</a><a href="#wet-quote">Get a quote <span aria-hidden="true">↗</span></a></div></nav>
-    <section class="wet-section wet-container" id="wet-prices"><div class="wet-heading"><p class="section-kicker">Clear starting prices</p><h2>Wet belt replacement prices</h2><p>Choose your engine below. We confirm the exact price for your vehicle before booking the work.</p></div>
-      <div class="wet-prices">${engines.map(e => `<article class="wet-price-card"><p class="wet-label">${e.label}</p><h3>${e.name}</h3><p class="wet-makes">${e.makes}</p><p class="wet-price"><span>From</span> ${e.price}</p><a href="${whatsapp}" data-contact-location="wet_belt_price">Get my vehicle’s quote <span aria-hidden="true">↗</span></a></article>`).join('')}</div>
+    <section class="wet-section wet-container" id="wet-prices"><div class="wet-heading"><p class="section-kicker">Clear starting prices</p><h2>Wet belt replacement cost</h2><p>Choose your engine below. We confirm the exact price for your vehicle before booking the work.</p></div>
+      ${priceCards(engines.map(e => ({ ...e, detail: e.makes, action: `<a href="${whatsapp}" data-contact-location="wet_belt_price">Get my vehicle’s quote <span aria-hidden="true">↗</span></a>` })), esc)}
+      <p class="cost-disclaimer">${startingPrices}</p>
       <aside class="wet-warning"><div class="wet-warning-mark" aria-hidden="true">!</div><div><h3>Oil-pressure warning or a suspected belt failure?</h3><p>Stop safely and switch the engine off. Do not keep restarting it to check. Call us before arranging delivery: a new belt alone may not resolve damage caused by loss of oil pressure or timing.</p><a class="text-link" href="/services/engine-diagnostics/">Read about engine diagnosis and assessment <span aria-hidden="true">→</span></a></div></aside>
-      <div class="wet-included"><h3>What’s included</h3><p>Timing belt, applicable oil-pump drive belt, tensioners, seals, required fixings, correct-specification oil and a new filter. We confirm the parts for your engine in the quote.</p>
-        <p><strong>6-month / 10,000-mile warranty</strong> (whichever comes first) – exact cover confirmed in writing.</p>
-        <p>Usually completed the same day when booked in the morning – we'll confirm when you book.</p><p>${payment}.</p></div>
+      <div class="wet-included"><h3>What's included in the price</h3>
+        <ul class="check-list"><li>Timing belt and applicable oil-pump drive belt.</li><li>Tensioners, seals and required fixings for your engine.</li><li>Correct-specification oil and a new filter.</li></ul>
+        <p>Usually completed within 48 hours of drop-off · 6 months or 10,000 miles warranty</p>
+        <p>Warranty: ${repairWarranty}.</p><p>${payment}.</p></div>
       <p class="wet-price-note">Starting prices are for planned wet belt replacement on applicable engines. An existing oil-pressure fault, failed belt or engine damage needs a separate assessment. Any additional work is agreed with you first.</p>
     </section>
     <section class="wet-soft" id="wet-work"><div class="wet-container wet-section"><div class="wet-heading"><p class="section-kicker">The job, explained</p><h2>More than changing a belt</h2><p>A wet timing belt runs inside the engine oil. If it starts to break down, belt material can collect in the oil system. The replacement needs to account for that, as well as the timing itself.</p></div>
