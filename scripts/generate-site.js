@@ -464,12 +464,13 @@ function footer(quoteHref) {
     ["Repair advice", "/blog/"], ["Contact", "/contact/"], ["Privacy & cookies", "/privacy/"]
   ];
   const links = entries => entries.map(([label, href]) => '<li><a href="'+href+'">'+esc(label)+'</a></li>').join("");
+  const repairGuides = guides.map(({ title, slug }) => [title, "/blog/"+slug+"/"]);
   const directory = allServices.map(s => [s.title.replace(/(?: in|,) Birmingham| Birmingham$/, ""), "/services/"+s.slug+"/"]);
   return '<footer class="site-footer"><div class="footer-main"><div class="footer-grid">'+
     '<div class="footer-contact"><h2>'+business.legalName+'</h2><ul class="footer-contact-links"><li><a data-contact-location="footer" href="tel:'+business.primaryTel+'">'+business.primaryPhone+'</a></li><li><a data-contact-location="footer" href="'+whatsapp+'">WhatsApp</a></li><li><a href="mailto:'+business.email+'">'+business.email+'</a></li></ul><address>'+business.address+'</address><p>'+business.hours+'</p><a class="text-link" href="'+maps+'">Directions</a></div>'+
     '<div class="footer-column"><h3>Popular repairs</h3><ul>'+links(repairLinks.map(([label, slug]) => [label, "/services/"+slug+"/"]))+'</ul><a class="text-link" href="/services/">All services →</a></div>'+
     '<div class="footer-column"><h3>Company</h3><ul>'+links(companyLinks)+'<li><button class="cookie-settings" type="button" data-cookie-settings>Cookie settings</button></li></ul></div>'+
-    '</div><details class="footer-directory"><summary>All services</summary><ul>'+links(directory)+'</ul></details></div>'+
+    '</div><details class="footer-directory"><summary>All services</summary><ul>'+links(directory)+'</ul><h3>Repair guides</h3><ul>'+links(repairGuides)+'</ul></details></div>'+
     '<div class="footer-bottom">&copy; <span data-year>2026</span> '+business.legalName+' · Company No. '+business.companiesHouse+' · <a href="/sitemap.xml">Sitemap</a></div></footer></div>'+
     '<div class="mobile-dock">' +
     '<section class="consent-panel" data-consent-panel hidden aria-labelledby="consent-title"><h2 id="consent-title">Analytics and ad measurement cookies</h2><p>We use optional cookies to measure website use and Google Ads enquiries. <a href="/privacy/">Privacy &amp; cookies</a></p><div class="consent-actions"><button type="button" data-consent="accept">Accept</button><button type="button" data-consent="reject">Reject</button></div></section>' +

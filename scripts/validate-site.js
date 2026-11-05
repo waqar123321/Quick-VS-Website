@@ -222,6 +222,9 @@ for(const guide of guides) {
   const pathname="/blog/"+guide.slug+"/",page=pages.find(p=>p.pathname===pathname),link='href="'+pathname+'"';
   assert.ok(page,"Missing guide "+pathname);
   assert.ok(advice.includes(link),"Guide missing from repair advice hub "+pathname);
+  for (const { text, pathname: source } of pages) {
+    assert.ok(text.match(/<footer\b[\s\S]*?<\/footer>/)?.[0].includes(link), source+": footer missing "+pathname);
+  }
   const article=[...page.text.matchAll(/<script type="application\/ld\+json">\s*([\s\S]*?)\s*<\/script>/g)].map(m=>JSON.parse(m[1])).find(s=>s["@type"]==="Article");
   assert.equal(article.headline,guide.title);assert.equal(article.mainEntityOfPage,origin+pathname);
   assert.equal(article.author.name,"Quick Solution Vehicles LTD");assert.equal(article.datePublished,guide.published);
@@ -266,7 +269,7 @@ for(const [i,slug] of timingLandingSlugs.entries()) {
   assert.ok(main.includes('href="/services/'+timingLandingSlugs[1-i]+'/"'),slug+": missing reciprocal link");
 }
 const chain=pages.find(p=>p.pathname==="/services/timing-chain-replacement/").text;
-assert.equal((chain.match(/class="service-card chain-engine-card"/g)||[]).length,4,"Expected four timing-chain engine cards");
+assert.equal((chain.match(/class="service-card chain-engine-card"/g)||[]).length,3,"Expected three timing-chain engine cards");
 assert.ok(chain.includes("Does my VW/Audi have a timing chain or a cambelt?"),"Missing VW chain/cambelt FAQ");
 assert.ok(pricing.includes("VW Group timing chain")&&pricing.includes("Cambelt replacement")&&pricing.includes("Quote by registration"),"Missing quote-only price rows");
 for(const page of pages)assert.ok(!page.text.includes('href="'+legacyPath+'"'),"Internal link still points to old belt page: "+page.pathname);

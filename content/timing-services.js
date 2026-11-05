@@ -63,13 +63,21 @@ const services = [
 
 function chainCards({ esc }) {
   const cards = [
-    ['BMW N47', 'Cold-start rattle or timing-correlation faults?', 'bmw-n47-engine-rebuild'],
-    ['BMW N57', 'Cold-start rattle or timing-correlation faults?', 'bmw-n57-engine-rebuild'],
-    ['JLR 2.0 Ingenium', 'Start-up rattle or timing warning lights need checking.', 'jlr-ingenium-engine-rebuild'],
-    ['VW/Audi/Skoda/SEAT TSI/TFSI', 'Cold-start rattle or cam/crank faults on chain-driven petrol engines?', 'vw-audi-engine-repairs-birmingham']
+    ['BMW N47 / N57', 'Cold-start rattle or timing-correlation faults?', [
+      ['bmw-n47-engine-rebuild', 'N47 →', 'BMW N47'],
+      ['bmw-n57-engine-rebuild', 'N57 →', 'BMW N57']
+    ]],
+    ['JLR 2.0 Ingenium', 'Start-up rattle or timing warning lights need checking.', [
+      ['jlr-ingenium-engine-rebuild', 'Read more →', 'JLR 2.0 Ingenium']
+    ]],
+    ['VW/Audi/Skoda/SEAT TSI/TFSI', 'Cold-start rattle or cam/crank faults on chain-driven petrol engines?', [
+      ['vw-audi-engine-repairs-birmingham', 'Read more →', 'VW/Audi/Skoda/SEAT TSI/TFSI']
+    ]]
   ];
   return '<section class="section chain-coverage"><h2>Engines we commonly see</h2><div class="service-grid">' +
-    cards.map(([name, text, slug]) => '<article class="service-card chain-engine-card"><h3>'+esc(name)+'</h3><p>'+esc(text)+'</p><a href="/services/'+slug+'/" aria-label="Read more about '+esc(name)+'">Read more →</a></article>').join('') +
+    cards.map(([name, text, links]) => '<article class="service-card chain-engine-card"><h3>'+esc(name)+'</h3><p>'+esc(text)+'</p><div class="chain-engine-links">'+
+      links.map(([slug, label, engine]) => '<a href="/services/'+slug+'/" aria-label="Read more about '+esc(engine)+'">'+esc(label)+'</a>').join('')+
+      '</div></article>').join('') +
     '</div></section>';
 }
 
