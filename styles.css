@@ -1265,14 +1265,13 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
 .consent-actions button { min-height: 48px; }
 
 @media (max-width: 760px) {
-  /* The dock occupies its own viewport row. The hero and form always scroll clear of it. */
-  body { display: grid; grid-template-rows: minmax(0, 1fr) auto; height: 100vh; height: 100dvh; padding: 0; overflow: hidden; font-size: 18px; line-height: 1.55; }
-  .site-content { min-width: 0; overflow-y: auto; scroll-padding-bottom: 12px; }
-  .mobile-dock { display: flex; flex-direction: column; min-width: 0; }
+  body { font-size: 18px; line-height: 1.55; padding-bottom: calc(54px + env(safe-area-inset-bottom)); }
   .mobile-call-bar {
-    position: static; display: grid; grid-template-columns: 1.35fr 1.15fr 1fr;
-    z-index: auto; box-shadow: none;
+    position: fixed; inset: auto 0 0; display: grid; grid-template-columns: 1.35fr 1.15fr 1fr;
+    z-index: 60;
   }
+  .mobile-call-bar[hidden] { display: none; }
+  .mobile-dock:has(.mobile-call-bar[hidden]) .consent-panel { bottom: 0; padding-bottom: calc(10px + env(safe-area-inset-bottom)); }
   .mobile-call-bar a { min-height: 54px; padding: 4px 6px; font-size: 17px; }
   .mobile-call-bar a.mobile-quote { background: var(--night-2); }
   .mobile-call-bar a:focus-visible { outline-offset: -4px; }

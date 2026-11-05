@@ -20,6 +20,22 @@
     });
   }
 
+  const mobileBar = document.querySelector(".mobile-call-bar");
+  const heroButtons = [...document.querySelectorAll(".page-hero .call-first, .wet-hero .call-first")]
+    .flatMap(group => [...group.querySelectorAll(".button-primary, .button-whatsapp")]);
+  if (mobileBar && heroButtons.length === 2 && "IntersectionObserver" in window) {
+    const visibleButtons = new Set();
+    const headerHeight = document.querySelector(".site-header")?.offsetHeight || 0;
+    const observer = new IntersectionObserver(entries => {
+      for (const entry of entries) {
+        if (entry.intersectionRatio >= 0.99) visibleButtons.add(entry.target);
+        else visibleButtons.delete(entry.target);
+      }
+      mobileBar.hidden = visibleButtons.size === heroButtons.length;
+    }, { rootMargin: "-"+headerHeight+"px 0px 0px", threshold: 0.99 });
+    heroButtons.forEach(button => observer.observe(button));
+  }
+
   const consentKey = window.qsvConsentKey;
   const measurementId = window.qsvAnalyticsId;
   const panel = document.querySelector("[data-consent-panel]");
