@@ -58,8 +58,7 @@
   const consentKey = window.qsvConsentKey;
   const measurementId = window.qsvAnalyticsId;
   const panel = document.querySelector("[data-consent-panel]");
-  let analyticsAllowed = false;
-  let tagLoaded = false;
+  const forwardingLinks = new WeakSet();
   let settingsTrigger = null;
   function safePageUrl(value) {
     try {
@@ -96,22 +95,38 @@
     });
   }
   function applyChoice(allow) {
-    analyticsAllowed = allow;
     if (!allow) clearAnalyticsCookies();
     if (!measurementId || typeof window.gtag !== "function") return;
-    window["ga-disable-" + measurementId] = !allow;
     window.gtag("consent", "update", {
       analytics_storage: allow ? "granted" : "denied",
       ad_storage: allow ? "granted" : "denied",
       ad_user_data: allow ? "granted" : "denied", ad_personalization: "denied"
     });
-    if (!allow) return;
-    if (tagLoaded) return;
-    tagLoaded = true;
-    const tag = document.createElement("script");
-    tag.async = true;
-    tag.src = "https://www.googletagmanager.com/gtag/js?id=" + encodeURIComponent(measurementId);
-    document.head.appendChild(tag);
+  }
+  // Google calls this only when a forwarding number is available for the visit.
+  function qsvSwapPhone(formattedNumber, mobileNumber) {
+    const digits = String(mobileNumber || formattedNumber || "").replace(/\D/g, "");
+    if (!digits) return;
+    document.querySelectorAll('a[href^="tel:"]').forEach(anchor => {
+      if (anchor.getAttribute("href").replace(/\D/g, "") !== "447522179040") return;
+      forwardingLinks.add(anchor);
+      anchor.setAttribute("href", "tel:" + digits);
+      // Update text nodes so icons and other button markup stay intact.
+      function replaceText(node) {
+        if (node.nodeType === 3) node.textContent = node.textContent.replace(/07522 179040/g, formattedNumber);
+        else node.childNodes.forEach(replaceText);
+      }
+      replaceText(anchor);
+    });
+  }
+  window.qsvSwapPhone = qsvSwapPhone;
+  function startGoogleTags() {
+    if (!measurementId || typeof window.gtag !== "function") return;
+    // Apply the existing URL allowlist to the new Ads destination as well.
+    window.gtag("set", {
+      page_location: safePageUrl(location.href),
+      page_referrer: safePageUrl(document.referrer)
+    });
     window.gtag("js", new Date());
     window.gtag("config", measurementId, {
       allow_google_signals: false,
@@ -119,6 +134,11 @@
       page_location: safePageUrl(location.href),
       page_referrer: safePageUrl(document.referrer),
       ...workshopCampaign()
+    });
+    window.gtag("config", "AW-18511720683");
+    window.gtag("config", "AW-18511720683/utxvCO-MtLQdEOvhiftE", {
+      phone_conversion_number: "07522 179040",
+      phone_conversion_callback: qsvSwapPhone
     });
   }
   function saveChoice(allow) {
@@ -133,6 +153,7 @@
     clearAnalyticsCookies();
     if (panel) panel.hidden = false;
   }
+  startGoogleTags();
   document.documentElement.removeAttribute("data-consent-pending");
   document.querySelectorAll("[data-consent]").forEach(button => button.addEventListener("click", () => saveChoice(button.dataset.consent === "accept")));
   document.querySelectorAll("[data-cookie-settings]").forEach(button => button.addEventListener("click", () => {
@@ -141,7 +162,7 @@
   }));
 
   document.addEventListener("qsv:quote-success", event => {
-    if (!analyticsAllowed || !measurementId || typeof window.gtag !== "function") return;
+    if (!measurementId || typeof window.gtag !== "function") return;
     window.gtag("event", "generate_lead", {
       send_to: measurementId,
       job_type: event.detail,
@@ -151,12 +172,12 @@
 
   document.addEventListener("click", event => {
     const anchor = event.target.closest("a[href]");
-    if (!anchor || !analyticsAllowed || typeof window.gtag !== "function" || event.defaultPrevented) return;
+    if (!anchor || typeof window.gtag !== "function" || event.defaultPrevented) return;
     if (event.target.closest(".quote-trust")) return;
     let url;
     try { url = new URL(anchor.getAttribute("href"), location.href); } catch (_) { return; }
     let name;
-    if (url.protocol === "tel:" && url.pathname.replace(/\D/g, "") === "447522179040") name = "phone_call_click";
+    if (url.protocol === "tel:" && (url.pathname.replace(/\D/g, "") === "447522179040" || forwardingLinks.has(anchor))) name = "phone_call_click";
     else if (url.protocol === "https:" && url.hostname === "wa.me" && url.pathname === "/447522179040") name = "whatsapp_click";
     else if (url.protocol === "mailto:" && url.pathname.toLowerCase() === "info@quickvs.com") name = "email_click";
     else if (url.protocol === "https:" && url.hostname === "maps.google.com" && url.searchParams.get("cid") === "2157141621358514254") name = "directions_click";
@@ -166,6 +187,10 @@
       send_to: measurementId,
       contact_location: anchor.dataset.contactLocation || "content",
       page_path: location.pathname,
+      transport_type: "beacon"
+    });
+    if (name === "whatsapp_click") window.gtag("event", "conversion", {
+      send_to: "AW-18511720683/EnYACPKMtLQdEOvhiftE",
       transport_type: "beacon"
     });
   });

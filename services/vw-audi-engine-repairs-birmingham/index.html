@@ -5,7 +5,9 @@
 <script>
 window.dataLayer=window.dataLayer||[];
 function gtag(){dataLayer.push(arguments);}
-gtag("consent","default",{analytics_storage:"denied",ad_storage:"denied",ad_user_data:"denied",ad_personalization:"denied"});
+gtag("consent","default",{analytics_storage:"denied",ad_storage:"denied",ad_user_data:"denied",ad_personalization:"denied",wait_for_update:500});
+gtag("set","url_passthrough",true);
+gtag("set","ads_data_redaction",true);
 window.qsvAnalyticsId="G-GEJR9VMEYV";
 window.qsvConsentKey="qsv-analytics-consent-v2";
 try {
@@ -14,6 +16,7 @@ try {
 } catch (_) {}
 if (!window.qsvSavedConsent) document.documentElement.setAttribute("data-consent-pending","");
 </script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-GEJR9VMEYV"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>VW &amp; Audi Engine &amp; Timing Repairs Birmingham | QuickVS</title>
 <meta name="description" content="VW, Audi, Skoda and SEAT engine, timing chain and cambelt repairs in Birmingham. Independent workshop. WhatsApp your reg and mileage for a quote.">
@@ -35,7 +38,7 @@ if (!window.qsvSavedConsent) document.documentElement.setAttribute("data-consent
 <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" sizes="any">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
 <link rel="stylesheet" href="/styles.css?v=20261105-mobile">
-<script defer src="/script.js?v=20261105-mobile"></script>
+<script defer src="/script.js?v=20261108-tracking"></script>
 <link rel="preload" as="image" href="/assets/workshop/dismantled-engine-block-assessment-768.webp" media="(max-width: 760px)" fetchpriority="high">
 <link rel="preload" as="image" href="/assets/workshop/dismantled-engine-block-assessment-1152.webp" media="(min-width: 761px)" fetchpriority="high">
 <script defer src="/quote-form.js?v=20261104-enquiries"></script>
