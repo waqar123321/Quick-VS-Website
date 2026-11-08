@@ -1,6 +1,7 @@
 const fs = require("fs");
 const costs = require("../content/landing-costs");
 const path = require("path");
+const { contentForDateComparison } = require("./performance-html");
 
 const root = path.resolve(__dirname, "..");
 const today = new Date().toISOString().slice(0, 10);
@@ -370,7 +371,7 @@ function jsonLd(value) { return '<script type="application/ld+json">\n' + JSON.s
 function writePage(pathname, content) {
   const file = path.join(root, pathname.slice(1), "index.html");
   const previous = fs.existsSync(file) ? fs.readFileSync(file, "utf8").replace(/\r\n/g, "\n") : null;
-  if (previous !== content || !dates[pathname]) dates[pathname] = today;
+  if (!previous || contentForDateComparison(previous) !== contentForDateComparison(content) || !dates[pathname]) dates[pathname] = today;
   fs.mkdirSync(path.dirname(file), { recursive: true });
   fs.writeFileSync(file, content, "utf8");
   sitePages.push(pathname);
@@ -617,6 +618,19 @@ function addJumpMenu(body, quoteHref, label) {
   links.push([quoteHref, "Get a quote"]);
   return body.replace("</section>", "</section>"+jumpMenu(links, label));
 }
+function heroPreloads(body) {
+  // The hero photo is a CSS background, not an <img>. Match the actual shared
+  // hero class and its CSS media queries; pages without it need no preload.
+  const heroClass = body.match(/<section class="([^"]*\bpage-hero\b[^"]*)"/)?.[1];
+  if (!heroClass) return "";
+  const timing = heroClass.split(" ").includes("timing-page-hero");
+  const mobile = "/assets/workshop/dismantled-engine-block-assessment-"+(timing ? "768" : "480")+".webp";
+  const desktop = "/assets/workshop/dismantled-engine-block-assessment-"+(timing ? "1152.webp" : "16x9.jpg");
+  // Each media query has one exact background URL: a wider srcset candidate
+  // would preload a different file and make the browser download both.
+  return '<link rel="preload" as="image" href="'+mobile+'" media="(max-width: 760px)" fetchpriority="high" imagesrcset="'+mobile+' '+(timing ? "768" : "480")+'w" imagesizes="100vw">\n'+
+    '<link rel="preload" as="image" href="'+desktop+'" media="(min-width: 761px)" fetchpriority="high" imagesrcset="'+desktop+' 1152w" imagesizes="100vw">\n';
+}
 function layout({ title, description, pathname, body, faqs = [], service, noindex = false, article, pageStyles }) {
   const quoteHref = service || quotePages.has(pathname) ? "#quote" : "/contact/#quote";
   if (pathname !== "/services/"+wetBelt.service.slug+"/" && (pathname.startsWith("/services/") || pathname === "/pricing/" || article)) {
@@ -633,7 +647,7 @@ function layout({ title, description, pathname, body, faqs = [], service, noinde
     '<meta name="robots" content="'+(noindex?'noindex, follow':'index, follow, max-image-preview:large')+'">\n<meta name="theme-color" content="#111827">\n' +
     '<link rel="canonical" href="'+urlFor(pathname)+'">\n<meta property="og:type" content="'+(article?"article":"website")+'">\n<meta property="og:title" content="'+esc(title)+'">\n<meta property="og:description" content="'+esc(description)+'">\n<meta property="og:url" content="'+urlFor(pathname)+'">\n<meta property="og:image" content="'+socialImage+'">\n<meta property="og:image:alt" content="'+esc(article?photos[article.photo].alt:photos['5842'].alt)+'">\n' +
     '<meta name="twitter:card" content="summary_large_image">\n<meta name="twitter:title" content="'+esc(title)+'">\n<meta name="twitter:description" content="'+esc(description)+'">\n<meta name="twitter:image" content="'+socialImage+'">\n<link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="16x16 32x32 48x48 64x64">\n<link rel="icon" href="/favicon-96x96.png" type="image/png" sizes="96x96">\n<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" sizes="any">\n<link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">\n<link rel="stylesheet" href="/styles.css?v=20261105-mobile">\n<script defer src="/script.js?v=20261108-tracking"></script>\n' +
-    (service?.timingLanding ? '<link rel="preload" as="image" href="/assets/workshop/dismantled-engine-block-assessment-768.webp" media="(max-width: 760px)" fetchpriority="high">\n<link rel="preload" as="image" href="/assets/workshop/dismantled-engine-block-assessment-1152.webp" media="(min-width: 761px)" fetchpriority="high">\n' : service?.slug === wetBelt.service.slug ? '' : '<link rel="preload" as="image" href="/assets/workshop/dismantled-engine-block-assessment-480.webp" media="(max-width: 760px)" fetchpriority="high">\n') +
+    heroPreloads(body) +
     (quoteHref === "#quote" ? '<script defer src="/quote-form.js?v=20261104-enquiries"></script>\n' : '') +
     (pageStyles ? '<link rel="stylesheet" href="'+pageStyles+'">\n' : '') +
     schemas.map(jsonLd).join("\n")+'\n</head>\n<body>\n<div class="site-content">'+header(pathname)+'\n<main id="main-content"'+(pathname === "/" ? ' class="home-content"' : '')+'>'+body+'</main>\n'+footer(quoteHref)+'\n</body>\n</html>\n';

@@ -3,10 +3,20 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build": "node scripts/generate-site.js && node scripts/validate-site.js",
+    "build": "node scripts/generate-site.js && node scripts/critical-css.mjs && node scripts/validate-site.js",
     "generate": "node scripts/generate-site.js",
     "validate": "node scripts/validate-site.js",
     "test": "node scripts/test-tracking.js && node scripts/test-mobile-menu.js"
+  },
+  "devDependencies": {
+    "critical": "7.2.1",
+    "lighthouse": "13.6.0",
+    "playwright": "1.56.1",
+    "puppeteer": "24.31.0"
+  },
+  "overrides": {
+    "penthouse": {
+      "puppeteer": "24.31.0"
+    }
   }
 }
-

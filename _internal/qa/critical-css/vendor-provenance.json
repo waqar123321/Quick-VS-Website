@@ -1,0 +1,14 @@
+[
+  {
+    "source": "https://www.googletagmanager.com/gtag/js?id=AW-18511720683&cx=c&gtm=4e6b41",
+    "sha256": "8aaebc94b6ca3f76c7b1ada5d978917a31e477984bc1ae1a9e1ab95867caf6e2",
+    "uncompressedBytes": 452781,
+    "gzipBytes": 154477
+  },
+  {
+    "source": "https://www.googletagmanager.com/gtag/js?id=G-GEJR9VMEYV",
+    "sha256": "b27acd985e2e680fca5dc424a7965e4e157c69bf8dcfbe6b859ed39d92b46530",
+    "uncompressedBytes": 620453,
+    "gzipBytes": 197567
+  }
+]
