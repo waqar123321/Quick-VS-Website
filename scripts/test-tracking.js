@@ -22,18 +22,21 @@ function fixture(stored=null,storageThrows=false,pageUrl="https://quickvs.com/se
   };
   Object.defineProperty(document,"cookie",{get(){return "_ga=old; _ga_GEJR9VMEYV=old; _gcl_aw=old; _gcl_au=old; unrelated=keep"},set(value){cookies.push(value)}});
   const context={document,location:{href:pageUrl,hostname:"quickvs.com",pathname:new URL(pageUrl).pathname},URL,URLSearchParams,Date,encodeURIComponent,localStorage:{getItem(k){if(storageThrows)throw Error("disabled");return storage.get(k)||null},setItem(k,v){if(storageThrows)throw Error("disabled");storage.set(k,v)}}};
-  context.window=context;vm.createContext(context);vm.runInContext(head,context);vm.runInContext(source,context);
+  context.window=context;vm.createContext(context);vm.runInContext(head,context);
+  for (const match of fs.readFileSync(path.join(__dirname,"../index.html"),"utf8").matchAll(/<script async src="([^"]+)"><\/script>/g)) scripts.push({src:match[1]});
+  vm.runInContext(source,context);
   function click(href,where="hero",prevented=false){
     const anchor={dataset:{contactLocation:where},getAttribute(){return href}};
     const target={closest(selector){return selector==="a[href]"?anchor:null}};
     (listeners.click||[]).forEach(fn=>fn({target,defaultPrevented:prevented}));
   }
-  function tracked(){return JSON.parse(JSON.stringify(context.dataLayer.filter(x=>x[0]==="event").map(x=>({name:x[1],params:x[2]}))));}
+  function tracked(){return JSON.parse(JSON.stringify(context.dataLayer.filter(x=>x[0]==="event" && x[1]!=="conversion").map(x=>({name:x[1],params:x[2]}))));}
   return {context,panel,accept,reject,settings,scripts,cookies,click,tracked,buttons,nav,toggle,servicesMenu,listeners};
 }
 let f=fixture();
-assert.equal(f.scripts.length,0,"No Google code before consent");
-f.click("tel:+447522179040");assert.equal(f.tracked().length,0,"No events before consent");
+assert.equal(f.scripts.length,1,"Google loads before consent");
+f.click("tel:+447522179040");assert.equal(f.tracked().length,1,"Events are queued before consent");
+f=fixture();
 assert.equal(f.panel.hidden,false);
 f.accept.click();assert.equal(f.scripts.length,1);assert.equal(f.panel.hidden,true);
 f.click("tel:+447522179040","mobile_bar");
@@ -58,7 +61,7 @@ f.listeners.click.forEach(fn=>fn({
 }));
 assert.equal(f.tracked().length,4,"Unrelated or cancelled contacts must not be measured");
 f.settings.click();assert.equal(f.panel.hidden,false);
-f.reject.click();f.click("tel:+447522179040");assert.equal(f.tracked().length,4,"Withdrawal stops tracking");
+f.reject.click();f.click("tel:+447522179040");assert.equal(f.tracked().length,5,"Withdrawal keeps cookieless tracking");
 assert.ok(f.cookies.some(x=>x.startsWith("_ga=")));
 assert.ok(!f.cookies.some(x=>x.startsWith("unrelated=")),"Only measurement cookies may be deleted");
 f.accept.click();assert.equal(f.scripts.length,1,"One Google tag per page");
@@ -70,10 +73,10 @@ assert.equal(f.toggle.focused,true,"Closing the mobile menu returns focus");
 f.servicesMenu.open=true;
 f.listeners.click.forEach(fn=>fn({target:{insideServicesMenu:false,closest(){return null}},defaultPrevented:false}));
 assert.equal(f.servicesMenu.open,false,"Clicking outside closes Services dropdown");
-f=fixture({analytics:false,expiresAt:Date.now()+100000});assert.equal(f.scripts.length,0);assert.equal(f.panel.hidden,true);
+f=fixture({analytics:false,expiresAt:Date.now()+100000});assert.equal(f.scripts.length,1);assert.equal(f.panel.hidden,true);
 f=fixture({analytics:true,expiresAt:Date.now()+100000});assert.equal(f.scripts.length,1);assert.equal(f.panel.hidden,true);
-f=fixture({analytics:true,expiresAt:0});assert.equal(f.scripts.length,0);assert.equal(f.panel.hidden,false);
-f=fixture(null,true);f.reject.click();assert.equal(f.scripts.length,0,"Blocked storage must not break rejection");
+f=fixture({analytics:true,expiresAt:0});assert.equal(f.scripts.length,1);assert.equal(f.panel.hidden,false);
+f=fixture(null,true);f.reject.click();assert.equal(f.scripts.length,1,"Blocked storage must not break rejection");
 f=fixture(null,false,"https://quickvs.com/blog/severe-engine-block-damage/?utm_source=google&utm_medium=organic&utm_campaign=gbp_workshop&utm_content=block_assessment&reg=private");
 f.accept.click();
 let campaign=f.context.dataLayer.find(x=>x[0]==="config")[2];
@@ -93,32 +96,32 @@ for(const pathname of ["/", "/services/wet-belt-replacement/", "/services/timing
   });
   const page=fixture(null,false,"https://quickvs.com"+pathname+"?reg=private");
   contacts.forEach(href=>page.click(href));
-  assert.equal(page.tracked().length,0,pathname+": no tracking before consent");
+  assert.equal(page.tracked().length,4,pathname+": cookieless tracking before consent");
   page.accept.click();contacts.forEach(href=>page.click(href));
-  assert.deepEqual(page.tracked().map(e=>e.name),["phone_call_click","whatsapp_click","email_click","directions_click"]);
+  assert.deepEqual(page.tracked().slice(-4).map(e=>e.name),["phone_call_click","whatsapp_click","email_click","directions_click"]);
   assert.ok(page.tracked().every(e=>e.params.page_path===pathname),pathname+": event page attribution");
   assert.ok(!JSON.stringify(page.tracked()).includes("private"),pathname+": no enquiry information in analytics");
   page.reject.click();contacts.forEach(href=>page.click(href));
-  assert.equal(page.tracked().length,4,pathname+": withdrawal stops tracking");
+  assert.equal(page.tracked().length,12,pathname+": withdrawal keeps cookieless tracking");
 }
 
 f=fixture(null,false,"https://quickvs.com/services/wet-belt-replacement/?reg=AB12CDE");
 const quoteSuccess = () => f.listeners["qsv:quote-success"].forEach(fn => fn({detail:"wet_belt"}));
 quoteSuccess();
-assert.equal(f.tracked().length,0,"A successful quote before consent is not measured");
+assert.equal(f.tracked().length,1,"A successful quote before consent is measured without cookies");
 f.accept.click();
 quoteSuccess();
-assert.deepEqual(f.tracked(),[{
+assert.deepEqual(f.tracked().slice(-1),[{
   name:"generate_lead",
   params:{send_to:"G-GEJR9VMEYV",job_type:"wet_belt",page_path:"/services/wet-belt-replacement/"}
 }],"A successful quote sends only category and page after consent");
 f.reject.click();
 quoteSuccess();
-assert.equal(f.tracked().length,1,"Withdrawal also stops quote measurement");
+assert.equal(f.tracked().length,3,"Withdrawal keeps cookieless quote measurement");
 
 const consentStates = {analytics_storage:"denied",ad_storage:"denied",ad_user_data:"denied",ad_personalization:"denied"};
 f=fixture();
-assert.deepEqual(JSON.parse(JSON.stringify(f.context.dataLayer[0][2])),consentStates,"Default denies all four consent types");
+assert.deepEqual(JSON.parse(JSON.stringify(f.context.dataLayer[0][2])),{...consentStates,wait_for_update:500},"Default denies all four consent types");
 f.accept.click();
 assert.deepEqual(JSON.parse(JSON.stringify(f.context.dataLayer.filter(x=>x[0]==="consent").at(-1)[2])),
   {...consentStates,analytics_storage:"granted",ad_storage:"granted",ad_user_data:"granted"},"Accept grants measurement only");
@@ -129,7 +132,7 @@ for(const name of ["_ga", "_ga_GEJR9VMEYV", "_gcl_aw", "_gcl_au"]) {
 }
 f=fixture({analytics:true,expiresAt:Date.now()+100000},false,undefined,"qsv-analytics-consent-v1");
 assert.equal(f.panel.hidden,false,"Old analytics-only consent must show the banner again");
-assert.equal(f.scripts.length,0,"Old consent must not load Google");
+assert.equal(f.scripts.length,1,"Old consent uses denied-mode Google");
 const attribution="gclid=TEST123&gbraid=braid%2Bvalue&wbraid=web%20braid&gad_source=1&gad_campaignid=123&utm_source=google&utm_medium=cpc&utm_campaign=Chain%20Repairs&utm_term=timing+chain&utm_content=call%2Fbutton&gclid=SECOND";
 f=fixture(null,false,"https://quickvs.com/services/timing-chain-replacement/?"+attribution+"&reg=AB12CDE&text=private&message=secret#private",undefined,"https://search.test/path?"+attribution+"&reg=AB12CDE#secret");
 f.accept.click();
@@ -138,4 +141,51 @@ assert.equal(attributed.page_location,"https://quickvs.com/services/timing-chain
 assert.equal(attributed.page_referrer,"https://search.test/path?"+attribution,"Apply the same allowlist to referrers");
 for(const text of ["AB12CDE","private","secret"]) assert.ok(!JSON.stringify(attributed).includes(text),"Exclude enquiry values and fragments");
 
-console.log("Tracking tests passed: consent, withdrawal, real ID, four click channels on all seven requested pages, attribution allowlist, ad consent and old consent migration, navigation, PII redaction and expired/blocked storage.");
+console.log("Tracking tests passed: advanced consent, Ads destinations and conversions, consent, withdrawal, real ID, four click channels on all seven requested pages, attribution allowlist, ad consent and old consent migration, navigation, PII redaction and expired/blocked storage.");
+
+// Every generated page must initialise consent and redaction before the loader.
+function checkPages(dir) {
+  for (const entry of fs.readdirSync(dir,{withFileTypes:true})) {
+    if (entry.name === ".git" || entry.name === "node_modules") continue;
+    const file=path.join(dir,entry.name);
+    if(entry.isDirectory()) checkPages(file);
+    else if(entry.name.endsWith(".html")) {
+      const html=fs.readFileSync(file,"utf8");
+      if (html.includes('<meta http-equiv="refresh"')) continue; // Legacy redirect has no tracking; its destination does.
+      const loader=html.indexOf('<script async src="https://www.googletagmanager.com/gtag/js?id=G-GEJR9VMEYV">');
+      assert.ok(loader>html.indexOf('gtag("consent","default",') && html.indexOf('gtag("consent","default",')>=0,file+": default precedes loader");
+      for(const setting of ['gtag("set","url_passthrough",true);','gtag("set","ads_data_redaction",true);']) assert.ok(html.indexOf(setting)>=0 && html.indexOf(setting)<loader);
+      assert.equal((html.match(/googletagmanager.com\/gtag\/js/g)||[]).length,1);
+    }
+  }
+}
+checkPages(path.join(__dirname,".."));
+f=fixture();
+assert.ok(!Object.keys(f.context).some(key=>key.startsWith("ga-disable-")));
+assert.equal(f.context.dataLayer.filter(x=>x[0]==="config" && x[1]==="AW-18511720683").length,1);
+const callConfig=f.context.dataLayer.find(x=>x[0]==="config" && x[1]==="AW-18511720683/utxvCO-MtLQdEOvhiftE")[2];
+assert.equal(callConfig.phone_conversion_number,"07522 179040");
+assert.equal(callConfig.phone_conversion_callback,f.context.qsvSwapPhone);
+for(const choose of [()=>{},()=>f.accept.click(),()=>f.reject.click()]) {
+  choose(); f.click("https://wa.me/447522179040?text=private");
+  const conversion=f.context.dataLayer.filter(x=>x[0]==="event" && x[1]==="conversion").at(-1);
+  assert.deepEqual(JSON.parse(JSON.stringify(conversion[2])),{send_to:"AW-18511720683/EnYACPKMtLQdEOvhiftE",transport_type:"beacon"});
+}
+const makeLink=(href,text)=>({href,dataset:{},nodeType:1,childNodes:[{nodeType:3,textContent:text}],getAttribute(){return this.href},setAttribute(_,value){this.href=value}});
+const phone=makeLink("tel:+447522179040","Call 07522 179040");
+const generic=makeLink("tel:+447522179040","Call now");
+const other=makeLink("tel:+441234567890","Other");
+const whatsapp=makeLink("https://wa.me/447522179040","WhatsApp");
+f.context.document.querySelectorAll=()=>[phone,generic,other];
+callConfig.phone_conversion_callback("0800 123 4567","+448001234567");
+assert.equal(phone.href,"tel:448001234567");assert.equal(phone.childNodes[0].textContent,"Call 0800 123 4567");
+assert.equal(generic.href,phone.href);assert.equal(generic.childNodes[0].textContent,"Call now");
+assert.equal(other.href,"tel:+441234567890");assert.equal(whatsapp.href,"https://wa.me/447522179040");
+f.listeners.click.forEach(fn=>fn({target:{closest(selector){return selector==="a[href]"?phone:null}},defaultPrevented:false}));
+assert.equal(f.tracked().at(-1).name,"phone_call_click","Forwarding links retain GA4 phone clicks");
+const fallback=makeLink("tel:+447522179040","07522 179040");
+f.context.document.querySelectorAll=()=>[fallback];
+callConfig.phone_conversion_callback("0800 765 4321");assert.equal(fallback.href,"tel:08007654321");
+const saved=fixture({analytics:true,expiresAt:Date.now()+100000});
+assert.ok(saved.context.dataLayer.findIndex(x=>x[0]==="consent" && x[1]==="update")<saved.context.dataLayer.findIndex(x=>x[0]==="config"),"Restore saved consent before config");
+console.log("All generated pages have consent before one loader; forwarding callback and WhatsApp conversions passed.");
