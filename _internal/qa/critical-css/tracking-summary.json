@@ -1,0 +1,68 @@
+{
+  "method": "Real Google script and collection responses, relayed through the environment HTTPS proxy with TLS verification enabled; generated request URLs observed in Chromium. No website scripts altered.",
+  "responses": [
+    {
+      "phase": "before accept",
+      "host": "www.googletagmanager.com",
+      "path": "/gtag/js",
+      "status": 200,
+      "id": "G-GEJR9VMEYV"
+    },
+    {
+      "phase": "before accept",
+      "host": "www.google-analytics.com",
+      "path": "/g/collect",
+      "status": 204,
+      "tid": "G-GEJR9VMEYV",
+      "gcs": "G100",
+      "en": "page_view"
+    },
+    {
+      "phase": "before accept",
+      "host": "www.googletagmanager.com",
+      "path": "/gtag/js",
+      "status": 200,
+      "id": "AW-18511720683"
+    },
+    {
+      "phase": "after accept",
+      "host": "www.googletagmanager.com",
+      "path": "/gtag/js",
+      "status": 200,
+      "id": "G-GEJR9VMEYV"
+    },
+    {
+      "phase": "after accept",
+      "host": "www.google-analytics.com",
+      "path": "/g/collect",
+      "status": 204,
+      "tid": "G-GEJR9VMEYV",
+      "gcs": "G100",
+      "en": "page_view"
+    },
+    {
+      "phase": "after accept",
+      "host": "www.googletagmanager.com",
+      "path": "/gtag/js",
+      "status": 200,
+      "id": "AW-18511720683"
+    },
+    {
+      "phase": "after accept",
+      "host": "stats.g.doubleclick.net",
+      "path": "/g/collect",
+      "status": 204,
+      "tid": "G-GEJR9VMEYV",
+      "gcs": "G111"
+    },
+    {
+      "phase": "after accept",
+      "host": "analytics.google.com",
+      "path": "/g/collect",
+      "status": 204,
+      "tid": "G-GEJR9VMEYV",
+      "gcs": "G111",
+      "en": "user_engagement"
+    }
+  ]
+}

@@ -1,0 +1,473 @@
+{
+  "baselineCommit": "2f598df16d4558f301f0aba59821e5a9562f9743",
+  "date": "2026-11-08",
+  "lighthouseVersion": "13.6.0",
+  "chromiumVersion": "153.0.8010.0",
+  "preset": "mobile",
+  "throttlingMethod": "simulate",
+  "method": "Gzip local HTTP fixtures with identical downloaded Google scripts, also served with gzip. Collection responses are local fixtures in Lighthouse only. Separate real-network consent verification is recorded in tracking-summary.json. This is a controlled local A/B, not live PageSpeed Insights.",
+  "runs": [
+    {
+      "label": "before",
+      "pathname": "/",
+      "run": 1,
+      "scores": {
+        "performance": 90,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "lcp": 3589.5235,
+      "cls": 0.02017040463349421,
+      "tbt": 92.5,
+      "warnings": []
+    },
+    {
+      "label": "before",
+      "pathname": "/",
+      "run": 2,
+      "scores": {
+        "performance": 90,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "lcp": 3563.502,
+      "cls": 0.02017040463349421,
+      "tbt": 95,
+      "warnings": []
+    },
+    {
+      "label": "before",
+      "pathname": "/",
+      "run": 3,
+      "scores": {
+        "performance": 89,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "lcp": 3607.1800000000003,
+      "cls": 0.02017040463349421,
+      "tbt": 113,
+      "warnings": []
+    },
+    {
+      "label": "before",
+      "pathname": "/services/wet-belt-replacement/",
+      "run": 1,
+      "scores": {
+        "performance": 96,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "lcp": 919.1010000000001,
+      "cls": 0.02017040463349421,
+      "tbt": 213.5,
+      "warnings": []
+    },
+    {
+      "label": "before",
+      "pathname": "/services/wet-belt-replacement/",
+      "run": 2,
+      "scores": {
+        "performance": 98,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "lcp": 904.74,
+      "cls": 0.02017040463349421,
+      "tbt": 176,
+      "warnings": []
+    },
+    {
+      "label": "before",
+      "pathname": "/services/wet-belt-replacement/",
+      "run": 3,
+      "scores": {
+        "performance": 99,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "lcp": 905.7529999999999,
+      "cls": 0.02017040463349421,
+      "tbt": 138,
+      "warnings": []
+    },
+    {
+      "label": "before",
+      "pathname": "/services/timing-chain-replacement/",
+      "run": 1,
+      "scores": {
+        "performance": 95,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "lcp": 2689.4845,
+      "cls": 0.02017040463349421,
+      "tbt": 139.38100000000009,
+      "warnings": []
+    },
+    {
+      "label": "before",
+      "pathname": "/services/timing-chain-replacement/",
+      "run": 2,
+      "scores": {
+        "performance": 94,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "lcp": 2732.2643,
+      "cls": 0.02017040463349421,
+      "tbt": 176.73640999999998,
+      "warnings": []
+    },
+    {
+      "label": "before",
+      "pathname": "/services/timing-chain-replacement/",
+      "run": 3,
+      "scores": {
+        "performance": 96,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "lcp": 2680.2705,
+      "cls": 0.02017040463349421,
+      "tbt": 112.5,
+      "warnings": []
+    },
+    {
+      "label": "before",
+      "pathname": "/services/engine-rebuild-birmingham/",
+      "run": 1,
+      "scores": {
+        "performance": 94,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "lcp": 2692.349,
+      "cls": 0.02017040463349421,
+      "tbt": 170.1585,
+      "warnings": []
+    },
+    {
+      "label": "before",
+      "pathname": "/services/engine-rebuild-birmingham/",
+      "run": 2,
+      "scores": {
+        "performance": 95,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "lcp": 2695.7795,
+      "cls": 0.02017040463349421,
+      "tbt": 148.51750000000015,
+      "warnings": []
+    },
+    {
+      "label": "before",
+      "pathname": "/services/engine-rebuild-birmingham/",
+      "run": 3,
+      "scores": {
+        "performance": 95,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "lcp": 2695.3885,
+      "cls": 0.02017040463349421,
+      "tbt": 126,
+      "warnings": []
+    },
+    {
+      "label": "after",
+      "pathname": "/",
+      "run": 1,
+      "scores": {
+        "performance": 94,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "lcp": 2911.2275,
+      "cls": 0.02017040463349421,
+      "tbt": 99,
+      "warnings": []
+    },
+    {
+      "label": "after",
+      "pathname": "/",
+      "run": 2,
+      "scores": {
+        "performance": 90,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "lcp": 3574.9205,
+      "cls": 0.02017040463349421,
+      "tbt": 83.5,
+      "warnings": []
+    },
+    {
+      "label": "after",
+      "pathname": "/",
+      "run": 3,
+      "scores": {
+        "performance": 92,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "lcp": 2952.45955,
+      "cls": 0.02017040463349421,
+      "tbt": 172.5,
+      "warnings": []
+    },
+    {
+      "label": "after",
+      "pathname": "/services/wet-belt-replacement/",
+      "run": 1,
+      "scores": {
+        "performance": 98,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "lcp": 704.0935,
+      "cls": 0.02017040463349421,
+      "tbt": 173.5,
+      "warnings": []
+    },
+    {
+      "label": "after",
+      "pathname": "/services/wet-belt-replacement/",
+      "run": 2,
+      "scores": {
+        "performance": 99,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "lcp": 690.019,
+      "cls": 0.02017040463349421,
+      "tbt": 132.5,
+      "warnings": []
+    },
+    {
+      "label": "after",
+      "pathname": "/services/wet-belt-replacement/",
+      "run": 3,
+      "scores": {
+        "performance": 98,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "lcp": 744.4595,
+      "cls": 0.02017040463349421,
+      "tbt": 156.5,
+      "warnings": []
+    },
+    {
+      "label": "after",
+      "pathname": "/services/timing-chain-replacement/",
+      "run": 1,
+      "scores": {
+        "performance": 96,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "lcp": 2669.913,
+      "cls": 0.02017040463349421,
+      "tbt": 99.5,
+      "warnings": []
+    },
+    {
+      "label": "after",
+      "pathname": "/services/timing-chain-replacement/",
+      "run": 2,
+      "scores": {
+        "performance": 95,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "lcp": 2684.8805,
+      "cls": 0.02017040463349421,
+      "tbt": 134,
+      "warnings": []
+    },
+    {
+      "label": "after",
+      "pathname": "/services/timing-chain-replacement/",
+      "run": 3,
+      "scores": {
+        "performance": 94,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "lcp": 2701.0985,
+      "cls": 0.02017040463349421,
+      "tbt": 152,
+      "warnings": []
+    },
+    {
+      "label": "after",
+      "pathname": "/services/engine-rebuild-birmingham/",
+      "run": 1,
+      "scores": {
+        "performance": 94,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "lcp": 2678.347,
+      "cls": 0.02017040463349421,
+      "tbt": 168.37149999999997,
+      "warnings": []
+    },
+    {
+      "label": "after",
+      "pathname": "/services/engine-rebuild-birmingham/",
+      "run": 2,
+      "scores": {
+        "performance": 95,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "lcp": 2667.368,
+      "cls": 0.02017040463349421,
+      "tbt": 143,
+      "warnings": []
+    },
+    {
+      "label": "after",
+      "pathname": "/services/engine-rebuild-birmingham/",
+      "run": 3,
+      "scores": {
+        "performance": 94,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "lcp": 2711.027,
+      "cls": 0.02017040463349421,
+      "tbt": 159,
+      "warnings": []
+    }
+  ],
+  "medians": [
+    {
+      "pathname": "/",
+      "before": {
+        "lcp": 3589.5235,
+        "cls": 0.02017040463349421,
+        "tbt": 95,
+        "scores": {
+          "performance": 90,
+          "accessibility": 100,
+          "best-practices": 100,
+          "seo": 100
+        }
+      },
+      "after": {
+        "lcp": 2952.45955,
+        "cls": 0.02017040463349421,
+        "tbt": 99,
+        "scores": {
+          "performance": 92,
+          "accessibility": 100,
+          "best-practices": 100,
+          "seo": 100
+        }
+      }
+    },
+    {
+      "pathname": "/services/wet-belt-replacement/",
+      "before": {
+        "lcp": 905.7529999999999,
+        "cls": 0.02017040463349421,
+        "tbt": 176,
+        "scores": {
+          "performance": 98,
+          "accessibility": 100,
+          "best-practices": 100,
+          "seo": 100
+        }
+      },
+      "after": {
+        "lcp": 704.0935,
+        "cls": 0.02017040463349421,
+        "tbt": 156.5,
+        "scores": {
+          "performance": 98,
+          "accessibility": 100,
+          "best-practices": 100,
+          "seo": 100
+        }
+      }
+    },
+    {
+      "pathname": "/services/timing-chain-replacement/",
+      "before": {
+        "lcp": 2689.4845,
+        "cls": 0.02017040463349421,
+        "tbt": 139.38100000000009,
+        "scores": {
+          "performance": 95,
+          "accessibility": 100,
+          "best-practices": 100,
+          "seo": 100
+        }
+      },
+      "after": {
+        "lcp": 2684.8805,
+        "cls": 0.02017040463349421,
+        "tbt": 134,
+        "scores": {
+          "performance": 95,
+          "accessibility": 100,
+          "best-practices": 100,
+          "seo": 100
+        }
+      }
+    },
+    {
+      "pathname": "/services/engine-rebuild-birmingham/",
+      "before": {
+        "lcp": 2695.3885,
+        "cls": 0.02017040463349421,
+        "tbt": 148.51750000000015,
+        "scores": {
+          "performance": 95,
+          "accessibility": 100,
+          "best-practices": 100,
+          "seo": 100
+        }
+      },
+      "after": {
+        "lcp": 2678.347,
+        "cls": 0.02017040463349421,
+        "tbt": 159,
+        "scores": {
+          "performance": 94,
+          "accessibility": 100,
+          "best-practices": 100,
+          "seo": 100
+        }
+      }
+    }
+  ]
+}

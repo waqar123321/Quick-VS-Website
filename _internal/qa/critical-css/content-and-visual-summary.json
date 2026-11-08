@@ -1,0 +1,71 @@
+{
+  "pages": 40,
+  "rawHtmlIdenticalExceptAllowed": true,
+  "jsonLdBlocks": 136,
+  "bodyInnerTextComparisons": 80,
+  "viewports": [
+    {
+      "width": 375,
+      "height": 812
+    },
+    {
+      "width": 1350,
+      "height": 940
+    }
+  ],
+  "visual": [
+    {
+      "file": "index.html",
+      "width": 375,
+      "delayedCssGeometry": "identical",
+      "noscript": "rendered"
+    },
+    {
+      "file": "index.html",
+      "width": 1350,
+      "delayedCssGeometry": "identical",
+      "noscript": "rendered"
+    },
+    {
+      "file": "services/wet-belt-replacement/index.html",
+      "width": 375,
+      "delayedCssGeometry": "identical",
+      "noscript": "rendered"
+    },
+    {
+      "file": "services/wet-belt-replacement/index.html",
+      "width": 1350,
+      "delayedCssGeometry": "identical",
+      "noscript": "rendered"
+    },
+    {
+      "file": "services/timing-chain-replacement/index.html",
+      "width": 375,
+      "delayedCssGeometry": "identical",
+      "noscript": "rendered"
+    },
+    {
+      "file": "services/timing-chain-replacement/index.html",
+      "width": 1350,
+      "delayedCssGeometry": "identical",
+      "noscript": "rendered"
+    },
+    {
+      "file": "services/engine-rebuild-birmingham/index.html",
+      "width": 375,
+      "delayedCssGeometry": "identical",
+      "noscript": "rendered"
+    },
+    {
+      "file": "services/engine-rebuild-birmingham/index.html",
+      "width": 1350,
+      "delayedCssGeometry": "identical",
+      "noscript": "rendered"
+    }
+  ],
+  "errors": [],
+  "pixelIdenticalFirstScreenPairs": 16,
+  "pixelIdenticalInteractionPairs": 32,
+  "newPageScriptErrors": 0,
+  "deliveredBodyHtmlByteIdentical": true
+}
