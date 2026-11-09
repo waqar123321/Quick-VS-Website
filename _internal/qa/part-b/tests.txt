@@ -1,0 +1,8 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> quick-vs-website@1.0.0 test
+> node scripts/test-tracking.js && node scripts/test-mobile-menu.js
+
+Tracking tests passed: advanced consent, Ads destinations and conversions, consent, withdrawal, real ID, four click channels on all seven requested pages, attribution allowlist, ad consent and old consent migration, navigation, PII redaction and expired/blocked storage.
+All generated pages have consent before one loader; forwarding callback and WhatsApp conversions passed.
+Mobile menu regression passed at 390×844 with touch on all three pages at scrollY=0 and 2500.
