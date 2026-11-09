@@ -82,7 +82,8 @@ for(const page of pages) {
   assert.ok(!/jotform/i.test(text),pathname+": retired enquiry form");
   const forms=[...text.matchAll(/<form\b[^>]*>/gi)].map(match=>match[0]);
   const hasQuoteForm=/^\/services\/[^/]+\/$/.test(pathname)||["/","/contact/","/pricing/"].includes(pathname);
-  assert.equal(forms.length,pathname==="/" ? 1 : hasQuoteForm ? 2 : 0,pathname+": quote form count");
+  const singleQuoteForm = pathname === "/" || require("../content/mobile-service-sections").paths.has(pathname);
+  assert.equal(forms.length,singleQuoteForm ? 1 : hasQuoteForm ? 2 : 0,pathname+": quote form count");
   assert.ok(forms.every(form=>form.includes('data-quote-form action="https://api.web3forms.com/submit" method="post"')),pathname+": unexpected form delivery");
   assert.ok(!/\/assets\/wet-belt\/|AI-generated illustration/i.test(text),pathname+": generated image reference");
   const ids=[...text.matchAll(/\sid="([^"]+)"/g)].map(match=>match[1]);

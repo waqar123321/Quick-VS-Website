@@ -1,0 +1,8 @@
+{
+  "protected_metadata_checks": "passed",
+  "existing_sitemap_urls_retained": 38,
+  "sitemap_urls_now": 38,
+  "permitted_changes": [],
+  "added_urls": []
+}
+Consent, tags and new service schema checks passed.

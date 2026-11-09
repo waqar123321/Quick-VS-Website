@@ -1,5 +1,6 @@
 const fs = require("fs");
 const costs = require("../content/landing-costs");
+const mobileSections = require("../content/mobile-service-sections");
 const path = require("path");
 const { contentForDateComparison } = require("./performance-html");
 
@@ -636,6 +637,7 @@ function layout({ title, description, pathname, body, faqs = [], service, noinde
   if (pathname !== "/services/"+wetBelt.service.slug+"/" && (pathname.startsWith("/services/") || pathname === "/pricing/" || article)) {
     body = addJumpMenu(body, quoteHref, article ? "In this guide" : "On this page");
   }
+  if (mobileSections.paths.has(pathname)) body = mobileSections.collapsibleSections(body);
   const schemas = [businessSchema(), breadcrumbSchema(pathname, title)];
   if (faqs.length) schemas.push(faqSchema(faqs));
   if (service) schemas.push(serviceSchema(service));
@@ -650,6 +652,7 @@ function layout({ title, description, pathname, body, faqs = [], service, noinde
     heroPreloads(body) +
     (quoteHref === "#quote" ? '<script defer src="/quote-form.js?v=20261104-enquiries"></script>\n' : '') +
     (pageStyles ? '<link rel="stylesheet" href="'+pageStyles+'">\n' : '') +
+    (mobileSections.paths.has(pathname) ? '<link rel="stylesheet" href="/assets/mobile-service-sections.css?v=20261109">\n<script defer src="/mobile-service-sections.js?v=20261109"></script>\n' : '') +
     schemas.map(jsonLd).join("\n")+'\n</head>\n<body>\n<div class="site-content">'+header(pathname)+'\n<main id="main-content"'+(pathname === "/" ? ' class="home-content"' : '')+'>'+body+'</main>\n'+footer(quoteHref)+'\n</body>\n</html>\n';
 }
 function breadcrumbs(current, parent) {
@@ -776,7 +779,7 @@ function renderService(service) {
   }[service.slug] || "servicing_repair";
   const hasSteps = isRebuild || job !== "servicing_repair";
   const top = trustStrip(maps, isRebuild) + form(job) + (hasSteps ? nextSteps() : "") + photoSlot(service.slug);
-  const bottom = form(job, "quote-bottom");
+  const bottom = mobileSections.paths.has("/services/"+service.slug+"/") ? mobileSections.quoteReturn() : form(job, "quote-bottom");
   const breadcrumbTitle = {
     [wetBelt.service.slug]: "Wet belt replacement",
     [timingServices.vagSlug]: "VW Group engine and timing repairs",

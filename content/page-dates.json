@@ -7,10 +7,10 @@
   "/services/bmw-n57-engine-rebuild/": "2026-11-05",
   "/services/jlr-ingenium-engine-rebuild/": "2026-11-05",
   "/services/range-rover-engine-rebuild/": "2026-11-05",
-  "/services/engine-rebuild-birmingham/": "2026-11-05",
+  "/services/engine-rebuild-birmingham/": "2026-11-09",
   "/services/engine-rebuilds/": "2026-11-05",
   "/services/engine-diagnostics/": "2026-11-05",
-  "/services/timing-chain-replacement/": "2026-11-05",
+  "/services/timing-chain-replacement/": "2026-11-09",
   "/services/clutch-replacement/": "2026-11-05",
   "/services/brakes/": "2026-11-05",
   "/services/gearbox-repairs/": "2026-11-05",
@@ -34,7 +34,7 @@
   "/services/wheel-bearing-replacement/": "2026-11-05",
   "/services/cooling-system-repairs/": "2026-11-05",
   "/services/diesel-injector-repairs/": "2026-11-05",
-  "/services/wet-belt-replacement/": "2026-11-05",
+  "/services/wet-belt-replacement/": "2026-11-09",
   "/services/vw-audi-engine-repairs-birmingham/": "2026-11-05",
   "/services/cambelt-replacement-birmingham/": "2026-11-05"
 }
