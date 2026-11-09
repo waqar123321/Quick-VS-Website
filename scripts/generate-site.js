@@ -868,7 +868,7 @@ function renderHome() {
   writePage("/",layout({title:"Car Repairs, Servicing & Engine Rebuilds | Birmingham",description:"Car servicing, brake repairs, suspension, clutches and MOT failure repairs in Sparkbrook, Birmingham. All-makes engine rebuild specialists too. Call QuickVS.",pathname:"/",body,faqs:homeFaqs}));
 }
 function renderServices() {
-  const body=hero("Workshop services","Car repairs, servicing and engine rebuilds in Birmingham.","Choose the service that fits your car or van. We handle everyday mechanical repairs, MOT failures and specialist engine rebuilds. Call or WhatsApp the workshop to discuss the work.", { breadcrumb: breadcrumbs("Services"), hideEyebrow: true })+
+  const body=hero("Workshop services","Car and van repair services in Birmingham","Choose the service that fits your car or van. We handle everyday mechanical repairs, MOT failures and specialist engine rebuilds. Call or WhatsApp the workshop to discuss the work.", { breadcrumb: breadcrumbs("Services"), hideEyebrow: true })+
     '<section class="section"><h2>Everyday car repairs, servicing and MOT work</h2>'+cards(generalServices.filter(service=>service.slug!=="engine-rebuilds"))+'</section>'+
     '<section class="section section-muted"><h2>All-makes and performance engine rebuilds</h2>'+cards([generalServices[0],...landingPages])+'</section>'+
     '<section class="section"><h2>BMW, JLR and engine rebuild planning</h2>'+cards(specialistServices)+'</section>'+cta();

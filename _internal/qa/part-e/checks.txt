@@ -1,0 +1,14 @@
+{
+  "protected_metadata_checks": "passed",
+  "existing_sitemap_urls_retained": 38,
+  "sitemap_urls_now": 38,
+  "permitted_changes": [
+    [
+      "services/index.html",
+      "H1",
+      "Car and van repair services in Birmingham"
+    ]
+  ],
+  "added_urls": []
+}
+Consent, tags and new service schema checks passed.

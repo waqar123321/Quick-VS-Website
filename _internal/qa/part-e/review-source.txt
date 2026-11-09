@@ -1,0 +1,1 @@
+content/enquiry.js:14:const reviewSummary = "5.0 from 17 Google reviews";
