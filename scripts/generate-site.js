@@ -70,6 +70,7 @@ const serviceMenuGroups = [
     ["Diesel injector repairs", "/services/diesel-injector-repairs/"],
     ["Cambelt replacement", "/services/cambelt-replacement-birmingham/"],
     ["VW Group engine & timing repairs", "/services/vw-audi-engine-repairs-birmingham/"],
+    ["Independent BMW specialist", "/services/bmw-specialist-birmingham/"],
     ["Independent Land Rover & Jaguar", "/services/land-rover-jaguar-specialist-birmingham/"],
     ["Wet belt replacement", "/services/wet-belt-replacement/"],
     ["Timing chains", "/services/timing-chain-replacement/"],
@@ -349,7 +350,7 @@ const specialistServices = [
 const landingPages = require("../content/landing-pages");
 const serviceDetails = require("../content/service-details");
 const guides = require("../content/guides");
-const customerServices = [require("../content/jlr-specialist")];
+const customerServices = [require("../content/bmw-specialist"), require("../content/jlr-specialist")];
 const allServices = [...landingPages, ...specialistServices, ...generalServices, ...customerServices];
 const seoMetadata = require("../content/seo-metadata");
 for (const service of allServices) {
