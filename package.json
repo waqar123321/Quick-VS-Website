@@ -6,7 +6,7 @@
     "build": "node scripts/generate-site.js && node scripts/critical-css.mjs && node scripts/validate-site.js",
     "generate": "node scripts/generate-site.js",
     "validate": "node scripts/validate-site.js",
-    "test": "node scripts/test-tracking.js && node scripts/test-mobile-menu.js"
+    "test": "node scripts/test-tracking.js && node scripts/test-mobile-menu.js && node scripts/test-mobile-service-sections.js"
   },
   "devDependencies": {
     "critical": "7.2.1",

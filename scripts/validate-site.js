@@ -82,7 +82,8 @@ for(const page of pages) {
   assert.ok(!/jotform/i.test(text),pathname+": retired enquiry form");
   const forms=[...text.matchAll(/<form\b[^>]*>/gi)].map(match=>match[0]);
   const hasQuoteForm=/^\/services\/[^/]+\/$/.test(pathname)||["/","/contact/","/pricing/"].includes(pathname);
-  assert.equal(forms.length,pathname==="/" ? 1 : hasQuoteForm ? 2 : 0,pathname+": quote form count");
+  const singleQuoteForm = pathname === "/" || require("../content/mobile-service-sections").paths.has(pathname);
+  assert.equal(forms.length,singleQuoteForm ? 1 : hasQuoteForm ? 2 : 0,pathname+": quote form count");
   assert.ok(forms.every(form=>form.includes('data-quote-form action="https://api.web3forms.com/submit" method="post"')),pathname+": unexpected form delivery");
   assert.ok(!/\/assets\/wet-belt\/|AI-generated illustration/i.test(text),pathname+": generated image reference");
   const ids=[...text.matchAll(/\sid="([^"]+)"/g)].map(match=>match[1]);
@@ -197,7 +198,7 @@ for(const service of services) {
   const main=service.text.match(/<main\b[^>]*>([\s\S]*?)<\/main>/)[1].replace(/<[^>]*>/g," ").replace(/&[a-z#0-9]+;/gi," ");
   assert.ok(main.trim().split(/\s+/).length>=200,"Service needs useful customer-facing detail: "+service.pathname);
 }
-assert.equal(services.length,29);
+assert.equal(services.length,31);
 for (const slug of ["battery-starter-alternator-repairs", "wheel-bearing-replacement", "cooling-system-repairs", "diesel-injector-repairs"]) {
   const page=services.find(service=>service.pathname==="/services/"+slug+"/");
   assert.ok(page,"Missing confirmed service "+slug);

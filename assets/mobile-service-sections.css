@@ -1,0 +1,28 @@
+/* At desktop widths, these wrappers add no layout boxes. */
+.mobile-explanation,
+.mobile-explanation > .mobile-section-content { display: contents; }
+.mobile-explanation > summary { display: none; }
+
+@media (max-width: 767px) {
+  .mobile-explanation { display: block; border-top: 1px solid #dce1e7; }
+  .mobile-explanation > summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    padding: 22px 18px;
+    color: #111827;
+    background: #f3f5f7;
+    font-size: 23px;
+    font-weight: 750;
+    line-height: 1.25;
+    list-style: none;
+    cursor: pointer;
+  }
+  .mobile-explanation > summary::-webkit-details-marker { display: none; }
+  .mobile-explanation > summary::after { content: '+'; flex: 0 0 auto; font-size: 28px; }
+  .mobile-explanation[open] > summary::after { content: '−'; }
+  .mobile-explanation > summary:focus-visible { outline: 3px solid #a81117; outline-offset: -3px; }
+  .mobile-explanation > .mobile-section-content { display: block; }
+  .mobile-explanation [data-mobile-heading] { display: none; }
+}

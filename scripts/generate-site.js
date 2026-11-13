@@ -1,5 +1,6 @@
 const fs = require("fs");
 const costs = require("../content/landing-costs");
+const mobileSections = require("../content/mobile-service-sections");
 const path = require("path");
 const { contentForDateComparison } = require("./performance-html");
 
@@ -67,9 +68,11 @@ const serviceMenuGroups = [
   ["Other mechanical repairs", [
     ["Battery, starter & alternator", "/services/battery-starter-alternator-repairs/"],
     ["Cooling, water pumps & thermostats", "/services/cooling-system-repairs/"],
+    ["Head gasket assessment & repair", "/services/head-gasket-repair-birmingham/"],
     ["Diesel injector repairs", "/services/diesel-injector-repairs/"],
     ["Cambelt replacement", "/services/cambelt-replacement-birmingham/"],
     ["VW Group engine & timing repairs", "/services/vw-audi-engine-repairs-birmingham/"],
+    ["Used engines supplied & fitted", "/services/used-engine-supply-and-fit-birmingham/"],
     ["Independent BMW specialist", "/services/bmw-specialist-birmingham/"],
     ["Independent Land Rover & Jaguar", "/services/land-rover-jaguar-specialist-birmingham/"],
     ["Wet belt replacement", "/services/wet-belt-replacement/"],
@@ -350,7 +353,12 @@ const specialistServices = [
 const landingPages = require("../content/landing-pages");
 const serviceDetails = require("../content/service-details");
 const guides = require("../content/guides");
-const customerServices = [require("../content/bmw-specialist"), require("../content/jlr-specialist")];
+const customerServices = [
+  require("../content/bmw-specialist"),
+  require("../content/jlr-specialist"),
+  require("../content/head-gasket"),
+  require("../content/used-engine")
+];
 const allServices = [...landingPages, ...specialistServices, ...generalServices, ...customerServices];
 const seoMetadata = require("../content/seo-metadata");
 for (const service of allServices) {
@@ -639,6 +647,7 @@ function layout({ title, description, pathname, body, faqs = [], service, noinde
   if (pathname !== "/services/"+wetBelt.service.slug+"/" && (pathname.startsWith("/services/") || pathname === "/pricing/" || article)) {
     body = addJumpMenu(body, quoteHref, article ? "In this guide" : "On this page");
   }
+  if (mobileSections.paths.has(pathname)) body = mobileSections.collapsibleSections(body);
   const schemas = [businessSchema(), breadcrumbSchema(pathname, title)];
   if (faqs.length) schemas.push(faqSchema(faqs));
   if (service) schemas.push(serviceSchema(service));
@@ -653,6 +662,7 @@ function layout({ title, description, pathname, body, faqs = [], service, noinde
     heroPreloads(body) +
     (quoteHref === "#quote" ? '<script defer src="/quote-form.js?v=20261104-enquiries"></script>\n' : '') +
     (pageStyles ? '<link rel="stylesheet" href="'+pageStyles+'">\n' : '') +
+    (mobileSections.paths.has(pathname) ? '<link rel="stylesheet" href="/assets/mobile-service-sections.css?v=20261109">\n<script defer src="/mobile-service-sections.js?v=20261109"></script>\n' : '') +
     schemas.map(jsonLd).join("\n")+'\n</head>\n<body>\n<div class="site-content">'+header(pathname)+'\n<main id="main-content"'+(pathname === "/" ? ' class="home-content"' : '')+'>'+body+'</main>\n'+footer(quoteHref)+'\n</body>\n</html>\n';
 }
 function breadcrumbs(current, parent) {
@@ -773,13 +783,14 @@ function renderService(service) {
   const isRebuild = rebuildSlugs.has(service.slug);
   const job = isRebuild ? "engine_rebuild" : {
     "timing-chain-replacement": "timing_chain",
+    "used-engine-supply-and-fit-birmingham": "engine_rebuild",
     [timingServices.vagSlug]: "vag_engine_timing",
     [timingServices.cambeltSlug]: "cambelt",
     [wetBelt.service.slug]: "wet_belt"
   }[service.slug] || "servicing_repair";
   const hasSteps = isRebuild || job !== "servicing_repair";
   const top = trustStrip(maps, isRebuild) + form(job) + (hasSteps ? nextSteps() : "") + photoSlot(service.slug);
-  const bottom = form(job, "quote-bottom");
+  const bottom = mobileSections.paths.has("/services/"+service.slug+"/") ? mobileSections.quoteReturn() : form(job, "quote-bottom");
   const breadcrumbTitle = {
     [wetBelt.service.slug]: "Wet belt replacement",
     [timingServices.vagSlug]: "VW Group engine and timing repairs",
@@ -790,7 +801,11 @@ function renderService(service) {
   const serviceButtons = (location, messageLink) => contactButtons(location, "#quote", messageLink);
   const serviceReviews = () => reviewSection(service.slug);
   if (service.customerLanding) {
-    const prices = '<section class="section service-detail landing-cost"><h2>Prices and quotations</h2><div class="wet-prices">'+service.priceRows.map(([name, price]) => '<article class="wet-price-card"><h3>'+esc(name)+'</h3><p class="wet-price">'+esc(price)+'</p></article>').join("")+'</div><p class="cost-disclaimer">'+costs.startingPrices+'</p><p>Other repairs: quote by registration. Starting prices do not confirm universal parts or fitting inclusions.</p></section>';
+    const disclaimer = service.quoteOnly ? "Final price agreed in writing before work." : costs.startingPrices;
+    const warranty = service.slug === "used-engine-supply-and-fit-birmingham" ? "<p>Used-engine warranty: "+costs.usedEngineWarranty+".</p>" : "";
+    const scope = service.quoteOnly ? "Inspection findings determine the parts and labour." : "Other repairs: quote by registration. Starting prices do not confirm universal parts or fitting inclusions.";
+    const priceNotes = '<p class="cost-disclaimer">'+disclaimer+'</p>'+warranty+'<p>'+scope+'</p>';
+    const prices = '<section class="section service-detail landing-cost"><h2>Prices and quotations</h2><div class="wet-prices">'+service.priceRows.map(([name, price]) => '<article class="wet-price-card"><h3>'+esc(name)+'</h3><p class="wet-price">'+esc(price)+'</p></article>').join("")+'</div>'+priceNotes+'</section>';
     const body = serviceHero("Independent all-makes workshop", service.title, service.intro) + prices + top + sections(service.sections) + serviceReviews() + faqsHtml(service.faqs) + cta("#quote-bottom") + bottom;
     const pathname = "/services/"+service.slug+"/";
     writePage(pathname, layout({ title: service.metaTitle, description: service.desc, pathname, body, faqs: service.faqs, service }));
@@ -878,7 +893,7 @@ function renderHome() {
   writePage("/",layout({title:"Car Repairs, Servicing & Engine Rebuilds | Birmingham",description:"Car servicing, brake repairs, suspension, clutches and MOT failure repairs in Sparkbrook, Birmingham. All-makes engine rebuild specialists too. Call QuickVS.",pathname:"/",body,faqs:homeFaqs}));
 }
 function renderServices() {
-  const body=hero("Workshop services","Car repairs, servicing and engine rebuilds in Birmingham.","Choose the service that fits your car or van. We handle everyday mechanical repairs, MOT failures and specialist engine rebuilds. Call or WhatsApp the workshop to discuss the work.", { breadcrumb: breadcrumbs("Services"), hideEyebrow: true })+
+  const body=hero("Workshop services","Car and van repair services in Birmingham","Choose the service that fits your car or van. We handle everyday mechanical repairs, MOT failures and specialist engine rebuilds. Call or WhatsApp the workshop to discuss the work.", { breadcrumb: breadcrumbs("Services"), hideEyebrow: true })+
     '<section class="section"><h2>Everyday car repairs, servicing and MOT work</h2>'+cards(generalServices.filter(service=>service.slug!=="engine-rebuilds"))+'</section>'+
     '<section class="section section-muted"><h2>All-makes and performance engine rebuilds</h2>'+cards([generalServices[0],...landingPages])+'</section>'+
     '<section class="section"><h2>BMW, JLR and engine rebuild planning</h2>'+cards(specialistServices)+'</section>'+
