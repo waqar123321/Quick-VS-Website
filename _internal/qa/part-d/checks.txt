@@ -1,0 +1,10 @@
+{
+  "protected_metadata_checks": "passed",
+  "existing_sitemap_urls_retained": 38,
+  "sitemap_urls_now": 39,
+  "permitted_changes": [],
+  "added_urls": [
+    "https://quickvs.com/services/used-engine-supply-and-fit-birmingham/"
+  ]
+}
+Consent, tags and new service schema checks passed.

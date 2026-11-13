@@ -198,7 +198,7 @@ for(const service of services) {
   const main=service.text.match(/<main\b[^>]*>([\s\S]*?)<\/main>/)[1].replace(/<[^>]*>/g," ").replace(/&[a-z#0-9]+;/gi," ");
   assert.ok(main.trim().split(/\s+/).length>=200,"Service needs useful customer-facing detail: "+service.pathname);
 }
-assert.equal(services.length,27);
+assert.equal(services.length,31);
 for (const slug of ["battery-starter-alternator-repairs", "wheel-bearing-replacement", "cooling-system-repairs", "diesel-injector-repairs"]) {
   const page=services.find(service=>service.pathname==="/services/"+slug+"/");
   assert.ok(page,"Missing confirmed service "+slug);

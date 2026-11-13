@@ -68,9 +68,13 @@ const serviceMenuGroups = [
   ["Other mechanical repairs", [
     ["Battery, starter & alternator", "/services/battery-starter-alternator-repairs/"],
     ["Cooling, water pumps & thermostats", "/services/cooling-system-repairs/"],
+    ["Head gasket assessment & repair", "/services/head-gasket-repair-birmingham/"],
     ["Diesel injector repairs", "/services/diesel-injector-repairs/"],
     ["Cambelt replacement", "/services/cambelt-replacement-birmingham/"],
     ["VW Group engine & timing repairs", "/services/vw-audi-engine-repairs-birmingham/"],
+    ["Used engines supplied & fitted", "/services/used-engine-supply-and-fit-birmingham/"],
+    ["Independent BMW specialist", "/services/bmw-specialist-birmingham/"],
+    ["Independent Land Rover & Jaguar", "/services/land-rover-jaguar-specialist-birmingham/"],
     ["Wet belt replacement", "/services/wet-belt-replacement/"],
     ["Timing chains", "/services/timing-chain-replacement/"],
     ["Gearbox & driveline", "/services/gearbox-repairs/"],
@@ -349,7 +353,13 @@ const specialistServices = [
 const landingPages = require("../content/landing-pages");
 const serviceDetails = require("../content/service-details");
 const guides = require("../content/guides");
-const allServices = [...landingPages, ...specialistServices, ...generalServices];
+const customerServices = [
+  require("../content/bmw-specialist"),
+  require("../content/jlr-specialist"),
+  require("../content/head-gasket"),
+  require("../content/used-engine")
+];
+const allServices = [...landingPages, ...specialistServices, ...generalServices, ...customerServices];
 const seoMetadata = require("../content/seo-metadata");
 for (const service of allServices) {
   const meta = seoMetadata[service.slug];
@@ -773,6 +783,7 @@ function renderService(service) {
   const isRebuild = rebuildSlugs.has(service.slug);
   const job = isRebuild ? "engine_rebuild" : {
     "timing-chain-replacement": "timing_chain",
+    "used-engine-supply-and-fit-birmingham": "engine_rebuild",
     [timingServices.vagSlug]: "vag_engine_timing",
     [timingServices.cambeltSlug]: "cambelt",
     [wetBelt.service.slug]: "wet_belt"
@@ -789,6 +800,17 @@ function renderService(service) {
   const serviceHero = (kicker, title, copy) => hero(kicker, title, copy, { breadcrumb, hideEyebrow: true, lead: heroOffers[service.slug] || service.short, quoteHref: "#quote", priceLead: replacementLanding ? "Rebuilds from £3,000 · Used replacements from £"+cost.rows[0][1] : priceLead });
   const serviceButtons = (location, messageLink) => contactButtons(location, "#quote", messageLink);
   const serviceReviews = () => reviewSection(service.slug);
+  if (service.customerLanding) {
+    const disclaimer = service.quoteOnly ? "Final price agreed in writing before work." : costs.startingPrices;
+    const warranty = service.slug === "used-engine-supply-and-fit-birmingham" ? "<p>Used-engine warranty: "+costs.usedEngineWarranty+".</p>" : "";
+    const scope = service.quoteOnly ? "Inspection findings determine the parts and labour." : "Other repairs: quote by registration. Starting prices do not confirm universal parts or fitting inclusions.";
+    const priceNotes = '<p class="cost-disclaimer">'+disclaimer+'</p>'+warranty+'<p>'+scope+'</p>';
+    const prices = '<section class="section service-detail landing-cost"><h2>Prices and quotations</h2><div class="wet-prices">'+service.priceRows.map(([name, price]) => '<article class="wet-price-card"><h3>'+esc(name)+'</h3><p class="wet-price">'+esc(price)+'</p></article>').join("")+'</div>'+priceNotes+'</section>';
+    const body = serviceHero("Independent all-makes workshop", service.title, service.intro) + prices + top + sections(service.sections) + serviceReviews() + faqsHtml(service.faqs) + cta("#quote-bottom") + bottom;
+    const pathname = "/services/"+service.slug+"/";
+    writePage(pathname, layout({ title: service.metaTitle, description: service.desc, pathname, body, faqs: service.faqs, service }));
+    return;
+  }
   if (service.timingLanding) {
     const pathname = "/services/" + service.slug + "/";
     writePage(pathname, layout({ title: service.metaTitle, description: service.desc, pathname, service, faqs: service.faqs, body: timingServices.render(service, { hero: serviceHero, sections, reviewSection: serviceReviews, faqsHtml, contactButtons: serviceButtons, esc, top, bottom, business, costHtml }) }));
@@ -871,10 +893,11 @@ function renderHome() {
   writePage("/",layout({title:"Car Repairs, Servicing & Engine Rebuilds | Birmingham",description:"Car servicing, brake repairs, suspension, clutches and MOT failure repairs in Sparkbrook, Birmingham. All-makes engine rebuild specialists too. Call QuickVS.",pathname:"/",body,faqs:homeFaqs}));
 }
 function renderServices() {
-  const body=hero("Workshop services","Car repairs, servicing and engine rebuilds in Birmingham.","Choose the service that fits your car or van. We handle everyday mechanical repairs, MOT failures and specialist engine rebuilds. Call or WhatsApp the workshop to discuss the work.", { breadcrumb: breadcrumbs("Services"), hideEyebrow: true })+
+  const body=hero("Workshop services","Car and van repair services in Birmingham","Choose the service that fits your car or van. We handle everyday mechanical repairs, MOT failures and specialist engine rebuilds. Call or WhatsApp the workshop to discuss the work.", { breadcrumb: breadcrumbs("Services"), hideEyebrow: true })+
     '<section class="section"><h2>Everyday car repairs, servicing and MOT work</h2>'+cards(generalServices.filter(service=>service.slug!=="engine-rebuilds"))+'</section>'+
     '<section class="section section-muted"><h2>All-makes and performance engine rebuilds</h2>'+cards([generalServices[0],...landingPages])+'</section>'+
-    '<section class="section"><h2>BMW, JLR and engine rebuild planning</h2>'+cards(specialistServices)+'</section>'+cta();
+    '<section class="section"><h2>BMW, JLR and engine rebuild planning</h2>'+cards(specialistServices)+'</section>'+
+    '<section class="section"><h2>Independent specialist and repair services</h2>'+cards(customerServices)+'</section>'+cta();
   writePage("/services/",layout({title:"Car Repairs & Servicing Birmingham | QuickVS Garage",description:"Car servicing, brakes, suspension and control arms, clutches, diagnostics and mechanical MOT failure repairs in Sparkbrook, Birmingham. Engine rebuilds too.",pathname:"/services/",body}));
 }
 const enginePrices = [

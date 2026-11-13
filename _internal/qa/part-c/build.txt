@@ -1,0 +1,48 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> quick-vs-website@1.0.0 build
+> node scripts/generate-site.js && node scripts/critical-css.mjs && node scripts/validate-site.js
+
+Generated 39 canonical pages and a dedicated 404 page.
+Critical CSS: 404.html (12590 bytes; 375×812 + 1350×940)
+Critical CSS: about/index.html (15640 bytes; 375×812 + 1350×940)
+Critical CSS: blog/engine-rebuild-assessment-and-quote/index.html (13363 bytes; 375×812 + 1350×940)
+Critical CSS: blog/index.html (13040 bytes; 375×812 + 1350×940)
+Critical CSS: blog/severe-engine-block-damage/index.html (15567 bytes; 375×812 + 1350×940)
+Critical CSS: blog/timing-chain-repair-or-engine-rebuild/index.html (13510 bytes; 375×812 + 1350×940)
+Critical CSS: contact/index.html (15814 bytes; 375×812 + 1350×940)
+Critical CSS: index.html (15185 bytes; 375×812 + 1350×940)
+Critical CSS: pricing/index.html (16723 bytes; 375×812 + 1350×940)
+Critical CSS: privacy/index.html (15640 bytes; 375×812 + 1350×940)
+Critical CSS: services/all-makes-engine-rebuilds/index.html (13504 bytes; 375×812 + 1350×940)
+Critical CSS: services/battery-starter-alternator-repairs/index.html (13562 bytes; 375×812 + 1350×940)
+Critical CSS: services/bmw-n47-engine-rebuild/index.html (13580 bytes; 375×812 + 1350×940)
+Critical CSS: services/bmw-n57-engine-rebuild/index.html (13603 bytes; 375×812 + 1350×940)
+Critical CSS: services/brakes/index.html (16209 bytes; 375×812 + 1350×940)
+Critical CSS: services/cambelt-replacement-birmingham/index.html (14289 bytes; 375×812 + 1350×940)
+Critical CSS: services/clutch-replacement/index.html (13972 bytes; 375×812 + 1350×940)
+Critical CSS: services/cooling-system-repairs/index.html (15976 bytes; 375×812 + 1350×940)
+Critical CSS: services/customer-supplied-tyre-fitting/index.html (16378 bytes; 375×812 + 1350×940)
+Critical CSS: services/diesel-injector-repairs/index.html (13562 bytes; 375×812 + 1350×940)
+Critical CSS: services/dpf-egr-emissions/index.html (16360 bytes; 375×812 + 1350×940)
+Critical CSS: services/engine-diagnostics/index.html (16378 bytes; 375×812 + 1350×940)
+Critical CSS: services/engine-rebuild-birmingham/index.html (13873 bytes; 375×812 + 1350×940)
+Critical CSS: services/engine-rebuilds/index.html (13504 bytes; 375×812 + 1350×940)
+Critical CSS: services/exhaust-repairs/index.html (16378 bytes; 375×812 + 1350×940)
+Critical CSS: services/gearbox-repairs/index.html (16209 bytes; 375×812 + 1350×940)
+Critical CSS: services/head-gasket-repair-birmingham/index.html (14685 bytes; 375×812 + 1350×940)
+Critical CSS: services/index.html (14169 bytes; 375×812 + 1350×940)
+Critical CSS: services/jlr-ingenium-engine-rebuild/index.html (13603 bytes; 375×812 + 1350×940)
+Critical CSS: services/mot-failure-repairs/index.html (16360 bytes; 375×812 + 1350×940)
+Critical CSS: services/performance-engine-rebuilds/index.html (13504 bytes; 375×812 + 1350×940)
+Critical CSS: services/range-rover-engine-rebuild/index.html (13504 bytes; 375×812 + 1350×940)
+Critical CSS: services/servicing/index.html (14085 bytes; 375×812 + 1350×940)
+Critical CSS: services/suspension-steering-repairs/index.html (13603 bytes; 375×812 + 1350×940)
+Critical CSS: services/timing-chain-replacement/index.html (14119 bytes; 375×812 + 1350×940)
+Critical CSS: services/trade-warranty-repairs/index.html (16209 bytes; 375×812 + 1350×940)
+Critical CSS: services/vw-audi-engine-repairs-birmingham/index.html (13732 bytes; 375×812 + 1350×940)
+Critical CSS: services/wet-belt-replacement/index.html (17135 bytes; 375×812 + 1350×940)
+Critical CSS: services/wheel-bearing-replacement/index.html (13750 bytes; 375×812 + 1350×940)
+Critical CSS: testimonials/index.html (15047 bytes; 375×812 + 1350×940)
+Optimised CSS loading on 40 pages.
+Validated 40 HTML files, 39 sitemap URLs, 28 service pages, metadata, schema, contact details and internal resources.
