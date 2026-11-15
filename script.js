@@ -6,7 +6,7 @@
   const year = document.querySelector("[data-year]");
   if (year) year.textContent = new Date().getFullYear();
   const backdrop = document.querySelector("[data-nav-backdrop]");
-  const background = document.querySelectorAll("main, .site-footer, .mobile-dock, .brand, .header-actions");
+  const background = document.querySelectorAll(".skip-link, main, .site-footer, .mobile-dock, .brand, .header-actions");
   const mobileNav = window.matchMedia?.("(max-width: 1200px)");
   let navOpen = false;
   function setNav(open) {
@@ -17,13 +17,13 @@
     toggle.setAttribute("aria-label", open ? "Close navigation" : "Open navigation");
     for (const element of background) element.inert = open;
     if (!open && servicesMenu) servicesMenu.open = false;
-    if (wasOpen && !open && mobileNav?.matches !== false) toggle.focus();
+    if ((open || wasOpen) && mobileNav?.matches !== false) toggle.focus({ preventScroll: true });
   }
   if (nav && toggle) {
     toggle.addEventListener("click", () => setNav(!navOpen));
     backdrop?.addEventListener("click", () => setNav(false));
     nav.addEventListener("click", event => { if (navOpen && event.target.closest("a")) setNav(false); });
-    mobileNav?.addEventListener("change", () => { if (navOpen) setNav(false); });
+    mobileNav?.addEventListener?.("change", () => { if (navOpen) setNav(false); });
     document.addEventListener("keydown", event => {
       if (event.key !== "Escape") return;
       if (navOpen) setNav(false);
@@ -32,6 +32,7 @@
         servicesMenu.querySelector("summary")?.focus();
       }
     });
+    toggle.hidden = false;
   }
   if (servicesMenu) {
     document.addEventListener("click", event => {

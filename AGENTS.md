@@ -24,6 +24,7 @@
 - Run `npm run build` before opening a PR. This regenerates static HTML and validates links, schema and public copy.
 - Keep SEO metadata unique per page: title, description, canonical, Open Graph and Twitter Card.
 - Use semantic HTML, one H1 per page, descriptive links, visible focus states and accessible forms.
+- Consult [Modern Web Guidance](https://developer.chrome.com/docs/modern-web-guidance/guides) for shared navigation, forms and performance changes. Prefer broadly supported native features and keep routes to workshop services and contact options usable when enhancements are unavailable.
 - Keep blog posts practical, customer-focused and mechanic-led:
   - Use British English.
   - Avoid keyword stuffing.
