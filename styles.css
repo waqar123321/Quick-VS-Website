@@ -127,7 +127,8 @@ a {
   gap: 10px;
 }
 
-.nav-toggle {
+.nav-toggle,
+.nav-fallback {
   display: none;
 }
 
@@ -1137,6 +1138,7 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
   .site-nav a { padding: 12px 18px; font-size: 15px; }
   .nav-toggle { display: inline-flex; width: 42px; height: 42px; border: 1px solid #58606e; border-radius: 6px; background: none; flex-direction: column; justify-content: center; align-items: center; gap: 5px; }
   .nav-toggle span { display: block; width: 20px; height: 2px; background: #fff; }
+  .nav-toggle[hidden] + .nav-fallback { display: inline-flex; align-items: center; min-height: 48px; padding-inline: 9px; border: 1px solid #58606e; border-radius: 6px; color: #fff; font-size: 14px; font-weight: 800; }
   .services-nav-item { width: 100%; }
   .services-nav-item > summary { display: flex; justify-content: space-between; padding: 12px 18px; font-size: 15px; }
   .services-dropdown { position: static; width: 100%; max-height: none; padding: 18px; overflow: visible; border-radius: 8px; box-shadow: none; }
