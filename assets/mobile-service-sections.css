@@ -1,10 +1,12 @@
 /* At desktop widths, these wrappers add no layout boxes. */
 .mobile-explanation,
 .mobile-explanation > .mobile-section-content { display: contents; }
+.mobile-explanation[id] { display: block; scroll-margin-top: 92px; }
 .mobile-explanation > summary { display: none; }
 
 @media (max-width: 767px) {
   .mobile-explanation { display: block; border-top: 1px solid #dce1e7; }
+  .mobile-explanation[id] { scroll-margin-top: 82px; }
   .mobile-explanation > summary {
     display: flex;
     align-items: center;
@@ -25,4 +27,30 @@
   .mobile-explanation > summary:focus-visible { outline: 3px solid #a81117; outline-offset: -3px; }
   .mobile-explanation > .mobile-section-content { display: block; }
   .mobile-explanation [data-mobile-heading] { display: none; }
+}
+
+.back-to-top {
+  position: fixed;
+  inset-inline-end: max(12px, env(safe-area-inset-right));
+  inset-block-end: 16px;
+  z-index: 45;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  padding: 0 12px;
+  border: 1px solid #58606e;
+  border-radius: 6px;
+  background: #111827;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 750;
+}
+
+@media (max-width: 760px) {
+  .back-to-top { inset-block-end: calc(66px + env(safe-area-inset-bottom)); }
+  .mobile-dock:has(.consent-panel:not([hidden])) .back-to-top {
+    inset-block-end: calc(66px + 25vh + env(safe-area-inset-bottom));
+    inset-block-end: calc(66px + 25dvh + env(safe-area-inset-bottom));
+  }
 }

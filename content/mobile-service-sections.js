@@ -25,12 +25,14 @@ function collapsibleSections(body) {
   });
   // A selected outer section owns any nested sections.
   const outer = selected.filter(s => !selected.some(parent => parent !== s && parent.start < s.start && parent.end > s.end));
-  for (const { start, end } of outer.sort((a, b) => b.start - a.start)) {
+  for (const { start, end, tag } of outer.sort((a, b) => b.start - a.start)) {
     const original = body.slice(start, end);
-    const heading = original.match(/<h2\b[^>]*>([\s\S]*?)<\/h2>/)[1];
-    // The existing H2 stays in the HTML and in its original desktop position.
-    const section = original.replace('<h2', '<h2 data-mobile-heading');
-    body = body.slice(0, start) + '<details class="mobile-explanation" open><summary><span>'+heading+'</span></summary><div class="mobile-section-content">'+section+'</div></details>' + body.slice(end);
+    const [, headingTag, heading] = original.match(/(<h2\b[^>]*>)([\s\S]*?)<\/h2>/);
+    // Keep the fragment on a box that stays visible even when the section is closed.
+    const fragment = (headingTag.match(/ id="[^"]+"/) || tag.match(/ id="[^"]+"/))?.[0] || '';
+    const section = (fragment ? original.replace(fragment, '') : original).replace('<h2', '<h2 data-mobile-heading');
+    const anchor = fragment ? fragment + ' tabindex="-1"' : '';
+    body = body.slice(0, start) + '<details class="mobile-explanation" open'+anchor+'><summary><span>'+heading+'</span></summary><div class="mobile-section-content">'+section+'</div></details>' + body.slice(end);
   }
   return body.replaceAll('href="#quote-bottom"', 'href="#quote"');
 }

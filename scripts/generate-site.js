@@ -467,7 +467,7 @@ function photoSlot(key) {
   // Use a reviewed JPEG fallback and WebP at about 1600px. Strip EXIF and blur registrations/faces.
   return '<!-- TODO WAQAR PHOTO --><!-- Slot: '+photoSlots[key]+'; use descriptive alt text and explicit dimensions -->';
 }
-function footer(quoteHref) {
+function footer(quoteHref, hasJumpMenu) {
   const repairLinks = [
     ["Servicing", "servicing"], ["Brakes", "brakes"], ["MOT repairs", "mot-failure-repairs"],
     ["Clutch", "clutch-replacement"], ["Timing chains", "timing-chain-replacement"],
@@ -487,6 +487,7 @@ function footer(quoteHref) {
     '</div><details class="footer-directory"><summary>All services</summary><ul>'+links(directory)+'</ul><h3>Repair guides</h3><ul>'+links(repairGuides)+'</ul></details></div>'+
     '<div class="footer-bottom">&copy; <span data-year>2026</span> '+business.legalName+' · Company No. '+business.companiesHouse+' · <a href="/sitemap.xml">Sitemap</a></div></footer></div>'+
     '<div class="mobile-dock">' +
+    (hasJumpMenu ? '<a class="back-to-top" href="#top" hidden><span aria-hidden="true">↑</span> Back to top</a>' : '') +
     '<section class="consent-panel" data-consent-panel hidden aria-labelledby="consent-title"><h2 id="consent-title">Analytics and ad measurement cookies</h2><p>We use optional cookies to measure website use and Google Ads enquiries. <a href="/privacy/">Privacy &amp; cookies</a></p><div class="consent-actions"><button type="button" data-consent="accept">Accept</button><button type="button" data-consent="reject">Reject</button></div></section>' +
     '<div class="mobile-call-bar" aria-label="Contact the workshop"><a data-contact-location="mobile_bar" aria-label="Call '+business.primaryPhone+'" href="tel:'+business.primaryTel+'">Call</a><a data-contact-location="mobile_bar" class="mobile-whatsapp" href="'+whatsapp+'">WhatsApp</a><a class="mobile-quote" data-contact-location="sticky" aria-label="Get a free quote" href="'+quoteHref+'">Quote</a></div></div>';
 }
@@ -649,6 +650,7 @@ function layout({ title, description, pathname, body, faqs = [], service, noinde
     body = addJumpMenu(body, quoteHref, article ? "In this guide" : "On this page");
   }
   if (mobileSections.paths.has(pathname)) body = mobileSections.collapsibleSections(body);
+  const hasJumpMenu = body.includes('<nav class="jump-menu"');
   const schemas = [businessSchema(), breadcrumbSchema(pathname, title)];
   if (faqs.length) schemas.push(faqSchema(faqs));
   if (service) schemas.push(serviceSchema(service));
@@ -663,8 +665,8 @@ function layout({ title, description, pathname, body, faqs = [], service, noinde
     heroPreloads(body) +
     (quoteHref === "#quote" ? '<script defer src="/quote-form.js?v=20261104-enquiries"></script>\n' : '') +
     (pageStyles ? '<link rel="stylesheet" href="'+pageStyles+'">\n' : '') +
-    (mobileSections.paths.has(pathname) ? '<link rel="stylesheet" href="/assets/mobile-service-sections.css?v=20261109">\n<script defer src="/mobile-service-sections.js?v=20261109"></script>\n' : '') +
-    schemas.map(jsonLd).join("\n")+'\n</head>\n<body>\n<div class="site-content">'+header(pathname)+'\n<main id="main-content"'+(pathname === "/" ? ' class="home-content"' : '')+'>'+body+'</main>\n'+footer(quoteHref)+'\n</body>\n</html>\n';
+    (hasJumpMenu ? '<link rel="stylesheet" href="/assets/mobile-service-sections.css?v=20261115-sections">\n<script defer src="/mobile-service-sections.js?v=20261115-sections"></script>\n' : '') +
+    schemas.map(jsonLd).join("\n")+'\n</head>\n<body>\n<div class="site-content"'+(hasJumpMenu ? ' id="top" tabindex="-1"' : '')+'>'+header(pathname)+'\n<main id="main-content"'+(pathname === "/" ? ' class="home-content"' : '')+'>'+body+'</main>\n'+footer(quoteHref, hasJumpMenu)+'\n</body>\n</html>\n';
 }
 function breadcrumbs(current, parent) {
   const separator = '<span class="breadcrumb-separator" aria-hidden="true">/</span>';

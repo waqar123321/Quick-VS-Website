@@ -6,6 +6,17 @@ const { paths } = require('../content/mobile-service-sections');
 const root = path.resolve(__dirname, '..');
 const origin = 'https://quickvs.test';
 
+async function waitForJump(page, id) {
+  await page.waitForFunction(targetId => {
+    const target = document.getElementById(targetId);
+    if (!target || !target.getClientRects().length) return false;
+    const top = target.getBoundingClientRect().top;
+    const headerBottom = document.querySelector('.site-header').getBoundingClientRect().bottom;
+    const disclosure = target.closest('details.mobile-explanation');
+    return top >= headerBottom - 1 && top < innerHeight / 2 && (!disclosure || disclosure.open);
+  }, id, { timeout: 4000 });
+}
+
 (async () => {
   const browser = await chromium.launch({ executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH,
     args: ['--disable-gpu', '--disable-software-rasterizer', '--use-gl=disabled'] });
@@ -43,12 +54,47 @@ const origin = 'https://quickvs.test';
       // Crossing the breakpoint opens all desktop content, then restores phone defaults.
       await page.setViewportSize({ width: 390, height: 844 });
       await page.waitForFunction(() => [...document.querySelectorAll('.mobile-explanation')].every(d => !d.open));
-      const target = await page.locator('.mobile-explanation [id]').first().getAttribute('id');
+      const target = await page.locator('.mobile-explanation[id]').first().getAttribute('id');
       assert.ok(target, pathname + ': existing jump target retained');
+      await page.goto('about:blank');
       await page.goto(origin + pathname + '#' + target);
-      assert.equal(await page.locator('.mobile-explanation [id="'+target+'"]').evaluate(e => e.closest('details').open), true, 'Existing fragment reveals content');
+      await waitForJump(page, target);
+      await page.locator('.mobile-explanation[id="'+target+'"] > summary').click();
+      await page.locator('.jump-menu a[href="#'+target+'"]').click();
+      await waitForJump(page, target);
       assert.equal(await page.locator('#quote-bottom a').getAttribute('href'), '#quote', 'Return button uses first form');
     }
-    console.log('Mobile explanatory sections passed on three pages at 390, 767, 768 and 1350px: native keyboard toggles, breakpoint changes, fragment links, one form, protected open blocks and no overflow.');
+
+    for (const width of [390, 1350]) {
+      await page.setViewportSize({ width, height: 844 });
+      for (const pathname of [...paths, '/services/brakes/', '/pricing/', '/blog/severe-engine-block-damage/']) {
+        await page.goto(origin + pathname);
+        const topLink = page.getByRole('link', { name: 'Back to top', exact: true });
+        assert.equal(await topLink.isVisible(), false, pathname + ': Back to top starts hidden');
+        const links = page.locator('.jump-menu a[href^="#"]');
+        for (const link of await links.all()) {
+          const hash = await link.getAttribute('href');
+          await link.click();
+          try {
+            await waitForJump(page, hash.slice(1));
+          } catch (error) {
+            throw new Error(pathname + hash + ' failed to land below the header at ' + width + 'px', { cause: error });
+          }
+        }
+        if (width === 390) {
+          const topBox = await topLink.boundingBox();
+          const dockBox = await page.locator('.mobile-call-bar').boundingBox();
+          const consentBox = await page.locator('.consent-panel').boundingBox();
+          assert.ok(topBox && dockBox && topBox.y + topBox.height <= dockBox.y, 'Back to top clears the contact bar');
+          assert.ok(!consentBox || topBox.y + topBox.height <= consentBox.y, 'Back to top clears the consent panel');
+        }
+        await topLink.click();
+        await page.waitForFunction(() => window.scrollY === 0);
+        assert.equal(new URL(page.url()).hash, '#top');
+        await page.waitForFunction(() => document.querySelector('.back-to-top').hidden);
+        assert.equal(await page.locator('#top').evaluate(body => document.activeElement === body), true, 'Back to top returns keyboard focus to the start');
+      }
+    }
+    console.log('Section navigation passed on mobile and desktop, including disclosure links, repeated jumps, deep links and Back to top.');
   } finally { await browser.close(); }
 })().catch(error => { console.error(error); process.exitCode = 1; });
