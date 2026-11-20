@@ -241,20 +241,36 @@ for(const guide of guides) {
 }
 assert.equal(fs.readFileSync(path.join(root,"robots.txt"),"utf8"),"User-agent: *\nAllow: /\n\nSitemap: https://quickvs.com/sitemap.xml\n");
 assert.ok(fs.existsSync(path.join(root,".nojekyll")));
-assert.equal(Object.keys(photos).length,9,'All supplied photos classified');
+assert.equal(Object.keys(photos).length,17,'All supplied photos classified');
 for(const photo of Object.values(photos)) {
   assert.ok(pages.some(p=>p.text.includes(photo.fallback)),'Photo has no visible placement: '+photo.source);
   assert.ok(photo.variants.every(v=>v.bytes<photo.sourceBytes),'Responsive image should reduce bytes');
 }
 assert.ok(photos['5842'].redactions.length>=1,'X5 privacy review must be recorded');
-assert.ok(!walk(path.join(root,'assets')).some(f=>/IMG_\d+|\.zip$/i.test(f)),'Private originals must stay outside public assets');
+for (const id of ['0441','0432','0423','0429','0839','5291','5318','5319']) {
+  const { slug, fallback, variants } = photos[id];
+  assert.match(slug, /^(?!qsv-)[a-z0-9]+(?:-[a-z0-9]+)+$/, 'Use a descriptive workshop photo slug: '+id);
+  assert.doesNotMatch(slug, /-\d{2}$/, 'Do not include the selection number: '+id);
+  assert.equal(fallback, '/assets/workshop/'+slug+'.jpg');
+  for (const { path: variantPath, width } of variants) {
+    assert.ok([480, 768, 1152].includes(width), 'Unexpected workshop photo width: '+id);
+    assert.equal(variantPath, '/assets/workshop/'+slug+'-'+width+'.webp');
+  }
+}
+for (const id of ['0441','0432','0423']) {
+  assert.ok(photos[id].redactions.length>=1, 'Workshop photo privacy review must be recorded: '+id);
+}
+assert.ok(!walk(path.join(root,'assets')).some(f=>/IMG_|\.zip$/i.test(f)),'Private originals must stay outside public assets');
 
 const timingLandingSlugs=["vw-audi-engine-repairs-birmingham","cambelt-replacement-birmingham"];
 for(const [i,slug] of timingLandingSlugs.entries()) {
   const page=pages.find(p=>p.pathname==="/services/"+slug+"/");
   const main=page.text.match(/<main\b[^>]*>([\s\S]*?)<\/main>/)[1];
   const text=withoutQuoteForms(main).replace(/<[^>]*>/g," ").replace(/&[a-z#0-9]+;/gi," ").trim();
-  const words=withoutQuoteForms(main).replace(/<section class="section service-detail landing-cost"[\s\S]*?<\/section>/g,"").replace(/<[^>]*>/g," ").replace(/&[a-z#0-9]+;/gi," ").trim().split(/\s+/).length;
+  const words=withoutQuoteForms(main)
+    .replace(/<section class="section service-detail landing-cost"[\s\S]*?<\/section>/g,"")
+    .replace(/<section class="section workshop-evidence"[\s\S]*?<\/section>/g,"")
+    .replace(/<[^>]*>/g," ").replace(/&[a-z#0-9]+;/gi," ").trim().split(/\s+/).length;
   assert.ok(words>=(i===0?700:600)&&words<=(i===0?1100:1000),slug+": content length "+words);
   const prices=[...text.matchAll(/£[\d,]+/g)].map(match=>match[0]);
   assert.deepEqual(prices,i===0?[]:["£299","£299","£399"],slug+": unapproved price");

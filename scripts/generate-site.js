@@ -451,16 +451,12 @@ function contactButtons(location = "content", quoteHref = "/contact/#quote", mes
 const quotePages = new Set(["/", "/contact/", "/pricing/"]);
 function form(job = "servicing_repair", id) { return quoteForm({ job, id, business, whatsapp }); }
 const photoSlots = {
-  "wet-belt-replacement": "wet-belt replacement",
-  "timing-chain-replacement": "timing chain replacement",
-  "vw-audi-engine-repairs-birmingham": "VW/Audi repair",
   "cambelt-replacement-birmingham": "cambelt replacement",
   "jlr-ingenium-engine-rebuild": "JLR Ingenium rebuild",
   "bmw-n47-engine-rebuild": "BMW N47 rebuild",
   "bmw-n57-engine-rebuild": "BMW N57 rebuild",
   "range-rover-engine-rebuild": "Range Rover rebuild",
-  contact: "workshop front",
-  about: "workshop photograph"
+  contact: "workshop front"
 };
 function photoSlot(key) {
   if (!photoSlots[key]) return "";
@@ -701,7 +697,11 @@ function workshopGallery(ids, heading='Inside our Birmingham workshop', { id, li
 }
 const servicePhotos = {
   'engine-rebuilds':['5843','5844','5851'],
-  'engine-rebuild-birmingham':['5842','5850'],
+  'engine-rebuild-birmingham':['5842','5850','5291'],
+  'timing-chain-replacement':['5319','5318'],
+  'used-engine-supply-and-fit-birmingham':['0839','0432'],
+  'vw-audi-engine-repairs-birmingham':['5291','5319'],
+  'wet-belt-replacement':['0429','0423'],
   'all-makes-engine-rebuilds':['5849','5850'],
   'performance-engine-rebuilds':['5842'],
   'engine-diagnostics':['5846','5847','5851']
@@ -803,26 +803,32 @@ function renderService(service) {
   const serviceHero = (kicker, title, copy) => hero(kicker, title, copy, { breadcrumb, hideEyebrow: true, lead: heroOffers[service.slug] || service.short, quoteHref: "#quote", priceLead: replacementLanding ? "Rebuilds from £3,000 · Used replacements from £"+cost.rows[0][1] : priceLead });
   const serviceButtons = (location, messageLink) => contactButtons(location, "#quote", messageLink);
   const serviceReviews = () => reviewSection(service.slug);
+  // The custom landings keep their existing jump links when this gallery is added.
+  const galleryHeading = service.customerLanding || service.timingLanding ? "Workshop photos" : undefined;
+  const gallery = servicePhotos[service.slug] ? workshopGallery(servicePhotos[service.slug], galleryHeading) : "";
   if (service.customerLanding) {
     const disclaimer = service.quoteOnly ? "Final price agreed in writing before work." : costs.startingPrices;
     const warranty = service.slug === "used-engine-supply-and-fit-birmingham" ? "<p>Used-engine warranty: "+costs.usedEngineWarranty+".</p>" : "";
     const scope = service.quoteOnly ? "Inspection findings determine the parts and labour." : "Other repairs: quote by registration. Starting prices do not confirm universal parts or fitting inclusions.";
     const priceNotes = '<p class="cost-disclaimer">'+disclaimer+'</p>'+warranty+'<p>'+scope+'</p>';
     const prices = '<section class="section service-detail landing-cost"><h2>Prices and quotations</h2><div class="wet-prices">'+service.priceRows.map(([name, price]) => '<article class="wet-price-card"><h3>'+esc(name)+'</h3><p class="wet-price">'+esc(price)+'</p></article>').join("")+'</div>'+priceNotes+'</section>';
-    const body = serviceHero("Independent all-makes workshop", service.title, service.intro) + prices + top + sections(service.sections) + serviceReviews() + faqsHtml(service.faqs) + cta("#quote-bottom") + bottom;
+    const body = serviceHero("Independent all-makes workshop", service.title, service.intro) + prices + top + sections(service.sections) + gallery + serviceReviews() + faqsHtml(service.faqs) + cta("#quote-bottom") + bottom;
     const pathname = "/services/"+service.slug+"/";
     writePage(pathname, layout({ title: service.metaTitle, description: service.desc, pathname, body, faqs: service.faqs, service }));
     return;
   }
   if (service.timingLanding) {
     const pathname = "/services/" + service.slug + "/";
-    writePage(pathname, layout({ title: service.metaTitle, description: service.desc, pathname, service, faqs: service.faqs, body: timingServices.render(service, { hero: serviceHero, sections, reviewSection: serviceReviews, faqsHtml, contactButtons: serviceButtons, esc, top, bottom, business, costHtml }) }));
+    writePage(pathname, layout({ title: service.metaTitle, description: service.desc, pathname, service, faqs: service.faqs, body: timingServices.render(service, { hero: serviceHero, sections, reviewSection: () => gallery + serviceReviews(), faqsHtml, contactButtons: serviceButtons, esc, top, bottom, business, costHtml }) }));
     return;
   }
   if (service.slug === wetBelt.service.slug) {
     const pathname = "/services/" + service.slug + "/";
+    const faqSection = '<section class="wet-soft" id="wet-questions">';
+    const body = wetBelt.render({ esc, breadcrumb, jumpMenu, business, maps, reviewSection: serviceReviews, contactButtons: serviceButtons, top, bottom, payment })
+      .replace(faqSection, gallery + faqSection);
     writePage(pathname, layout({ title: service.metaTitle, description: service.desc, pathname,
-      body: wetBelt.render({ esc, breadcrumb, jumpMenu, business, maps, reviewSection: serviceReviews, contactButtons: serviceButtons, top, bottom, payment }), faqs: wetBelt.faqs, service,
+      body, faqs: wetBelt.faqs, service,
       pageStyles: wetBeltStyles }));
     return;
   }
@@ -842,7 +848,7 @@ function renderService(service) {
   if(service.slug==="timing-chain-replacement") body+=timingServices.chainCards({ esc });
   body+=sections(items);
   body+=sections(serviceNavigation[service.slug]||[]);
-  if(servicePhotos[service.slug]) body+=workshopGallery(servicePhotos[service.slug]);
+  body+=gallery;
   if(isRebuild) body+='<section class="section service-detail"><h2>Diagnosis and timing repair options</h2><div class="detail-copy"><p>When the extent of damage is unclear, start with <a href="/services/engine-diagnostics/">engine diagnostics and mechanical fault finding</a> before agreeing strip-down work. For chain-driven engines with viable repair options, read about <a href="/services/timing-chain-replacement/">timing chain assessment and replacement</a>. A timing repair and a full rebuild require different scopes; the fitted engine and inspection findings determine the route.</p></div></section>';
   if(service.symptoms) body+='<section class="section section-muted"><p class="section-kicker">Symptoms to report</p><h2>What has changed?</h2><ul class="check-list">'+service.symptoms.map(s=>'<li>'+esc(s)+'</li>').join("")+'</ul><p>Describe when the symptom started, whether warning lights appeared and whether the engine still runs.</p></section>';
   if(service.process) body+='<section class="section"><h2>From assessment to handover</h2><ol class="number-list">'+service.process.map(s=>'<li>'+esc(s)+'</li>').join("")+'</ol><p>'+esc(service.parts)+'</p></section>';
@@ -938,9 +944,9 @@ function renderContact() {
   writePage("/contact/",layout({title:"Contact Quick Solution Vehicles LTD | Birmingham Workshop",description:"Call 07522 179040 or WhatsApp your reg for a car service, brake repairs, suspension, MOT failure repairs or engine rebuild quote in Birmingham B11.",pathname:"/contact/",body}));
 }
 function renderAbout() {
-  const body=hero("Quick Solution Vehicles LTD","A mechanical workshop in Sparkbrook, Birmingham.","We handle general mechanical repairs alongside engine rebuild enquiries across all makes, models and engine ranges.")+photoSlot("about")+
+  const body=hero("Quick Solution Vehicles LTD","A mechanical workshop in Sparkbrook, Birmingham.","We handle general mechanical repairs alongside engine rebuild enquiries across all makes, models and engine ranges.")+
     '<!-- TODO WAQAR CONFIRM workshop history -->'+sections([["Family-run workshop in Sparkbrook","Quick Solution Vehicles handles general mechanical repairs and specialist engine rebuilds from its Sparkbrook workshop. Call with your registration and the work you need, and we’ll discuss the next step."]])+
-    sections([["A clear repair decision before major work","Our approach starts with the complaint, the engine or vehicle specification and the evidence from inspection. A warning light does not automatically identify a failed component, and a non-runner does not automatically require another engine. We discuss assessment, findings and the scope before major work proceeds. Engine rebuilds typically take 1–3 weeks depending on parts availability and internal damage. The standard engine-rebuild warranty is "+warranty+"."],["Visit or contact the workshop",business.address+". We are open "+business.hours+" Call "+business.primaryPhone+", WhatsApp your registration and fault, or email "+business.email+". "+payment+". Mechanical MOT failures can be repaired here, with the test and retest handled by a testing station."],["Company details","Quick Solution Vehicles LTD is registered under Company No. 16525397. Our workshop covers petrol and diesel engines, commercial vans and performance vehicles, together with diagnostics, timing, brake, clutch and other mechanical work. Recovery for suitable major engine work can be discussed at customer cost."]])+workshopGallery(['5842','5849','5847','5850'], "Workshop photos", { id: "workshop-photos" })+reviewSection()+cta();
+    sections([["A clear repair decision before major work","Our approach starts with the complaint, the engine or vehicle specification and the evidence from inspection. A warning light does not automatically identify a failed component, and a non-runner does not automatically require another engine. We discuss assessment, findings and the scope before major work proceeds. Engine rebuilds typically take 1–3 weeks depending on parts availability and internal damage. The standard engine-rebuild warranty is "+warranty+"."],["Visit or contact the workshop",business.address+". We are open "+business.hours+" Call "+business.primaryPhone+", WhatsApp your registration and fault, or email "+business.email+". "+payment+". Mechanical MOT failures can be repaired here, with the test and retest handled by a testing station."],["Company details","Quick Solution Vehicles LTD is registered under Company No. 16525397. Our workshop covers petrol and diesel engines, commercial vans and performance vehicles, together with diagnostics, timing, brake, clutch and other mechanical work. Recovery for suitable major engine work can be discussed at customer cost."]])+workshopGallery(['5842','5849','5847','5850','0441'], "Workshop photos", { id: "workshop-photos" })+reviewSection()+cta();
   writePage("/about/",layout({title:"About Quick Solution Vehicles LTD | Sparkbrook Birmingham",description:"Quick Solution Vehicles LTD, Company No. 16525397. All-makes engine rebuilds and mechanical repairs at 56a Stratford Street North, Birmingham B11 1BP.",pathname:"/about/",body}));
 }
 function renderReviews() {

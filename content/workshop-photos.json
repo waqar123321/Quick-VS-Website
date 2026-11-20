@@ -304,5 +304,264 @@
     "redactions": [],
     "sourceBytes": 542240,
     "fallbackBytes": 259454
+  },
+  "0441": {
+    "source": "qsv-workshop-two-post-lifts-car-front-stripped-01.jpg",
+    "slug": "workshop-two-post-lifts-sparkbrook-birmingham",
+    "alt": "Car with its front end stripped, raised between two blue two-post lifts in the workshop",
+    "caption": "Front-end strip-down between the lifts in our Sparkbrook workshop.",
+    "width": 1152,
+    "height": 1536,
+    "fallback": "/assets/workshop/workshop-two-post-lifts-sparkbrook-birmingham.jpg",
+    "variants": [
+      {
+        "path": "/assets/workshop/workshop-two-post-lifts-sparkbrook-birmingham-480.webp",
+        "width": 480,
+        "height": 640,
+        "bytes": 48776
+      },
+      {
+        "path": "/assets/workshop/workshop-two-post-lifts-sparkbrook-birmingham-768.webp",
+        "width": 768,
+        "height": 1024,
+        "bytes": 115010
+      },
+      {
+        "path": "/assets/workshop/workshop-two-post-lifts-sparkbrook-birmingham-1152.webp",
+        "width": 1152,
+        "height": 1536,
+        "bytes": 229426
+      }
+    ],
+    "redactions": [
+      "Taxi sign and fleet text on a background vehicle blurred"
+    ],
+    "sourceBytes": 1090027,
+    "fallbackBytes": 384415
+  },
+  "0432": {
+    "source": "qsv-car-on-lift-engine-removed-on-pallet-02.jpg",
+    "slug": "engine-removed-car-on-lift-birmingham-workshop",
+    "alt": "Car raised on a two-post lift with its removed engine on a pallet beneath it",
+    "caption": "Engine removed and on a pallet beneath the car.",
+    "width": 900,
+    "height": 1600,
+    "fallback": "/assets/workshop/engine-removed-car-on-lift-birmingham-workshop.jpg",
+    "variants": [
+      {
+        "path": "/assets/workshop/engine-removed-car-on-lift-birmingham-workshop-480.webp",
+        "width": 480,
+        "height": 853,
+        "bytes": 59804
+      },
+      {
+        "path": "/assets/workshop/engine-removed-car-on-lift-birmingham-workshop-768.webp",
+        "width": 768,
+        "height": 1365,
+        "bytes": 106628
+      }
+    ],
+    "redactions": [
+      "Rear number plate of a background car blurred"
+    ],
+    "sourceBytes": 479343,
+    "fallbackBytes": 242675
+  },
+  "0423": {
+    "source": "qsv-ford-van-bonnet-open-in-workshop-bay-03.jpg",
+    "slug": "ford-transit-custom-workshop-birmingham",
+    "alt": "Ford Transit Custom with the bonnet open in a workshop bay",
+    "caption": "A Ford Transit Custom in for work at our Sparkbrook workshop.",
+    "width": 900,
+    "height": 1600,
+    "fallback": "/assets/workshop/ford-transit-custom-workshop-birmingham.jpg",
+    "variants": [
+      {
+        "path": "/assets/workshop/ford-transit-custom-workshop-birmingham-480.webp",
+        "width": 480,
+        "height": 853,
+        "bytes": 41836
+      },
+      {
+        "path": "/assets/workshop/ford-transit-custom-workshop-birmingham-768.webp",
+        "width": 768,
+        "height": 1365,
+        "bytes": 77120
+      },
+      {
+        "path": "/assets/workshop/ford-transit-custom-workshop-birmingham-1152.webp",
+        "width": 1152,
+        "height": 2048,
+        "bytes": 125316
+      }
+    ],
+    "redactions": [
+      "Front number plate pixelated",
+      "Visible rear number plate on the background car covered with an opaque mask"
+    ],
+    "sourceBytes": 486495,
+    "fallbackBytes": 199930
+  },
+  "0429": {
+    "source": "qsv-worn-timing-belt-held-close-up-04.jpg",
+    "slug": "worn-wet-belt-removed-birmingham",
+    "alt": "Worn wet belt held between fingers, with the belt surface breaking up",
+    "caption": "A worn wet belt, its surface breaking up.",
+    "width": 900,
+    "height": 1600,
+    "fallback": "/assets/workshop/worn-wet-belt-removed-birmingham.jpg",
+    "variants": [
+      {
+        "path": "/assets/workshop/worn-wet-belt-removed-birmingham-480.webp",
+        "width": 480,
+        "height": 853,
+        "bytes": 27942
+      },
+      {
+        "path": "/assets/workshop/worn-wet-belt-removed-birmingham-768.webp",
+        "width": 768,
+        "height": 1365,
+        "bytes": 52318
+      },
+      {
+        "path": "/assets/workshop/worn-wet-belt-removed-birmingham-1152.webp",
+        "width": 1152,
+        "height": 2048,
+        "bytes": 88674
+      }
+    ],
+    "redactions": [],
+    "sourceBytes": 403341,
+    "fallbackBytes": 151340
+  },
+  "0839": {
+    "source": "qsv-engine-long-block-on-pallet-07.jpg",
+    "slug": "mercedes-om651-vito-engine-birmingham",
+    "alt": "Mercedes OM651 diesel engine on a pallet in the workshop",
+    "caption": "Mercedes OM651 engine, as used in the Vito, in our workshop.",
+    "width": 1152,
+    "height": 1428,
+    "fallback": "/assets/workshop/mercedes-om651-vito-engine-birmingham.jpg",
+    "variants": [
+      {
+        "path": "/assets/workshop/mercedes-om651-vito-engine-birmingham-480.webp",
+        "width": 480,
+        "height": 595,
+        "bytes": 61598
+      },
+      {
+        "path": "/assets/workshop/mercedes-om651-vito-engine-birmingham-768.webp",
+        "width": 768,
+        "height": 952,
+        "bytes": 128190
+      },
+      {
+        "path": "/assets/workshop/mercedes-om651-vito-engine-birmingham-1152.webp",
+        "width": 1152,
+        "height": 1428,
+        "bytes": 242628
+      }
+    ],
+    "redactions": [
+      "Product label cropped out"
+    ],
+    "sourceBytes": 1131763,
+    "fallbackBytes": 391571
+  },
+  "5291": {
+    "source": "qsv-v6-engine-lifted-on-engine-crane-09.jpg",
+    "slug": "audi-s5-3-0-tfsi-crec-engine-removed-birmingham",
+    "alt": "Audi S5 3.0 TFSI engine lifted out on an engine crane",
+    "caption": "Audi S5 3.0 TFSI (CREC) engine out on the crane in our workshop.",
+    "width": 1152,
+    "height": 1536,
+    "fallback": "/assets/workshop/audi-s5-3-0-tfsi-crec-engine-removed-birmingham.jpg",
+    "variants": [
+      {
+        "path": "/assets/workshop/audi-s5-3-0-tfsi-crec-engine-removed-birmingham-480.webp",
+        "width": 480,
+        "height": 640,
+        "bytes": 63348
+      },
+      {
+        "path": "/assets/workshop/audi-s5-3-0-tfsi-crec-engine-removed-birmingham-768.webp",
+        "width": 768,
+        "height": 1024,
+        "bytes": 129528
+      },
+      {
+        "path": "/assets/workshop/audi-s5-3-0-tfsi-crec-engine-removed-birmingham-1152.webp",
+        "width": 1152,
+        "height": 1536,
+        "bytes": 227942
+      }
+    ],
+    "redactions": [],
+    "sourceBytes": 969477,
+    "fallbackBytes": 385034
+  },
+  "5318": {
+    "source": "qsv-camshaft-sprockets-timing-drive-close-up-12.jpg",
+    "slug": "audi-3-0-tfsi-timing-chain-sprockets",
+    "alt": "Camshaft adjuster sprockets and timing chain on an Audi 3.0 TFSI cylinder head",
+    "caption": "Timing drive exposed on the Audi S5 3.0 TFSI.",
+    "width": 900,
+    "height": 1600,
+    "fallback": "/assets/workshop/audi-3-0-tfsi-timing-chain-sprockets.jpg",
+    "variants": [
+      {
+        "path": "/assets/workshop/audi-3-0-tfsi-timing-chain-sprockets-480.webp",
+        "width": 480,
+        "height": 853,
+        "bytes": 45020
+      },
+      {
+        "path": "/assets/workshop/audi-3-0-tfsi-timing-chain-sprockets-768.webp",
+        "width": 768,
+        "height": 1365,
+        "bytes": 82408
+      },
+      {
+        "path": "/assets/workshop/audi-3-0-tfsi-timing-chain-sprockets-1152.webp",
+        "width": 1152,
+        "height": 2048,
+        "bytes": 138302
+      }
+    ],
+    "redactions": [],
+    "sourceBytes": 536658,
+    "fallbackBytes": 218046
+  },
+  "5319": {
+    "source": "qsv-timing-chains-gloved-hand-at-work-13.jpg",
+    "slug": "audi-s5-3-0-tfsi-timing-chains-birmingham",
+    "alt": "Gloved hands working on the timing chains of an Audi S5 3.0 TFSI engine",
+    "caption": "Timing chain work on the same Audi S5 3.0 TFSI engine.",
+    "width": 900,
+    "height": 1600,
+    "fallback": "/assets/workshop/audi-s5-3-0-tfsi-timing-chains-birmingham.jpg",
+    "variants": [
+      {
+        "path": "/assets/workshop/audi-s5-3-0-tfsi-timing-chains-birmingham-480.webp",
+        "width": 480,
+        "height": 853,
+        "bytes": 66000
+      },
+      {
+        "path": "/assets/workshop/audi-s5-3-0-tfsi-timing-chains-birmingham-768.webp",
+        "width": 768,
+        "height": 1365,
+        "bytes": 133890
+      },
+      {
+        "path": "/assets/workshop/audi-s5-3-0-tfsi-timing-chains-birmingham-1152.webp",
+        "width": 1152,
+        "height": 2048,
+        "bytes": 235850
+      }
+    ],
+    "redactions": [],
+    "sourceBytes": 711074,
+    "fallbackBytes": 293295
   }
 }
