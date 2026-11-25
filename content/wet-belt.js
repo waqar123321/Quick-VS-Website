@@ -4,9 +4,9 @@ const { priceCards, startingPrices, repairWarranty } = require("./landing-costs"
 const service = {
   slug: 'wet-belt-replacement',
   title: 'Wet Belt Replacement in Birmingham',
-  short: 'Ford EcoBoost from £850, Transit EcoBlue from £1,050 and PureTech from £650.',
-  desc: 'Wet belt replacement in Sparkbrook, Birmingham: Ford 1.0 EcoBoost from £850, 2.0 EcoBlue from £1,050 and PureTech from £650. Within 48 hours. Call QuickVS.',
-  metaTitle: 'Wet Belt Replacement Birmingham | Ford & PureTech | QuickVS',
+  short: 'Ford EcoBoost from £850, Transit EcoBlue from £1,050 and PureTech from £650 — free oil & filter service included.',
+  desc: 'Wet belt replacement in Birmingham: EcoBoost from £850, EcoBlue from £1,050, PureTech from £650. Free oil & filter service included, 6-month / 10k warranty.',
+  metaTitle: 'Wet Belt Replacement Birmingham | Free Oil Service | QuickVS',
   related: [
     '/services/ford-ecoboost-wet-belt-birmingham/',
     '/services/ford-transit-ecoblue-wet-belt-birmingham/',
@@ -29,7 +29,7 @@ const engines = [
 const faqs = [
   ['When should a wet belt be replaced?', 'The interval depends on the engine, vehicle age and manufacturer’s current schedule. Send your registration, mileage and any belt replacement invoice so we can check the correct starting point. Do not wait for a warning light: a belt can deteriorate before there is an obvious driving problem.'],
   ['Does every EcoBoost or PureTech have a wet timing belt?', 'No. Some engine versions use a timing chain, and a wet oil-pump drive belt is a separate component. We identify the engine and timing layout before recommending the job. If you have a 1.5 EcoBoost or another version not listed above, send your registration for advice.'],
-  ['How long does a wet belt replacement take?', "Usually within 48 hours of drop-off. We confirm timing when we quote, and extra checks can add time if there's oil-system debris or an oil-pressure fault."],
+  ['How long does a wet belt replacement take?', "Usually within 48 hours of drop-off, subject to parts and workshop availability. We confirm timing when we quote, and extra checks can add time if there's oil-system debris or an oil-pressure fault."],
   ['Can you check a wet belt without removing it?', 'On applicable PureTech engines, an accessible section of the belt can be inspected and measured with the correct tool. Ford EcoBoost belts cannot be assessed in the same way. An accessible visual check does not reveal the entire belt or replace the manufacturer’s replacement schedule.'],
   ['Could my PureTech repair qualify for manufacturer support?', 'Some earlier PureTech engines may qualify for manufacturer support for certain belt-related faults, subject to the vehicle and service history. Check eligibility with the manufacturer before authorising a paid repair. We are an independent workshop; we cannot approve manufacturer claims.']
 ];
@@ -46,18 +46,18 @@ function render({ esc, breadcrumb, jumpMenu, business, maps, reviewSection, cont
       <div class="wet-hero-prices">${engines.map(e => `<p class="wet-hero-price"><span>${e.name}</span> From <strong>${e.price}</strong></p>`).join('')}</div>
       <p class="cost-disclaimer">${startingPrices}</p>
       ${buttons('hero')}
-      <p class="wet-lead">Ford Fiesta, Focus, EcoSport, Transit &amp; Transit Custom (EcoBoost from £850, EcoBlue from £1,050) and 1.2 PureTech from £650. Most cars &amp; vans completed within 48 hours, backed by a 6-month / 10,000-mile warranty.</p>
-      <p class="wet-hours">Mon–Sat, 10am–6pm <span aria-hidden="true">·</span> Sparkbrook, Birmingham B11 <span aria-hidden="true">·</span> Free 10-mile recovery on rebuilds</p>
+      <p class="wet-lead">Ford Fiesta, Focus, EcoSport, Transit &amp; Transit Custom (EcoBoost from £850, EcoBlue from £1,050) and 1.2 PureTech from £650. <strong>Every wet belt replacement includes a free oil and filter service.</strong> Usually completed within 48 hours of drop-off (subject to parts and workshop availability), backed by a 6-month / 10,000-mile warranty.</p>
+      <p class="wet-hours">Mon–Sat, 10am–6pm <span aria-hidden="true">·</span> Sparkbrook, Birmingham B11 <span aria-hidden="true">·</span> Free oil &amp; filter service included</p>
     </div></div></section>
     ${jumpMenu([["#wet-prices", "Prices"], ["#wet-work", "What’s involved"], ["#wet-engines", "Your engine"], ["#wet-reviews", "Reviews"], ["#wet-questions", "FAQs"], ["#wet-quote", "Get a quote", true]], "On this page", true)}
     ${top}
-    <section class="wet-section wet-container" id="wet-prices"><div class="wet-heading"><p class="section-kicker">Clear starting prices</p><h2>Ford &amp; PureTech wet belt replacement cost</h2><p>Choose your engine below — Fiesta, Focus, Transit, Transit Custom, Peugeot, Citroën or Vauxhall. We confirm your exact written price within 30 minutes before booking.</p></div>
+    <section class="wet-section wet-container" id="wet-prices"><div class="wet-heading"><p class="section-kicker">Clear starting prices · Free oil &amp; filter service included</p><h2>Ford &amp; PureTech wet belt replacement cost</h2><p>Choose your engine below — Fiesta, Focus, Transit, Transit Custom, Peugeot, Citroën or Vauxhall. Every wet belt replacement includes a free oil and filter service. We confirm your exact written price within 30 minutes before booking.</p></div>
       ${priceCards(engines.map(e => ({ ...e, detail: e.makes, action: `<a href="${whatsapp}" data-contact-location="wet_belt_price">Get my vehicle’s quote <span aria-hidden="true">↗</span></a>` })), esc)}
       <p class="cost-disclaimer">${startingPrices}</p>
-      <aside class="wet-warning"><div class="wet-warning-mark" aria-hidden="true">!</div><div><h3>Oil-pressure warning or a suspected belt failure?</h3><p>Stop safely and switch the engine off. Do not keep restarting it. Call us before arranging delivery: if internal engine damage requires a rebuild, we offer free recovery within 10 miles of Sparkbrook B11 and waive the £50 diagnostic fee when you book the rebuild.</p><a class="text-link" href="/services/engine-diagnostics/">Read about engine diagnosis and assessment <span aria-hidden="true">→</span></a></div></aside>
+      <aside class="wet-warning"><div class="wet-warning-mark" aria-hidden="true">!</div><div><h3>Oil-pressure warning or a suspected belt failure?</h3><p>Stop safely and switch the engine off. Do not keep restarting it. Call us before arranging delivery: our £50 diagnostic fee is credited in full against any repair booked on the same visit, and if an engine rebuild is needed, recovery is free within 10 miles of Sparkbrook B11 (UK-wide recovery quoted upfront).</p><a class="text-link" href="/services/engine-diagnostics/">Read about engine diagnosis and assessment <span aria-hidden="true">→</span></a></div></aside>
       <div class="wet-included"><h3>What's included in the price</h3>
-        <ul class="check-list"><li>Timing belt and applicable oil-pump drive belt.</li><li>Tensioners, seals and required fixings for your engine.</li><li>Correct-specification oil and a new filter.</li></ul>
-        <p>Usually completed within 48 hours of drop-off · 6 months or 10,000 miles warranty</p>
+        <ul class="check-list"><li>Timing belt and applicable oil-pump drive belt.</li><li>Tensioners, seals and required fixings for your engine.</li><li><strong>Free oil and filter service</strong> with correct-specification oil and a new filter.</li></ul>
+        <p>Usually completed within 48 hours of drop-off (subject to parts and workshop availability) · 6 months or 10,000 miles warranty</p>
         <p>Warranty: ${repairWarranty}.</p><p>${payment}.</p></div>
       <p class="wet-price-note">Starting prices are for planned wet belt replacement on applicable engines. An existing oil-pressure fault, failed belt or engine damage needs a separate assessment. Any additional work is agreed with you first.</p>
     </section>

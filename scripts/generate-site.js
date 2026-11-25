@@ -152,7 +152,7 @@ const generalServices = [
     desc: "Timing chain replacement in Birmingham: VW/Audi from £549, BMW N47 from £1,195, JLR Ingenium (Evoque & Discovery Sport) from £1,495. 6-month / 10k warranty.",
     intro:
       "Cold-start rattle or stretched timing chain? Speak straight to our Sparkbrook, Birmingham B11 workshop. We replace timing chains on VW/Audi TSI/TFSI (from £549), BMW N47 (from £1,195), JLR 2.0 Ingenium — including Range Rover Evoque & Discovery Sport (from £1,495) — plus BMW N57, Mercedes and all makes, backed by our 6-month / 10,000-mile written warranty.",
-    points: ["VW/Audi from £549 · BMW N47 from £1,195 · JLR Ingenium from £1,495", "Full chain, guide and tensioner kits — written price agreed before work", "6-month / 10,000-mile warranty · £50 diagnostic waived if a rebuild is needed"],
+    points: ["VW/Audi from £549 · BMW N47 from £1,195 · JLR Ingenium from £1,495", "Full chain, guide and tensioner kits — written price agreed before work", "6-month / 10,000-mile warranty · £50 diagnostic credited on any same-visit repair"],
     related: ["/services/bmw-n47-engine-rebuild/", "/services/bmw-n57-engine-rebuild/", "/services/jlr-ingenium-engine-rebuild/", "/services/land-rover-jaguar-specialist-birmingham/"]
   },
   {
@@ -218,11 +218,11 @@ const generalServices = [
   {
     slug: "servicing",
     title: "Vehicle Servicing in Birmingham",
-    short: "Oil, filters, fluids, plugs and practical vehicle inspections.",
-    desc: "Vehicle servicing in Birmingham for oil, filters, fluids, spark plugs, inspections and preventative maintenance.",
+    short: "Oil, filters, fluids, plugs and inspections — £15 off for returning customers.",
+    desc: "Vehicle servicing in Birmingham for oil, filters, fluids, spark plugs and preventative maintenance. Returning customers get £15 off an oil & filter service within 12 months.",
     intro:
-      "Regular servicing keeps small issues from becoming expensive ones. We carry out oil, filter, fluid, plug and inspection work with clear advice on what needs attention now and what can wait.",
-    points: ["Oil and filters", "Fluids and plugs", "Inspection notes"],
+      "Regular servicing keeps small issues from becoming expensive ones. We carry out same-day oil, filter, fluid, plug and inspection work (subject to parts and booking) with clear advice on what needs attention now and what can wait. Returning customers receive £15 off an oil and filter service booked within 12 months of any repair.",
+    points: ["Oil & filter service labour from £60 · Full service labour from £70", "Returning customers: £15 off an oil and filter service booked within 12 months of any repair", "Same-day turnaround available, subject to parts and booking"],
     related: ["/services/brakes/", "/services/suspension-steering-repairs/", "/services/engine-diagnostics/"]
   },
   {
@@ -350,10 +350,10 @@ const specialistServices = [
   {
     slug: "engine-rebuild-birmingham",
     title: "Engine Rebuild & Replacement Specialist in Birmingham",
-    desc: "Engine rebuilds from £3,000 & used engine replacements from £1,395 in Sparkbrook, Birmingham. Free 10-mile recovery, £50 diag waived on rebuilds, 6-month warranty.",
+    desc: "Engine rebuilds from £3,000 & used engine replacements from £1,395 in Sparkbrook, Birmingham. Free 10-mile B11 recovery, £50 diagnostic credited on repair.",
     keyword: "engine rebuild Birmingham",
     opening:
-      "Engine failed, knocking or non-running? Speak straight to our 4-ramp Sparkbrook, Birmingham workshop for honest advice on rebuild vs replacement. Engine rebuilds start from £3,000 (JLR Ingenium from £3,500, BMW N47 from £3,250, BMW N57 from £4,200, TDV6/SDV6 from £4,750) and used engines supplied & fitted start from £1,395 — with FREE recovery within 10 miles, UK-wide collection arranged, and our £50 diagnostic fee waived when you book a rebuild.",
+      "Engine failed, knocking or non-running? Speak straight to our 4-ramp Sparkbrook, Birmingham workshop for honest advice on rebuild vs replacement. Engine rebuilds start from £3,000 (JLR Ingenium from £3,500, BMW N47 from £3,250, BMW N57 from £4,200, TDV6/SDV6 from £4,750) and used engines supplied & fitted start from £1,395 — with FREE recovery within 10 miles of B11 1BP on rebuilds, UK-wide collection quoted upfront, and our £50 diagnostic credited in full against any repair booked on the same visit.",
     why:
       "Engines fail for many reasons: timing faults, lubrication problems, overheating, oil contamination, component wear or previous poor repairs. The correct route depends on the damage found during inspection.",
     symptoms: ["Knocking or rattling", "Smoke or overheating", "Oil pressure warnings", "Loss of compression", "Non-start or seized engine"],
@@ -745,14 +745,14 @@ const servicePhotos = {
   'engine-diagnostics':['6204','5846','5847','5851']
 };
 const servicePriceNotes = {
-  'engine-diagnostics': 'Diagnostics: £50 (waived in full when you proceed with an engine rebuild). Any additional testing or repair scope is discussed separately.',
-  'servicing': 'Oil and filter service labour from £60; full service labour from £70. Parts and materials are additional. Same-day turnaround available when booked.',
-  'brakes': 'Front brake pad fitting labour from £40 per side. Pads and other required parts are additional. Same-day turnaround available when booked.',
-  'bmw-n47-engine-rebuild': 'BMW N47 rebuilds from £3,250 (free recovery within 10 miles & £50 diagnostic waived on rebuilds), subject to inspection and written confirmation of the job scope.',
-  'all-makes-engine-rebuilds': 'BMW B47 rebuilds from £3,500; Ford Transit 2.0 EcoBlue rebuilds from £3,000. Free recovery within 10 miles & £50 diagnostic waived on rebuilds.',
-  'range-rover-engine-rebuild': 'JLR 3.0 TDV6 / SDV6 rebuilds from £4,750. SVR and supercharged V8 rebuilds are quote only. Free recovery within 10 miles & £50 diagnostic waived on rebuilds.',
-  'bmw-n57-engine-rebuild': 'BMW N57 rebuilds from £4,200 (free recovery within 10 miles & £50 diagnostic waived on rebuilds), subject to inspection and written confirmation of the job scope.',
-  'jlr-ingenium-engine-rebuild': 'JLR 2.0 Ingenium rebuilds from £3,500 (free recovery within 10 miles & £50 diagnostic waived on rebuilds), subject to inspection and written confirmation of the job scope.'
+  'engine-diagnostics': 'Diagnostics: £50, credited in full against any repair booked on the same visit. Any additional testing or repair scope is discussed separately.',
+  'servicing': 'Oil and filter service labour from £60; full service labour from £70 (parts and materials are additional). Returning customers: £15 off an oil and filter service booked within 12 months of any repair. Same-day turnaround available, subject to parts and booking.',
+  'brakes': 'Front brake pad fitting labour from £40 per side. Pads and other required parts are additional. Same-day turnaround available, subject to parts and booking.',
+  'bmw-n47-engine-rebuild': 'BMW N47 rebuilds from £3,250 (free recovery within 10 miles of B11 on rebuilds; £50 diagnostic credited in full against any repair booked on the same visit), subject to inspection and written confirmation of the job scope.',
+  'all-makes-engine-rebuilds': 'BMW B47 rebuilds from £3,500; Ford Transit 2.0 EcoBlue rebuilds from £3,000. Free recovery within 10 miles of B11 on rebuilds; £50 diagnostic credited on any same-visit repair.',
+  'range-rover-engine-rebuild': 'JLR 3.0 TDV6 / SDV6 rebuilds from £4,750. SVR and supercharged V8 rebuilds are quote only. Free recovery within 10 miles of B11 on rebuilds; UK-wide recovery quoted upfront.',
+  'bmw-n57-engine-rebuild': 'BMW N57 rebuilds from £4,200 (free recovery within 10 miles of B11 on rebuilds; £50 diagnostic credited in full against any repair booked on the same visit), subject to inspection and written confirmation of the job scope.',
+  'jlr-ingenium-engine-rebuild': 'JLR 2.0 Ingenium rebuilds from £3,500 (free recovery within 10 miles of B11 on rebuilds; £50 diagnostic credited in full against any repair booked on the same visit), subject to inspection and written confirmation of the job scope.'
 };
 function sections(items) { return items.map(([title,copy],i)=>'<section class="section service-detail '+(i%2?'section-muted':'')+'"><h2>'+esc(title)+'</h2><div class="detail-copy">'+copy.split("\n\n").map(p=>'<p>'+inlineCopy(p)+'</p>').join("")+'</div></section>').join(""); }
 function faqsHtml(items) { return items.length?'<section class="section"><p class="section-kicker">Workshop FAQs</p><h2>Before you book</h2><div class="faq-list">'+items.map(([q,a])=>'<details><summary>'+esc(q)+'</summary><p>'+inlineCopy(a)+'</p></details>').join("")+'</div></section>':""; }
@@ -832,7 +832,8 @@ function renderService(service) {
     [wetBelt.service.slug]: "wet_belt"
   }[service.slug] || "servicing_repair");
   const hasSteps = isRebuild || job !== "servicing_repair";
-  const top = trustStrip(maps, isRebuild) + form(job) + (hasSteps ? nextSteps() : "") + photoSlot(service.slug);
+  const recoveryMode = service.beyondTenMiles ? "upfront" : isRebuild;
+  const top = trustStrip(maps, recoveryMode) + form(job) + (hasSteps ? nextSteps() : "") + photoSlot(service.slug);
   const bottom = mobileSections.paths.has("/services/"+service.slug+"/") ? mobileSections.quoteReturn() : form(job, "quote-bottom");
   const breadcrumbTitle = {
     [wetBelt.service.slug]: "Wet belt replacement",
@@ -881,7 +882,7 @@ function renderService(service) {
   let body=serviceHero(isRebuild?"Engine rebuild workshop":"Mechanical repairs Birmingham",service.title,service.heroIntro||service.opening||service.intro)+(replacementLanding ? "" : costHtml)+top+
     '<div class="service-pricing-link"><a href="/pricing/">Workshop prices &amp; engine rebuild starting prices</a></div>';
   if (!showEnginePrices && servicePriceNotes[service.slug]) body+='<aside class="service-price-note"><strong>Starting price:</strong> '+esc(servicePriceNotes[service.slug])+(isRebuild ? " "+payment+"." : "")+' <a href="/pricing/">See pricing details</a></aside>';
-  if(isRebuild) body+='<section class="trust-strip" aria-label="Engine rebuild terms"><span>Free recovery within 10 miles (rebuilds)</span><span>£50 diagnostic waived on rebuilds</span><span>Standard warranty: '+warranty+'.</span><span>Typical turnaround 1–3 weeks</span><span>'+payment+'.</span></section>';
+  if(isRebuild) body+='<section class="trust-strip" aria-label="Engine rebuild terms"><span>'+(service.beyondTenMiles ? 'UK-wide recovery quoted upfront (free within 10 miles of B11 on rebuilds)' : 'Free recovery within 10 miles of B11 (rebuilds)')+'</span><span>£50 diagnostic credited on any same-visit repair</span><span>Standard warranty: '+warranty+'.</span><span>Typical turnaround 1–3 weeks</span><span>'+payment+'.</span></section>';
   if(showEnginePrices) body+='<section class="section service-detail" aria-labelledby="engine-prices"><p class="section-kicker">Clear starting prices</p><h2 id="engine-prices">Engine rebuild starting prices</h2>'+priceTable('Engine rebuild starting prices', enginePrices)+(replacementLanding ? '<p class="cost-disclaimer">'+costs.startingPrices+'</p><p class="pricing-note">'+payment+'.</p>' : '<p class="pricing-note">Starting prices, not fixed quotes. The final price and repair scope are confirmed after inspection. '+payment+'.</p>')+serviceButtons("engine_prices")+'</section>'+(replacementLanding ? costHtml : "");
   if(service.heroIntro) body+=sections([["Discuss your engine rebuild",service.opening]]);
   if(service.points) body+='<section class="section intro-grid"><div><h2>'+esc(service.short)+'</h2></div><div class="intro-copy"><p>'+esc(service.desc)+'</p><ul class="check-list">'+service.points.map(p=>'<li>'+esc(p)+'</li>').join("")+'</ul></div></section>';
@@ -892,7 +893,7 @@ function renderService(service) {
   if(isRebuild) body+='<section class="section service-detail"><h2>Diagnosis and timing repair options</h2><div class="detail-copy"><p>When the extent of damage is unclear, start with <a href="/services/engine-diagnostics/">engine diagnostics and mechanical fault finding</a> before agreeing strip-down work. For chain-driven engines with viable repair options, read about <a href="/services/timing-chain-replacement/">timing chain assessment and replacement</a>. A timing repair and a full rebuild require different scopes; the fitted engine and inspection findings determine the route.</p></div></section>';
   if(service.symptoms) body+='<section class="section section-muted"><p class="section-kicker">Symptoms to report</p><h2>What has changed?</h2><ul class="check-list">'+service.symptoms.map(s=>'<li>'+esc(s)+'</li>').join("")+'</ul><p>Describe when the symptom started, whether warning lights appeared and whether the engine still runs.</p></section>';
   if(service.process) body+='<section class="section"><h2>From assessment to handover</h2><ol class="number-list">'+service.process.map(s=>'<li>'+esc(s)+'</li>').join("")+'</ol><p>'+esc(service.parts)+'</p></section>';
-  if(isRebuild) body+='<section class="section assurance-strip"><p><strong>Standard warranty:</strong> '+business.warranty+'. <strong>Typical turnaround:</strong> '+business.timeframe+'.</p><p><strong>Free recovery within 10 miles</strong> of our Sparkbrook B11 workshop when proceeding with an engine rebuild; UK-wide recovery arranged with upfront pricing. <strong>£50 diagnostic fee waived</strong> when you book your engine rebuild. '+payment+'.</p></section>'+serviceReviews();
+  if(isRebuild) body+='<section class="section assurance-strip"><p><strong>Standard warranty:</strong> '+business.warranty+'. <strong>Typical turnaround:</strong> '+business.timeframe+'.</p><p><strong>Free recovery within 10 miles</strong> of 56a Stratford Street North, Sparkbrook B11 1BP when proceeding with an engine rebuild; UK-wide recovery quoted upfront. <strong>£50 diagnostic credited in full</strong> against any repair booked on the same visit. '+payment+'.</p></section>'+serviceReviews();
   if(service.slug==="timing-chain-replacement") body+=serviceReviews();
   body+=faqsHtml(faqs)+related(service);
   if(isRebuild||service.slug==="timing-chain-replacement") body+=guideCards(service.slug);
@@ -901,28 +902,28 @@ function renderService(service) {
   writePage(pathname,layout({title:replacementLanding ? "Engine Rebuild & Replacement Birmingham | QuickVS" : service.metaTitle||service.title+" | Quick Solution Vehicles",description:service.metaDescription||service.desc,pathname,body,faqs,service}));
 }
 const homeFaqs = [
-  ["Can you repair a car that has failed its MOT?","Yes. We repair mechanical MOT failures and advisories, including brakes and suspension, with same-day turnaround available on routine repairs. We do not conduct MOT tests or retests; those are carried out at a testing station."],
+  ["Can you repair a car that has failed its MOT?","Yes. We repair mechanical MOT failures and advisories, including brakes and suspension, with same-day turnaround available on routine repairs (subject to parts and booking). We do not conduct MOT tests or retests; those are carried out at a testing station."],
   ["Do you replace control arms and wishbones?","Yes. We inspect suspension and steering faults, including control arms, wishbones, bushes and ball joints, then agree the repair needed. We do not provide wheel alignment or tracking."],
-  ["Can I book ordinary servicing or brake repairs?","Yes. We handle oil and filter services, brake discs and pads, clutches, diagnostics and other general mechanical work as well as engine rebuilds, with same-day turnaround available on routine jobs."],
-  ["Do you offer free recovery or UK-wide recovery for engine rebuilds?","Yes. Recovery is FREE within 10 miles of our Sparkbrook, Birmingham (B11 1BP) workshop when you go ahead with an engine rebuild. For vehicles further across the West Midlands or anywhere in the UK, we arrange flatbed recovery with upfront pricing."],
-  ["Do you charge for diagnostics if I book an engine rebuild?","Engine diagnostics are £50, and that £50 diagnostic fee is waived in full when you proceed with an engine rebuild with us."],
+  ["Can I book ordinary servicing or brake repairs?","Yes. We handle oil and filter services, brake discs and pads, clutches, diagnostics and other general mechanical work as well as engine rebuilds, with same-day turnaround available on routine jobs (subject to parts and booking). Returning customers receive £15 off an oil and filter service booked within 12 months of any repair."],
+  ["Do you offer free recovery or UK-wide recovery for engine rebuilds?","Yes. Recovery is FREE within 10 miles of 56a Stratford Street North, Sparkbrook, Birmingham B11 1BP when you go ahead with an engine rebuild. For vehicles outside 10 miles or anywhere in mainland UK, flatbed recovery is quoted upfront before collection."],
+  ["How does the £50 diagnostic credit work?","Snap-on engine diagnostics are £50, credited in full against any repair you book on the same visit."],
   ["Do Ingenium engines use wet timing belts?","No. JLR 2.0 AJ200D/AJ200P engines use timing chains. We assess timing chain, balance shaft, turbo and oil dilution faults."],
-  ["Which engines do you assess for wet-belt concerns?","Wet-belt-equipped Ford 1.0 EcoBoost (from £850), Ford 2.0 EcoBlue Transit/Custom (from £1,050) and earlier 1.2 PureTech variants (from £650), usually completed within 48 hours of drop-off."],
-  ["What warranty and payment terms apply?","Standard warranty on engine rebuilds, wet belts, timing chains, cambelts and clutches is "+warranty+". "+payment+"."]
+  ["Which engines do you assess for wet-belt concerns?","Wet-belt-equipped Ford 1.0 EcoBoost (from £850), Ford 2.0 EcoBlue Transit/Custom (from £1,050) and earlier 1.2 PureTech variants (from £650). Every wet belt replacement includes a free oil and filter service and is usually completed within 48 hours of drop-off, subject to parts and workshop availability."],
+  ["What warranty and payment methods apply?","Standard warranty on wet belts, timing chains, cambelts, clutches and engine rebuilds is "+warranty+". Used engines supplied and fitted carry 3 months or 3,000 miles, whichever comes first. "+payment+"."]
 ];
 const homeTiles = [
-  ["servicing", "Servicing", "Same-day oil, filters and vehicle checks."],
-  ["brakes", "Brakes", "Same-day discs, pads and safety checks."],
+  ["servicing", "Servicing", "Oil from £60, full from £70 · £15 off for returning customers."],
+  ["brakes", "Brakes", "Same-day discs, pads and safety checks (subject to parts)."],
   ["mot-failure-repairs", "MOT failure repairs", "Mechanical failures and advisories."],
   ["suspension-steering-repairs", "Suspension", "Control arms, wishbones, shocks and springs."],
   ["clutch-replacement", "Clutch & flywheel", "Clutches fitted from £449 (small cars)."],
   [timingServices.cambeltSlug, "Cambelt & water pump", "Dry cambelts and water pumps from £299."],
-  ["engine-diagnostics", "Diagnostics (£50)", "Snap-on fault finding — waived on rebuilds."],
+  ["engine-diagnostics", "Diagnostics (£50)", "Snap-on fault finding — credited on any same-visit repair."],
   ["cooling-system-repairs", "Cooling & water pumps", "Coolant loss, thermostats and overheating."],
   ["timing-chain-replacement", "Timing chains", "VW/Audi from £549, BMW N47 £1,195, Ingenium £1,495."],
-  [wetBelt.service.slug, "Wet belts (48h)", "EcoBoost £850, Transit EcoBlue £1,050, PureTech £650."],
-  ["engine-rebuild-birmingham", "Engine rebuilds", "From £3,000 · Free 10-mile recovery on rebuilds."],
-  ["uk-nationwide-engine-rebuild-recovery", "UK-wide rebuild recovery", "Free within 10 miles; UK flatbed collection arranged."],
+  [wetBelt.service.slug, "Wet belts (+ free oil service)", "EcoBoost £850, Transit EcoBlue £1,050, PureTech £650."],
+  ["engine-rebuild-birmingham", "Engine rebuilds", "From £3,000 · Free 10-mile B11 recovery on rebuilds."],
+  ["uk-nationwide-engine-rebuild-recovery", "UK-wide rebuild recovery", "UK flatbed recovery quoted upfront (free within 10mi of B11)."],
   ["bmw-specialist-birmingham", "BMW specialist & N47/N57", "Independent BMW repairs, N47 (£3,250) & N57 (£4,200)."],
   ["land-rover-jaguar-specialist-birmingham", "Land Rover & Jaguar", "Ingenium (£3,500), TDV6/SDV6 (£4,750) & chains."],
   ["bmw-n57-engine-rebuild", "BMW N57 3.0 rebuild", "3.0 diesel assessment & rebuilds from £4,200."],
@@ -937,13 +938,13 @@ function homeServices() {
 }
 function renderHome() {
   const areaLinksHtml = areaPages.map(a => '<a class="link-card" href="/areas/'+a.slug+'/">'+esc(a.name)+'</a>').join('');
-  const body=hero("All-makes garage · Sparkbrook Birmingham","Car repairs, wet belts and engine rebuilds in Birmingham.","Need same-day servicing, brakes, a clutch, cambelt, wet belt or specialist engine rebuild? Quick Solution Vehicles in Sparkbrook handles everyday repairs and major engine work — with free recovery within 10 miles and £50 diagnostics waived on booked engine rebuilds.", { quoteHref: "#quote" })+trustStrip(maps, true, "Same-day routine repairs")+homeServices()+offerBand()+
-    '<section class="section section-muted quote-teaser"><div><p class="section-kicker">Transparent starting prices</p><h2>Know how your repair will be quoted</h2><p>Send your registration and job for a reply within 30 minutes in opening hours. Written price agreed before work; parts deposit upfront and balance on collection.</p></div><a class="button button-primary" href="/pricing/">View pricing &amp; quotes</a></section>'+
+  const body=hero("All-makes garage · Sparkbrook Birmingham","Car repairs, wet belts and engine rebuilds in Birmingham.","Need same-day servicing, brakes, a clutch, cambelt, wet belt (with free oil & filter service) or specialist engine rebuild? Quick Solution Vehicles in Sparkbrook handles everyday repairs and major engine work — with £50 diagnostics credited in full against any same-visit repair and free recovery within 10 miles of B11 on rebuilds.", { quoteHref: "#quote" })+trustStrip(maps, true, "Same-day routine repairs")+homeServices()+offerBand(false)+
+    '<section class="section section-muted quote-teaser"><div><p class="section-kicker">Transparent starting prices</p><h2>Know how your repair will be quoted</h2><p>Send your registration and job for a reply within 30 minutes in opening hours. Written price agreed before work starts; '+payment+'.</p></div><a class="button button-primary" href="/pricing/">View pricing &amp; quotes</a></section>'+
     reviewSection("", { limit: 3, home: true })+
     workshopGallery(['5842','5849','5847'], "Workshop photos", { link: "/about/#workshop-photos" })+
     faqsHtml(homeFaqs)+
-    '<section class="section local-seo"><h2>Serving Birmingham, the West Midlands &amp; UK-wide rebuilds</h2><p>Our 4-ramp Sparkbrook workshop supports drivers across Birmingham, Solihull, Edgbaston, Harborne, Oldbury, Quinton, Sutton Coldfield, Wolverhampton, Dudley, Walsall and Coventry — with free recovery within 10 miles on engine rebuilds and <a href="/services/uk-nationwide-engine-rebuild-recovery/">UK-wide flatbed recovery arranged upfront.</a></p><div class="link-grid">'+areaLinksHtml+'</div><p>'+business.address+'</p><p><a class="text-link" href="/areas/">All West Midlands areas we cover →</a></p><p><a class="text-link" href="'+maps+'">Find the workshop on Google Maps</a></p></section>'+cta("#quote-bottom")+'<div id="quote-bottom">'+form()+'</div>';
-  writePage("/",layout({title:"Quick Solution Vehicles | Car Repairs & Engine Rebuilds Birmingham",description:"Quick Solution Vehicles in Birmingham: servicing, brakes, wet belts, clutches & engine rebuilds. Free 10-mile rebuild recovery & £50 diag waived. Call QuickVS.",pathname:"/",body,faqs:homeFaqs}));
+    '<section class="section local-seo"><h2>Serving Birmingham, the West Midlands &amp; UK-wide rebuilds</h2><p>Our 4-ramp Sparkbrook workshop supports drivers across Birmingham, Solihull, Edgbaston, Harborne, Oldbury, Quinton, Sutton Coldfield, Wolverhampton, Dudley, Walsall and Coventry — with free recovery within 10 miles of B11 1BP on engine rebuilds and <a href="/services/uk-nationwide-engine-rebuild-recovery/">UK-wide flatbed recovery quoted upfront.</a></p><div class="link-grid">'+areaLinksHtml+'</div><p>'+business.address+'</p><p><a class="text-link" href="/areas/">All West Midlands areas we cover →</a></p><p><a class="text-link" href="'+maps+'">Find the workshop on Google Maps</a></p></section>'+cta("#quote-bottom")+'<div id="quote-bottom">'+form()+'</div>';
+  writePage("/",layout({title:"Quick Solution Vehicles | Car Repairs & Engine Rebuilds Birmingham",description:"Quick Solution Vehicles in Birmingham: servicing, brakes, wet belts (+ free oil service), clutches & engine rebuilds. £50 diag credited on any repair.",pathname:"/",body,faqs:homeFaqs}));
 }
 function renderServices() {
   const body=hero("Workshop services","Car and van repair services in Birmingham","Choose the service that fits your car or van. We handle everyday mechanical repairs, MOT failures and specialist engine rebuilds. Call or WhatsApp the workshop to discuss the work.", { breadcrumb: breadcrumbs("Services"), hideEyebrow: true })+
@@ -965,34 +966,40 @@ const enginePrices = [
 const priceTable = (caption, rows) => '<table class="price-table"><caption class="sr-only">'+esc(caption)+'</caption><thead><tr><th scope="col">Service</th><th scope="col">Price</th></tr></thead><tbody>'+rows.map(([title, price, url])=>'<tr><th scope="row">'+(url?'<a href="'+url+'">'+esc(title)+'</a>':esc(title))+'</th><td>'+esc(price)+'</td></tr>').join('')+'</tbody></table>';
 function renderPricing() {
   const workshopPrices = [
-    ["Engine diagnostics (waived on rebuilds)", "£50", "/services/engine-diagnostics/"],
+    ["Engine diagnostics", "£50", "/services/engine-diagnostics/"],
     ["Oil and filter service", "Labour from £60", "/services/servicing/"],
     ["Full car service", "Labour from £70", "/services/servicing/"],
     ["Front brake pad fitting", "Labour from £40 per side", "/services/brakes/"],
     ["General mechanical labour", "£70 per hour"],
     ["Clutch kit fitted (small cars)", "From £449", "/services/clutch-replacement/"],
-    ["VW Group timing chain", "Quote by registration", "/services/vw-audi-engine-repairs-birmingham/"],
-    ["Cambelt replacement", "Quote by registration", "/services/cambelt-replacement-birmingham/"],
+    ["VW/Audi 1.2 & 1.4 TSI timing chain", "From £549", "/services/timing-chain-replacement/"],
+    ["VW/Audi 1.8 & 2.0 TSI/TFSI timing chain", "From £795", "/services/timing-chain-replacement/"],
+    ["Cambelt & water pump (small petrol)", "From £299", "/services/cambelt-replacement-birmingham/"],
+    ["Cambelt & water pump (VW/Audi 1.6/2.0 TDI)", "From £399", "/services/cambelt-replacement-birmingham/"],
+    ["Used engine supplied & fitted", "From £1,395", "/services/used-engine-supply-and-fit-birmingham/"],
     ["1.2 PureTech wet belt", "From £650", "/services/peugeot-citroen-puretech-wet-belt-birmingham/"],
     ["Ford 1.0 EcoBoost wet belt", "From £850", "/services/ford-ecoboost-wet-belt-birmingham/"],
     ["2.0 EcoBlue wet belt (Transit / Custom)", "From £1,050", "/services/ford-transit-ecoblue-wet-belt-birmingham/"]
   ];
-  const body=hero("Workshop prices", "Car repair and engine rebuild prices", "Transparent Birmingham starting prices. Free recovery within 10 miles and £50 diagnostic fee waived when you book an engine rebuild.", { quoteHref: "#quote", breadcrumb: breadcrumbs("Pricing") })+trustStrip(maps, true)+form()+
-    '<div class="pricing-layout"><section class="pricing-panel"><h2>Everyday garage work</h2>'+priceTable('Everyday garage prices', workshopPrices)+'<p class="pricing-note">Where marked labour-only, parts and materials are additional. Same-day turnaround available on routine jobs. '+payment+'.</p></section>'+
-    '<section class="pricing-panel"><h2>Engine rebuilds</h2>'+priceTable('Engine rebuild starting prices', enginePrices)+'<p class="pricing-note">Starting prices, confirmed after inspection. Free recovery within 10 miles &amp; £50 diagnostic waived on rebuilds. '+payment+'.</p></section></div>'+
+  const body=hero("Workshop prices", "Car repair and engine rebuild prices", "Transparent Birmingham starting prices. Diagnostics £50 — credited in full against any repair booked on the same visit. Every wet belt includes a free oil and filter service.", { quoteHref: "#quote", breadcrumb: breadcrumbs("Pricing") })+trustStrip(maps, true)+form()+
+    '<div class="pricing-layout"><section class="pricing-panel"><h2>Everyday garage work</h2>'+priceTable('Everyday garage prices', workshopPrices)+
+    '<p class="pricing-note">Where marked labour-only, parts and materials are additional. Diagnostics £50, credited in full against any repair booked on the same visit.</p>'+
+    '<p class="pricing-note">Every <a href="/services/wet-belt-replacement/">wet belt replacement</a> includes a free oil and filter service (usually within 48 hours of drop-off, subject to parts and workshop availability). Returning customers: £15 off an oil and filter service booked within 12 months of any repair.</p>'+
+    '<p class="pricing-note">Warranty: 6 months or 10,000 miles, whichever comes first, on wet belts, timing chains, cambelts, clutches and engine rebuilds. Used engines: 3 months or 3,000 miles. Exact cover is confirmed in writing. '+payment+'.</p></section>'+
+    '<section class="pricing-panel"><h2>Engine rebuilds</h2>'+priceTable('Engine rebuild starting prices', enginePrices)+'<p class="pricing-note">Starting prices, confirmed in writing after inspection. Free recovery within 10 miles of B11 1BP on rebuilds; UK-wide recovery quoted upfront. '+payment+'.</p></section></div>'+
     reviewSection("", { limit: 3, home: true })+
     '<section class="section pricing-contact"><h2>Need another repair?</h2><p>For <a href="/services/">all other workshop services</a>, send your registration and symptoms. Written price agreed before work.</p>'+contactButtons("pricing", "#quote")+'</section>'+mobileSections.quoteReturn();
-  writePage("/pricing/",layout({title:"Car Repair & Engine Rebuild Prices Birmingham | QuickVS",description:"Birmingham workshop prices: £50 diagnostics (waived on rebuilds), wet belts from £650, clutches from £449 & engine rebuilds from £3,000. Call QuickVS.",pathname:"/pricing/",body}));
+  writePage("/pricing/",layout({title:"Car Repair & Engine Rebuild Prices Birmingham | QuickVS",description:"Birmingham prices: £50 diagnostics (credited on any same-visit repair), cambelts from £299, clutches from £449, wet belts from £650 & rebuilds from £3,000.",pathname:"/pricing/",body}));
 }
 function renderContact() {
-  const body=hero("Contact the workshop","Get a quote for your service or repair.","Car servicing, brakes, clutches, wet belts, MOT failure repairs or a major engine rebuild — send your reg for a reply within 30 minutes. Free 10-mile recovery & £50 diagnostic waived on rebuilds.", { quoteHref: "#quote" })+trustStrip(maps, true)+form("other")+nextSteps()+
-    '<section class="section contact-grid"><div class="contact-card"><h2>Workshop details</h2><address>'+business.address+'</address><p><a href="tel:'+business.primaryTel+'">'+business.primaryPhone+'</a><br><a href="mailto:'+business.email+'">'+business.email+'</a></p><p>'+business.hours+'</p><p>'+payment+'.</p><p>Free recovery within 10 miles on engine rebuilds; UK-wide recovery arranged upfront. £50 diagnostic waived on booked rebuilds.</p><p>Standard engine rebuild, wet belt, timing chain, cambelt and clutch warranty: '+warranty+'.</p><a class="text-link" href="'+maps+'">Google Maps &amp; directions</a><figure class="contact-map"><a href="'+maps+'" data-contact-location="contact" aria-label="Open workshop location in Google Maps"><img src="/assets/workshop-location-map.png" width="640" height="320" loading="lazy" decoding="async" alt="Location map showing the workshop on Stratford Street North, Sparkbrook"></a><figcaption>© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a> · Humanitarian map style</figcaption></figure><p><strong>Parking &amp; access</strong><br>Call the workshop if you need help planning your arrival.</p><!-- TODO WAQAR CONFIRM parking and access -->'+photoSlot("contact")+'<p><a class="text-link" href="/pricing/">How pricing and quotations work</a></p></div><div class="contact-panel"><h2>What to send on WhatsApp</h2><ul class="check-list"><li>Your name, vehicle registration, make/model and mileage</li><li>The service or repair you need, or the fault symptoms</li><li>A photograph of the MOT failure report, if relevant</li><li>Whether the vehicle drives safely or needs local / UK-wide recovery</li><li>Any existing fault report or useful photographs</li></ul><p>For serious engine faults, do not run a distressed engine just to record the noise. We will discuss the assessment needed before major work is agreed.</p>'+contactButtons("contact", "#quote")+'</div></section>'+reviewSection("", { limit: 3, home: true })+faqsHtml([homeFaqs[3], homeFaqs[4], homeFaqs[5], homeFaqs[6]])+cta("#quote")+mobileSections.quoteReturn();
-  writePage("/contact/",layout({title:"Contact Quick Solution Vehicles LTD | Birmingham Workshop",description:"Call 07522 179040 or WhatsApp your reg for servicing, wet belts, clutches, MOT repairs or engine rebuilds in Birmingham B11. Free 10-mile rebuild recovery.",pathname:"/contact/",body}));
+  const body=hero("Contact the workshop","Get a quote for your service or repair.","Car servicing, brakes, clutches, wet belts (+ free oil service), MOT failure repairs or a major engine rebuild — send your reg for a reply within 30 minutes. £50 diagnostic credited on any same-visit repair.", { quoteHref: "#quote" })+trustStrip(maps, true)+form("other")+nextSteps()+
+    '<section class="section contact-grid"><div class="contact-card"><h2>Workshop details</h2><address>'+business.address+'</address><p><a href="tel:'+business.primaryTel+'">'+business.primaryPhone+'</a><br><a href="mailto:'+business.email+'">'+business.email+'</a></p><p>'+business.hours+'</p><p>'+payment+'.</p><p>Free recovery within 10 miles of B11 1BP when proceeding with an engine rebuild; UK-wide recovery quoted upfront. £50 diagnostic credited in full against any repair booked on the same visit.</p><p>Standard wet belt, timing chain, cambelt, clutch and engine rebuild warranty: '+warranty+'. Used engines: 3 months or 3,000 miles.</p><a class="text-link" href="'+maps+'">Google Maps &amp; directions</a><figure class="contact-map"><a href="'+maps+'" data-contact-location="contact" aria-label="Open workshop location in Google Maps"><img src="/assets/workshop-location-map.png" width="640" height="320" loading="lazy" decoding="async" alt="Location map showing the workshop on Stratford Street North, Sparkbrook"></a><figcaption>© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a> · Humanitarian map style</figcaption></figure><p><strong>Parking &amp; access</strong><br>Call the workshop if you need help planning your arrival.</p><!-- TODO WAQAR CONFIRM parking and access -->'+photoSlot("contact")+'<p><a class="text-link" href="/pricing/">How pricing and quotations work</a></p></div><div class="contact-panel"><h2>What to send on WhatsApp</h2><ul class="check-list"><li>Your name, vehicle registration, make/model and mileage</li><li>The service or repair you need, or the fault symptoms</li><li>A photograph of the MOT failure report, if relevant</li><li>Whether the vehicle drives safely or needs local / UK-wide recovery</li><li>Any existing fault report or useful photographs</li></ul><p>For serious engine faults, do not run a distressed engine just to record the noise. We will discuss the assessment needed before major work is agreed.</p>'+contactButtons("contact", "#quote")+'</div></section>'+reviewSection("", { limit: 3, home: true })+faqsHtml([homeFaqs[3], homeFaqs[4], homeFaqs[5], homeFaqs[6]])+cta("#quote")+mobileSections.quoteReturn();
+  writePage("/contact/",layout({title:"Contact Quick Solution Vehicles LTD | Birmingham Workshop",description:"Call 07522 179040 or WhatsApp your reg for servicing, wet belts, clutches, MOT repairs or engine rebuilds in Birmingham B11. £50 diag credited on repair.",pathname:"/contact/",body}));
 }
 function renderAbout() {
   const body=hero("Quick Solution Vehicles LTD","A mechanical workshop in Sparkbrook, Birmingham.","We handle general mechanical repairs alongside engine rebuild enquiries across all makes, models and engine ranges.")+
     '<!-- TODO WAQAR CONFIRM workshop history -->'+sections([["Family-run workshop in Sparkbrook","Quick Solution Vehicles handles general mechanical repairs and specialist engine rebuilds from its Sparkbrook workshop. Call with your registration and the work you need, and we’ll discuss the next step."]])+
-    sections([["A clear repair decision before major work","Our approach starts with the complaint, the engine or vehicle specification and the evidence from inspection. A warning light does not automatically identify a failed component, and a non-runner does not automatically require another engine. We discuss assessment, findings and the scope before major work proceeds. Engine rebuilds typically take 1–3 weeks depending on parts availability and internal damage. The standard engine-rebuild warranty is "+warranty+"."],["Visit or contact the workshop",business.address+". We are open "+business.hours+" Call "+business.primaryPhone+", WhatsApp your registration and fault, or email "+business.email+". "+payment+". Mechanical MOT failures can be repaired here, with the test and retest handled by a testing station."],["Company details","Quick Solution Vehicles LTD is registered under Company No. 16525397. Our 4-ramp workshop covers petrol and diesel engines, commercial vans and performance vehicles, together with diagnostics (£50 — waived on booked rebuilds), timing, brake, clutch and other mechanical work. Recovery is free within 10 miles of Sparkbrook B11 when proceeding with an engine rebuild, and UK-wide recovery is arranged with upfront pricing."]])+workshopGallery(['5842','0438','0434','6201','6203','0441'], "Workshop photos", { id: "workshop-photos" })+reviewSection()+cta();
+    sections([["A clear repair decision before major work","Our approach starts with the complaint, the engine or vehicle specification and the evidence from inspection. A warning light does not automatically identify a failed component, and a non-runner does not automatically require another engine. We discuss assessment, findings and the scope before major work proceeds. Engine rebuilds typically take 1–3 weeks depending on parts availability and internal damage. The standard engine-rebuild warranty is "+warranty+"."],["Visit or contact the workshop",business.address+". We are open "+business.hours+" Call "+business.primaryPhone+", WhatsApp your registration and fault, or email "+business.email+". "+payment+". Mechanical MOT failures can be repaired here, with the test and retest handled by a testing station."],["Company details","Quick Solution Vehicles LTD is registered under Company No. 16525397. Our 4-ramp workshop covers petrol and diesel engines, commercial vans and performance vehicles, together with Snap-on diagnostics (£50, credited in full against any repair booked on the same visit), timing, brake, clutch and other mechanical work. Recovery is free within 10 miles of Sparkbrook B11 1BP when proceeding with an engine rebuild, and UK-wide recovery is quoted upfront."]])+workshopGallery(['5842','0438','0434','6201','6203','0441'], "Workshop photos", { id: "workshop-photos" })+reviewSection()+cta();
   writePage("/about/",layout({title:"About Quick Solution Vehicles LTD | Sparkbrook Birmingham",description:"Quick Solution Vehicles LTD, Company No. 16525397. All-makes engine rebuilds and mechanical repairs at 56a Stratford Street North, Birmingham B11 1BP.",pathname:"/about/",body}));
 }
 function renderReviews() {
@@ -1021,19 +1028,19 @@ function renderPrivacy() {
   writePage("/privacy/",layout({title:"Privacy & Cookies | Quick Solution Vehicles LTD",description:"How Quick Solution Vehicles LTD handles workshop enquiries and optional analytics and ad measurement cookies. Contact info@quickvs.com.",pathname:"/privacy/",body}));
 }
 function renderAreas() {
-  const body = hero("Areas we cover", "Serving Birmingham, the West Midlands & UK-wide engine rebuilds", "Visit our 4-ramp workshop in Sparkbrook, Birmingham (B11 1BP) or arrange recovery. Free recovery within 10 miles on engine rebuilds, plus UK-wide flatbed collection arranged upfront.", { breadcrumb: breadcrumbs("Areas covered"), hideEyebrow: true, quoteHref: "#quote" })+
-    trustStrip(maps, true)+offerBand()+
-    '<section class="section"><h2>West Midlands areas we serve</h2><p>Select your area below for travel times, free 10-mile recovery eligibility and popular local services.</p><div class="area-grid">'+
+  const body = hero("Areas we cover", "Serving Birmingham, the West Midlands & UK-wide engine rebuilds", "Visit our 4-ramp workshop in Sparkbrook, Birmingham (B11 1BP) or arrange recovery. Free recovery within 10 miles of B11 1BP on engine rebuilds; UK-wide flatbed collection quoted upfront.", { breadcrumb: breadcrumbs("Areas covered"), hideEyebrow: true, quoteHref: "#quote" })+
+    trustStrip(maps, "upfront")+offerBand(true)+
+    '<section class="section"><h2>West Midlands areas we serve</h2><p>Select your area below for travel times, recovery details and popular local services.</p><div class="area-grid">'+
     areaPages.map(a => '<a class="area-card" href="/areas/'+a.slug+'/"><h3>'+esc(a.name)+'</h3><p>'+esc(a.distance)+'</p></a>').join('')+
     '</div></section>'+
-    '<section class="section section-muted"><h2>Outside the West Midlands?</h2><p>We recover and rebuild failed engines from across mainland UK. See our <a href="/services/uk-nationwide-engine-rebuild-recovery/">UK-wide engine rebuild and recovery service</a> for upfront flatbed collection and starting prices.</p></section>'+
+    '<section class="section section-muted"><h2>Outside the West Midlands?</h2><p>We recover and rebuild failed engines from across mainland UK. See our <a href="/services/uk-nationwide-engine-rebuild-recovery/">UK-wide engine rebuild and recovery service</a> for upfront flatbed collection quotes and starting prices.</p></section>'+
     form("engine_rebuild")+cta("#quote");
   writePage("/areas/", layout({ title: "Areas We Cover | West Midlands Garage & UK Recovery | QuickVS", description: "Quick Solution Vehicles in Sparkbrook B11 serves Solihull, Edgbaston, Oldbury, Sutton Coldfield, Wolverhampton, Coventry & UK-wide engine rebuild recovery.", pathname: "/areas/", body }));
 }
 function renderArea(area) {
   const pathname = "/areas/" + area.slug + "/";
   const body = hero("West Midlands coverage", area.title, area.intro, { breadcrumb: breadcrumbs(area.name, ["Areas covered", "/areas/"]), hideEyebrow: true, quoteHref: "#quote", lead: area.distance })+
-    trustStrip(maps, true)+form("servicing_repair")+offerBand()+
+    trustStrip(maps, area.beyondTenMiles ? "upfront" : true)+form("servicing_repair")+offerBand(area.beyondTenMiles)+
     sections(area.sections)+
     reviewSection("", { limit: 3, home: true })+
     faqsHtml(area.faqs)+

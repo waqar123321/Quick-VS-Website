@@ -1,22 +1,22 @@
 const jobs = {
   engine_rebuild: "Engine rebuild / replacement",
-  wet_belt: "Wet belt replacement",
+  wet_belt: "Wet belt replacement (free oil & filter service)",
   timing_chain: "Timing chain replacement",
   cambelt: "Cambelt & water pump",
   clutch: "Clutch & flywheel",
   vag_engine_timing: "VW/Audi engine or timing",
-  diagnostics: "Engine diagnostics (£50 — waived on rebuilds)",
+  diagnostics: "Engine diagnostics (£50 — credited on same-visit repair)",
   servicing_repair: "Servicing, brakes or MOT repairs",
   other: "Other mechanical repair"
 };
 
 const replyTime = "within 30 minutes, Mon–Sat 10am–6pm";
 const warranty = "6 months or 10,000 miles, whichever comes first; exact cover confirmed in writing";
-const payment = "Parts deposit upfront; balance due on collection by debit card or bank transfer";
+const payment = "Pay by debit card or bank transfer";
 const reviewSummary = "5.0 from 18 Google reviews";
-const recoveryOffer = "Free recovery within 10 miles on engine rebuilds · UK-wide recovery arranged";
-const diagOffer = "£50 diagnostic fee waived when you book your engine rebuild";
-const sameDayOffer = "Same-day turnaround available on routine servicing, brakes, diagnostics and standard clutches";
+const recoveryOffer = "Free recovery within 10 miles of B11 on engine rebuilds · UK-wide recovery quoted upfront";
+const diagOffer = "£50 diagnostic credited in full against any repair booked on the same visit";
+const sameDayOffer = "Same-day turnaround available on routine servicing, brakes, diagnostics, clutches and cambelts, subject to parts and booking";
 
 function quoteForm({ job, id = "quote", business, whatsapp }) {
   const field = (name, label, control, full = false) => {
@@ -27,8 +27,8 @@ function quoteForm({ job, id = "quote", business, whatsapp }) {
     `<option value="${value}"${value === job ? " selected" : ""}>${label}</option>`).join("");
   const recoveryOptions = [
     ["drives", "Vehicle drives safely"],
-    ["free_local_recovery", "Non-runner — FREE recovery (within 10 miles of B11, rebuilds)"],
-    ["uk_recovery", "Non-runner — need UK-wide recovery quote"]
+    ["free_local_recovery", "Non-runner — FREE recovery (within 10 miles of B11, engine rebuilds)"],
+    ["uk_recovery", "Non-runner — need UK-wide recovery quote (quoted upfront)"]
   ].map(([value, label]) => `<option value="${value}">${label}</option>`).join("");
 
   return `<section class="section quote-section" id="${id}" aria-labelledby="${id}-heading">
@@ -36,9 +36,9 @@ function quoteForm({ job, id = "quote", business, whatsapp }) {
       <h2 id="${id}-heading">Get a free quote</h2>
       <p>We reply ${replyTime}. Messages after 6pm are answered from 10am.</p>
       <ul class="quote-offer-pills" aria-label="Workshop guarantees">
-        <li>Free recovery within 10 miles (rebuilds)</li>
-        <li>£50 diagnostic waived on rebuilds</li>
-        <li>Same-day routine repairs</li>
+        <li>Free recovery within 10 miles of B11 (rebuilds)</li>
+        <li>£50 diagnostic credited on any same-visit repair</li>
+        <li>Free oil &amp; filter service with every wet belt</li>
         <li>Written price before work</li>
       </ul>
       <form data-quote-form action="https://api.web3forms.com/submit" method="post" novalidate>
@@ -54,7 +54,7 @@ function quoteForm({ job, id = "quote", business, whatsapp }) {
         </div>
         <input type="checkbox" name="botcheck" hidden tabindex="-1" autocomplete="off">
         <button class="button button-primary" type="submit" disabled>Send quote request</button>
-        <p class="quote-privacy">Parts deposit upfront; balance on collection (debit card or bank transfer). We use your details to reply to your enquiry. <a href="/privacy/">Privacy &amp; cookies</a></p>
+        <p class="quote-privacy">${payment}. We use your details to reply to your enquiry. <a href="/privacy/">Privacy &amp; cookies</a></p>
         <div class="quote-feedback" role="status" aria-live="polite" aria-atomic="true"></div>
         <template data-quote-success>Thanks – we'll reply within 30 minutes in opening hours. Need us now? <a data-contact-location="form" href="tel:${business.primaryTel}">Call ${business.primaryPhone}</a></template>
         <template data-quote-failure>We couldn't send your request. Your details are still here. Try again, <a data-contact-location="form" href="tel:${business.primaryTel}">call ${business.primaryPhone}</a> or <a data-contact-location="form" href="${whatsapp}">use WhatsApp</a>.</template>
@@ -65,46 +65,55 @@ function quoteForm({ job, id = "quote", business, whatsapp }) {
 }
 
 function trustStrip(maps, recovery = false, coverage = "") {
+  const recoveryText = recovery === "upfront"
+    ? "UK-wide recovery quoted upfront (free within 10 miles of B11 on rebuilds)"
+    : recovery
+      ? "Free 10-mile recovery from B11 (rebuilds) &amp; UK-wide quoted upfront"
+      : "Free 10-mile recovery from B11 on rebuilds";
   const items = [
     `<a href="${maps}">★ ${reviewSummary}</a>`,
     "Written price before work",
-    recovery ? "Free 10-mile recovery (rebuilds) &amp; UK-wide arranged" : "Free 10-mile recovery on rebuilds",
-    "Diagnostic waived on rebuilds",
+    recoveryText,
+    "Diagnostic credited on any same-visit repair",
     coverage || "Same-day routine repairs",
     "Sparkbrook B11 · Open Saturdays"
   ];
   return `<div class="trust-strip quote-trust"><span>${items.join(" · ")}</span></div>`;
 }
 
-function offerBand() {
+function offerBand(beyondTenMiles = false) {
+  const recoveryTitle = beyondTenMiles ? "Upfront recovery arranged" : "Free recovery within 10 miles";
+  const recoveryBody = beyondTenMiles
+    ? "Flatbed vehicle recovery from outside our 10-mile radius is quoted upfront before collection. Addresses within 10 miles of Sparkbrook B11 qualify for free recovery when booking an engine rebuild."
+    : "Free collection within 10 miles of 56a Stratford Street North, Sparkbrook, Birmingham B11 1BP when you go ahead with an engine rebuild. UK-wide flatbed recovery quoted upfront.";
   return `<section class="section offer-band" aria-label="Workshop guarantees and offers">
     <div class="offer-grid">
       <article class="offer-card">
         <p class="offer-tag">Rebuilds &amp; non-runners</p>
-        <h3>Free recovery within 10 miles</h3>
-        <p>Free collection within 10 miles of our Sparkbrook B11 workshop when you go ahead with an engine rebuild. UK-wide flatbed recovery arranged with upfront pricing.</p>
+        <h3>${recoveryTitle}</h3>
+        <p>${recoveryBody}</p>
       </article>
       <article class="offer-card">
         <p class="offer-tag">Zero-risk diagnosis</p>
-        <h3>£50 diagnostic waived on rebuilds</h3>
-        <p>Snap-on fault finding and mechanical assessment is £50 — and 100% waived when you book your engine rebuild with us.</p>
+        <h3>£50 diagnostic credited on any repair</h3>
+        <p>Snap-on fault finding and mechanical assessment is £50 — credited in full against any repair you book on the same visit.</p>
       </article>
       <article class="offer-card">
         <p class="offer-tag">4-ramp Birmingham workshop</p>
-        <h3>Same-day turnaround on routine jobs</h3>
-        <p>Same-day completion available on oil services, brakes, diagnostics, standard clutches and cambelts when booked in with confirmed parts.</p>
+        <h3>Same-day routine repairs &amp; wet-belt bonus</h3>
+        <p>Same-day turnaround available on routine servicing, brakes, diagnostics, clutches and cambelts (subject to parts &amp; booking). Every wet belt includes a free oil and filter service.</p>
       </article>
       <article class="offer-card">
         <p class="offer-tag">Clear written terms</p>
         <h3>6-month / 10,000-mile warranty</h3>
-        <p>Written quote agreed before work begins. Parts deposit upfront and balance due on collection by debit card or bank transfer.</p>
+        <p>Written quote agreed before work begins. Returning customers also get £15 off an oil and filter service booked within 12 months of any repair. ${payment}.</p>
       </article>
     </div>
   </section>`;
 }
 
 function nextSteps() {
-  return '<section class="section next-steps"><h2>What happens next</h2><ol><li>Call, WhatsApp or send your reg</li><li>We reply within 30 minutes in opening hours, or book an assessment (diagnostic waived on rebuilds)</li><li>Approve the written price — parts deposit upfront, balance on collection</li></ol></section>';
+  return '<section class="section next-steps"><h2>What happens next</h2><ol><li>Call, WhatsApp or send your reg</li><li>We reply within 30 minutes in opening hours, or book a diagnostic (credited in full against any same-visit repair)</li><li>Approve the written price before any work starts — pay by debit card or bank transfer</li></ol></section>';
 }
 
 module.exports = { quoteForm, trustStrip, offerBand, nextSteps, replyTime, warranty, payment, reviewSummary, recoveryOffer, diagOffer, sameDayOffer };

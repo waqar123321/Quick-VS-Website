@@ -47,9 +47,11 @@
 
 ## Owner-approved 25 November 2026 terms
 
-- Current confirmed Google review count: 18 (5.0 stars).
-- Free vehicle recovery within 10 miles of 56a Stratford Street North, Sparkbrook, Birmingham B11 1BP when proceeding with an engine rebuild; UK-wide recovery arranged with upfront pricing.
-- £50 diagnostic fee waived/credited when proceeding with an engine rebuild.
-- Payment terms: parts deposit upfront, balance due on collection by debit card or bank transfer. No split payments, no finance, no 3-stage payment plans.
-- Same-day turnaround available on routine jobs (servicing, brakes, diagnostics, standard clutches and cambelts subject to parts availability and booking).
-- Do not promise a free 1,000-mile post-rebuild check or WhatsApp photo/video build logs.
+- Google reviews: 5.0 from 18 reviews. Workshop has 4 ramps. Snap-on diagnostic equipment.
+- Free recovery within 10 miles of 56a Stratford Street North, Sparkbrook, Birmingham B11 1BP when the customer proceeds with an engine rebuild. UK-wide recovery arranged with upfront pricing.
+- Diagnostics £50, credited in full against any repair booked on the same visit.
+- Every wet belt replacement includes a free oil and filter service.
+- Returning customers: £15 off an oil and filter service booked within 12 months of any repair.
+- Wet belt usually completed within 48 hours of drop-off, subject to parts and workshop availability.
+- Same-day turnaround on routine servicing, brakes, diagnostics, clutches and cambelts, subject to parts and booking.
+- Payment: debit card or bank transfer. No deposits, finance or payment plans. Not VAT registered.

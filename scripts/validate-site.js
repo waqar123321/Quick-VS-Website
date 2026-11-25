@@ -90,6 +90,9 @@ for(const page of pages) {
   assert.equal(new Set(ids).size,ids.length,pathname+": duplicate HTML id");
   assert.ok(!/bookmygarage|<iframe/i.test(text),pathname+": retired booking embed");
   assert.ok(!/credit\s*cards?/i.test(text),pathname+": unsupported payment claim");
+  assert.ok(!/\bdeposits?\b/i.test(text),pathname+": unexpected deposit mention");
+  assert.ok(!/\bwaiv(?:e|ed|es|ing)\b/i.test(text),pathname+": outdated waived wording");
+  assert.ok(!/\bVAT\b/.test(text),pathname+": business is not VAT registered");
   assert.ok(text.includes("info@quickvs.com"),pathname+": missing email");
   assert.ok(text.includes('href="tel:+447522179040"'),pathname+": missing telephone");
   assert.ok(text.includes('href="https://wa.me/447522179040?'),pathname+": missing WhatsApp");
@@ -172,7 +175,7 @@ assert.ok(pricing.includes("parts and materials additional")||pricing.includes("
 const pricingMain=pricing.match(/<main\b[^>]*>([\s\S]*?)<\/main>/)[1];
 assert.equal((pricingMain.match(/<table\b/g)||[]).length,2,"Pricing should use two compact price lists");
 assert.ok(!/faq-list|pricing-card|number-list/.test(pricingMain),"Keep pricing free of FAQs, breakdown cards and preparation lists");
-assert.ok(withoutQuoteForms(pricingMain).replace(/<section class="section section-muted">[\s\S]*?<\/section>/g,"").replace(/<[^>]*>/g," ").trim().split(/\s+/).length<=340,"Keep pricing concise");
+assert.ok(withoutQuoteForms(pricingMain).replace(/<section class="section section-muted">[\s\S]*?<\/section>/g,"").replace(/<[^>]*>/g," ").trim().split(/\s+/).length<=430,"Keep pricing concise");
 const homeFaqSchema = [...home.matchAll(/<script type="application\/ld\+json">\s*([\s\S]*?)\s*<\/script>/g)].map(m=>JSON.parse(m[1])).find(s=>s["@type"]==="FAQPage");
 const homeVisibleFaqs = [...homeMain.matchAll(/<div class="faq-list">([\s\S]*?)<\/div>/g)].flatMap(m => [...m[1].matchAll(/<details>/g)]).length;
 assert.equal(homeFaqSchema.mainEntity.length, homeVisibleFaqs, "Homepage FAQPage schema count must match visible FAQ items");
@@ -291,7 +294,18 @@ for(const [i,slug] of timingLandingSlugs.entries()) {
 const chain=pages.find(p=>p.pathname==="/services/timing-chain-replacement/").text;
 assert.equal((chain.match(/class="service-card chain-engine-card"/g)||[]).length,3,"Expected three timing-chain engine cards");
 assert.ok(chain.includes("Does my VW/Audi have a timing chain or a cambelt?"),"Missing VW chain/cambelt FAQ");
-assert.ok(pricing.includes("VW Group timing chain")&&pricing.includes("Cambelt replacement")&&pricing.includes("Quote by registration"),"Missing quote-only price rows");
+for (const [name, price] of [
+  ["VW/Audi 1.2 &amp; 1.4 TSI timing chain", "From £549"],
+  ["VW/Audi 1.8 &amp; 2.0 TSI/TFSI timing chain", "From £795"],
+  ["Cambelt &amp; water pump (small petrol)", "From £299"],
+  ["Cambelt &amp; water pump (VW/Audi 1.6/2.0 TDI)", "From £399"],
+  ["Clutch kit fitted (small cars)", "From £449"],
+  ["Used engine supplied &amp; fitted", "From £1,395"]
+]) {
+  const row = [...pricing.matchAll(/<tr>([\s\S]*?)<\/tr>/g)].find(match=>match[1].includes(name));
+  assert.ok(row&&row[1].includes(price), "Missing approved pricing row for "+name);
+}
+assert.ok(pricing.includes("credited in full against any repair") && pricing.includes("free oil and filter service") && pricing.includes("£15 off"), "Missing 25 Nov pricing notes");
 for(const page of pages)assert.ok(!page.text.includes('href="'+legacyPath+'"'),"Internal link still points to old belt page: "+page.pathname);
 
 console.log("Validated "+pages.length+" HTML files, "+entries.length+" sitemap URLs, "+services.length+" service pages, metadata, schema, contact details and internal resources.");
