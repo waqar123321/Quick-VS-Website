@@ -4,15 +4,17 @@
   const accessKey = "5c9e3652-13ae-4dfc-9f71-24cdb76e02b8";
   const registrationPattern = /^(?:[A-Z]{2}\d{2}[A-Z]{3}|[A-Z]\d{1,3}[A-Z]{3}|[A-Z]{3}\d{1,3}[A-Z]|[A-Z]{1,3}\d{1,4}|\d{1,4}[A-Z]{1,3}|\d{3}[DX]\d{3})$/;
   const phonePattern = /^(?:0|\+44|0044)[1235789]\d{8,9}$/;
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   document.querySelectorAll("[data-quote-form]").forEach(form => {
-    const { registration, name, phone, job, mileage, message, botcheck } = form.elements;
+    const { registration, name, phone, email, job, recovery, mileage, message, botcheck } = form.elements;
     const button = form.querySelector('button[type="submit"]');
     const feedback = form.querySelector(".quote-feedback");
     const fields = [
       [registration, () => registrationPattern.test(registration.value.replace(/\s/g, "").toUpperCase()), "Enter a UK registration, for example AB12 CDE."],
       [name, () => Boolean(name.value.trim()), "Enter your name."],
       [phone, () => /^[+\d\s().-]+$/.test(phone.value) && phonePattern.test(phone.value.replace(/[\s().-]/g, "")), "Enter a UK phone number, including the area code for a landline."],
+      ...(email ? [[email, () => !email.value.trim() || emailPattern.test(email.value.trim()), "Enter a valid email address, or leave it blank."]] : []),
       [job, () => Boolean(job.value), "Choose the job you need."],
       [mileage, () => !mileage.value.trim() || /^\d+$/.test(mileage.value.replace(/,/g, "").trim()), "Enter the mileage in numbers, or leave it blank."],
       [message, () => message.value.length <= 500, "Keep the message to 500 characters or fewer."]
@@ -20,6 +22,7 @@
 
     function showError(field, messageText) {
       const error = document.getElementById(field.id + "-error");
+      if (!error) return;
       error.textContent = messageText;
       error.hidden = !messageText;
       if (messageText) {
@@ -59,6 +62,7 @@
       const registrationValue = registration.value.trim().replace(/\s+/g, " ").toUpperCase();
       const jobType = job.value;
       const jobLabel = job.selectedOptions[0].textContent;
+      const recoveryLabel = recovery && recovery.selectedOptions[0] ? recovery.selectedOptions[0].textContent : "";
       const payload = {
         access_key: accessKey,
         subject: `New quote request – ${jobLabel} – ${registrationValue}`,
@@ -66,7 +70,9 @@
         registration: registrationValue,
         name: name.value.trim(),
         phone: phone.value.trim(),
+        ...(email && email.value.trim() ? { email: email.value.trim() } : {}),
         job: jobLabel,
+        ...(recoveryLabel ? { recovery_status: recoveryLabel } : {}),
         mileage: mileage.value.trim(),
         message: message.value.trim(),
         page_url: document.querySelector('link[rel="canonical"]').href

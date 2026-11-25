@@ -67,8 +67,9 @@ function chainCards({ esc }) {
       ['bmw-n47-engine-rebuild', 'N47 →', 'BMW N47'],
       ['bmw-n57-engine-rebuild', 'N57 →', 'BMW N57']
     ]],
-    ['JLR 2.0 Ingenium', 'Start-up rattle or timing warning lights need checking.', [
-      ['jlr-ingenium-engine-rebuild', 'Read more →', 'JLR 2.0 Ingenium']
+    ['JLR 2.0 Ingenium (Evoque, Discovery Sport, Velar, F-Pace)', 'Start-up rattle or timing warning lights on Range Rover Evoque, Discovery Sport or Jaguar Ingenium? From £1,495.', [
+      ['jlr-ingenium-engine-rebuild', 'Ingenium details →', 'JLR 2.0 Ingenium'],
+      ['land-rover-jaguar-specialist-birmingham', 'JLR specialist →', 'Land Rover and Jaguar specialist']
     ]],
     ['VW/Audi/Skoda/SEAT TSI/TFSI', 'Cold-start rattle or cam/crank faults on chain-driven petrol engines?', [
       ['vw-audi-engine-repairs-birmingham', 'Read more →', 'VW/Audi/Skoda/SEAT TSI/TFSI']

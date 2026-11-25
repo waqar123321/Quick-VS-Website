@@ -1043,18 +1043,18 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
 }
 .services-nav-item[open] .services-menu-chevron { transform: translateY(2px) rotate(225deg); }
 .services-dropdown {
-  position: absolute; top: calc(100% + 20px); left: -24px; z-index: 60;
-  width: min(850px, calc(100vw - 36px)); max-height: min(72vh, 670px); overflow-y: auto;
-  padding: 26px; color: var(--ink); background: #fff;
+  position: absolute; top: calc(100% + 20px); left: 50%; transform: translateX(-50%); z-index: 60;
+  width: min(1060px, calc(100vw - 36px)); max-height: min(82vh, 720px); overflow-y: auto;
+  padding: 22px 24px; color: var(--ink); background: #fff;
   border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow);
 }
-.services-dropdown-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 25px; }
-.services-dropdown-heading { margin: 0 0 12px; font-size: 14px; font-weight: 900; color: #131d2c; }
+.services-dropdown-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; }
+.services-dropdown-heading { margin: 0 0 10px; font-size: 13px; font-weight: 900; text-transform: uppercase; letter-spacing: .04em; color: #131d2c; }
 .services-dropdown-group ul { list-style: none; padding: 0; margin: 0; }
-.services-dropdown-group li + li { margin-top: 4px; }
+.services-dropdown-group li + li { margin-top: 2px; }
 .site-nav .services-dropdown a {
-  display: block; padding: 8px 9px; color: #25354a; border-radius: 6px;
-  font-size: 13px; font-weight: 650; line-height: 1.4;
+  display: block; padding: 6px 8px; color: #25354a; border-radius: 6px;
+  font-size: 13px; font-weight: 650; line-height: 1.35;
 }
 .site-nav .services-dropdown a:hover, .site-nav .services-dropdown a:focus-visible {
   color: #131d2c; background: #eff3f8; text-decoration: underline;
@@ -1111,12 +1111,18 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
 .review-card blockquote { margin: 0; }
 .review-card blockquote p { margin: 0; color: #394350; }
 .cookie-settings { border: 0; background: none; color: inherit; font: inherit; padding: 0; text-align: left; cursor: pointer; text-decoration: underline; }
-.consent-panel { position: fixed; left: 18px; bottom: 18px; z-index: 80; width: min(490px,calc(100% - 36px)); max-height: 48vh; overflow-y: auto; background: #fff; color: var(--ink); border: 2px solid var(--night); border-radius: 10px; padding: 22px; box-shadow: var(--shadow); }
-.consent-panel h2 { font-size: 21px; margin-bottom: 10px; line-height: 1.2; }
-.consent-panel p { font-size: 14px; margin-bottom: 16px; }
+.consent-panel {
+  position: fixed; left: 18px; right: 18px; bottom: 14px; z-index: 80;
+  width: min(1140px, calc(100% - 36px)); margin: 0 auto; max-height: 36vh; overflow-y: auto;
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 20px;
+  background: #fff; color: var(--ink); border: 2px solid var(--night); border-radius: 10px;
+  padding: 12px 18px; box-shadow: var(--shadow);
+}
+.consent-panel h2 { font-size: 15px; margin: 0; line-height: 1.2; flex-basis: 100%; }
+.consent-panel p { font-size: 13px; margin: 0; flex: 1 1 360px; }
 .consent-panel a { text-decoration: underline; }
-.consent-actions { display: flex; gap: 10px; }
-.consent-actions button { flex: 1; padding: 12px; border: 1px solid var(--night); border-radius: 6px; font: inherit; font-size: 14px; font-weight: 700; cursor: pointer; background: var(--night); color: #fff; }
+.consent-actions { display: flex; gap: 10px; flex: 0 0 auto; }
+.consent-actions button { flex: 1; min-width: 96px; padding: 10px 16px; border: 1px solid var(--night); border-radius: 6px; font: inherit; font-size: 14px; font-weight: 700; cursor: pointer; background: var(--night); color: #fff; }
 .consent-actions button:last-child { background: #fff; color: var(--night); }
 .site-footer a { overflow-wrap: break-word; }
 .site-footer .text-link { color: #fff; text-decoration: underline; text-underline-offset: 3px; }
@@ -1220,7 +1226,22 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
 .quote-card h2, .next-steps h2 { margin-bottom: 10px; font-size: clamp(25px, 3vw, 33px); }
 .quote-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 18px; margin-bottom: 18px; }
 .quote-field { min-width: 0; }
-.quote-field:last-child { grid-column: 1 / -1; }
+.quote-field-full, .quote-field:last-child { grid-column: 1 / -1; }
+.quote-offer-pills { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; padding: 0; margin: 0 0 16px; }
+.quote-offer-pills li { padding: 6px 11px; border-radius: 999px; background: #e9f5ef; border: 1px solid #b7dfca; color: #144d37; font-size: 13px; font-weight: 800; }
+.offer-band { padding-block: 36px; }
+.offer-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+.offer-card { padding: 20px; border: 1px solid var(--line); border-top: 4px solid var(--accent); border-radius: 8px; background: #fff; }
+.offer-tag { margin: 0 0 6px; color: #146c43; font-size: 12px; font-weight: 900; text-transform: uppercase; letter-spacing: .08em; }
+.offer-card h3 { margin: 0 0 8px; font-size: 18px; line-height: 1.25; }
+.offer-card p:last-child { margin: 0; color: #394350; font-size: 14px; line-height: 1.5; }
+.area-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; margin-top: 20px; }
+.area-card { display: block; padding: 20px; border: 1px solid var(--line); border-radius: 8px; background: #fff; }
+.area-card:hover h3, .area-card:focus-visible h3 { text-decoration: underline; }
+.area-card h3 { margin: 0 0 6px; font-size: 19px; }
+.area-card p { margin: 0; color: #394350; font-size: 15px; }
+@media (max-width: 1020px) { .offer-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .area-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 760px) { .offer-grid, .area-grid { grid-template-columns: 1fr; } .consent-panel { display: block; } .consent-actions { width: 100%; } }
 .quote-field label { display: block; margin-bottom: 4px; font-weight: 700; }
 .quote-field :is(input, select, textarea) {
   display: block; width: 100%; min-height: 48px; padding: 8px 12px; border: 1px solid #596372;
