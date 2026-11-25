@@ -721,7 +721,7 @@ function workshopGallery(ids, heading='Inside our Birmingham workshop', { id, li
   return '<section class="section workshop-evidence"'+(id ? ' id="'+id+'"' : '')+'><p class="section-kicker">Genuine workshop photographs</p><h2>'+esc(heading)+'</h2><div class="workshop-grid">'+ids.map(id=>photoFigure(id)).join('')+'</div>'+(link ? '<a class="text-link" href="'+link+'">More workshop photos →</a>' : '')+'</section>';
 }
 const servicePhotos = {
-  'engine-rebuilds':['5843','5844','5851'],
+  'engine-rebuilds':['5843','6202','6220','5851'],
   'engine-rebuild-birmingham':['5842','5850','5291'],
   'timing-chain-replacement':['5319','5318'],
   'used-engine-supply-and-fit-birmingham':['0839','0432'],
@@ -730,12 +730,19 @@ const servicePhotos = {
   'ford-ecoboost-wet-belt-birmingham':['0429','0441'],
   'ford-transit-ecoblue-wet-belt-birmingham':['0423','0429'],
   'peugeot-citroen-puretech-wet-belt-birmingham':['0429','5847'],
-  'jlr-tdv6-sdv6-engine-rebuild-uk':['5843','0432'],
-  'ford-transit-ecoblue-engine-rebuild-uk':['0423','0429','5843'],
-  'uk-nationwide-engine-rebuild-recovery':['5842','0432','0441'],
+  'jlr-tdv6-sdv6-engine-rebuild-uk':['6201','6204','5843'],
+  'ford-transit-ecoblue-engine-rebuild-uk':['0423','6202','5843'],
+  'uk-nationwide-engine-rebuild-recovery':['5842','0432','0438'],
+  'head-gasket-repair-birmingham':['6203','5847'],
+  'bmw-n47-engine-rebuild':['0434','6220'],
+  'bmw-n57-engine-rebuild':['6201','6204'],
+  'jlr-ingenium-engine-rebuild':['0434','6203'],
+  'range-rover-engine-rebuild':['6201','0438'],
+  'bmw-specialist-birmingham':['5842','0434'],
+  'land-rover-jaguar-specialist-birmingham':['0438','6201'],
   'all-makes-engine-rebuilds':['5849','5850'],
-  'performance-engine-rebuilds':['5842'],
-  'engine-diagnostics':['5846','5847','5851']
+  'performance-engine-rebuilds':['5842','6220'],
+  'engine-diagnostics':['6204','5846','5847','5851']
 };
 const servicePriceNotes = {
   'engine-diagnostics': 'Diagnostics: £50 (waived in full when you proceed with an engine rebuild). Any additional testing or repair scope is discussed separately.',
@@ -985,7 +992,7 @@ function renderContact() {
 function renderAbout() {
   const body=hero("Quick Solution Vehicles LTD","A mechanical workshop in Sparkbrook, Birmingham.","We handle general mechanical repairs alongside engine rebuild enquiries across all makes, models and engine ranges.")+
     '<!-- TODO WAQAR CONFIRM workshop history -->'+sections([["Family-run workshop in Sparkbrook","Quick Solution Vehicles handles general mechanical repairs and specialist engine rebuilds from its Sparkbrook workshop. Call with your registration and the work you need, and we’ll discuss the next step."]])+
-    sections([["A clear repair decision before major work","Our approach starts with the complaint, the engine or vehicle specification and the evidence from inspection. A warning light does not automatically identify a failed component, and a non-runner does not automatically require another engine. We discuss assessment, findings and the scope before major work proceeds. Engine rebuilds typically take 1–3 weeks depending on parts availability and internal damage. The standard engine-rebuild warranty is "+warranty+"."],["Visit or contact the workshop",business.address+". We are open "+business.hours+" Call "+business.primaryPhone+", WhatsApp your registration and fault, or email "+business.email+". "+payment+". Mechanical MOT failures can be repaired here, with the test and retest handled by a testing station."],["Company details","Quick Solution Vehicles LTD is registered under Company No. 16525397. Our 4-ramp workshop covers petrol and diesel engines, commercial vans and performance vehicles, together with diagnostics (£50 — waived on booked rebuilds), timing, brake, clutch and other mechanical work. Recovery is free within 10 miles of Sparkbrook B11 when proceeding with an engine rebuild, and UK-wide recovery is arranged with upfront pricing."]])+workshopGallery(['5842','5849','5847','5850','0441'], "Workshop photos", { id: "workshop-photos" })+reviewSection()+cta();
+    sections([["A clear repair decision before major work","Our approach starts with the complaint, the engine or vehicle specification and the evidence from inspection. A warning light does not automatically identify a failed component, and a non-runner does not automatically require another engine. We discuss assessment, findings and the scope before major work proceeds. Engine rebuilds typically take 1–3 weeks depending on parts availability and internal damage. The standard engine-rebuild warranty is "+warranty+"."],["Visit or contact the workshop",business.address+". We are open "+business.hours+" Call "+business.primaryPhone+", WhatsApp your registration and fault, or email "+business.email+". "+payment+". Mechanical MOT failures can be repaired here, with the test and retest handled by a testing station."],["Company details","Quick Solution Vehicles LTD is registered under Company No. 16525397. Our 4-ramp workshop covers petrol and diesel engines, commercial vans and performance vehicles, together with diagnostics (£50 — waived on booked rebuilds), timing, brake, clutch and other mechanical work. Recovery is free within 10 miles of Sparkbrook B11 when proceeding with an engine rebuild, and UK-wide recovery is arranged with upfront pricing."]])+workshopGallery(['5842','0438','0434','6201','6203','0441'], "Workshop photos", { id: "workshop-photos" })+reviewSection()+cta();
   writePage("/about/",layout({title:"About Quick Solution Vehicles LTD | Sparkbrook Birmingham",description:"Quick Solution Vehicles LTD, Company No. 16525397. All-makes engine rebuilds and mechanical repairs at 56a Stratford Street North, Birmingham B11 1BP.",pathname:"/about/",body}));
 }
 function renderReviews() {

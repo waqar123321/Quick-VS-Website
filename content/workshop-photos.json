@@ -563,5 +563,229 @@
     "redactions": [],
     "sourceBytes": 711074,
     "fallbackBytes": 293295
+  },
+  "6201": {
+    "source": "IMG_6201.JPG",
+    "slug": "seized-crankshaft-bearing-journal-birmingham",
+    "alt": "Heat-damaged and seized crankshaft bearing journal inspected during an engine strip-down",
+    "caption": "Heat-damaged crankshaft bearing journal found during engine strip-down in Sparkbrook.",
+    "width": 1152,
+    "height": 1536,
+    "fallback": "/assets/workshop/seized-crankshaft-bearing-journal-birmingham.jpg",
+    "variants": [
+      {
+        "path": "/assets/workshop/seized-crankshaft-bearing-journal-birmingham-480.webp",
+        "width": 480,
+        "height": 640,
+        "bytes": 40878
+      },
+      {
+        "path": "/assets/workshop/seized-crankshaft-bearing-journal-birmingham-768.webp",
+        "width": 768,
+        "height": 1024,
+        "bytes": 95738
+      },
+      {
+        "path": "/assets/workshop/seized-crankshaft-bearing-journal-birmingham-1152.webp",
+        "width": 1152,
+        "height": 1536,
+        "bytes": 179582
+      }
+    ],
+    "redactions": [],
+    "sourceBytes": 2837085,
+    "fallbackBytes": 314937
+  },
+  "6202": {
+    "source": "IMG_6202.JPG",
+    "slug": "damaged-oil-sump-baffle-debris-birmingham",
+    "alt": "Damaged oil sump baffle tray with internal debris discovered during engine inspection",
+    "caption": "Broken sump baffle and internal debris uncovered during bottom-end assessment.",
+    "width": 1152,
+    "height": 1536,
+    "fallback": "/assets/workshop/damaged-oil-sump-baffle-debris-birmingham.jpg",
+    "variants": [
+      {
+        "path": "/assets/workshop/damaged-oil-sump-baffle-debris-birmingham-480.webp",
+        "width": 480,
+        "height": 640,
+        "bytes": 71690
+      },
+      {
+        "path": "/assets/workshop/damaged-oil-sump-baffle-debris-birmingham-768.webp",
+        "width": 768,
+        "height": 1024,
+        "bytes": 164260
+      },
+      {
+        "path": "/assets/workshop/damaged-oil-sump-baffle-debris-birmingham-1152.webp",
+        "width": 1152,
+        "height": 1536,
+        "bytes": 293936
+      }
+    ],
+    "redactions": [],
+    "sourceBytes": 3357859,
+    "fallbackBytes": 420357
+  },
+  "6203": {
+    "source": "IMG_6203.JPG",
+    "slug": "cylinder-head-valves-combustion-chamber-birmingham",
+    "alt": "Close-up view of removed cylinder head combustion chambers and valves on the workshop bench",
+    "caption": "Cylinder head combustion chambers and valves inspected during top-end strip-down.",
+    "width": 1152,
+    "height": 1536,
+    "fallback": "/assets/workshop/cylinder-head-valves-combustion-chamber-birmingham.jpg",
+    "variants": [
+      {
+        "path": "/assets/workshop/cylinder-head-valves-combustion-chamber-birmingham-480.webp",
+        "width": 480,
+        "height": 640,
+        "bytes": 51310
+      },
+      {
+        "path": "/assets/workshop/cylinder-head-valves-combustion-chamber-birmingham-768.webp",
+        "width": 768,
+        "height": 1024,
+        "bytes": 119152
+      },
+      {
+        "path": "/assets/workshop/cylinder-head-valves-combustion-chamber-birmingham-1152.webp",
+        "width": 1152,
+        "height": 1536,
+        "bytes": 226164
+      }
+    ],
+    "redactions": [],
+    "sourceBytes": 3269475,
+    "fallbackBytes": 362893
+  },
+  "6204": {
+    "source": "IMG_6204.JPG",
+    "slug": "metal-debris-in-engine-oil-sump-birmingham",
+    "alt": "Metal fragments and swarf inside a removed engine oil sump during failure diagnosis",
+    "caption": "Metal fragments found inside an oil sump \u2014 confirming internal engine wear before quoting.",
+    "width": 1152,
+    "height": 864,
+    "fallback": "/assets/workshop/metal-debris-in-engine-oil-sump-birmingham.jpg",
+    "variants": [
+      {
+        "path": "/assets/workshop/metal-debris-in-engine-oil-sump-birmingham-480.webp",
+        "width": 480,
+        "height": 360,
+        "bytes": 35590
+      },
+      {
+        "path": "/assets/workshop/metal-debris-in-engine-oil-sump-birmingham-768.webp",
+        "width": 768,
+        "height": 576,
+        "bytes": 79728
+      },
+      {
+        "path": "/assets/workshop/metal-debris-in-engine-oil-sump-birmingham-1152.webp",
+        "width": 1152,
+        "height": 864,
+        "bytes": 140466
+      }
+    ],
+    "redactions": [],
+    "sourceBytes": 2872639,
+    "fallbackBytes": 210997
+  },
+  "6220": {
+    "source": "IMG_6220.JPG",
+    "slug": "cylinder-bore-scoring-inspection-birmingham",
+    "alt": "Close-up of vertical scoring and wear lines inside a dismantled cylinder bore",
+    "caption": "Cylinder bore wear and vertical scoring inspected during block measurement.",
+    "width": 1152,
+    "height": 1536,
+    "fallback": "/assets/workshop/cylinder-bore-scoring-inspection-birmingham.jpg",
+    "variants": [
+      {
+        "path": "/assets/workshop/cylinder-bore-scoring-inspection-birmingham-480.webp",
+        "width": 480,
+        "height": 640,
+        "bytes": 21398
+      },
+      {
+        "path": "/assets/workshop/cylinder-bore-scoring-inspection-birmingham-768.webp",
+        "width": 768,
+        "height": 1024,
+        "bytes": 45212
+      },
+      {
+        "path": "/assets/workshop/cylinder-bore-scoring-inspection-birmingham-1152.webp",
+        "width": 1152,
+        "height": 1536,
+        "bytes": 86026
+      }
+    ],
+    "redactions": [],
+    "sourceBytes": 2005458,
+    "fallbackBytes": 205058
+  },
+  "0434": {
+    "source": "IMG_0434.JPG",
+    "slug": "cylinder-head-camshaft-strip-down-birmingham",
+    "alt": "Gloved technician dismantling a twin-cam cylinder head and valve gear on a workshop bench",
+    "caption": "Top-end camshaft and cylinder head dismantling in our Birmingham workshop.",
+    "width": 1152,
+    "height": 1536,
+    "fallback": "/assets/workshop/cylinder-head-camshaft-strip-down-birmingham.jpg",
+    "variants": [
+      {
+        "path": "/assets/workshop/cylinder-head-camshaft-strip-down-birmingham-480.webp",
+        "width": 480,
+        "height": 640,
+        "bytes": 59914
+      },
+      {
+        "path": "/assets/workshop/cylinder-head-camshaft-strip-down-birmingham-768.webp",
+        "width": 768,
+        "height": 1024,
+        "bytes": 137710
+      },
+      {
+        "path": "/assets/workshop/cylinder-head-camshaft-strip-down-birmingham-1152.webp",
+        "width": 1152,
+        "height": 1536,
+        "bytes": 265334
+      }
+    ],
+    "redactions": [],
+    "sourceBytes": 3200922,
+    "fallbackBytes": 398130
+  },
+  "0438": {
+    "source": "IMG_0438.JPG",
+    "slug": "engine-bay-front-end-strip-down-birmingham",
+    "alt": "Vehicle raised on a workshop ramp with its front end stripped back for engine access",
+    "caption": "Front-end and engine bay stripped back on our workshop ramp for major engine work.",
+    "width": 1152,
+    "height": 1536,
+    "fallback": "/assets/workshop/engine-bay-front-end-strip-down-birmingham.jpg",
+    "variants": [
+      {
+        "path": "/assets/workshop/engine-bay-front-end-strip-down-birmingham-480.webp",
+        "width": 480,
+        "height": 640,
+        "bytes": 48404
+      },
+      {
+        "path": "/assets/workshop/engine-bay-front-end-strip-down-birmingham-768.webp",
+        "width": 768,
+        "height": 1024,
+        "bytes": 109200
+      },
+      {
+        "path": "/assets/workshop/engine-bay-front-end-strip-down-birmingham-1152.webp",
+        "width": 1152,
+        "height": 1536,
+        "bytes": 199356
+      }
+    ],
+    "redactions": [],
+    "sourceBytes": 4958341,
+    "fallbackBytes": 331705
   }
 }

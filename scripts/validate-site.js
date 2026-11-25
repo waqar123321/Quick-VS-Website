@@ -244,13 +244,13 @@ for(const guide of guides) {
 }
 assert.equal(fs.readFileSync(path.join(root,"robots.txt"),"utf8"),"User-agent: *\nAllow: /\n\nSitemap: https://quickvs.com/sitemap.xml\n");
 assert.ok(fs.existsSync(path.join(root,".nojekyll")));
-assert.equal(Object.keys(photos).length,17,'All supplied photos classified');
+assert.equal(Object.keys(photos).length,24,'All supplied photos classified');
 for(const photo of Object.values(photos)) {
   assert.ok(pages.some(p=>p.text.includes(photo.fallback)),'Photo has no visible placement: '+photo.source);
   assert.ok(photo.variants.every(v=>v.bytes<photo.sourceBytes),'Responsive image should reduce bytes');
 }
 assert.ok(photos['5842'].redactions.length>=1,'X5 privacy review must be recorded');
-for (const id of ['0441','0432','0423','0429','0839','5291','5318','5319']) {
+for (const id of ['0441','0432','0423','0429','0839','5291','5318','5319','6201','6202','6203','6204','6220','0434','0438']) {
   const { slug, fallback, variants } = photos[id];
   assert.match(slug, /^(?!qsv-)[a-z0-9]+(?:-[a-z0-9]+)+$/, 'Use a descriptive workshop photo slug: '+id);
   assert.doesNotMatch(slug, /-\d{2}$/, 'Do not include the selection number: '+id);
