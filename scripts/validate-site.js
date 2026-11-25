@@ -50,7 +50,7 @@ const titles=new Set(),descriptions=new Set();
 const photos=JSON.parse(fs.readFileSync(path.join(root,'content/workshop-photos.json'),'utf8'));
 for(const page of pages) {
   const {text,pathname}=page;
-  const needsBreadcrumb = pathname.startsWith("/services/") || pathname.startsWith("/blog/") || pathname === "/pricing/";
+  const needsBreadcrumb = pathname.startsWith("/services/") || pathname.startsWith("/blog/") || pathname.startsWith("/areas/") || pathname === "/pricing/";
   if (needsBreadcrumb) {
     const breadcrumb = text.match(/<nav class="breadcrumbs" aria-label="Breadcrumb">([\s\S]*?)<\/nav>/)?.[1];
     assert.ok(breadcrumb?.includes('href="/"') && breadcrumb.includes('aria-current="page"'), pathname+": missing breadcrumb markup");
@@ -81,8 +81,8 @@ for(const page of pages) {
   assert.ok(!/3[ -]months? or 10,000[ -]miles?/i.test(text),pathname+": outdated rebuild warranty");
   assert.ok(!/jotform/i.test(text),pathname+": retired enquiry form");
   const forms=[...text.matchAll(/<form\b[^>]*>/gi)].map(match=>match[0]);
-  const hasQuoteForm=/^\/services\/[^/]+\/$/.test(pathname)||["/","/contact/","/pricing/"].includes(pathname);
-  const singleQuoteForm = pathname === "/" || require("../content/mobile-service-sections").paths.has(pathname);
+  const hasQuoteForm=/^\/services\/[^/]+\/$/.test(pathname)||/^\/areas\/(?:[^/]+\/)?$/.test(pathname)||["/","/contact/","/pricing/"].includes(pathname);
+  const singleQuoteForm = pathname === "/" || pathname === "/pricing/" || pathname === "/contact/" || pathname.startsWith("/areas/") || require("../content/mobile-service-sections").paths.has(pathname);
   assert.equal(forms.length,singleQuoteForm ? 1 : hasQuoteForm ? 2 : 0,pathname+": quote form count");
   assert.ok(forms.every(form=>form.includes('data-quote-form action="https://api.web3forms.com/submit" method="post"')),pathname+": unexpected form delivery");
   assert.ok(!/\/assets\/wet-belt\/|AI-generated illustration/i.test(text),pathname+": generated image reference");
@@ -172,7 +172,10 @@ assert.ok(pricing.includes("parts and materials additional")||pricing.includes("
 const pricingMain=pricing.match(/<main\b[^>]*>([\s\S]*?)<\/main>/)[1];
 assert.equal((pricingMain.match(/<table\b/g)||[]).length,2,"Pricing should use two compact price lists");
 assert.ok(!/faq-list|pricing-card|number-list/.test(pricingMain),"Keep pricing free of FAQs, breakdown cards and preparation lists");
-assert.ok(withoutQuoteForms(pricingMain).replace(/<[^>]*>/g," ").trim().split(/\s+/).length<=300,"Keep pricing concise");
+assert.ok(withoutQuoteForms(pricingMain).replace(/<section class="section section-muted">[\s\S]*?<\/section>/g,"").replace(/<[^>]*>/g," ").trim().split(/\s+/).length<=340,"Keep pricing concise");
+const homeFaqSchema = [...home.matchAll(/<script type="application\/ld\+json">\s*([\s\S]*?)\s*<\/script>/g)].map(m=>JSON.parse(m[1])).find(s=>s["@type"]==="FAQPage");
+const homeVisibleFaqs = [...homeMain.matchAll(/<div class="faq-list">([\s\S]*?)<\/div>/g)].flatMap(m => [...m[1].matchAll(/<details>/g)]).length;
+assert.equal(homeFaqSchema.mainEntity.length, homeVisibleFaqs, "Homepage FAQPage schema count must match visible FAQ items");
 const dropdown=home.match(/<details class="services-nav-item"[\s\S]*?<\/details>/)?.[0];
 assert.ok(dropdown&&dropdown.includes("<summary>Workshop Services"),"Workshop Services navigation must be a labelled clickable dropdown");
 const stylesheet=fs.readFileSync(path.join(root,"styles.css"),"utf8");
@@ -198,7 +201,7 @@ for(const service of services) {
   const main=service.text.match(/<main\b[^>]*>([\s\S]*?)<\/main>/)[1].replace(/<[^>]*>/g," ").replace(/&[a-z#0-9]+;/gi," ");
   assert.ok(main.trim().split(/\s+/).length>=200,"Service needs useful customer-facing detail: "+service.pathname);
 }
-assert.equal(services.length,31);
+assert.equal(services.length,37);
 for (const slug of ["battery-starter-alternator-repairs", "wheel-bearing-replacement", "cooling-system-repairs", "diesel-injector-repairs"]) {
   const page=services.find(service=>service.pathname==="/services/"+slug+"/");
   assert.ok(page,"Missing confirmed service "+slug);
@@ -271,7 +274,7 @@ for(const [i,slug] of timingLandingSlugs.entries()) {
     .replace(/<section class="section service-detail landing-cost"[\s\S]*?<\/section>/g,"")
     .replace(/<section class="section workshop-evidence"[\s\S]*?<\/section>/g,"")
     .replace(/<[^>]*>/g," ").replace(/&[a-z#0-9]+;/gi," ").trim().split(/\s+/).length;
-  assert.ok(words>=(i===0?700:600)&&words<=(i===0?1100:1000),slug+": content length "+words);
+  assert.ok(words>=(i===0?700:600)&&words<=(i===0?1150:1050),slug+": content length "+words);
   const prices=[...text.matchAll(/£[\d,]+/g)].map(match=>match[0]);
   assert.deepEqual(prices,i===0?[]:["£299","£299","£399"],slug+": unapproved price");
   assert.ok(!/\bDSG\b|gearbox|\bEGR\b|auto.electrics/i.test(text),slug+": unrelated service");

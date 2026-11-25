@@ -48,7 +48,14 @@
 }
 
 @media (max-width: 760px) {
-  .back-to-top { inset-block-end: calc(66px + env(safe-area-inset-bottom)); }
+  .back-to-top {
+    inset-inline-start: max(12px, env(safe-area-inset-left));
+    inset-inline-end: auto;
+    inset-block-end: calc(66px + env(safe-area-inset-bottom));
+    padding: 0 10px;
+    font-size: 13px;
+    opacity: .94;
+  }
   .mobile-dock:has(.consent-panel:not([hidden])) .back-to-top {
     inset-block-end: calc(66px + 25vh + env(safe-area-inset-bottom));
     inset-block-end: calc(66px + 25dvh + env(safe-area-inset-bottom));

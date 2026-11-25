@@ -44,3 +44,12 @@
 - Wet belt usually completed within 48 hours of drop-off.
 - 6 months or 10,000 miles warranty on wet belts, timing chains, cambelts, clutches and rebuilds.
 - UI conventions from this PR: small, muted breadcrumbs inside the hero, with the current item truncated on narrow screens; hide repeated hero eyebrows on service, landing and blog pages; use the shared jump menu; keep links inside card copy inline; use the three-block footer with a collapsed service directory; keep the homepage ordered hero, trust strip, everyday-first repairs, pricing guidance, reviews, workshop photos, FAQs, location and one quote form; show the fixed mobile contact bar when the hero contact buttons leave the viewport.
+
+## Owner-approved 25 November 2026 terms
+
+- Current confirmed Google review count: 18 (5.0 stars).
+- Free vehicle recovery within 10 miles of 56a Stratford Street North, Sparkbrook, Birmingham B11 1BP when proceeding with an engine rebuild; UK-wide recovery arranged with upfront pricing.
+- £50 diagnostic fee waived/credited when proceeding with an engine rebuild.
+- Payment terms: parts deposit upfront, balance due on collection by debit card or bank transfer. No split payments, no finance, no 3-stage payment plans.
+- Same-day turnaround available on routine jobs (servicing, brakes, diagnostics, standard clutches and cambelts subject to parts availability and booking).
+- Do not promise a free 1,000-mile post-rebuild check or WhatsApp photo/video build logs.
