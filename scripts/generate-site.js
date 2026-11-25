@@ -148,12 +148,12 @@ const generalServices = [
   {
     slug: "timing-chain-replacement",
     title: "Timing Chain Replacement in Birmingham",
-    short: "Timing chain, guide, tensioner and related repair work.",
-    desc: "Timing chain replacement in Birmingham for rattles, chain stretch, guide failure and serious timing-related engine faults.",
+    short: "Timing chains from £549 · BMW N47 from £1,195 · JLR Ingenium from £1,495.",
+    desc: "Timing chain replacement in Birmingham: VW/Audi from £549, BMW N47 from £1,195, JLR Ingenium (Evoque & Discovery Sport) from £1,495. 6-month / 10k warranty.",
     intro:
-      "Our all-makes garage assesses timing chain faults on BMW N47/N57, JLR Ingenium, VW/Audi TSI/TFSI petrol engines, Mercedes and Jaguar. We investigate rattles, timing faults and warning lights before agreeing repair work.",
-    points: ["Chain, guide and tensioner replacement", "BMW N47 and N57 knowledge", "Engine damage checks before repair"],
-    related: ["/services/bmw-n47-engine-rebuild/", "/services/bmw-n57-engine-rebuild/"]
+      "Cold-start rattle or stretched timing chain? Speak straight to our Sparkbrook, Birmingham B11 workshop. We replace timing chains on VW/Audi TSI/TFSI (from £549), BMW N47 (from £1,195), JLR 2.0 Ingenium — including Range Rover Evoque & Discovery Sport (from £1,495) — plus BMW N57, Mercedes and all makes, backed by our 6-month / 10,000-mile written warranty.",
+    points: ["VW/Audi from £549 · BMW N47 from £1,195 · JLR Ingenium from £1,495", "Full chain, guide and tensioner kits — written price agreed before work", "6-month / 10,000-mile warranty · £50 diagnostic waived if a rebuild is needed"],
+    related: ["/services/bmw-n47-engine-rebuild/", "/services/bmw-n57-engine-rebuild/", "/services/jlr-ingenium-engine-rebuild/", "/services/land-rover-jaguar-specialist-birmingham/"]
   },
   {
     slug: "clutch-replacement",
@@ -349,11 +349,11 @@ const specialistServices = [
   },
   {
     slug: "engine-rebuild-birmingham",
-    title: "Engine Rebuild Workshop in Sparkbrook, Birmingham",
-    desc: "Engine rebuilds in Birmingham and Sparkbrook for petrol and diesel vehicles, with recovery support and rebuild warranty.",
+    title: "Engine Rebuild & Replacement Specialist in Birmingham",
+    desc: "Engine rebuilds from £3,000 & used engine replacements from £1,395 in Sparkbrook, Birmingham. Free 10-mile recovery, £50 diag waived on rebuilds, 6-month warranty.",
     keyword: "engine rebuild Birmingham",
     opening:
-      "If your car has serious engine damage, the decision is usually repair, rebuild or replace. Quick Solution Vehicles in Sparkbrook, Birmingham helps drivers make that decision with practical diagnosis and honest advice before major money is spent.",
+      "Engine failed, knocking or non-running? Speak straight to our 4-ramp Sparkbrook, Birmingham workshop for honest advice on rebuild vs replacement. Engine rebuilds start from £3,000 (JLR Ingenium from £3,500, BMW N47 from £3,250, BMW N57 from £4,200, TDV6/SDV6 from £4,750) and used engines supplied & fitted start from £1,395 — with FREE recovery within 10 miles, UK-wide collection arranged, and our £50 diagnostic fee waived when you book a rebuild.",
     why:
       "Engines fail for many reasons: timing faults, lubrication problems, overheating, oil contamination, component wear or previous poor repairs. The correct route depends on the damage found during inspection.",
     symptoms: ["Knocking or rattling", "Smoke or overheating", "Oil pressure warnings", "Loss of compression", "Non-start or seized engine"],
@@ -777,7 +777,7 @@ const heroOffers = {
   "engine-diagnostics": "Find the cause before agreeing a repair. Diagnostics £50",
   "servicing": "Choose the service your car needs. Oil and filter labour from £60",
   "brakes": "Have your brakes checked and repaired. Front pad fitting labour from £40 per side",
-  "timing-chain-replacement": quoteLead,
+  "timing-chain-replacement": "VW/Audi from £549 · BMW N47 from £1,195 · JLR Ingenium from £1,495 · 6-month / 10k warranty",
   [timingServices.vagSlug]: quoteLead,
   [timingServices.cambeltSlug]: quoteLead
 };
