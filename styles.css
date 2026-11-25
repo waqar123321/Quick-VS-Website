@@ -1049,6 +1049,11 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
   border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow);
 }
 .services-dropdown-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; }
+@media (min-width: 1201px) {
+  .header-inner { position: relative; }
+  .services-nav-item { position: static; }
+  .services-dropdown { top: 100%; }
+}
 .services-dropdown-heading { margin: 0 0 10px; font-size: 13px; font-weight: 900; text-transform: uppercase; letter-spacing: .04em; color: #131d2c; }
 .services-dropdown-group ul { list-style: none; padding: 0; margin: 0; }
 .services-dropdown-group li + li { margin-top: 2px; }
@@ -1147,7 +1152,7 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
   .nav-toggle[hidden] + .nav-fallback { display: inline-flex; align-items: center; min-height: 48px; padding-inline: 9px; border: 1px solid #58606e; border-radius: 6px; color: #fff; font-size: 14px; font-weight: 800; }
   .services-nav-item { width: 100%; }
   .services-nav-item > summary { display: flex; justify-content: space-between; padding: 12px 18px; font-size: 15px; }
-  .services-dropdown { position: static; width: 100%; max-height: none; padding: 18px; overflow: visible; border-radius: 8px; box-shadow: none; }
+  .services-dropdown { position: static; left: auto; transform: none; width: 100%; max-height: none; padding: 18px; overflow: visible; border-radius: 8px; box-shadow: none; }
   .services-dropdown-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; }
 }
 @media (max-width: 600px) {
