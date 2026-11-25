@@ -32,13 +32,14 @@ async function testMobileMenu() {
   });
   try {
     const page = await browser.newPage({ viewport, isMobile: true, hasTouch: true, reducedMotion: "reduce" });
-    await page.route("**/*", route => {
+    const serveSite = route => {
       const url = new URL(route.request().url());
       if (url.origin !== origin) return route.abort();
       const file = path.join(root, url.pathname, url.pathname.endsWith("/") ? "index.html" : "");
       if (!fs.existsSync(file)) return route.abort();
       return route.fulfill({ path: file });
-    });
+    };
+    await page.route("**/*", serveSite);
 
     const toggle = page.locator("[data-nav-toggle]");
     const menu = page.locator("[data-nav]");
@@ -84,6 +85,45 @@ async function testMobileMenu() {
         assert.equal(await skipLink.evaluate(anchor => anchor.inert), false, scenario + " skip link is restored");
       }
     }
+
+    const servicesSummary = page.locator(".services-nav-item > summary");
+    const dropdown = page.locator(".services-dropdown");
+    for (const width of [320, 390, 768, 1024, 1200]) {
+      await page.setViewportSize({ width, height: viewport.height });
+      await page.goto(origin + "/");
+      await toggle.tap();
+      await servicesSummary.tap();
+      await dropdown.waitFor({ state: "visible" });
+
+      const menuBox = await menu.boundingBox();
+      const dropdownBox = await dropdown.boundingBox();
+      const linkBox = await dropdown.getByRole("link").first().boundingBox();
+      assert.ok(menuBox && dropdownBox && linkBox, `${width}px shows the menu, dropdown and first link`);
+      assert.ok(
+        dropdownBox.x >= menuBox.x - 1 && dropdownBox.x + dropdownBox.width <= menuBox.x + menuBox.width + 1,
+        `${width}px dropdown (x=${dropdownBox.x}, width=${dropdownBox.width}) fits the mobile menu (x=${menuBox.x}, width=${menuBox.width})`
+      );
+      assert.ok(linkBox.x >= 0 && linkBox.x + linkBox.width <= width, `${width}px first service link fits the viewport`);
+      assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true, `${width}px has no horizontal page overflow`);
+    }
+    await page.setViewportSize(viewport);
+
+    const desktop = await browser.newPage({ reducedMotion: "reduce" });
+    await desktop.route("**/*", serveSite);
+    const desktopSummary = desktop.locator(".services-nav-item > summary");
+    const desktopDropdown = desktop.locator(".services-dropdown");
+    for (const width of [1201, 1280, 1366, 1440, 1920]) {
+      await desktop.setViewportSize({ width, height: viewport.height });
+      await desktop.goto(origin + "/");
+      await desktopSummary.click();
+      await desktopDropdown.waitFor({ state: "visible" });
+
+      const box = await desktopDropdown.boundingBox();
+      assert.ok(box, `${width}px shows the desktop dropdown`);
+      assert.ok(box.x >= 0 && box.x + box.width <= width, `${width}px dropdown (x=${box.x}, width=${box.width}) fits the viewport`);
+    }
+    await desktop.close();
+    console.log("Workshop Services dropdown fits at mobile, tablet and desktop widths from 320px to 1920px.");
 
     await page.route("**/script.js?*", route => route.abort());
     for (const width of [320, 390, 1024, 1200]) {
