@@ -1,7 +1,7 @@
 const fs = require("node:fs");
 const path = require("node:path");
 const assert = require("node:assert/strict");
-const root = path.resolve(__dirname, "..");
+const { publicFiles, publicRoot: root } = require("./public-output");
 const origin = "https://quickvs.com";
 function assertNoReviewMarkup(value, pathname) {
   if (!value || typeof value !== "object") return;
@@ -17,11 +17,15 @@ function esc(value) {
 }
 function walk(dir) {
   return fs.readdirSync(dir, {withFileTypes:true}).flatMap(entry => {
-    if (entry.name.startsWith(".") || ["node_modules","_internal"].includes(entry.name)) return [];
     const full=path.join(dir,entry.name);
+    assert.ok(entry.isDirectory() || entry.isFile(), full+": public output must contain ordinary files and directories");
+    assert.ok(!["_internal","scripts","content","node_modules"].includes(entry.name)
+      && !/\.md$|^package.*\.json$/i.test(entry.name), full+": private source in public output");
     return entry.isDirectory()?walk(full):[full];
   });
 }
+for (const file of publicFiles) assert.ok(fs.statSync(path.join(root,file)).isFile(), file+": missing public asset");
+assert.equal(fs.readFileSync(path.join(root,"CNAME"),"utf8").trim(), "quickvs.com");
 const htmlFiles=walk(root).filter(file=>file.endsWith(".html"));
 const allHtmlPages=htmlFiles.map(file=>{
   const rel=path.relative(root,file).replaceAll("\\","/");
@@ -36,6 +40,7 @@ assert.ok(legacy.text.includes('rel="canonical" href="https://quickvs.com/servic
 assert.ok(legacy.text.includes('content="noindex, follow"'),"Legacy redirect must not compete with the new page");
 for (const { text, pathname } of allHtmlPages) {
   assert.equal([...text.matchAll(/<h1(?=[\s>])/gi)].length, 1, pathname+": expected one H1");
+  assert.ok(![...text.matchAll(/<!--[\s\S]*?-->/g)].some(([comment])=>/TODO/i.test(comment)), pathname+": internal TODO in public HTML");
 }
 const withoutQuoteForms=html=>html.replace(/<section class="section quote-section"[^>]*>[\s\S]*?<\/section>/g,"");
 const pagesByPath = new Map(allHtmlPages.map(page => [page.pathname, page]));
@@ -47,7 +52,7 @@ const indexable=pages.filter(p=>p.pathname!=="/404.html");
 assert.equal(entries.length,indexable.length,"Sitemap must include every indexable page exactly once");
 assert.equal(new Set(entries.map(e=>e.url)).size,entries.length,"Duplicate sitemap URL");
 const titles=new Set(),descriptions=new Set();
-const photos=JSON.parse(fs.readFileSync(path.join(root,'content/workshop-photos.json'),'utf8'));
+const photos=require("../content/workshop-photos.json");
 for(const page of pages) {
   const {text,pathname}=page;
   const needsBreadcrumb = pathname.startsWith("/services/") || pathname.startsWith("/blog/") || pathname.startsWith("/areas/") || pathname === "/pricing/";
@@ -75,8 +80,7 @@ for(const page of pages) {
   assert.ok(!titles.has(title),pathname+": duplicate title");titles.add(title);
   assert.ok(!descriptions.has(description),pathname+": duplicate description");descriptions.add(description);
   assert.ok(text.includes("G-GEJR9VMEYV"),pathname+": missing real GA4 ID");
-  const publicHtml=text.replace(/<!-- TODO WAQAR (?:PHOTO|CONFIRM)[^>]*-->/g,"");
-  assert.ok(!/(?:G|GTM|AW)-X{3,}|YOUR_[A-Z_]+|TODO|example\.com/i.test(publicHtml),pathname+": invalid public configuration");
+  assert.ok(!/(?:G|GTM|AW)-X{3,}|YOUR_[A-Z_]+|TODO|example\.com/i.test(text),pathname+": invalid public configuration");
   assert.ok(!/quickvs\.co\.uk|https?:\/\/www\.quickvs\.com|http:\/\/quickvs\.com/i.test(text),pathname+": legacy domain");
   assert.ok(!/3[ -]months? or 10,000[ -]miles?/i.test(text),pathname+": outdated rebuild warranty");
   assert.ok(!/jotform/i.test(text),pathname+": retired enquiry form");
@@ -213,7 +217,7 @@ for (const slug of ["battery-starter-alternator-repairs", "wheel-bearing-replace
   assert.ok(!/class="service-price-note"/.test(page.text),"No unconfirmed separate service price: "+slug);
 }
 assert.ok(services.find(service=>service.pathname==="/services/suspension-steering-repairs/").text.includes("Shock absorbers and coil springs"),"Suspension page must cover confirmed shocks and springs work");
-const reviews=JSON.parse(fs.readFileSync(path.join(root,"content/reviews.json"),"utf8")).reviews;
+const { reviews }=require("../content/reviews.json");
 assert.equal(reviews.length,5);
 for(const page of pages.filter(p=>p.pathname==="/"||p.pathname==="/testimonials/"||["/services/timing-chain-replacement/","/services/vw-audi-engine-repairs-birmingham/","/services/cambelt-replacement-birmingham/"].includes(p.pathname)||(p.pathname.startsWith("/services/")&&/rebuild/.test(p.pathname)))) {
   const cards=[...page.text.matchAll(/<figure class="review-card">([\s\S]*?)<\/figure>/g)].map(m=>m[1]);

@@ -3,7 +3,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { chromium } = require('playwright');
 const { paths } = require('../content/mobile-service-sections');
-const root = path.resolve(__dirname, '..');
+const { publicRoot: root } = require('./public-output');
 const origin = 'https://quickvs.test';
 
 async function waitForJump(page, id) {

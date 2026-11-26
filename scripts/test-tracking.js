@@ -1,6 +1,8 @@
 const fs=require("node:fs"),path=require("node:path"),vm=require("node:vm"),assert=require("node:assert/strict");
-const source=fs.readFileSync(path.join(__dirname,"../script.js"),"utf8");
-const head=fs.readFileSync(path.join(__dirname,"../index.html"),"utf8").match(/<script>([\s\S]*?)<\/script>/)[1];
+const { publicRoot } = require("./public-output");
+const source=fs.readFileSync(path.join(publicRoot,"script.js"),"utf8");
+const homepage=fs.readFileSync(path.join(publicRoot,"index.html"),"utf8");
+const head=homepage.match(/<script>([\s\S]*?)<\/script>/)[1];
 function fixture(stored=null,storageThrows=false,pageUrl="https://quickvs.com/services/performance-engine-rebuilds/?reg=private",consentKey="qsv-analytics-consent-v2",referrer="https://search.test/path?private=value") {
   const listeners={},buttons={},scripts=[],events=[],cookies=[],storage=new Map();
   if(stored)storage.set(consentKey,JSON.stringify(stored));
@@ -23,7 +25,7 @@ function fixture(stored=null,storageThrows=false,pageUrl="https://quickvs.com/se
   Object.defineProperty(document,"cookie",{get(){return "_ga=old; _ga_GEJR9VMEYV=old; _gcl_aw=old; _gcl_au=old; unrelated=keep"},set(value){cookies.push(value)}});
   const context={document,location:{href:pageUrl,hostname:"quickvs.com",pathname:new URL(pageUrl).pathname},URL,URLSearchParams,Date,encodeURIComponent,localStorage:{getItem(k){if(storageThrows)throw Error("disabled");return storage.get(k)||null},setItem(k,v){if(storageThrows)throw Error("disabled");storage.set(k,v)}}};
   context.window=context;vm.createContext(context);vm.runInContext(head,context);
-  for (const match of fs.readFileSync(path.join(__dirname,"../index.html"),"utf8").matchAll(/<script async src="([^"]+)"><\/script>/g)) scripts.push({src:match[1]});
+  for (const match of homepage.matchAll(/<script async src="([^"]+)"><\/script>/g)) scripts.push({src:match[1]});
   vm.runInContext(source,context);
   function click(href,where="hero",prevented=false){
     const anchor={dataset:{contactLocation:where},getAttribute(){return href}};
@@ -87,7 +89,7 @@ f=fixture(null,false,"https://quickvs.com/?utm_source=google&utm_medium=organic&
 f.accept.click();campaign=f.context.dataLayer.find(x=>x[0]==="config")[2];
 assert.equal(campaign.campaign_content,undefined,"Unknown GBP content must not override campaign_content");
 for(const pathname of ["/", "/services/wet-belt-replacement/", "/services/timing-chain-replacement/", "/services/engine-rebuild-birmingham/", "/services/vw-audi-engine-repairs-birmingham/", "/services/cambelt-replacement-birmingham/", "/contact/"]) {
-  const html=fs.readFileSync(path.join(__dirname,"..",pathname,"index.html"),"utf8");
+  const html=fs.readFileSync(path.join(publicRoot,pathname,"index.html"),"utf8");
   assert.equal(html.match(/<script>([\s\S]*?)<\/script>/)[1],head,"New page must retain the shared consent-aware Google setup");
   assert.match(html, /<script defer src="\/script\.js\?v=[^"]+"><\/script>/, "Page must load the shared tracking script");
   const contacts=["tel:+447522179040","https://wa.me/447522179040?","mailto:info@quickvs.com","https://maps.google.com/maps?cid=2157141621358514254"].map(prefix=>{
@@ -146,7 +148,6 @@ console.log("Tracking tests passed: advanced consent, Ads destinations and conve
 // Every generated page must initialise consent and redaction before the loader.
 function checkPages(dir) {
   for (const entry of fs.readdirSync(dir,{withFileTypes:true})) {
-    if (entry.name === ".git" || entry.name === "node_modules") continue;
     const file=path.join(dir,entry.name);
     if(entry.isDirectory()) checkPages(file);
     else if(entry.name.endsWith(".html")) {
@@ -159,7 +160,7 @@ function checkPages(dir) {
     }
   }
 }
-checkPages(path.join(__dirname,".."));
+checkPages(publicRoot);
 f=fixture();
 assert.ok(!Object.keys(f.context).some(key=>key.startsWith("ga-disable-")));
 assert.equal(f.context.dataLayer.filter(x=>x[0]==="config" && x[1]==="AW-18511720683").length,1);

@@ -1,19 +1,17 @@
 import fs from "node:fs/promises";
 import path from "node:path";
-import { fileURLToPath } from "node:url";
 import { generate } from "critical";
 import puppeteer from "puppeteer";
+import output from "./public-output.js";
 
-const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+const root = output.publicRoot;
 const dimensions = [{ width: 375, height: 812 }, { width: 1350, height: 940 }];
 const stylesheetPattern = /<link rel="stylesheet" href="([^"]+)">/g;
 
-// Scan only delivered pages, never node_modules, reports or preview output.
 async function pagesIn(directory) {
   const entries = await fs.readdir(directory, { withFileTypes: true });
   const files = [];
   for (const entry of entries) {
-    if (entry.name.startsWith(".") || ["node_modules", "_internal", "dist"].includes(entry.name)) continue;
     const file = path.join(directory, entry.name);
     if (entry.isDirectory()) files.push(...await pagesIn(file));
     else if (entry.name.endsWith(".html")) files.push(file);
