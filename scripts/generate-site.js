@@ -624,6 +624,28 @@ const jumpLabels = new Map([
   ["Why timing loss can require further inspection", "Timing failure"],
   ["When rebuilding or replacement becomes the discussion", "Repair options"],
   ["Keep the original cause in the repair plan", "Failure diagnosis"],
+  ["How much does a Ford 1.0 EcoBoost wet belt replacement cost?", "EcoBoost cost"],
+  ["Does every 1.0 EcoBoost engine use a wet timing belt?", "Belt vs chain"],
+  ["Why degraded EcoBoost belts block the oil pickup strainer", "Oil pickup risk"],
+  ["EcoBoost warning signs that mean switch off immediately", "Warning signs"],
+  ["Book a planned EcoBoost wet belt in Birmingham", "Book in Birmingham"],
+  ["JLR 2.0 Ingenium timing chain vs full rebuild starting prices", "Ingenium prices"],
+  ["Why JLR Ingenium timing chains are rear-mounted (and not wet belts)", "Chain layout"],
+  ["Early rattle vs non-start: when a chain swap is enough", "Chain vs rebuild"],
+  ["Oil dilution, balance shafts and related JLR checks", "Related faults"],
+  ["Recovery options and booking an Ingenium assessment", "Recovery & booking"],
+  ["BMW N47, B47 and N57 starting prices in Birmingham", "BMW prices"],
+  ["How N47 and N57 timing chain noise develops", "Chain symptoms"],
+  ["Timing chain swap vs full BMW engine rebuild", "Chain vs rebuild"],
+  ["Local 10-mile free rebuild recovery and UK-wide collection", "Recovery options"],
+  ["Preventative 2.0 EcoBlue wet belt (£1,050) vs engine rebuild (£3,000)", "EcoBlue prices"],
+  ["Why working Transit vans wear wet belts faster than expected", "Wear causes"],
+  ["Sump and oil-pickup debris checks save rebuilt and serviced vans", "Sump checks"],
+  ["Already broke down? Recovery and commercial booking", "Breakdown recovery"],
+  ["How much does a clutch replacement cost in Birmingham?", "Clutch prices"],
+  ["Signs your clutch is slipping vs a failing dual mass flywheel", "Clutch vs DMF"],
+  ["When gear-selection trouble is hydraulic or gearbox-related", "Hydraulic checks"],
+  ["Book a same-day clutch check in Sparkbrook, Birmingham", "Book same-day"]
 ]);
 function jumpMenu(links, label = "On this page", wet = false) {
   const container = wet ? ' class="wet-container"' : '';
@@ -896,7 +918,7 @@ function renderService(service) {
   if(isRebuild) body+='<section class="section assurance-strip"><p><strong>Standard warranty:</strong> '+business.warranty+'. <strong>Typical turnaround:</strong> '+business.timeframe+'.</p><p><strong>Free recovery within 10 miles</strong> of 56a Stratford Street North, Sparkbrook B11 1BP when proceeding with an engine rebuild; UK-wide recovery quoted upfront. <strong>£50 diagnostic credited in full</strong> against any repair booked on the same visit. '+payment+'.</p></section>'+serviceReviews();
   if(service.slug==="timing-chain-replacement") body+=serviceReviews();
   body+=faqsHtml(faqs)+related(service);
-  if(isRebuild||service.slug==="timing-chain-replacement") body+=guideCards(service.slug);
+  if(isRebuild||["timing-chain-replacement","clutch-replacement","engine-diagnostics"].includes(service.slug)) body+=guideCards(service.slug);
   body+=cta("#quote-bottom")+bottom;
   const pathname="/services/"+service.slug+"/";
   writePage(pathname,layout({title:replacementLanding ? "Engine Rebuild & Replacement Birmingham | QuickVS" : service.metaTitle||service.title+" | Quick Solution Vehicles",description:service.metaDescription||service.desc,pathname,body,faqs,service}));

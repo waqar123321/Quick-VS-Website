@@ -400,7 +400,12 @@
       "Visible rear number plate on the background car covered with an opaque mask"
     ],
     "sourceBytes": 486495,
-    "fallbackBytes": 199930
+    "fallbackBytes": 199930,
+    "articleImages": [
+      "/assets/workshop/ford-transit-custom-workshop-birmingham-16x9.jpg",
+      "/assets/workshop/ford-transit-custom-workshop-birmingham-4x3.jpg",
+      "/assets/workshop/ford-transit-custom-workshop-birmingham-1x1.jpg"
+    ]
   },
   "0429": {
     "source": "qsv-worn-timing-belt-held-close-up-04.jpg",
@@ -432,7 +437,12 @@
     ],
     "redactions": [],
     "sourceBytes": 403341,
-    "fallbackBytes": 151340
+    "fallbackBytes": 151340,
+    "articleImages": [
+      "/assets/workshop/worn-wet-belt-removed-birmingham-16x9.jpg",
+      "/assets/workshop/worn-wet-belt-removed-birmingham-4x3.jpg",
+      "/assets/workshop/worn-wet-belt-removed-birmingham-1x1.jpg"
+    ]
   },
   "0839": {
     "source": "qsv-engine-long-block-on-pallet-07.jpg",
@@ -594,7 +604,12 @@
     ],
     "redactions": [],
     "sourceBytes": 2837085,
-    "fallbackBytes": 314937
+    "fallbackBytes": 314937,
+    "articleImages": [
+      "/assets/workshop/seized-crankshaft-bearing-journal-birmingham-16x9.jpg",
+      "/assets/workshop/seized-crankshaft-bearing-journal-birmingham-4x3.jpg",
+      "/assets/workshop/seized-crankshaft-bearing-journal-birmingham-1x1.jpg"
+    ]
   },
   "6202": {
     "source": "IMG_6202.JPG",
@@ -754,7 +769,12 @@
     ],
     "redactions": [],
     "sourceBytes": 3200922,
-    "fallbackBytes": 398130
+    "fallbackBytes": 398130,
+    "articleImages": [
+      "/assets/workshop/cylinder-head-camshaft-strip-down-birmingham-16x9.jpg",
+      "/assets/workshop/cylinder-head-camshaft-strip-down-birmingham-4x3.jpg",
+      "/assets/workshop/cylinder-head-camshaft-strip-down-birmingham-1x1.jpg"
+    ]
   },
   "0438": {
     "source": "IMG_0438.JPG",
@@ -786,6 +806,11 @@
     ],
     "redactions": [],
     "sourceBytes": 4958341,
-    "fallbackBytes": 331705
+    "fallbackBytes": 331705,
+    "articleImages": [
+      "/assets/workshop/engine-bay-front-end-strip-down-birmingham-16x9.jpg",
+      "/assets/workshop/engine-bay-front-end-strip-down-birmingham-4x3.jpg",
+      "/assets/workshop/engine-bay-front-end-strip-down-birmingham-1x1.jpg"
+    ]
   }
 }
