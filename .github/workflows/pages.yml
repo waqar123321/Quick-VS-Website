@@ -1,0 +1,101 @@
+name: Build and deploy GitHub Pages
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build and test public site
+    runs-on: ubuntu-24.04
+    env:
+      PUPPETEER_SKIP_DOWNLOAD: 'true'
+    outputs:
+      public_checksums: ${{ steps.checksums.outputs.public_checksums }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+          cache: npm
+      - name: Use the runner's Chrome
+        run: |
+          chrome=$(command -v google-chrome)
+          "$chrome" --version
+          echo "PUPPETEER_EXECUTABLE_PATH=$chrome" >> "$GITHUB_ENV"
+          echo "PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH=$chrome" >> "$GITHUB_ENV"
+      - run: npm ci
+      - run: npm run build
+      - run: npm test
+      - name: Record checksums for live verification
+        id: checksums
+        working-directory: dist
+        run: |
+          {
+            echo 'public_checksums<<QSV_CHECKSUMS'
+            sha256sum index.html pricing/index.html services/wet-belt-replacement/index.html sitemap.xml robots.txt
+            echo 'QSV_CHECKSUMS'
+          } >> "$GITHUB_OUTPUT"
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: dist
+
+  deploy:
+    name: Deploy and verify GitHub Pages
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    needs: build
+    runs-on: ubuntu-24.04
+    permissions:
+      pages: write
+      id-token: write
+    concurrency:
+      group: github-pages
+      cancel-in-progress: false
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/deploy-pages@v4
+        id: deployment
+      - name: Verify live routes and response bodies
+        env:
+          PUBLIC_CHECKSUMS: ${{ needs.build.outputs.public_checksums }}
+        run: |
+          origin=https://quickvs.com
+          response=$(mktemp)
+          trap 'rm -f "$response"' EXIT
+
+          check_live() {
+            local file expected url status actual failed=0
+            while read -r expected file; do
+              url="/${file%index.html}"
+              status=$(curl --silent --show-error --compressed --max-time 15 -o "$response" -w '%{http_code}' "$origin$url") || status=000
+              actual=$(sha256sum "$response")
+              if [[ "$status" == 200 && "${actual%% *}" == "$expected" ]]; then
+                echo "200 $url (matches dist)"
+              else
+                echo "$status $url (expected 200 and the dist checksum)" >&2
+                failed=1
+              fi
+            done <<< "$PUBLIC_CHECKSUMS"
+            for url in /AGENTS.md /_internal/docs/ADS_LAUNCH.md /scripts/generate-site.js /package.json /package-lock.json; do
+              status=$(curl --silent --show-error --max-time 15 -o /dev/null -w '%{http_code}' "$origin$url") || status=000
+              echo "$status $url (expected 404)"
+              [[ "$status" == 404 ]] || failed=1
+            done
+            return "$failed"
+          }
+
+          for attempt in {1..12}; do
+            if check_live; then exit 0; fi
+            if [[ "$attempt" != 12 ]]; then sleep 10; fi
+          done
+          exit 1

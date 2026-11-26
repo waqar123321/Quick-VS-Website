@@ -1,19 +1,45 @@
+import { createHash } from "node:crypto";
 import fs from "node:fs/promises";
 import path from "node:path";
-import { fileURLToPath } from "node:url";
 import { generate } from "critical";
 import puppeteer from "puppeteer";
+import { publicRoot as root, sourceRoot } from "./public-output.js";
+import { stripInternalComments } from "./performance-html.js";
 
-const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const dimensions = [{ width: 375, height: 812 }, { width: 1350, height: 940 }];
 const stylesheetPattern = /<link rel="stylesheet" href="([^"]+)">/g;
+const criticalStylePattern = /<style data-critical-css>([\s\S]*?)<\/style>/;
+const deployedStylesheets = JSON.parse(await fs.readFile(
+  path.join(sourceRoot, "_internal/qa/critical-css/public-stylesheet-sha256.json"), "utf8"
+));
 
-// Scan only delivered pages, never node_modules, reports or preview output.
+const unchangedStylesheets = new Set();
+for (const [filename, checksum] of Object.entries(deployedStylesheets)) {
+  const file = path.join(root, filename);
+  const actual = createHash("sha256").update(await fs.readFile(file)).digest("hex");
+  if (actual === checksum) unchangedStylesheets.add(file);
+}
+
+// Keep identical pages byte-stable across Chrome versions during the Pages cutover.
+// New pages and changed HTML or stylesheets use the freshly extracted CSS.
+async function preserveDeployedCriticalStyle(file, html, cssFiles) {
+  if (!cssFiles.every(cssFile => unchangedStylesheets.has(cssFile))) return html;
+  const baseline = await fs.readFile(path.join(sourceRoot, path.relative(root, file)), "utf8").catch(error => {
+    if (error.code !== "ENOENT") throw error;
+    return "";
+  });
+  const deployed = stripInternalComments(baseline.replace(/\r\n/g, "\n"));
+  const deployedStyle = deployed.match(criticalStylePattern)?.[0];
+  if (deployedStyle && deployed.replace(criticalStylePattern, "") === html.replace(criticalStylePattern, "")) {
+    return html.replace(criticalStylePattern, () => deployedStyle);
+  }
+  return html;
+}
+
 async function pagesIn(directory) {
   const entries = await fs.readdir(directory, { withFileTypes: true });
   const files = [];
   for (const entry of entries) {
-    if (entry.name.startsWith(".") || ["node_modules", "_internal", "dist"].includes(entry.name)) continue;
     const file = path.join(directory, entry.name);
     if (entry.isDirectory()) files.push(...await pagesIn(file));
     else if (entry.name.endsWith(".html")) files.push(file);
@@ -72,8 +98,10 @@ try {
       first = false;
       return inline + `<link rel="preload" as="style" href="${href}" onload="this.onload=null;this.rel='stylesheet'">\n<noscript>${link}</noscript>`;
     });
-    await fs.writeFile(file, output);
-    console.log(`Critical CSS: ${path.relative(root, file)} (${Buffer.byteLength(css)} bytes; 375×812 + 1350×940)`);
+    const finalHtml = await preserveDeployedCriticalStyle(file, output, cssFiles);
+    const [, inlineCss] = finalHtml.match(criticalStylePattern);
+    await fs.writeFile(file, finalHtml);
+    console.log(`Critical CSS: ${path.relative(root, file)} (${Buffer.byteLength(inlineCss)} bytes; 375×812 + 1350×940)`);
     count++;
   }
   console.log(`Optimised CSS loading on ${count} pages.`);

@@ -1,7 +1,8 @@
 QUICK SOLUTION VEHICLES LTD — WEBSITE MAINTENANCE
 
 The repository serves the static website at https://quickvs.com/.
-Keep CNAME as quickvs.com and GitHub Pages configured to serve main / root.
+Keep CNAME and the Pages custom domain as quickvs.com. In the repository, set
+Settings → Pages → Build and deployment → Source to GitHub Actions.
 
 Current workshop contact details:
 Phone: 07522 179040
@@ -16,8 +17,10 @@ Then run:
 npm run build
 npm test
 
-Commit the source and all regenerated public HTML, sitemap.xml, robots.txt and
-content/page-dates.json. The dates file preserves lastmod when content is unchanged.
+The build writes the public site to dist/. The Pages workflow tests and publishes
+that directory on main. For a content release, run npm run generate -- --update-baseline
+and commit the source, updated HTML snapshots and content/page-dates.json.
+The snapshots and dates keep sitemap lastmod stable when content is unchanged.
 
 The existing real GA4 ID is G-GEJR9VMEYV. Do not add any Google Ads code until
 the real account ID and action labels are known. Do not invent verification tags.

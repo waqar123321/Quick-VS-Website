@@ -2,9 +2,9 @@ const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const path = require("node:path");
 
-const root = path.resolve(__dirname, "..");
+const { sourceRoot, publicRoot: root } = require("./public-output");
 const runtimeModules = process.env.CODEX_PRIMARY_RUNTIME_NODE_MODULES;
-const modulePaths = runtimeModules ? [root, runtimeModules] : [root];
+const modulePaths = runtimeModules ? [sourceRoot, runtimeModules] : [sourceRoot];
 const executablePath = process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH;
 const origin = "https://quickvs.test";
 const viewport = { width: 390, height: 844 };

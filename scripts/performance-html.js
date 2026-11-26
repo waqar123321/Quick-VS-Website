@@ -1,7 +1,7 @@
 // Keep sitemap dates stable across rebuilds and changes to how the same
 // navigation is delivered. The grouped service links still count as content.
 function contentForDateComparison(html) {
-  return html.replace(/<head>[\s\S]*?<\/head>/, head => head
+  return stripInternalComments(html).replace(/<head>[\s\S]*?<\/head>/, head => head
     .replace(/<style data-critical-css>[\s\S]*?<\/style>\n?/g, "")
     .replace(/<noscript><link rel="stylesheet"[^>]*><\/noscript>\n?/g, "")
     .replace(/<link rel="(?:stylesheet|preload)"[^>]*>\n?/g, "")
@@ -16,4 +16,10 @@ function contentForDateComparison(html) {
     .replace(/(<h2 data-mobile-heading) id="[^"]+"/g, "$1");
 }
 
-module.exports = { contentForDateComparison };
+function stripInternalComments(html) {
+  return html.replace(/<!--[\s\S]*?-->/g, comment =>
+    /TODO/i.test(comment) || comment.startsWith("<!-- Slot: ") ? "" : comment
+  );
+}
+
+module.exports = { contentForDateComparison, stripInternalComments };

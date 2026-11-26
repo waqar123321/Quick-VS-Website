@@ -2,9 +2,11 @@ const fs = require("fs");
 const costs = require("../content/landing-costs");
 const mobileSections = require("../content/mobile-service-sections");
 const path = require("path");
-const { contentForDateComparison } = require("./performance-html");
+const { contentForDateComparison, stripInternalComments } = require("./performance-html");
+const { sourceRoot: root, publicRoot, preparePublicOutput } = require("./public-output");
 
-const root = path.resolve(__dirname, "..");
+const updateBaseline = process.argv.includes("--update-baseline");
+const output = updateBaseline ? root : publicRoot;
 const today = new Date().toISOString().slice(0, 10);
 const siteUrl = "https://quickvs.com";
 const photos = require("../content/workshop-photos.json");
@@ -403,8 +405,11 @@ function esc(value) {
 function urlFor(pathname) { return siteUrl + pathname; }
 function jsonLd(value) { return '<script type="application/ld+json">\n' + JSON.stringify(value, null, 2).replace(/</g, "\\u003c") + "\n</script>"; }
 function writePage(pathname, content) {
-  const file = path.join(root, pathname.slice(1), "index.html");
-  const previous = fs.existsSync(file) ? fs.readFileSync(file, "utf8").replace(/\r\n/g, "\n") : null;
+  const relativeFile = path.join(pathname.slice(1), "index.html");
+  const baseline = path.join(root, relativeFile);
+  const previous = fs.existsSync(baseline) ? fs.readFileSync(baseline, "utf8").replace(/\r\n/g, "\n") : null;
+  const file = path.join(output, relativeFile);
+  content = stripInternalComments(content);
   if (!previous || contentForDateComparison(previous) !== contentForDateComparison(content) || !dates[pathname]) dates[pathname] = today;
   fs.mkdirSync(path.dirname(file), { recursive: true });
   fs.writeFileSync(file, content, "utf8");
@@ -474,19 +479,6 @@ function contactButtons(location = "content", quoteHref = "/contact/#quote", mes
 }
 const quotePages = new Set(["/", "/contact/", "/pricing/"]);
 function form(job = "servicing_repair", id) { return quoteForm({ job, id, business, whatsapp }); }
-const photoSlots = {
-  "cambelt-replacement-birmingham": "cambelt replacement",
-  "jlr-ingenium-engine-rebuild": "JLR Ingenium rebuild",
-  "bmw-n47-engine-rebuild": "BMW N47 rebuild",
-  "bmw-n57-engine-rebuild": "BMW N57 rebuild",
-  "range-rover-engine-rebuild": "Range Rover rebuild",
-  contact: "workshop front"
-};
-function photoSlot(key) {
-  if (!photoSlots[key]) return "";
-  // Use a reviewed JPEG fallback and WebP at about 1600px. Strip EXIF and blur registrations/faces.
-  return '<!-- TODO WAQAR PHOTO --><!-- Slot: '+photoSlots[key]+'; use descriptive alt text and explicit dimensions -->';
-}
 function footer(quoteHref, hasJumpMenu) {
   const repairLinks = [
     ["Servicing", "servicing"], ["Brakes", "brakes"], ["MOT repairs", "mot-failure-repairs"],
@@ -833,7 +825,7 @@ function renderService(service) {
   }[service.slug] || "servicing_repair");
   const hasSteps = isRebuild || job !== "servicing_repair";
   const recoveryMode = service.beyondTenMiles ? "upfront" : isRebuild;
-  const top = trustStrip(maps, recoveryMode) + form(job) + (hasSteps ? nextSteps() : "") + photoSlot(service.slug);
+  const top = trustStrip(maps, recoveryMode) + form(job) + (hasSteps ? nextSteps() : "");
   const bottom = mobileSections.paths.has("/services/"+service.slug+"/") ? mobileSections.quoteReturn() : form(job, "quote-bottom");
   const breadcrumbTitle = {
     [wetBelt.service.slug]: "Wet belt replacement",
@@ -993,12 +985,12 @@ function renderPricing() {
 }
 function renderContact() {
   const body=hero("Contact the workshop","Get a quote for your service or repair.","Car servicing, brakes, clutches, wet belts (+ free oil service), MOT failure repairs or a major engine rebuild — send your reg for a reply within 30 minutes. £50 diagnostic credited on any same-visit repair.", { quoteHref: "#quote" })+trustStrip(maps, true)+form("other")+nextSteps()+
-    '<section class="section contact-grid"><div class="contact-card"><h2>Workshop details</h2><address>'+business.address+'</address><p><a href="tel:'+business.primaryTel+'">'+business.primaryPhone+'</a><br><a href="mailto:'+business.email+'">'+business.email+'</a></p><p>'+business.hours+'</p><p>'+payment+'.</p><p>Free recovery within 10 miles of B11 1BP when proceeding with an engine rebuild; UK-wide recovery quoted upfront. £50 diagnostic credited in full against any repair booked on the same visit.</p><p>Standard wet belt, timing chain, cambelt, clutch and engine rebuild warranty: '+warranty+'. Used engines: 3 months or 3,000 miles.</p><a class="text-link" href="'+maps+'">Google Maps &amp; directions</a><figure class="contact-map"><a href="'+maps+'" data-contact-location="contact" aria-label="Open workshop location in Google Maps"><img src="/assets/workshop-location-map.png" width="640" height="320" loading="lazy" decoding="async" alt="Location map showing the workshop on Stratford Street North, Sparkbrook"></a><figcaption>© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a> · Humanitarian map style</figcaption></figure><p><strong>Parking &amp; access</strong><br>Call the workshop if you need help planning your arrival.</p><!-- TODO WAQAR CONFIRM parking and access -->'+photoSlot("contact")+'<p><a class="text-link" href="/pricing/">How pricing and quotations work</a></p></div><div class="contact-panel"><h2>What to send on WhatsApp</h2><ul class="check-list"><li>Your name, vehicle registration, make/model and mileage</li><li>The service or repair you need, or the fault symptoms</li><li>A photograph of the MOT failure report, if relevant</li><li>Whether the vehicle drives safely or needs local / UK-wide recovery</li><li>Any existing fault report or useful photographs</li></ul><p>For serious engine faults, do not run a distressed engine just to record the noise. We will discuss the assessment needed before major work is agreed.</p>'+contactButtons("contact", "#quote")+'</div></section>'+reviewSection("", { limit: 3, home: true })+faqsHtml([homeFaqs[3], homeFaqs[4], homeFaqs[5], homeFaqs[6]])+cta("#quote")+mobileSections.quoteReturn();
+    '<section class="section contact-grid"><div class="contact-card"><h2>Workshop details</h2><address>'+business.address+'</address><p><a href="tel:'+business.primaryTel+'">'+business.primaryPhone+'</a><br><a href="mailto:'+business.email+'">'+business.email+'</a></p><p>'+business.hours+'</p><p>'+payment+'.</p><p>Free recovery within 10 miles of B11 1BP when proceeding with an engine rebuild; UK-wide recovery quoted upfront. £50 diagnostic credited in full against any repair booked on the same visit.</p><p>Standard wet belt, timing chain, cambelt, clutch and engine rebuild warranty: '+warranty+'. Used engines: 3 months or 3,000 miles.</p><a class="text-link" href="'+maps+'">Google Maps &amp; directions</a><figure class="contact-map"><a href="'+maps+'" data-contact-location="contact" aria-label="Open workshop location in Google Maps"><img src="/assets/workshop-location-map.png" width="640" height="320" loading="lazy" decoding="async" alt="Location map showing the workshop on Stratford Street North, Sparkbrook"></a><figcaption>© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a> · Humanitarian map style</figcaption></figure><p><strong>Parking &amp; access</strong><br>Call the workshop if you need help planning your arrival.</p><p><a class="text-link" href="/pricing/">How pricing and quotations work</a></p></div><div class="contact-panel"><h2>What to send on WhatsApp</h2><ul class="check-list"><li>Your name, vehicle registration, make/model and mileage</li><li>The service or repair you need, or the fault symptoms</li><li>A photograph of the MOT failure report, if relevant</li><li>Whether the vehicle drives safely or needs local / UK-wide recovery</li><li>Any existing fault report or useful photographs</li></ul><p>For serious engine faults, do not run a distressed engine just to record the noise. We will discuss the assessment needed before major work is agreed.</p>'+contactButtons("contact", "#quote")+'</div></section>'+reviewSection("", { limit: 3, home: true })+faqsHtml([homeFaqs[3], homeFaqs[4], homeFaqs[5], homeFaqs[6]])+cta("#quote")+mobileSections.quoteReturn();
   writePage("/contact/",layout({title:"Contact Quick Solution Vehicles LTD | Birmingham Workshop",description:"Call 07522 179040 or WhatsApp your reg for servicing, wet belts, clutches, MOT repairs or engine rebuilds in Birmingham B11. £50 diag credited on repair.",pathname:"/contact/",body}));
 }
 function renderAbout() {
   const body=hero("Quick Solution Vehicles LTD","A mechanical workshop in Sparkbrook, Birmingham.","We handle general mechanical repairs alongside engine rebuild enquiries across all makes, models and engine ranges.")+
-    '<!-- TODO WAQAR CONFIRM workshop history -->'+sections([["Family-run workshop in Sparkbrook","Quick Solution Vehicles handles general mechanical repairs and specialist engine rebuilds from its Sparkbrook workshop. Call with your registration and the work you need, and we’ll discuss the next step."]])+
+    sections([["Family-run workshop in Sparkbrook","Quick Solution Vehicles handles general mechanical repairs and specialist engine rebuilds from its Sparkbrook workshop. Call with your registration and the work you need, and we’ll discuss the next step."]])+
     sections([["A clear repair decision before major work","Our approach starts with the complaint, the engine or vehicle specification and the evidence from inspection. A warning light does not automatically identify a failed component, and a non-runner does not automatically require another engine. We discuss assessment, findings and the scope before major work proceeds. Engine rebuilds typically take 1–3 weeks depending on parts availability and internal damage. The standard engine-rebuild warranty is "+warranty+"."],["Visit or contact the workshop",business.address+". We are open "+business.hours+" Call "+business.primaryPhone+", WhatsApp your registration and fault, or email "+business.email+". "+payment+". Mechanical MOT failures can be repaired here, with the test and retest handled by a testing station."],["Company details","Quick Solution Vehicles LTD is registered under Company No. 16525397. Our 4-ramp workshop covers petrol and diesel engines, commercial vans and performance vehicles, together with Snap-on diagnostics (£50, credited in full against any repair booked on the same visit), timing, brake, clutch and other mechanical work. Recovery is free within 10 miles of Sparkbrook B11 1BP when proceeding with an engine rebuild, and UK-wide recovery is quoted upfront."]])+workshopGallery(['5842','0438','0434','6201','6203','0441'], "Workshop photos", { id: "workshop-photos" })+reviewSection()+cta();
   writePage("/about/",layout({title:"About Quick Solution Vehicles LTD | Sparkbrook Birmingham",description:"Quick Solution Vehicles LTD, Company No. 16525397. All-makes engine rebuilds and mechanical repairs at 56a Stratford Street North, Birmingham B11 1BP.",pathname:"/about/",body}));
 }
@@ -1050,17 +1042,18 @@ function renderArea(area) {
     cta("#quote");
   writePage(pathname, layout({ title: area.metaTitle, description: area.desc, pathname, body, faqs: area.faqs }));
 }
+if (!updateBaseline) preparePublicOutput();
 renderHome(); renderServices(); allServices.forEach(renderService); renderAreas(); areaPages.forEach(renderArea); renderPricing(); renderContact(); renderAbout(); renderReviews(); renderAdvice(); guides.forEach(renderGuide); renderPrivacy();
 delete dates["/services/timing-belt-replacement/"];
-const legacyBeltDir = path.join(root, "services/timing-belt-replacement");
+const legacyBeltDir = path.join(output, "services/timing-belt-replacement");
 fs.mkdirSync(legacyBeltDir, {recursive:true});
 fs.writeFileSync(path.join(legacyBeltDir, "index.html"), '<!doctype html>\n<html lang="en-GB"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Cambelt page moved | QuickVS</title><meta name="robots" content="noindex, follow"><meta http-equiv="refresh" content="0; url=/services/cambelt-replacement-birmingham/"><link rel="canonical" href="https://quickvs.com/services/cambelt-replacement-birmingham/"></head><body><main><h1>Cambelt replacement</h1><p>This information is now on our <a href="/services/cambelt-replacement-birmingham/">cambelt replacement page</a>.</p></main></body></html>\n');
-fs.writeFileSync(datesFile, JSON.stringify(dates, null, 2)+"\n");
-fs.writeFileSync(path.join(root,"sitemap.xml"),'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+sitePages.map(p=>'  <url><loc>'+urlFor(p)+'</loc><lastmod>'+dates[p]+'</lastmod></url>').join("\n")+'\n</urlset>\n');
-fs.writeFileSync(path.join(root,"robots.txt"),"User-agent: *\nAllow: /\n\nSitemap: https://quickvs.com/sitemap.xml\n");
-fs.writeFileSync(path.join(root,".nojekyll"),"");
+if (updateBaseline) fs.writeFileSync(datesFile, JSON.stringify(dates, null, 2)+"\n");
+fs.writeFileSync(path.join(output,"sitemap.xml"),'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+sitePages.map(p=>'  <url><loc>'+urlFor(p)+'</loc><lastmod>'+dates[p]+'</lastmod></url>').join("\n")+'\n</urlset>\n');
+fs.writeFileSync(path.join(output,"robots.txt"),"User-agent: *\nAllow: /\n\nSitemap: https://quickvs.com/sitemap.xml\n");
+fs.writeFileSync(path.join(output,".nojekyll"),"");
 const notFoundBody=hero("Page not found","We couldn't find that page.","Use the services list or speak directly to the workshop about your vehicle.")+cta();
-fs.writeFileSync(path.join(root,"404.html"),layout({title:"Page Not Found | Quick Solution Vehicles",description:"Find workshop services or contact Quick Solution Vehicles in Birmingham.",pathname:"/404.html",body:notFoundBody,noindex:true}));
+fs.writeFileSync(path.join(output,"404.html"),stripInternalComments(layout({title:"Page Not Found | Quick Solution Vehicles",description:"Find workshop services or contact Quick Solution Vehicles in Birmingham.",pathname:"/404.html",body:notFoundBody,noindex:true})));
 console.log("Generated "+sitePages.length+" canonical pages and a dedicated 404 page.");
 
 
